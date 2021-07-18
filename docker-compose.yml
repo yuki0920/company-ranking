@@ -16,7 +16,7 @@ services:
         WORKDIR: $WORKDIR
     environment:
       POSTGRES_PASSWORD: $POSTGRES_PASSWORD
-      API_DOMAIN: "localhost:$FRONT_PORT"
+      FRONT_DOMAIN: "localhost:$FRONT_PORT"
     volumes:
       - ./api:/$WORKDIR
     depends_on:
