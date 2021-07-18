@@ -1,0 +1,40 @@
+version: '3.8'
+
+services:
+  db:
+    image: postgres:12.7-alpine
+    environment:
+      TZ: UTC
+      PGTZ: UTC
+      POSTGRES_PASSWORD: $POSTGRES_PASSWORD
+    volumes:
+      - ./api/tmp/db:/var/lib/postgresql/data
+  api:
+    build:
+      context: ./api
+      args:
+        WORKDIR: $WORKDIR
+    environment:
+      POSTGRES_PASSWORD: $POSTGRES_PASSWORD
+      FRONT_DOMAIN: "localhost:$FRONT_PORT"
+    volumes:
+      - ./api:/$WORKDIR
+    depends_on:
+      - db
+    ports:
+      - "$API_PORT:$CONTAINER_PORT"
+    command: /bin/sh -c "rm -f tmp/pids/server.pid && bundle exec rails s -b '0.0.0.0'"
+  front:
+    build:
+      context: ./front
+      args:
+        WORKDIR: $WORKDIR
+        CONTAINER_PORT: $CONTAINER_PORT
+        API_URL: "http://localhost:$API_PORT"
+    command: yarn run dev
+    volumes:
+      - ./front:/$WORKDIR
+    ports:
+      - "$FRONT_PORT:$CONTAINER_PORT"
+    depends_on:
+      - api

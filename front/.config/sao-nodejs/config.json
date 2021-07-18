@@ -1,0 +1,14 @@
+{
+	"generators": {
+		"e77e80fe": {
+			"type": "local",
+			"path": "/usr/local/share/.config/yarn/global/node_modules/create-nuxt-app/lib",
+			"hash": "e77e80fe"
+		}
+	},
+	"answers": {
+		"e77e80fe__npm__": {
+			"gitUsername": "yuki0920"
+		}
+	}
+}
