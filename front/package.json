@@ -18,7 +18,8 @@
     "bootstrap": "^4.6.0",
     "bootstrap-vue": "^2.21.2",
     "core-js": "^3.15.1",
-    "nuxt": "^2.15.7"
+    "nuxt": "^2.15.7",
+    "sass": "^1.35.2"
   },
   "devDependencies": {
     "@babel/core": "^7.14.6",
