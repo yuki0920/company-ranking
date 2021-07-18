@@ -1,0 +1,16 @@
+setup:
+  addons:
+    - plan: heroku-postgresql # hobby-devプランになる
+      as: DATABASE
+  config:
+    RACK_ENV: production
+    RAILS_ENV: production
+    RAILS_LOG_TO_STDOUT: enabled
+    RAILS_SERVE_STATIC_FILES: enabled
+    # FRONT_DOMAIN: rails-nuxt-front.herokuapp.com
+    WORKDIR: app
+build:
+  docker:
+    web: Dockerfile
+run:
+  web: bundle exec puma -C config/puma.rb
