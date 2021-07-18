@@ -16,18 +16,22 @@
   </div>
 </template>
 
-<script>
-export default {
-  data () {
-    return {
-      msgs: []
+<script lang="ts">
+import { defineComponent, ref, Ref, useContext } from '@nuxtjs/composition-api'
+
+export default defineComponent({
+  setup () {
+    const { $axios } = useContext()
+    const msgs: Ref<string[]> = ref([])
+    const getMsg = () => {
+      $axios.$get('/api/v1/hello')
+        .then(res => msgs.value.push(res))
     }
-  },
-  methods: {
-    getMsg () {
-      this.$axios.$get('/api/v1/hello')
-        .then(res => this.msgs.push(res))
+
+    return {
+      msgs,
+      getMsg
     }
   }
-}
+})
 </script>
