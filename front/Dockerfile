@@ -6,19 +6,8 @@ ARG CONTAINER_PORT
 ENV HOME=/${WORKDIR} \
     LANG=C.UTF-8 \
     TZ=Asia/Tokyo \
-    HOST=0.0.0.0 \
-    API_URL=${API_URL} \
-    NPM_CONFIG_PRODUCTION=false
-
-RUN echo ${CONTAINER_PORT}
+    HOST=0.0.0.0
 
 WORKDIR ${HOME}
-
-COPY package*.json ./
-RUN yarn install
-
-COPY . .
-
-RUN yarn run generate
 
 EXPOSE ${CONTAINER_PORT}
