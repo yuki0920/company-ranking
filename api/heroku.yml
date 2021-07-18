@@ -9,6 +9,7 @@ setup:
     RAILS_SERVE_STATIC_FILES: enabled
     FRONT_DOMAIN: boring-kilby-a479eb.netlify.app
     WORKDIR: myapp
+    PROJECT_PATH: api
 build:
   docker:
     web: Dockerfile
