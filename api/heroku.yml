@@ -8,7 +8,7 @@ setup:
     RAILS_LOG_TO_STDOUT: enabled
     RAILS_SERVE_STATIC_FILES: enabled
     # FRONT_DOMAIN: rails-nuxt-front.herokuapp.com
-    WORKDIR: app
+    WORKDIR: myapp
 build:
   docker:
     web: Dockerfile
