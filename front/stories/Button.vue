@@ -2,7 +2,7 @@
   <button type="button" :class="classes" @click="onClick" :style="style">{{ label }}</button>
 </template>
 
-<script>
+<script lang="ts">
 import './button.css';
 
 export default {

@@ -8,6 +8,7 @@ module.exports = {
     '@nuxtjs/eslint-config-typescript',
     'plugin:nuxt/recommended'
   ],
+  ignorePatterns: ['stories/*'],
   plugins: [
   ],
   // add your custom rules here
