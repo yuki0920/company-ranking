@@ -1,0 +1,15 @@
+//
+// Mixins
+//
+
+// Bootstrap default mixins
+
+@import "~bootstrap/scss/mixins";
+
+
+// Custom mixins
+
+@import "../core/mixins/background-variant";
+@import "../core/mixins/buttons";
+@import "../core/mixins/icon";
+@import "../core/mixins/popover";
