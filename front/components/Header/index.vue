@@ -8,7 +8,7 @@
         <b-navbar-toggle target="nav-collapse" />
         <b-collapse id="nav-collapse" is-nav>
           <b-navbar-nav>
-            <b-nav-item to="/">
+            <b-nav-item to="/companies">
               企業
             </b-nav-item>
             <b-nav-item to="/">
