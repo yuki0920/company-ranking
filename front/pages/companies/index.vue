@@ -8,6 +8,19 @@
         企業
       </b-breadcrumb-item>
     </b-breadcrumb>
-    <company-list />
+    <pc-company-list :companies="companies" />
   </div>
 </template>
+
+<script>
+import { defineComponent } from '@nuxtjs/composition-api'
+import companies from '~/lib/companies'
+
+export default defineComponent({
+  setup () {
+    return {
+      companies
+    }
+  }
+})
+</script>
