@@ -132,24 +132,18 @@ $border-color: #ced4da;
   &__list {
     border: 1px solid $border-color;
     border-top: none;
-    dl {
-      display: flex;
-      flex-wrap: wrap;
-    }
+
     dt {
       background: #f6f9fc;
-      width: 30%;
-      padding: 10px;
+      padding: .4rem;
       box-sizing: border-box;
       border-top: 1px solid $border-color;
     }
     dd {
-      padding: 10px;
+      padding: .4rem;
       margin: 0;
       border-left: 1px solid $border-color;
       border-top: 1px solid $border-color;
-      width: 70%;
-      background: #fff;
       box-sizing: border-box;
     }
 
