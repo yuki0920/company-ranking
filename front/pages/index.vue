@@ -1,36 +1,35 @@
 <template>
-  <div>
-    <button
-      type="button"
-      name="button"
-      @click="getMsg"
-    >
-      RailsからAPIを取得する
-    </button>
-    <div
-      v-for="(msg, i) in msgs"
-      :key="i"
-    >
-      {{ msg }}
-    </div>
+  <div class="container mt-3">
+    <p>全ての企業から探す</p>
+    <section class="industries">
+      <h5>業種から探す</h5>
+      <ul class="row list-unstyled">
+        <li v-for="industry in industries" :key="`industry-${industry.id}`" class="col-sm-6 col-md-3">
+          {{ industry.name }}
+        </li>
+      </ul>
+    </section>
+    <section class="markets">
+      <h5>市場から探す</h5>
+      <ul class="row list-unstyled">
+        <li v-for="market in markets" :key="`market-${market.id}`" class="col-sm-6 col-md-3">
+          {{ market.name }}
+        </li>
+      </ul>
+    </section>
   </div>
 </template>
 
-<script lang="ts">
-import { defineComponent, ref, Ref, useContext } from '@nuxtjs/composition-api'
+<script>
+import { defineComponent } from '@nuxtjs/composition-api'
+import industries from '~/lib/industries'
+import markets from '~/lib/markets'
 
 export default defineComponent({
   setup () {
-    const { $axios } = useContext()
-    const msgs: Ref<string[]> = ref([])
-    const getMsg = () => {
-      $axios.$get('/api/v1/hello')
-        .then(res => msgs.value.push(res))
-    }
-
     return {
-      msgs,
-      getMsg
+      industries,
+      markets
     }
   }
 })

@@ -31,7 +31,7 @@ export default defineComponent({
         { key: 'name', label: '企業名' },
         { key: 'average_annual_salary', label: '平均給与(万円)' },
         { key: 'net_sales', label: '売上(千円)' },
-        { key: 'ordinary_income', label: '経常利益(千円)' },
+        { key: 'ordinary_income', label: '経常利益(千円)' }
       ],
       currentPage: 1
     }
