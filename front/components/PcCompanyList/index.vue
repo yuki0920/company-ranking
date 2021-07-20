@@ -15,12 +15,17 @@
   </b-card>
 </template>
 <script>
-import companies from '~/lib/companies'
-export default {
-  name: 'CompanyList',
-  data () {
+import { defineComponent } from '@nuxtjs/composition-api'
+export default defineComponent({
+  name: 'PcCompanyList',
+  props: {
+    companies: {
+      type: Array,
+      required: true
+    }
+  },
+  setup () {
     return {
-      companies,
       fields: [
         { key: 'index', label: '順位' },
         { key: 'name', label: '企業名' },
@@ -31,5 +36,5 @@ export default {
       currentPage: 1
     }
   }
-}
+})
 </script>
