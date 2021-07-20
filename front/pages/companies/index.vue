@@ -8,7 +8,8 @@
         企業
       </b-breadcrumb-item>
     </b-breadcrumb>
-    <pc-company-list :companies="companies" />
+    <mobile-company-list v-if="isMobile" :companies="companies" />
+    <pc-company-list v-else :companies="companies" />
   </div>
 </template>
 
@@ -18,7 +19,9 @@ import companies from '~/lib/companies'
 
 export default defineComponent({
   setup () {
+    const isMobile = window.innerWidth < 576
     return {
+      isMobile,
       companies
     }
   }
