@@ -1,0 +1,22 @@
+# name of our action
+# name: Rspec
+# on: [push]
+# jobs:
+#   rspec:
+#     name: Run rspec
+#     runs-on: ubuntu-latest
+#     defaults:
+#       run:
+#         working-directory: ./api
+#     steps:
+#       - uses: actions/checkout@v2
+#       - uses: ruby/setup-ruby@v1
+#         with:
+#           ruby-version: 2.7.4
+#           bundler-cache: true
+#           cache-version: 1
+#       - name: Run rspec
+#         run: |
+#           gem install bundler
+#           bundle install --path vendor/bundle --quiet --jobs 4 --retry 3
+#           bundle exec rspec
