@@ -40,6 +40,10 @@ group :development do
   gem 'rubocop-rspec'
 end
 
+group :test do
+  gem 'rspec-rails'
+end
+
 gem 'spreadsheet'
 gem 'mechanize'
 gem 'nokogiri'
@@ -47,4 +51,3 @@ gem 'faraday'
 gem 'rubyzip'
 gem 'pry-rails'
 gem 'jb'
-gem 'active_hash'
