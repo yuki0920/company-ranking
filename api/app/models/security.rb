@@ -3,6 +3,8 @@ class Security < ApplicationRecord
 
   HEADER = {'日付' => 0, 'コード' => 1, '銘柄名' => 2, '市場・商品区分' => 3, '33業種コード' => 4, '33業種区分' => 5, '17業種コード' => 6, '17業種区分' => 7, '規模コード' => 8, '規模区分' => 9}.freeze
 
+  belongs_to :market
+  belongs_to :industry, foreign_key: :code, primary_key: :industry_code
   has_many :documents, foreign_key: :security_code, primary_key: :code
 
   validates :code, uniqueness: true, presence: true

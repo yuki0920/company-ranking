@@ -35,6 +35,8 @@ class Industry  < ApplicationRecord
     { name: 'サービス業', code: 9050 }
   ].freeze
 
+  has_many :securities, foreign_key: :industry_code, primary_key: :code
+
   class << self
     def create_seed
       INITIAL_DATA.each do |data|

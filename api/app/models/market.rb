@@ -6,6 +6,8 @@ class Market  < ApplicationRecord
     { name: 'JASDAQ' }
   ].freeze
 
+  has_many :securities
+
   class << self
     def create_seed
       INITIAL_DATA.each do |data|
