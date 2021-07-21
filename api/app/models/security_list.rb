@@ -1,6 +1,6 @@
 class SecurityList < ApplicationRecord
-  validates :name, uniqueness: true, presence: true
-  validates :searched_at, presence: true
+  validates :file_title, uniqueness: true, presence: true
+  validates :downloaded_at, presence: true
 
   class << self
     def download
@@ -10,14 +10,14 @@ class SecurityList < ApplicationRecord
       title = element.at('th').inner_text
       src_path = element.at('a').get_attribute('href')
 
-      return if latest_security_list && latest_security_list.name == title
+      return if latest_security_list && latest_security_list.file_title == title
 
       agent.download(src_path, dest_path)
-      create!(name: title, searched_at: Time.now)
+      create!(file_title: title, downloaded_at: Time.now)
     end
 
     def latest_security_list
-      SecurityList.order(searched_at: :desc).last
+      SecurityList.order(downloaded_at: :desc).last
     end
 
     def dest_path
