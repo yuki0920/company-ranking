@@ -1,8 +1,18 @@
-class Market < ActiveHash::Base
-  self.data = [
-    { id: 1, name: '市場第一部' },
-    { id: 2, name: '市場第二部' },
-    { id: 3, name: 'マザーズ' },
-    { id: 4, name: 'JASDAQ' }
-  ]
+class Market  < ApplicationRecord
+  INITIAL_DATA = [
+    { name: '市場第一部' },
+    { name: '市場第二部' },
+    { name: 'マザーズ' },
+    { name: 'JASDAQ' }
+  ].freeze
+
+  has_many :securities
+
+  class << self
+    def create_seed
+      INITIAL_DATA.each do |data|
+        create!(data)
+      end
+    end
+  end
 end

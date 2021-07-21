@@ -26,5 +26,6 @@
 # Ignore master key for decrypting credentials and more.
 /config/master.key
 
-
 .ash_history
+.lesshst
+.local/
