@@ -71,7 +71,6 @@ class Document < ApplicationRecord
           create!(
             document_id: document_id,
             edinet_code: edinet_code,
-            subsidiary_edinet_code: document[:subsidiaryEdinetCode],
             filer_name: document[:filerName],
             security_code: security_code,
             period_started_at: document[:periodStart],
