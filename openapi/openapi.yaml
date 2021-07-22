@@ -3,24 +3,24 @@ info:
   title: Company Search API Document
   version: 1.0.0
 paths:
-  /api/companies:
+  /api/v1/companies:
     get:
       operationId: fetchCompanies
       summary: Get and Search Companies
       parameters:
         - in: query
-          name: per
-          schema:
-            type: integer
-        - in: query
           name: page
           schema:
             type: integer
-        - in: query
-          name: q
-          description: query for company_name or security_id
-          schema:
-            type: string
+        # - in: query
+        #   name: per
+        #   schema:
+        #     type: integer
+        # - in: query
+        #   name: q
+        #   description: query for company_name or security_id
+        #   schema:
+        #     type: string
       responses:
         200:
           description: get Companies
@@ -32,9 +32,9 @@ paths:
                   - total_pages
                   - companies
                 properties:
-                  total_pages:
-                    type: number
-                  Companies:
+                  meta:
+                    $ref: "#/components/schemas/meta"
+                  companies:
                     type: array
                     items:
                       $ref: "#/components/schemas/eachCompany"
@@ -60,29 +60,28 @@ components:
     eachCompany:
       type: object
       required:
-        - companies
+        - security_id
+        - security_name
+        - average_annual_salary
+        - net_sales
+        - ordinary_income
       properties:
-        companies:
-          type: object
-          required:
-            - security_id
-            - security_code
-            - security_name
-            - average_annual_salary
-            - net_sales
-          properties:
-            security_id:
-              type: number
-            security_code:
-              type: number
-            security_name:
-              type: string
-            average_annual_salary:
-              type: number
-              nullable: true
-            net_sales:
-              type: number
-              nullable: true
+        security_id:
+          type: number
+        security_name:
+          type: string
+        average_annual_salary:
+          type: number
+          nullable: true
+          description: 1)000で割った値
+        net_sales:
+          type: number
+          nullable: true
+          description: 1000で割った値
+        ordinary_income:
+          type: number
+          nullable: true
+          description: 1000で割った値
     Company:
       type: object
       required:
@@ -184,3 +183,24 @@ components:
               type: number
               nullable: true
               description: 1000で割った値
+    meta:
+      type: object
+      properties:
+        count:
+          type: number
+          description: 総アイテム数
+        items:
+          type: number
+          description: 1ページあたりのアイテム数
+        page:
+          type: number
+          description: 現在のページ番号
+        pages:
+          type: number
+          description: 最後ののページ番号
+        prev:
+          type: number
+          description: 前のページ番号
+        next:
+          type: number
+          description: 次のページ番号
