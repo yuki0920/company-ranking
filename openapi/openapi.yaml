@@ -127,9 +127,11 @@ components:
               description: 10000で割った値
             average_age_years:
               type: number
+              format: float
               nullable: true
             average_length_of_service_years:
               type: number
+              format: float
               nullable: true
             # 基本情報
             security_code:
