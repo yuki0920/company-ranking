@@ -256,6 +256,13 @@ components:
           description: 市場に属する企業数
     meta:
       type: object
+      required:
+        - count
+        - items
+        - page
+        - pages
+        - prev
+        - next
       properties:
         count:
           type: number
