@@ -10,6 +10,13 @@ module Api
 
         render 'index.json.jb'
       end
+
+      def show
+        @security = Document.find!(params[:id])
+
+      rescue ActiveRecord::RecordNotFound
+        render json: { message: 'Not found' }, status: 404
+      end
     end
   end
 end
