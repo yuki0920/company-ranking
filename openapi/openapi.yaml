@@ -1,4 +1,4 @@
-openapi: 3.1.0
+openapi: 3.0.3
 info:
   title: Company Search API Document
   version: 1.0.0
@@ -38,7 +38,7 @@ paths:
                     type: array
                     items:
                       $ref: "#/components/schemas/eachCompany"
-  /api/companies/{id}:
+  /api/v1/companies/{id}:
     get:
       operationId: fetchCompany
       summary: Get Company
@@ -86,43 +86,64 @@ components:
     Company:
       type: object
       required:
-        - companies
+        - company
       properties:
-        companies:
+        company:
           type: object
           required:
             - security_id
+            - number_of_employees
+            - average_annual_salary
+            - average_age_years
+            - average_length_of_service_years
             - security_code
             - security_name
-            - segment_name
+            - market_name
+            - market_id
             - industry_name
+            - industry_id
             - company_name
             - company_name_en
             - head_office_location
             - submitted_at
             - representative
-            - number_of_employees
-            - average_age_years
-            - average_length_of_service_years
-            - average_annual_salary
+            - period_started_at
+            - period_ended_at
             - net_sales
             - last_year_net_sales
             - operating_income
             - last_year_operating_income
             - ordinary_income
             - last_year_ordinary_income
-            - period_ended_at
-            - period_started_at
           properties:
             security_id:
               type: number
+            # 従業員情報
+            number_of_employees:
+              type: number
+              nullable: true
+            average_annual_salary:
+              type: number
+              nullable: true
+              description: 10000で割った値
+            average_age_years:
+              type: number
+              nullable: true
+            average_length_of_service_years:
+              type: number
+              nullable: true
+            # 基本情報
             security_code:
               type: number
             security_name:
               type: string
-            segment_name:
+            market_name:
               type: string
+            market_id:
+              type: number
             industry_name:
+              type: string
+            industry_id:
               type: number
             company_name:
               type: string
@@ -130,23 +151,15 @@ components:
               type: string
             head_office_location:
               type: string
-            submitted_at:
-              type: string
             representative:
               type: string
-            number_of_employees:
-              type: number
-              nullable: true
-            average_age_years:
-              type: number
-              nullable: true
-            average_length_of_service_years:
-              type: number
-              nullable: true
-            average_annual_salary:
-              type: number
-              nullable: true
-              description: 1万で割った値
+            # 決算情報
+            period_started_at:
+              type: string
+              example: 2020年4月1日
+            period_ended_at:
+              type: string
+              example: 2021年3月31日
             net_sales:
               type: number
               nullable: true
@@ -171,9 +184,3 @@ components:
               type: number
               nullable: true
               description: 1000で割った値
-            period_started_at:
-              type: string
-              example: 2020年4月1日
-            period_ended_at:
-              type: string
-              example: 2021年3月31日
