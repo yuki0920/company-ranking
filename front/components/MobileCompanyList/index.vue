@@ -28,6 +28,8 @@
 </template>
 <script>
 import { defineComponent } from '@nuxtjs/composition-api'
+
+
 export default defineComponent({
   name: 'PcCompanyList',
   props: {
@@ -36,6 +38,7 @@ export default defineComponent({
       required: true
     }
   },
+
   setup () {
     return {
     }
