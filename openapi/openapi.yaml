@@ -73,6 +73,24 @@ paths:
                     type: array
                     items:
                       $ref: "#/components/schemas/eachIndustry"
+  /api/v1/markets:
+    get:
+      operationId: fetchIndustries
+      summary: Get markets
+      responses:
+        200:
+          description: get Markets
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - markets
+                properties:
+                  markets:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/eachMarket"
 
 components:
   schemas:
@@ -222,6 +240,20 @@ components:
         count:
           type: integer
           description: 業種に属する企業数
+    eachMarket:
+      type: object
+      required:
+        - id
+        - name
+        - count
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        count:
+          type: integer
+          description: 市場に属する企業数
     meta:
       type: object
       properties:

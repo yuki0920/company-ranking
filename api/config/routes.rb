@@ -4,6 +4,7 @@ Rails.application.routes.draw do
       resources :hello, only: :index
       resources :companies, only: %i(index show)
       resources :industries, only: %i(index)
+      resources :markets, only: %i(index)
     end
   end
 end
