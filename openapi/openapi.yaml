@@ -1,0 +1,208 @@
+openapi: 3.0.3
+info:
+  title: Company Search API Document
+  version: 1.0.0
+paths:
+  /api/v1/companies:
+    get:
+      operationId: fetchCompanies
+      summary: Get and Search Companies
+      parameters:
+        - in: query
+          name: page
+          schema:
+            type: integer
+        # - in: query
+        #   name: per
+        #   schema:
+        #     type: integer
+        # - in: query
+        #   name: q
+        #   description: query for company_name or security_id
+        #   schema:
+        #     type: string
+      responses:
+        200:
+          description: get Companies
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - total_pages
+                  - companies
+                properties:
+                  meta:
+                    $ref: "#/components/schemas/meta"
+                  companies:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/eachCompany"
+  /api/v1/companies/{id}:
+    get:
+      operationId: fetchCompany
+      summary: Get Company
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      responses:
+        200:
+          description: get Company
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Company"
+components:
+  schemas:
+    eachCompany:
+      type: object
+      required:
+        - security_id
+        - security_name
+        - average_annual_salary
+        - net_sales
+        - ordinary_income
+      properties:
+        security_id:
+          type: number
+        security_name:
+          type: string
+        average_annual_salary:
+          type: number
+          nullable: true
+          description: 1)000で割った値
+        net_sales:
+          type: number
+          nullable: true
+          description: 1000で割った値
+        ordinary_income:
+          type: number
+          nullable: true
+          description: 1000で割った値
+    Company:
+      type: object
+      required:
+        - company
+      properties:
+        company:
+          type: object
+          required:
+            - security_id
+            - number_of_employees
+            - average_annual_salary
+            - average_age_years
+            - average_length_of_service_years
+            - security_code
+            - security_name
+            - market_name
+            - market_id
+            - industry_name
+            - industry_id
+            - company_name
+            - company_name_en
+            - head_office_location
+            - submitted_at
+            - representative
+            - period_started_at
+            - period_ended_at
+            - net_sales
+            - last_year_net_sales
+            - operating_income
+            - last_year_operating_income
+            - ordinary_income
+            - last_year_ordinary_income
+          properties:
+            security_id:
+              type: number
+            # 従業員情報
+            number_of_employees:
+              type: number
+              nullable: true
+            average_annual_salary:
+              type: number
+              nullable: true
+              description: 10000で割った値
+            average_age_years:
+              type: number
+              format: float
+              nullable: true
+            average_length_of_service_years:
+              type: number
+              format: float
+              nullable: true
+            # 基本情報
+            security_code:
+              type: number
+            security_name:
+              type: string
+            market_name:
+              type: string
+            market_id:
+              type: number
+            industry_name:
+              type: string
+            industry_id:
+              type: number
+            company_name:
+              type: string
+            company_name_en:
+              type: string
+            head_office_location:
+              type: string
+            representative:
+              type: string
+            # 決算情報
+            period_started_at:
+              type: string
+              example: 2020年4月1日
+            period_ended_at:
+              type: string
+              example: 2021年3月31日
+            net_sales:
+              type: number
+              nullable: true
+              description: 1000で割った値
+            last_year_net_sales:
+              type: number
+              nullable: true
+              description: 1000で割った値
+            operating_income:
+              type: number
+              nullable: true
+              description: 1000で割った値
+            last_year_operating_income:
+              type: number
+              nullable: true
+              description: 1000で割った値
+            ordinary_income:
+              type: number
+              nullable: true
+              description: 1000で割った値
+            last_year_ordinary_income:
+              type: number
+              nullable: true
+              description: 1000で割った値
+    meta:
+      type: object
+      properties:
+        count:
+          type: number
+          description: 総アイテム数
+        items:
+          type: number
+          description: 1ページあたりのアイテム数
+        page:
+          type: number
+          description: 現在のページ番号
+        pages:
+          type: number
+          description: 最後ののページ番号
+        prev:
+          type: number
+          description: 前のページ番号
+        next:
+          type: number
+          description: 次のページ番号

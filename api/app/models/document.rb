@@ -52,7 +52,7 @@ class Document < ApplicationRecord
       params = {'date': date, 'type': 2}
       response = Faraday.get(DOC_LIST_URL, params)
 
-      raise "#{date}の書類一覧取得に失敗しました" unless response.status == 200
+      raise "StatusCode: #{response.status}, #{date}の書類一覧取得に失敗しました" unless response.status == 200
 
       body = JSON.parse(response.body, symbolize_names: true)
 

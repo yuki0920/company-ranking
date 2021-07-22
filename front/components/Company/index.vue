@@ -31,13 +31,19 @@
     <h5>基本情報</h5>
     <dl class="company-detail__list row">
       <dt class="col-4">
+        社名
+      </dt>
+      <dd class="col-8">
+        株式会社 ニチダイ(Nichidai Corp.)
+      </dd>
+      <dt class="col-4">
         証券コード
       </dt>
       <dd class="col-8">
         {{ company.code }}
       </dd>
       <dt class="col-4">
-        市場
+        上場市場
       </dt>
       <dd class="col-8">
         {{ company.segment_name }}
@@ -67,7 +73,7 @@
     </h5>
     <dl class="company-detail__list row">
       <dt class="col-4">
-        最新事業年度
+        基準事業年度
       </dt>
       <dd class="col-8">
         {{ company.period_started_at }} - {{ company.period_ended_at }}
@@ -79,7 +85,7 @@
         {{ company.last_year_net_sales }}
       </dd>
       <dt class="col-4">
-        今年度売上
+        当年度売上
       </dt>
       <dd class="col-8">
         {{ company.net_sales }}
@@ -91,7 +97,7 @@
         {{ company.last_year_operating_income }}
       </dd>
       <dt class="col-4">
-        今年度営業利益
+        当年度営業利益
       </dt>
       <dd class="col-8">
         {{ company.operating_income }}
@@ -103,7 +109,7 @@
         {{ company.last_year_ordinary_income }}
       </dd>
       <dt class="col-4">
-        今年度経常利益
+        当年度経常利益
       </dt>
       <dd class="col-8">
         {{ company.ordinary_income }}
