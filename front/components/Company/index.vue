@@ -1,6 +1,6 @@
 <template>
   <div class="company-detail">
-    <h4>{{ company.name }} の企業情報</h4>
+    <h4>{{ company.security_name }} の企業情報</h4>
     <h5>基本情報</h5>
     <dl class="company-detail__list row">
       <dt class="col-4">
@@ -13,7 +13,7 @@
         平均年間給与
       </dt>
       <dd class="col-8">
-        {{ company.average_annual_salary }} 万円
+        {{ numberWithDelimiter(company.average_annual_salary) }} 万円
       </dd>
       <dt class="col-4">
         平均年齢
@@ -34,19 +34,19 @@
         社名
       </dt>
       <dd class="col-8">
-        株式会社 ニチダイ(Nichidai Corp.)
+        {{ company.company_name }} ({{ company.company_name_en }})
       </dd>
       <dt class="col-4">
         証券コード
       </dt>
       <dd class="col-8">
-        {{ company.code }}
+        {{ company.security_code }}
       </dd>
       <dt class="col-4">
         上場市場
       </dt>
       <dd class="col-8">
-        {{ company.segment_name }}
+        {{ company.market_name }}
       </dd>
       <dt class="col-4">
         業種
@@ -76,49 +76,51 @@
         基準事業年度
       </dt>
       <dd class="col-8">
-        {{ company.period_started_at }} - {{ company.period_ended_at }}
+        {{ company.period_started_at }} 〜 {{ company.period_ended_at }}
       </dd>
       <dt class="col-4">
         前年度売上
       </dt>
       <dd class="col-8">
-        {{ company.last_year_net_sales }}
+        {{ numberWithDelimiter(company.last_year_net_sales) }}
       </dd>
       <dt class="col-4">
         当年度売上
       </dt>
       <dd class="col-8">
-        {{ company.net_sales }}
+        {{ numberWithDelimiter(company.net_sales) }}
       </dd>
       <dt class="col-4">
         前年度営業利益
       </dt>
       <dd class="col-8">
-        {{ company.last_year_operating_income }}
+        {{ numberWithDelimiter(company.last_year_operating_income) }}
       </dd>
       <dt class="col-4">
         当年度営業利益
       </dt>
       <dd class="col-8">
-        {{ company.operating_income }}
+        {{ numberWithDelimiter(company.operating_income) }}
       </dd>
       <dt class="col-4">
         前年度経常利益
       </dt>
       <dd class="col-8">
-        {{ company.last_year_ordinary_income }}
+        {{ numberWithDelimiter(company.last_year_ordinary_income) }}
       </dd>
       <dt class="col-4">
         当年度経常利益
       </dt>
       <dd class="col-8">
-        {{ company.ordinary_income }}
+        {{ numberWithDelimiter(company.ordinary_income) }}
       </dd>
     </dl>
   </div>
 </template>
-<script>
+<script lang="ts">
 import { defineComponent } from '@nuxtjs/composition-api'
+// @ts-ignore
+import { UseUtility } from '~/lib/utility'
 
 export default defineComponent({
   props: {
@@ -128,6 +130,11 @@ export default defineComponent({
     }
   },
   setup () {
+    const { numberWithDelimiter } = UseUtility()
+
+    return {
+      numberWithDelimiter
+    }
   }
 })
 </script>

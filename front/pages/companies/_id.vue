@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div v-if="company">
     <b-breadcrumb class="bg-white">
       <b-breadcrumb-item to="/">
         トップ
@@ -8,7 +8,7 @@
         企業
       </b-breadcrumb-item>
       <b-breadcrumb-item active>
-        {{ company.name }}
+        {{ company.security_name }}
       </b-breadcrumb-item>
     </b-breadcrumb>
     <div class="container">
@@ -18,12 +18,24 @@
 </template>
 
 <script>
-import company from '~/lib/company.js'
-export default {
-  data () {
+import { defineComponent, useContext, useRoute, computed, ref } from '@nuxtjs/composition-api'
+
+export default defineComponent({
+  setup () {
+    const { $axios } = useContext()
+    const route = useRoute()
+    const id = computed(() => route.value.params.id)
+    const company = ref(null)
+    const fetchCompany = async () => {
+      const { data } = await $axios.get(`/api/v1/companies/${id.value}`)
+      console.log('data', data)
+      company.value = data.company
+    }
+    fetchCompany()
+
     return {
       company
     }
   }
-}
+})
 </script>

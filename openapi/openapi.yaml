@@ -54,7 +54,12 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Company"
+                type: object
+                required:
+                  - company
+                properties:
+                  company:
+                    $ref: "#/components/schemas/Company"
   /api/v1/industries:
     get:
       operationId: fetchIndustries
