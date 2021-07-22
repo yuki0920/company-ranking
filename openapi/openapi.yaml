@@ -55,6 +55,25 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Company"
+  /api/v1/industries:
+    get:
+      operationId: fetchIndustries
+      summary: Get Industries
+      responses:
+        200:
+          description: get Industries
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - industries
+                properties:
+                  industries:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/eachIndustry"
+
 components:
   schemas:
     eachCompany:
@@ -185,6 +204,24 @@ components:
               type: number
               nullable: true
               description: 1000で割った値
+    eachIndustry:
+      type: object
+      required:
+        - id
+        - name
+        - code
+        - count
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        code:
+          type: integer
+          description: 33業種コード
+        count:
+          type: integer
+          description: 業種に属する企業数
     meta:
       type: object
       properties:
