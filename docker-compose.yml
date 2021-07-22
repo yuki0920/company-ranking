@@ -38,3 +38,12 @@ services:
       - "$FRONT_PORT:$CONTAINER_PORT"
     depends_on:
       - api
+  swagger:
+    image: swaggerapi/swagger-ui
+    volumes:
+      - ./openapi:/usr/share/nginx/html/openapi
+    environment:
+      API_URL: ./openapi/openapi.yaml
+    ports:
+      # NOTE: ホストからは8000で接続する
+      - 8000:8080
