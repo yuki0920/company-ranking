@@ -10,19 +10,39 @@
     </b-breadcrumb>
     <mobile-company-list v-if="isMobile" :companies="companies" />
     <pc-company-list v-else :companies="companies" />
+    <infinite-loading @infinite="infiniteHandler" />
   </div>
 </template>
 
 <script>
-import { defineComponent } from '@nuxtjs/composition-api'
-import companies from '~/lib/companies'
+import { defineComponent, useContext, ref } from '@nuxtjs/composition-api'
+import InfiniteLoading from 'vue-infinite-loading'
 
 export default defineComponent({
+  components: { InfiniteLoading },
   setup () {
     const isMobile = window.innerWidth < 576
+    const page = ref(1)
+    const companies = ref([])
+    const { $axios } = useContext()
+
+    const infiniteHandler = ($state) => {
+      $axios.get('/api/v1/companies', { params: { page: page.value } }).then(({ data }) => {
+        if (data.meta.page !== data.meta.pages) {
+          page.value += 1
+          companies.value.push(...data.companies)
+          $state.loaded()
+        } else {
+          $state.complete()
+        }
+      })
+    }
+
     return {
       isMobile,
-      companies
+      page,
+      companies,
+      infiniteHandler
     }
   }
 })

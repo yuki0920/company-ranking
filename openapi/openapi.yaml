@@ -187,6 +187,13 @@ components:
               description: 1000で割った値
     meta:
       type: object
+      required:
+        - count
+        - items
+        - page
+        - pages
+        - prev
+        - next
       properties:
         count:
           type: number
