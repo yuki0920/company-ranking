@@ -4,8 +4,8 @@
       security_id: document.security.id,
       security_name: document.security.name,
       average_annual_salary: divved_number(document.average_annual_salary, 10_000),
-      net_sales: divved_number(document.net_sales, 1_000),
-      ordinary_income: divved_number(document.ordinary_income, 1_000)
+      net_sales: divved_number(document.net_sales, 1_000_000),
+      ordinary_income: divved_number(document.ordinary_income, 1_000_000)
     }
   }
 }
