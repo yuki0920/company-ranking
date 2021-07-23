@@ -11,6 +11,14 @@
     <h5>
       すべての企業
     </h5>
+    <select :value="sortType" class="form-control col-sm-3 mb-3" @change="onChangeSortType">
+      <option value="average_annual_salary">
+        年間給与順
+      </option>
+      <option value="net_sales">
+        売上順
+      </option>
+    </select>
     <mobile-company-list v-if="isMobile" :companies="companies" />
     <pc-company-list v-else :companies="companies" />
     <infinite-loading @infinite="infiniteHandler" />
@@ -18,34 +26,27 @@
 </template>
 
 <script>
-import { defineComponent, useContext, ref } from '@nuxtjs/composition-api'
+import { defineComponent } from '@nuxtjs/composition-api'
 import InfiniteLoading from 'vue-infinite-loading'
+// @ts-ignore
+import { useCompany } from '~/compositions'
 
 export default defineComponent({
   components: { InfiniteLoading },
   setup () {
     const isMobile = window.innerWidth < 576
-    const page = ref(1)
-    const companies = ref([])
-    const { $axios } = useContext()
+    const { sortType, companies, infiniteHandler, initInfiniteHandler } = useCompany()
 
-    const infiniteHandler = ($state) => {
-      $axios.get('/api/v1/companies', { params: { page: page.value } }).then(({ data }) => {
-        if (data.meta.page !== data.meta.pages) {
-          page.value += 1
-          companies.value.push(...data.companies)
-          $state.loaded()
-        } else {
-          $state.complete()
-        }
-      })
+    const onChangeSortType = (event) => {
+      initInfiniteHandler(event.target.value)
     }
 
     return {
       isMobile,
-      page,
+      sortType,
       companies,
-      infiniteHandler
+      infiniteHandler,
+      onChangeSortType
     }
   }
 })
