@@ -1,8 +1,11 @@
-import { useContext, ref } from '@nuxtjs/composition-api'
+import { useContext, ref, useRoute } from '@nuxtjs/composition-api'
 
 export const useCompany = () => {
   const { $axios } = useContext()
-  const page = ref(1)
+  const route = useRoute()
+  const pageParam = typeof route.value.query.page === 'string' ? parseInt(route.value.query.page, 10) : null
+  const page = ref(pageParam || 1)
+  const from = ref(0)
   const sortType = ref('average_annual_salary')
   const companies = ref([])
 
@@ -14,6 +17,9 @@ export const useCompany = () => {
     fetchCompanies().then(({ data }) => {
       if (data.meta.page !== data.meta.pages) {
         page.value += 1
+        if (from.value === 0) {
+          from.value = parseInt(data.meta.from, 10)
+        }
         // @ts-ignore
         companies.value.push(...data.companies)
         $state.loaded()
@@ -31,5 +37,5 @@ export const useCompany = () => {
     infiniteHandler()
   }
 
-  return { sortType, companies, infiniteHandler, initInfiniteHandler }
+  return { from, sortType, companies, infiniteHandler, initInfiniteHandler }
 }

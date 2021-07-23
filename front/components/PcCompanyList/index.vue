@@ -22,7 +22,7 @@
     <tbody>
       <tr v-for="(company, index) in companies" :key="`company_${index}`">
         <td class="text-center">
-          {{ index + 1 }}
+          {{ from + index }}
         </td>
         <td>
           <NuxtLink :to="`/companies/${company.security_id}`">
@@ -52,6 +52,10 @@ export default defineComponent({
   props: {
     companies: {
       type: Array,
+      required: true
+    },
+    from: {
+      type: Number,
       required: true
     }
   },

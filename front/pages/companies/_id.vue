@@ -28,7 +28,6 @@ export default defineComponent({
     const company = ref(null)
     const fetchCompany = async () => {
       const { data } = await $axios.get(`/api/v1/companies/${id.value}`)
-      console.log('data', data)
       company.value = data.company
     }
     fetchCompany()
