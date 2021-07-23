@@ -5,7 +5,7 @@
         トップ
       </b-breadcrumb-item>
       <b-breadcrumb-item active>
-        企業
+        すべての企業
       </b-breadcrumb-item>
     </b-breadcrumb>
     <h5>
@@ -20,7 +20,7 @@
       </option>
     </select>
     <mobile-company-list v-if="isMobile" :companies="companies" />
-    <pc-company-list v-else :companies="companies" />
+    <pc-company-list v-else :companies="companies" :from="from" />
     <infinite-loading @infinite="infiniteHandler" />
   </div>
 </template>
@@ -35,14 +35,15 @@ export default defineComponent({
   components: { InfiniteLoading },
   setup () {
     const isMobile = window.innerWidth < 576
-    const { sortType, companies, infiniteHandler, initInfiniteHandler } = useCompany()
+    const { from, sortType, companies, infiniteHandler, initInfiniteHandler } = useCompany()
 
     const onChangeSortType = (event) => {
-      initInfiniteHandler(event.target.value)
+      initInfiniteHandler({ sort: event.target.value })
     }
 
     return {
       isMobile,
+      from,
       sortType,
       companies,
       infiniteHandler,
