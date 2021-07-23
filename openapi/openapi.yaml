@@ -12,6 +12,11 @@ paths:
           name: page
           schema:
             type: integer
+        - in: query
+          name: sort_type
+          required: true
+          schema:
+            type: string
         # - in: query
         #   name: per
         #   schema:
