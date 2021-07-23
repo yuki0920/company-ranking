@@ -1,6 +1,6 @@
 <template>
-  <div>
-    <b-breadcrumb class="bg-white">
+  <div class="container">
+    <b-breadcrumb class="bg-white mb-0">
       <b-breadcrumb-item to="/">
         トップ
       </b-breadcrumb-item>
@@ -8,6 +8,9 @@
         企業
       </b-breadcrumb-item>
     </b-breadcrumb>
+    <h4>
+      すべての企業
+    </h4>
     <mobile-company-list v-if="isMobile" :companies="companies" />
     <pc-company-list v-else :companies="companies" />
     <infinite-loading @infinite="infiniteHandler" />
