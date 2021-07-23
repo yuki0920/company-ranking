@@ -7,5 +7,17 @@ export const UseUtility = () => {
     }
   }
 
-  return { numberWithDelimiter }
+  const isNegative = (number: Number | null): boolean => {
+    if (typeof number === 'number') {
+      return number < 0
+    } else {
+      return false
+    }
+  }
+
+  const profitColor = (number: Number | null): string => {
+    return isNegative(number) ? 'red' : 'inherit'
+  }
+
+  return { numberWithDelimiter, profitColor }
 }

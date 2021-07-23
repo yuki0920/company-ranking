@@ -1,6 +1,6 @@
 <template>
   <div v-if="company">
-    <b-breadcrumb class="bg-white">
+    <b-breadcrumb class="bg-white mb-0">
       <b-breadcrumb-item to="/">
         トップ
       </b-breadcrumb-item>

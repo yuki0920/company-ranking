@@ -1,27 +1,46 @@
 <template>
-  <b-card no-body>
-    <b-card-header class="border-0">
-      <h4 class="mb-0">
-        企業
-      </h4>
-    </b-card-header>
-    <div class="container">
-      <b-table hover :items="companies" :fields="fields">
-        <template #cell(index)="data">
-          {{ data.index + 1 }}
-        </template>
-        <template #cell(average_annual_salary)="data">
-          {{ numberWithDelimiter(data.item.average_annual_salary) }}
-        </template>
-        <template #cell(net_sales)="data">
-          {{ numberWithDelimiter(data.item.net_sales) }}
-        </template>
-        <template #cell(ordinary_income)="data">
-          {{ numberWithDelimiter(data.item.ordinary_income) }}
-        </template>
-      </b-table>
-    </div>
-  </b-card>
+  <table class="table table-hover">
+    <thead class="bg-white">
+      <tr class="text-center">
+        <th scope="col">
+          順位
+        </th>
+        <th scope="col">
+          企業名
+        </th>
+        <th scope="col">
+          年間給与(万円)
+        </th>
+        <th scope="col">
+          売上(百万円)
+        </th>
+        <th scope="col">
+          経常利益(百万円)
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr v-for="(company, index) in companies" :key="`company_${index}`">
+        <td class="text-center">
+          {{ index + 1 }}
+        </td>
+        <td>
+          <NuxtLink :to="`/companies/${company.security_id}`">
+            {{ company.security_name }}
+          </NuxtLink>
+        </td>
+        <td class="text-right">
+          {{ numberWithDelimiter(company.average_annual_salary) }}
+        </td>
+        <td class="text-right">
+          {{ numberWithDelimiter(company.net_sales) }}
+        </td>
+        <td class="text-right" :style="{color: profitColor(company.ordinary_income)}">
+          {{ numberWithDelimiter(company.ordinary_income) }}
+        </td>
+      </tr>
+    </tbody>
+  </table>
 </template>
 <script lnag="ts">
 import { defineComponent } from '@nuxtjs/composition-api'
@@ -37,18 +56,19 @@ export default defineComponent({
     }
   },
   setup () {
-    const { numberWithDelimiter } = UseUtility()
+    const { numberWithDelimiter, profitColor } = UseUtility()
 
     return {
       numberWithDelimiter,
-      fields: [
-        { key: 'index', label: '順位' },
-        { key: 'security_name', label: '企業名' },
-        { key: 'average_annual_salary', label: '平均給与(万円)' },
-        { key: 'net_sales', label: '売上(百万円))' },
-        { key: 'ordinary_income', label: '経常利益(百万円))' }
-      ]
+      profitColor
     }
   }
 })
 </script>
+
+<style lang="scss" scoped>
+thead {
+  position: sticky;
+  top: 0;
+}
+</style>
