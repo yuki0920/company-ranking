@@ -16,7 +16,11 @@
         </small>
         <br>
         <small class="text-muted">
-          経常利益 {{ numberWithDelimiter(company.ordinary_income) }} 百万円
+          経常利益
+          <span :style="{color: profitColor(company.ordinary_income)}">
+            {{ numberWithDelimiter(company.ordinary_income) }}
+          </span>
+          百万円
         </small>
       </NuxtLink>
     </b-list-group-item>
@@ -37,10 +41,11 @@ export default defineComponent({
   },
 
   setup () {
-    const { numberWithDelimiter } = UseUtility()
+    const { numberWithDelimiter, profitColor } = UseUtility()
 
     return {
-      numberWithDelimiter
+      numberWithDelimiter,
+      profitColor
     }
   }
 })

@@ -82,37 +82,37 @@
         前年度売上
       </dt>
       <dd class="col-8">
-        {{ numberWithDelimiter(company.last_year_net_sales) }}
+        {{ numberWithDelimiter(company.last_year_net_sales) }} 百万円
       </dd>
       <dt class="col-4">
         当年度売上
       </dt>
       <dd class="col-8">
-        {{ numberWithDelimiter(company.net_sales) }}
+        {{ numberWithDelimiter(company.net_sales) }} 百万円
       </dd>
       <dt class="col-4">
         前年度営業利益
       </dt>
-      <dd class="col-8">
-        {{ numberWithDelimiter(company.last_year_operating_income) }}
+      <dd class="col-8" :style="{color: profitColor(company.last_year_operating_income)}">
+        {{ numberWithDelimiter(company.last_year_operating_income) }} 百万円
       </dd>
       <dt class="col-4">
         当年度営業利益
       </dt>
-      <dd class="col-8">
-        {{ numberWithDelimiter(company.operating_income) }}
+      <dd class="col-8" :style="{color: profitColor(company.operating_income)}">
+        {{ numberWithDelimiter(company.operating_income) }} 百万円
       </dd>
       <dt class="col-4">
         前年度経常利益
       </dt>
-      <dd class="col-8">
-        {{ numberWithDelimiter(company.last_year_ordinary_income) }}
+      <dd class="col-8" :style="{color: profitColor(company.last_year_ordinary_income)}">
+        {{ numberWithDelimiter(company.last_year_ordinary_income) }} 百万円
       </dd>
       <dt class="col-4">
         当年度経常利益
       </dt>
-      <dd class="col-8">
-        {{ numberWithDelimiter(company.ordinary_income) }}
+      <dd class="col-8" :style="{color: profitColor(company.ordinary_income)}">
+        {{ numberWithDelimiter(company.ordinary_income) }} 百万円
       </dd>
     </dl>
   </div>
@@ -130,10 +130,11 @@ export default defineComponent({
     }
   },
   setup () {
-    const { numberWithDelimiter } = UseUtility()
+    const { numberWithDelimiter, profitColor } = UseUtility()
 
     return {
-      numberWithDelimiter
+      numberWithDelimiter,
+      profitColor
     }
   }
 })

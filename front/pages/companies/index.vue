@@ -8,9 +8,9 @@
         企業
       </b-breadcrumb-item>
     </b-breadcrumb>
-    <h4>
+    <h5>
       すべての企業
-    </h4>
+    </h5>
     <mobile-company-list v-if="isMobile" :companies="companies" />
     <pc-company-list v-else :companies="companies" />
     <infinite-loading @infinite="infiniteHandler" />

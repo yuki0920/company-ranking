@@ -1,7 +1,7 @@
 <template>
   <table class="table table-hover">
     <thead class="bg-white">
-      <tr>
+      <tr class="text-center">
         <th scope="col">
           順位
         </th>
@@ -21,11 +21,23 @@
     </thead>
     <tbody>
       <tr v-for="(company, index) in companies" :key="`company_${index}`">
-        <td>{{ index + 1 }}</td>
-        <td>{{ company.security_name }}</td>
-        <td>{{ numberWithDelimiter(company.average_annual_salary) }}</td>
-        <td>{{ numberWithDelimiter(company.net_sales) }}</td>
-        <td>{{ numberWithDelimiter(company.ordinary_income) }}</td>
+        <td class="text-center">
+          {{ index + 1 }}
+        </td>
+        <td>
+          <NuxtLink :to="`/companies/${company.security_id}`">
+            {{ company.security_name }}
+          </NuxtLink>
+        </td>
+        <td class="text-right">
+          {{ numberWithDelimiter(company.average_annual_salary) }}
+        </td>
+        <td class="text-right">
+          {{ numberWithDelimiter(company.net_sales) }}
+        </td>
+        <td class="text-right" :style="{color: profitColor(company.ordinary_income)}">
+          {{ numberWithDelimiter(company.ordinary_income) }}
+        </td>
       </tr>
     </tbody>
   </table>
@@ -44,10 +56,11 @@ export default defineComponent({
     }
   },
   setup () {
-    const { numberWithDelimiter } = UseUtility()
+    const { numberWithDelimiter, profitColor } = UseUtility()
 
     return {
-      numberWithDelimiter
+      numberWithDelimiter,
+      profitColor
     }
   }
 })
