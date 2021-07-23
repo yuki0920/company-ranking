@@ -6,7 +6,7 @@ export const useCompany = () => {
   const pageParam = typeof route.value.query.page === 'string' ? parseInt(route.value.query.page, 10) : null
   const page = ref(pageParam || 1)
   const from = ref(0)
-  const sortType = ref('average_annual_salary')
+  const sortType = ref(route.value.query.sort_type || 'average_annual_salary')
   const companies = ref([])
 
   const fetchCompanies = () => {
@@ -14,6 +14,8 @@ export const useCompany = () => {
   }
 
   const infiniteHandler = ($state: any) => {
+    window.history.replaceState(null, '', `${location.pathname}?page=${page.value}&sort_type=${sortType.value}`)
+
     fetchCompanies().then(({ data }) => {
       if (data.meta.page !== data.meta.pages) {
         page.value += 1
