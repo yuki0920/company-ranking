@@ -5,7 +5,7 @@
         トップ
       </b-breadcrumb-item>
       <b-breadcrumb-item active>
-        企業
+        すべての企業
       </b-breadcrumb-item>
     </b-breadcrumb>
     <h5>
@@ -38,7 +38,7 @@ export default defineComponent({
     const { from, sortType, companies, infiniteHandler, initInfiniteHandler } = useCompany()
 
     const onChangeSortType = (event) => {
-      initInfiniteHandler(event.target.value)
+      initInfiniteHandler({ sort: event.target.value })
     }
 
     return {

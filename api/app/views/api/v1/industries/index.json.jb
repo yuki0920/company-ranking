@@ -1,8 +1,10 @@
-@industries.map { |industry|
-  {
-    id: industry.id,
-    name: industry.name,
-    code: industry.code,
-    count: @industries_count[industry.code],
+{
+  industries: @industries.map { |industry|
+    {
+      id: industry.id,
+      name: industry.name,
+      code: industry.code,
+      count: @industries_count[industry.code],
+    }
   }
 }

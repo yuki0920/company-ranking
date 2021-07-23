@@ -7,6 +7,7 @@ export const useCompany = () => {
   const page = ref(pageParam || 1)
   const from = ref(0)
   const sortType = ref(route.value.query.sort_type || 'average_annual_salary')
+  const industryId = ref(route.value.query.industry_id || route.value.params.industryId)
   const companies = ref([])
 
   const fetchCompanies = () => {
@@ -31,13 +32,29 @@ export const useCompany = () => {
     })
   }
 
-  const initInfiniteHandler = (sort: string) => {
-    sortType.value = sort
+  const initInfiniteHandler = ({ sort, industry }:{ sort: string, industry: string }) => {
+    if (sort) { sortType.value = sort }
+    if (industry) { industryId.value = industry }
+
     page.value = 1
     companies.value = []
     // @ts-ignore
     infiniteHandler()
   }
 
-  return { from, sortType, companies, infiniteHandler, initInfiniteHandler }
+  return { from, sortType, industryId, companies, infiniteHandler, initInfiniteHandler }
+}
+
+export const useIndustry = () => {
+  const { $axios } = useContext()
+  const industries = ref([])
+
+  const fetchIndustries = async () => {
+    const { data } = await $axios.get('/api/v1/industries')
+    industries.value = data.industries
+  }
+
+  fetchIndustries()
+
+  return { industries }
 }
