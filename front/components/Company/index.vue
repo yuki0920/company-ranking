@@ -120,7 +120,7 @@
 <script lang="ts">
 import { defineComponent, useMeta } from '@nuxtjs/composition-api'
 // @ts-ignore
-import { UseUtility } from '~/lib/utility'
+import { useUtility } from '~/lib/utility'
 
 export default defineComponent({
   props: {
@@ -130,7 +130,7 @@ export default defineComponent({
     }
   },
   setup (props) {
-    const { numberWithDelimiter, profitColor } = UseUtility()
+    const { numberWithDelimiter, profitColor } = useUtility()
     const { title, meta } = useMeta()
     title.value = props.company.security_name
     meta.value = [
