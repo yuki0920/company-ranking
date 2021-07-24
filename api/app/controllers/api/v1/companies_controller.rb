@@ -4,7 +4,7 @@ module Api
       include Pagy::Backend
 
       def index
-        securities = Security.includes(:documents)
+        securities = Security.joins(:documents).eager_load(:documents)
 
         case params[:sort_type]
         when 'average_annual_salary'
