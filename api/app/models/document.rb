@@ -61,21 +61,28 @@ class Document < ApplicationRecord
       transaction do
         body[:results].select {|document| document[:ordinanceCode] == '010' && document[:formCode] == '030000' && document[:secCode] != nil}.each do |document|
           edinet_code = document[:edinetCode]
-          document_id = document[:docID]
-          security_code = document[:secCode][..-2]  # NOTE: 最後の0を削除
-
           next unless edinet_code
-          next if Document.find_by(document_id: document_id)
+
+          security_code = document[:secCode][..-2]  # NOTE: 最後の0を削除
           next unless Security.find_by(code: security_code)
 
-          create!(
+          document_id = document[:docID]
+          document_record = Document.find_by(document_id: document_id)
+
+          next if document_record && document_record.submitted_at.present?
+
+          document ||= new
+
+          submitted_at = document[:submitDateTime].present? ? Date.parse(document[:submitDateTime]) : nil
+
+          document_record.save!(
             document_id: document_id,
             edinet_code: edinet_code,
             filer_name: document[:filerName],
             security_code: security_code,
             period_started_at: document[:periodStart],
             period_ended_at: document[:periodEnd],
-            submitted_at: document[:submitDateTime],
+            submitted_at: submitted_at,
           )
         rescue ActiveRecord::RecordInvalid => e
           # NOTE: security.codeが存在しない場合に発生

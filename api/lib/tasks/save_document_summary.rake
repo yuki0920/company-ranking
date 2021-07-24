@@ -19,6 +19,15 @@ namespace :save_document_summary do
     end
   end
 
+  # NOTE: データ取得確認用
+  task weeks: :environment do
+    (Date.today.weeks_ago(2)..Date.today).each do |date|
+      puts "#{date}分の書類取得開始"
+      Document.save_summary(date)
+      puts "#{date}分の書類取得終了"
+    end
+  end
+
   # NOTE: 毎日の定時実行
   task day: :environment do
     (Date.yesterday..Date.today).each do |date|
