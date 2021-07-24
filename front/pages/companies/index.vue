@@ -28,7 +28,6 @@
 <script>
 import { defineComponent } from '@nuxtjs/composition-api'
 import InfiniteLoading from 'vue-infinite-loading'
-// @ts-ignore
 import { useCompany } from '~/compositions'
 import { useUtility } from '~/lib/utility'
 

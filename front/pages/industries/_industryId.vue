@@ -28,12 +28,10 @@
   </div>
 </template>
 
-<script lang="ts">
+<script>
 import { defineComponent, useMeta } from '@nuxtjs/composition-api'
 import InfiniteLoading from 'vue-infinite-loading'
-// @ts-ignore
 import { useCompany, useIndustry } from '~/compositions'
-// @ts-ignore
 import { useUtility } from '~/lib/utility'
 
 export default defineComponent({
