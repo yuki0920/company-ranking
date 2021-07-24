@@ -70,11 +70,11 @@ class Document < ApplicationRecord
 
           next if document_record && document_record.submitted_at.present?
 
-          document ||= new
+          document_record ||= new
 
           submitted_at = document[:submitDateTime].present? ? Date.parse(document[:submitDateTime]) : nil
 
-          document_record.save!(
+          document_record.update!(
             document_id: document_id,
             edinet_code: edinet_code,
             filer_name: document[:filerName],
