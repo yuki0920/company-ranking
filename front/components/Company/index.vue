@@ -131,6 +131,7 @@ export default defineComponent({
   },
   setup (props) {
     const { numberWithDelimiter, profitColor } = useUtility()
+    // NOTE: ページ側に移動する
     const { title, meta } = useMeta()
     title.value = props.company.security_name
     meta.value = [

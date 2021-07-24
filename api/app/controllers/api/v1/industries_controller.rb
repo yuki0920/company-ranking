@@ -7,6 +7,12 @@ module Api
 
         render 'index.json.jb'
       end
+
+      def show
+        @industry = Industry.find(params[:id])
+
+        render 'show.json.jb'
+      end
     end
   end
 end
