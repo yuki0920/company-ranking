@@ -118,7 +118,7 @@
   </div>
 </template>
 <script lang="ts">
-import { defineComponent } from '@nuxtjs/composition-api'
+import { defineComponent, useMeta } from '@nuxtjs/composition-api'
 // @ts-ignore
 import { UseUtility } from '~/lib/utility'
 
@@ -129,14 +129,20 @@ export default defineComponent({
       required: true
     }
   },
-  setup () {
+  setup (props) {
     const { numberWithDelimiter, profitColor } = UseUtility()
+    const { title, meta } = useMeta()
+    title.value = props.company.security_name
+    meta.value = [
+      { hid: 'description', name: 'description', content: `${props.company.security_name}の企業情報です。年収、従業員数、平均年齢、売上、利益を掲載しています。` }
+    ]
 
     return {
       numberWithDelimiter,
       profitColor
     }
-  }
+  },
+  head: {}
 })
 </script>
 <style lang="scss" scoped>
