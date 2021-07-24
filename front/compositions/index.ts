@@ -1,5 +1,11 @@
 import { useContext, ref, useRoute } from '@nuxtjs/composition-api'
 
+const replaceUrl = ({ page, sortType, industryId }: { page: number, sortType: string, industryId: number }) => {
+  const industryIdParam = industryId ? `&industry_id=${industryId}` : ''
+
+  window.history.replaceState(null, '', `${location.pathname}?page=${page}&sort_type=${sortType}${industryIdParam}`)
+}
+
 export const useCompany = () => {
   const { $axios } = useContext()
   const route = useRoute()
@@ -7,7 +13,7 @@ export const useCompany = () => {
   const page = ref(pageParam || 1)
   const from = ref(0)
   const sortType = ref(route.value.query.sort_type || 'average_annual_salary')
-  const industryId = ref(route.value.query.industry_id || route.value.params.industryId)
+  const industryId = ref(route.value.params.industryId)
   const companies = ref([])
 
   const fetchCompanies = () => {
@@ -15,7 +21,8 @@ export const useCompany = () => {
   }
 
   const infiniteHandler = ($state: any) => {
-    window.history.replaceState(null, '', `${location.pathname}?page=${page.value}&sort_type=${sortType.value}`)
+    // @ts-ignore
+    replaceUrl({ page: page.value, sortType: sortType.value, industryId: industryId.value })
 
     fetchCompanies().then(({ data }) => {
       if (data.meta.page !== data.meta.pages) {
