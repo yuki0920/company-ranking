@@ -1,4 +1,4 @@
-import { useContext, ref, useRoute } from '@nuxtjs/composition-api'
+import { useContext, ref, useRoute, onMounted } from '@nuxtjs/composition-api'
 
 const replaceUrl = ({ page, sortType, industryId }: { page: number, sortType: string, industryId: number }) => {
   const industryIdParam = industryId ? `&industry_id=${industryId}` : ''
@@ -11,13 +11,14 @@ export const useCompany = () => {
   const route = useRoute()
   const pageParam = typeof route.value.query.page === 'string' ? parseInt(route.value.query.page, 10) : null
   const page = ref(pageParam || 1)
+  const count = ref(0)
   const from = ref(0)
-  const sortType = ref(route.value.query.sort_type || 'average_annual_salary')
+  const sortType = ref(route.value.query.sort_type || 'net_sales')
   const industryId = ref(route.value.params.industryId)
   const companies = ref([])
 
   const fetchCompanies = () => {
-    return $axios.get('/api/v1/companies', { params: { page: page.value, sort_type: sortType.value } })
+    return $axios.get('/api/v1/companies', { params: { page: page.value, sort_type: sortType.value, industry_id: industryId.value } })
   }
 
   const infiniteHandler = ($state: any) => {
@@ -27,6 +28,7 @@ export const useCompany = () => {
     fetchCompanies().then(({ data }) => {
       if (data.meta.page !== data.meta.pages) {
         page.value += 1
+        count.value = data.meta.count
         if (from.value === 0) {
           from.value = parseInt(data.meta.from, 10)
         }
@@ -50,10 +52,10 @@ export const useCompany = () => {
     infiniteHandler()
   }
 
-  return { from, sortType, industryId, companies, infiniteHandler, initInfiniteHandler }
+  return { count, from, sortType, industryId, companies, infiniteHandler, initInfiniteHandler }
 }
 
-export const useIndustry = () => {
+export const useIndustries = () => {
   const { $axios } = useContext()
   const industries = ref([])
 
@@ -65,4 +67,22 @@ export const useIndustry = () => {
   fetchIndustries()
 
   return { industries }
+}
+
+export const useIndustry = () => {
+  const { $axios } = useContext()
+  const route = useRoute()
+  const industry = ref(null)
+  const industryId = ref(route.value.params.industryId)
+
+  const fetchIndustry = async () => {
+    const { data } = await $axios.get(`api/v1/industries/${industryId.value}`)
+    industry.value = data.industry
+  }
+
+  onMounted(async () => {
+    await fetchIndustry()
+  })
+
+  return { industry }
 }
