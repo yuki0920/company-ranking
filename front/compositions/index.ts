@@ -38,6 +38,7 @@ export const useCompany = () => {
 
     page.value = 1
     companies.value = []
+    from.value = 0
     // @ts-ignore
     infiniteHandler()
   }
