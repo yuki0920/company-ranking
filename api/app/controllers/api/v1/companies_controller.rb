@@ -4,16 +4,16 @@ module Api
       include Pagy::Backend
 
       def index
-        documents = Document.where('submitted_at > ?', Date.today.last_year).includes(:security)
+        securities = Security.includes(:documents)
 
         case params[:sort_type]
         when 'average_annual_salary'
-          documents = documents.order('average_annual_salary DESC NULLS LAST')
+          securities = securities.order('documents.average_annual_salary DESC NULLS LAST')
         when 'net_sales'
-          documents = documents.order('net_sales DESC NULLS LAST')
+          securities = securities.order('documents.net_sales DESC NULLS LAST')
         end
 
-        meta, @documents = pagy(documents)
+        meta, @securities = pagy(securities)
         @meta = pagy_metadata(meta)
 
         render 'index.json.jb'
