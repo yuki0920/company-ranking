@@ -1,19 +1,15 @@
 <template>
   <div class="container mt-3">
-    <p>全ての企業から探す</p>
+    <NuxtLink to="/companies" class="d-block mb-2">
+      <span>全ての企業から探す</span>
+    </NuxtLink>
     <section class="industries">
       <h5>業種から探す</h5>
       <ul class="row list-unstyled">
-        <li v-for="industry in industries" :key="`industry-${industry.id}`" class="col-6 col-md-3" :class="{ 'border': isMobile }">
-          {{ industry.name }}
-        </li>
-      </ul>
-    </section>
-    <section class="markets">
-      <h5>市場から探す</h5>
-      <ul class="row list-unstyled">
-        <li v-for="market in markets" :key="`market-${market.id}`" class="col-6 col-md-3" :class="{ 'border': isMobile }">
-          {{ market.name }}
+        <li v-for="industry in industries" :key="`industry-${industry.id}`" class="col-6 col-md-3">
+          <NuxtLink :to="`/industries/${industry.id}`">
+            {{ industry.name }}({{ industry.count }})
+          </NuxtLink>
         </li>
       </ul>
     </section>
@@ -21,19 +17,22 @@
 </template>
 
 <script>
-import { defineComponent } from '@nuxtjs/composition-api'
-import industries from '~/lib/industries'
-import markets from '~/lib/markets'
-import { useUtility } from '~/lib/utility'
+import { defineComponent, useMeta } from '@nuxtjs/composition-api'
+import { useIndustries } from '~/compositions'
 
 export default defineComponent({
   setup () {
-    const { isMobile } = useUtility()
+    const { industries } = useIndustries()
+    const { title, meta } = useMeta()
+    title.value = 'トップ'
+    meta.value = [
+      { hid: 'description', name: 'description', content: '上場企業ランキングのトップページです。売上、利益、年収を掲載しています。' }
+    ]
+
     return {
-      isMobile,
-      industries,
-      markets
+      industries
     }
-  }
+  },
+  head: {}
 })
 </script>
