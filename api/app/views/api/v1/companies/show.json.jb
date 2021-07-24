@@ -14,7 +14,7 @@
     company_name: @security.documents.last.company_name,
     company_name_en: @security.documents.last.company_name_en,
     head_office_location: @security.documents.last.head_office_location,
-    submitted_at: @security.documents.last.submitted_at.to_s(:ymd),
+    submitted_at: @security.documents.last.submitted_at&.to_s(:ymd),
     representative: @security.documents.last.representative,
     period_started_at: @security.documents.last.period_started_at.to_s(:ymd),
     period_ended_at: @security.documents.last.period_ended_at.to_s(:ymd),
