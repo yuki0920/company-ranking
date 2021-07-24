@@ -1,0 +1,7 @@
+{
+  industry: {
+    id: @industry.id,
+    name: @industry.name,
+    code: @industry.code
+  }
+}
