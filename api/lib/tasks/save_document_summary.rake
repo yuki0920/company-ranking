@@ -3,7 +3,7 @@ namespace :save_document_summary do
 
   # NOTE: 初期化時のみ実行される
   task year: :environment do
-    (Date.yesterday.ago(1.year)..Date.today).each do |date|
+    (Date.yesterday.years_ago(1)..Date.today).each do |date|
       puts "#{date}分の書類取得開始"
       Document.save_summary(date)
       puts "#{date}分の書類取得終了"
