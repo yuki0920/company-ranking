@@ -40,7 +40,6 @@ class Document < ApplicationRecord
   belongs_to :security, foreign_key: 'security_code', primary_key: 'code'
 
   validates :document_id, uniqueness: true, presence: true
-  validates :edinet_code, presence: true
   validates :filer_name, presence: true
   validates :security_code, presence: true
   validates :period_started_at, presence: true
