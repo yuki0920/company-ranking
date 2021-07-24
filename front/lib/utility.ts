@@ -1,4 +1,4 @@
-export const UseUtility = () => {
+export const useUtility = () => {
   const numberWithDelimiter = (number: Number | null): any => {
     if (typeof number === 'number') {
       return number.toLocaleString()
@@ -19,5 +19,7 @@ export const UseUtility = () => {
     return isNegative(number) ? 'red' : 'inherit'
   }
 
-  return { numberWithDelimiter, profitColor }
+  const isMobile = window.innerWidth < 576
+
+  return { numberWithDelimiter, profitColor, isMobile }
 }

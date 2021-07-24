@@ -30,11 +30,12 @@ import { defineComponent } from '@nuxtjs/composition-api'
 import InfiniteLoading from 'vue-infinite-loading'
 // @ts-ignore
 import { useCompany } from '~/compositions'
+import { useUtility } from '~/lib/utility'
 
 export default defineComponent({
   components: { InfiniteLoading },
   setup () {
-    const isMobile = window.innerWidth < 576
+    const { isMobile } = useUtility()
     const { from, sortType, companies, infiniteHandler, initInfiniteHandler } = useCompany()
 
     const onChangeSortType = (event) => {

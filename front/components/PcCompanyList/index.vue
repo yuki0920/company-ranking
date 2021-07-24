@@ -45,7 +45,7 @@
 <script lnag="ts">
 import { defineComponent } from '@nuxtjs/composition-api'
 // @ts-ignore
-import { UseUtility } from '~/lib/utility'
+import { useUtility } from '~/lib/utility'
 
 export default defineComponent({
   name: 'PcCompanyList',
@@ -60,7 +60,7 @@ export default defineComponent({
     }
   },
   setup () {
-    const { numberWithDelimiter, profitColor } = UseUtility()
+    const { numberWithDelimiter, profitColor } = useUtility()
 
     return {
       numberWithDelimiter,
