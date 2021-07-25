@@ -6,3 +6,4 @@
   YARN_FLAGS = "--no-ignore-optional"
   NODE_VERSION = "14.17.3"
   API_URL = "https://company-ranking.herokuapp.com"
+  GOOGLE_ANALYTICS_ID = "280512721"
