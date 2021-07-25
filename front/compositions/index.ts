@@ -72,14 +72,13 @@ export const useIndustry = () => {
   const industry = ref(null)
   const industryId = ref(route.value.params.industryId)
 
-  const fetchIndustry = async () => {
-    const { data } = await $axios.get(`api/v1/industries/${industryId.value}`)
-    industry.value = data.industry
+  const fetchIndustry = () => {
+    return $axios.get(`api/v1/industries/${industryId.value}`)
   }
 
   onMounted(async () => {
     await fetchIndustry()
   })
 
-  return { industry }
+  return { fetchIndustry, industry }
 }
