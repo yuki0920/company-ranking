@@ -57,6 +57,10 @@ export default {
     baseURL: process.env.API_URL
   },
 
+  bootstrapVue: {
+    icons: true
+  },
+
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {
   },

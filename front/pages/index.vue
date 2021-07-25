@@ -4,7 +4,10 @@
       <span>全ての企業から探す</span>
     </NuxtLink>
     <section class="industries">
-      <h5>業種から探す</h5>
+      <h5>
+        <b-icon icon="building" />
+        業種から探す
+      </h5>
       <ul class="row list-unstyled">
         <li v-for="industry in industries" :key="`industry-${industry.id}`" class="col-6 col-md-3">
           <NuxtLink :to="`/industries/${industry.id}`">
