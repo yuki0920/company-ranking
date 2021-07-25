@@ -29,7 +29,7 @@
 </template>
 
 <script>
-import { defineComponent, useMeta } from '@nuxtjs/composition-api'
+import { defineComponent, useMeta, onMounted } from '@nuxtjs/composition-api'
 import InfiniteLoading from 'vue-infinite-loading'
 import { useCompany, useIndustry } from '~/compositions'
 import { useUtility } from '~/lib/utility'
@@ -39,14 +39,18 @@ export default defineComponent({
   setup () {
     const { isMobile } = useUtility()
     const { count, from, sortType, companies, infiniteHandler } = useCompany()
-    const { industry } = useIndustry()
-
+    const { fetchIndustry, industry } = useIndustry()
     const { title, meta } = useMeta()
-    // TODO: 業界名をtitle,metaにしたい
-    title.value = '業界別ランキング'
-    meta.value = [
-      { hid: 'description', name: 'description', content: '業界別の企業ランキングです。売上、利益、年収を掲載しています。' }
-    ]
+
+    onMounted(async () => {
+      const { data } = await fetchIndustry()
+      industry.value = data.industry
+      console.log('industry.value', industry.value)
+      title.value = industry.value.name
+      meta.value = [
+        { hid: 'description', name: 'description', content: `${industry.value.name}の企業をランキング形式で掲載しています。売上、利益、年収を掲載しています。` }
+      ]
+    })
 
     return {
       isMobile,

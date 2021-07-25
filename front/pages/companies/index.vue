@@ -26,7 +26,7 @@
 </template>
 
 <script>
-import { defineComponent } from '@nuxtjs/composition-api'
+import { defineComponent, useMeta } from '@nuxtjs/composition-api'
 import InfiniteLoading from 'vue-infinite-loading'
 import { useCompany } from '~/compositions'
 import { useUtility } from '~/lib/utility'
@@ -36,6 +36,12 @@ export default defineComponent({
   setup () {
     const { isMobile } = useUtility()
     const { from, sortType, companies, infiniteHandler } = useCompany()
+    const { title, meta } = useMeta()
+
+    title.value = 'すべての企業'
+    meta.value = [
+      { hid: 'description', name: 'description', content: 'すべての企業情報です。年収、従業員数、平均年齢、売上、利益を掲載しています。' }
+    ]
 
     return {
       isMobile,
@@ -44,6 +50,7 @@ export default defineComponent({
       companies,
       infiniteHandler
     }
-  }
+  },
+  head: {}
 })
 </script>
