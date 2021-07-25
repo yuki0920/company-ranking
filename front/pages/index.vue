@@ -5,7 +5,7 @@
     </NuxtLink>
     <section class="industries">
       <h5>
-        <b-icon icon="building" />
+        <b-icon-building />
         業種から探す
       </h5>
       <ul class="row list-unstyled">
