@@ -3,7 +3,7 @@
     <b-navbar toggleable="sm" type="dark" variant="gray-dark">
       <div class="container">
         <b-navbar-brand to="/">
-          <b-icon icon="bar-chart" />
+          <b-icon-bar-chart />
           上場企業ランキング
         </b-navbar-brand>
         <b-navbar-toggle target="nav-collapse" />
@@ -29,3 +29,10 @@
     </b-navbar>
   </div>
 </template>
+
+<script>
+import { defineComponent } from '@nuxtjs/composition-api'
+
+export default defineComponent({
+})
+</script>
