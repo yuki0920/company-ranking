@@ -11,17 +11,17 @@
     <h5>
       すべての企業
     </h5>
-    <select :value="sortType" class="form-control col-sm-3 mb-3" @change="onChangeSortType">
-      <option value="average_annual_salary">
-        年間給与順
-      </option>
+    <select v-model="sortType" class="form-control col-sm-3 mb-3">
       <option value="net_sales">
         売上順
+      </option>
+      <option value="average_annual_salary">
+        年間給与順
       </option>
     </select>
     <mobile-company-list v-if="isMobile" :companies="companies" />
     <pc-company-list v-else :companies="companies" :from="from" />
-    <infinite-loading @infinite="infiniteHandler" />
+    <infinite-loading :identifier="sortType" @infinite="infiniteHandler" />
   </div>
 </template>
 
@@ -35,19 +35,14 @@ export default defineComponent({
   components: { InfiniteLoading },
   setup () {
     const { isMobile } = useUtility()
-    const { from, sortType, companies, infiniteHandler, initInfiniteHandler } = useCompany()
-
-    const onChangeSortType = (event) => {
-      initInfiniteHandler({ sort: event.target.value })
-    }
+    const { from, sortType, companies, infiniteHandler } = useCompany()
 
     return {
       isMobile,
       from,
       sortType,
       companies,
-      infiniteHandler,
-      onChangeSortType
+      infiniteHandler
     }
   }
 })

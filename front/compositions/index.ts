@@ -1,4 +1,4 @@
-import { useContext, ref, useRoute, onMounted } from '@nuxtjs/composition-api'
+import { useContext, ref, watch, useRoute, onMounted } from '@nuxtjs/composition-api'
 
 const replaceUrl = ({ page, sortType, industryId }: { page: number, sortType: string, industryId: number }) => {
   const industryIdParam = industryId ? `&industry_id=${industryId}` : ''
@@ -21,17 +21,25 @@ export const useCompany = () => {
     return $axios.get('/api/v1/companies', { params: { page: page.value, sort_type: sortType.value, industry_id: industryId.value } })
   }
 
+  watch(sortType, () => {
+    companies.value = []
+    from.value = 0
+    page.value = 1
+  })
+
   const infiniteHandler = ($state: any) => {
     // @ts-ignore
     replaceUrl({ page: page.value, sortType: sortType.value, industryId: industryId.value })
 
     fetchCompanies().then(({ data }) => {
-      if (data.meta.page !== data.meta.pages) {
+      if (from.value === 0) {
+        from.value = parseInt(data.meta.from, 10)
+      }
+
+      count.value = data.meta.count
+
+      if (data.meta.items > 0) {
         page.value += 1
-        count.value = data.meta.count
-        if (from.value === 0) {
-          from.value = parseInt(data.meta.from, 10)
-        }
         // @ts-ignore
         companies.value.push(...data.companies)
         $state.loaded()
@@ -41,18 +49,7 @@ export const useCompany = () => {
     })
   }
 
-  const initInfiniteHandler = ({ sort, industry }:{ sort: string, industry: string }) => {
-    if (sort) { sortType.value = sort }
-    if (industry) { industryId.value = industry }
-
-    page.value = 1
-    companies.value = []
-    from.value = 0
-    // @ts-ignore
-    infiniteHandler()
-  }
-
-  return { count, from, sortType, industryId, companies, infiniteHandler, initInfiniteHandler }
+  return { count, from, sortType, industryId, companies, infiniteHandler }
 }
 
 export const useIndustries = () => {
