@@ -5,7 +5,9 @@
         トップ
       </b-breadcrumb-item>
       <b-breadcrumb-item to="/companies">
-        企業
+        <NuxtLink :to="`/industries/${company.industry_id}`">
+          {{ company.industry_name }}
+        </NuxtLink>
       </b-breadcrumb-item>
       <b-breadcrumb-item active>
         {{ company.security_name }}

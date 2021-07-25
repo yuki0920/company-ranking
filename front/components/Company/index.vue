@@ -52,7 +52,9 @@
         業種
       </dt>
       <dd class="col-8">
-        {{ company.industry_name }}
+        <NuxtLink :to="`/industries/${company.industry_id}`">
+          {{ company.industry_name }}
+        </NuxtLink>
       </dd>
       <dt class="col-4">
         本店所在地
