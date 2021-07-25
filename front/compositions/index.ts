@@ -26,12 +26,14 @@ export const useCompany = () => {
     replaceUrl({ page: page.value, sortType: sortType.value, industryId: industryId.value })
 
     fetchCompanies().then(({ data }) => {
-      if (data.meta.page !== data.meta.pages) {
+      if (from.value === 0) {
+        from.value = parseInt(data.meta.from, 10)
+      }
+
+      count.value = data.meta.count
+
+      if (data.meta.items > 0) {
         page.value += 1
-        count.value = data.meta.count
-        if (from.value === 0) {
-          from.value = parseInt(data.meta.from, 10)
-        }
         // @ts-ignore
         companies.value.push(...data.companies)
         $state.loaded()
