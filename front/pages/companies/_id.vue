@@ -18,7 +18,7 @@
 </template>
 
 <script>
-import { defineComponent, useContext, useRoute, computed, ref } from '@nuxtjs/composition-api'
+import { defineComponent, useContext, useRoute, computed, ref, useMeta, onMounted } from '@nuxtjs/composition-api'
 
 export default defineComponent({
   setup () {
@@ -26,15 +26,25 @@ export default defineComponent({
     const route = useRoute()
     const id = computed(() => route.value.params.id)
     const company = ref(null)
-    const fetchCompany = async () => {
-      const { data } = await $axios.get(`/api/v1/companies/${id.value}`)
-      company.value = data.company
+    const { title, meta } = useMeta()
+
+    const fetchCompany = () => {
+      return $axios.get(`/api/v1/companies/${id.value}`)
     }
-    fetchCompany()
+
+    onMounted(async () => {
+      const { data } = await fetchCompany()
+      company.value = data.company
+      title.value = company.value.security_name
+      meta.value = [
+        { hid: 'description', name: 'description', content: `${company.value.security_name}の企業情報です。年収、従業員数、平均年齢、売上、利益を掲載しています。` }
+      ]
+    })
 
     return {
       company
     }
-  }
+  },
+  head: {}
 })
 </script>
