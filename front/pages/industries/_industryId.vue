@@ -14,7 +14,7 @@
         (全{{ count }}社)
       </small>
     </h5>
-    <select :value="sortType" class="form-control col-sm-3 mb-3" @change="onChangeSortType">
+    <select v-model="sortType" class="form-control col-sm-3 mb-3">
       <option value="net_sales">
         売上順
       </option>
@@ -24,7 +24,7 @@
     </select>
     <mobile-company-list v-if="isMobile" :companies="companies" />
     <pc-company-list v-else :companies="companies" :from="from" />
-    <infinite-loading @infinite="infiniteHandler" />
+    <infinite-loading :identifier="sortType" @infinite="infiniteHandler" />
   </div>
 </template>
 
@@ -38,7 +38,7 @@ export default defineComponent({
   components: { InfiniteLoading },
   setup () {
     const { isMobile } = useUtility()
-    const { count, from, sortType, companies, infiniteHandler, initInfiniteHandler } = useCompany()
+    const { count, from, sortType, companies, infiniteHandler } = useCompany()
     const { industry } = useIndustry()
 
     const { title, meta } = useMeta()
@@ -48,10 +48,6 @@ export default defineComponent({
       { hid: 'description', name: 'description', content: '業界別の企業ランキングです。売上、利益、年収を掲載しています。' }
     ]
 
-    const onChangeSortType = (event) => {
-      initInfiniteHandler({ sort: event.target.value })
-    }
-
     return {
       isMobile,
       count,
@@ -59,8 +55,7 @@ export default defineComponent({
       sortType,
       companies,
       industry,
-      infiniteHandler,
-      onChangeSortType
+      infiniteHandler
     }
   },
   head: {}
