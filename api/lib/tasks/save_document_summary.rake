@@ -12,6 +12,8 @@ namespace :save_document_summary do
 
   # NOTE: 証券リストの更新のタイミングでsecurityがなく保存できなかったdocumentを再取得する
   task month: :environment do
+    return unless Date.today.day.in?([1, 15])
+
     (Date.today.weeks_ago(5)..Date.today).each do |date|
       puts "#{date}分の書類取得開始"
       Document.save_summary(date)
@@ -21,6 +23,8 @@ namespace :save_document_summary do
 
   # NOTE: データ取得確認用
   task weeks: :environment do
+    return unless Date.today.wday == 1
+
     (Date.today.weeks_ago(2)..Date.today).each do |date|
       puts "#{date}分の書類取得開始"
       Document.save_summary(date)
