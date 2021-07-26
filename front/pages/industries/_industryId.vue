@@ -50,7 +50,6 @@ export default defineComponent({
     onMounted(async () => {
       const { data } = await fetchIndustry()
       industry.value = data.industry
-      console.log('industry.value', industry.value)
       title.value = industry.value.name
       meta.value = [
         { hid: 'description', name: 'description', content: `${industry.value.name}の企業をランキング形式で掲載しています。売上、利益、年収を掲載しています。` }
