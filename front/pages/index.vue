@@ -20,17 +20,22 @@
 </template>
 
 <script>
-import { defineComponent, useMeta } from '@nuxtjs/composition-api'
+import { defineComponent, useMeta, onMounted } from '@nuxtjs/composition-api'
 import { useIndustries } from '~/compositions'
 
 export default defineComponent({
   setup () {
-    const { industries } = useIndustries()
+    const { fetchIndustries, industries } = useIndustries()
     const { title, meta } = useMeta()
     title.value = 'トップ'
     meta.value = [
       { hid: 'description', name: 'description', content: '上場企業ランキングのトップページです。売上、利益、年収を掲載しています。' }
     ]
+
+    onMounted(async () => {
+      const { data } = await fetchIndustries()
+      industries.value = data.industries
+    })
 
     return {
       industries

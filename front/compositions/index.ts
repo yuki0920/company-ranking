@@ -1,4 +1,4 @@
-import { useContext, ref, watch, useRoute, onMounted } from '@nuxtjs/composition-api'
+import { useContext, ref, watch, useRoute } from '@nuxtjs/composition-api'
 
 const replaceUrl = ({ page, sortType, industryId }: { page: number, sortType: string, industryId: number }) => {
   const industryIdParam = industryId ? `&industry_id=${industryId}` : ''
@@ -56,14 +56,11 @@ export const useIndustries = () => {
   const { $axios } = useContext()
   const industries = ref([])
 
-  const fetchIndustries = async () => {
-    const { data } = await $axios.get('/api/v1/industries')
-    industries.value = data.industries
+  const fetchIndustries = () => {
+    return $axios.get('/api/v1/industries')
   }
 
-  fetchIndustries()
-
-  return { industries }
+  return { fetchIndustries, industries }
 }
 
 export const useIndustry = () => {
@@ -75,10 +72,6 @@ export const useIndustry = () => {
   const fetchIndustry = () => {
     return $axios.get(`api/v1/industries/${industryId.value}`)
   }
-
-  onMounted(async () => {
-    await fetchIndustry()
-  })
 
   return { fetchIndustry, industry }
 }
