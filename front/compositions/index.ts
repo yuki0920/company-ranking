@@ -29,7 +29,7 @@ export const useCompany = () => {
 
   const infiniteHandler = ($state: any) => {
     // @ts-ignore
-    replaceUrl({ page: page.value, sortType: sortType.value, industryId: industryId.value })
+    replaceUrl({ page: page.value, sortType: sortType.value })
 
     fetchCompanies().then(({ data }) => {
       if (from.value === 0) {
