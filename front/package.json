@@ -16,11 +16,7 @@
     "bootstrap": "^4.6.0",
     "bootstrap-vue": "^2.21.2",
     "core-js": "^3.15.1",
-    "css-loader": "^5.2.0",
-    "fibers": "^5.0.0",
     "nuxt": "^2.15.7",
-    "sass": "^1.35.2",
-    "sass-loader": "10",
     "vue-infinite-loading": "^2.4.5"
   },
   "devDependencies": {
@@ -31,8 +27,12 @@
     "@nuxtjs/eslint-module": "^3.0.2",
     "@nuxtjs/google-analytics": "^2.4.0",
     "babel-loader": "^8.2.2",
+    "css-loader": "^5.2.0",
     "eslint": "^7.29.0",
     "eslint-plugin-nuxt": "^2.0.0",
-    "eslint-plugin-vue": "^7.12.1"
+    "eslint-plugin-vue": "^7.12.1",
+    "fibers": "^5.0.0",
+    "sass": "^1.35.2",
+    "sass-loader": "10"
   }
 }

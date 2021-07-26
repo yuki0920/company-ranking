@@ -1,6 +1,6 @@
 <template>
-  <b-list-group>
-    <b-list-group-item v-for="company in companies" :key="company.security_id" href="#" class="flex-column align-items-start">
+  <ul class="list-group">
+    <li v-for="company in companies" :key="company.security_id" class="list-group-item flex-column align-items-start">
       <NuxtLink :to="`/companies/${company.security_id}`">
         <div class="d-flex w-100 justify-content-between">
           <p class="mb-1">
@@ -23,8 +23,8 @@
           百万円
         </small>
       </NuxtLink>
-    </b-list-group-item>
-  </b-list-group>
+    </li>
+  </ul>
 </template>
 <script lang="ts">
 import { defineComponent } from '@nuxtjs/composition-api'

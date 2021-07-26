@@ -65,8 +65,7 @@ export default {
     componentPlugins: [
       'BreadcrumbPlugin',
       'FormPlugin',
-      'NavbarPlugin',
-      'ListGroupPlugin'
+      'NavbarPlugin'
     ],
     components: [
       'BIconBarChart',
