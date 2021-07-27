@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 namespace :save_detail do
   desc '書類取得APIから書類ダウンロードし解析してレコードに保存'
 
@@ -5,13 +7,13 @@ namespace :save_detail do
     # NOTE: submitted_atの制約をつけて提出日1年以内を対象に毎日 or 毎週定期実行する
     Document.where(details_searched_at: nil).find_each do |document|
       execute(document)
-    rescue => error
-      puts "[Error] document_id: #{document.document_id}, #{error.class}: #{error.message}"
+    rescue StandardError => e
+      puts "[Error] document_id: #{document.document_id}, #{e.class}: #{e.message}"
     end
   end
 
   # NOTE: rake save_detail:target['S100LMNS']
-  task :target, ['document_id'] =>  :environment do |_, args|
+  task :target, ['document_id'] => :environment do |_, args|
     document_id = args.document_id
 
     document = Document.find_by(document_id: document_id)

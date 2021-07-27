@@ -1,5 +1,7 @@
+# frozen_string_literal: true
+
 { meta: @meta,
-  companies: @securities.map {|security|
+  companies: @securities.map do |security|
     {
       security_id: security.id,
       security_name: security.name,
@@ -7,5 +9,4 @@
       net_sales: divved_number(security.documents.last.net_sales, 1_000_000),
       ordinary_income: divved_number(security.documents.last.ordinary_income, 1_000_000)
     }
-  }
-}
+  end }

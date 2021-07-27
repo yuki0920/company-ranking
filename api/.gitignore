@@ -29,4 +29,4 @@
 .ash_history
 .lesshst
 .local/
-/lib/**/*.keep
+/.cache/*

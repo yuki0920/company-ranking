@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Api
   module V1
     class CompaniesController < ApplicationController
@@ -24,7 +26,7 @@ module Api
         @security = Security.find(params[:id])
         render 'show.json.jb'
       rescue ActiveRecord::RecordNotFound
-        render json: { message: 'Not found' }, status: 404
+        render json: { message: 'Not found' }, status: :not_found
       end
     end
   end

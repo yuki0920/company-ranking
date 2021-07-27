@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 {
   company: {
     security_id: @security.id,

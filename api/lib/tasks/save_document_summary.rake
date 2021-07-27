@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 namespace :save_document_summary do
   desc '書類一覧取得APIからdocumentを取得する'
 

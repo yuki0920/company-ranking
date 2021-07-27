@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class DocumentParser::Header
   require 'open-uri'
 
