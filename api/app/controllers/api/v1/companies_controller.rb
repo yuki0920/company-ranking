@@ -9,6 +9,15 @@ module Api
         securities = Security.joins(:documents, :industry).eager_load(:documents, :industry)
         securities = securities.where(industry: { id: params[:industry_id] }) if params[:industry_id]
 
+        if query = params[:q]
+          case query
+          when /^[0-9]+$/
+            securities = securities.where(code: query)
+          else
+            securities = securities.where("securities.name LIKE ?", "%#{query}%")
+          end
+        end
+
         case params[:sort_type]
         when 'average_annual_salary'
           securities = securities.order('documents.average_annual_salary DESC NULLS LAST')
