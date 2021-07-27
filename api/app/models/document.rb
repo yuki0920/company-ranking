@@ -69,16 +69,15 @@ class Document < ApplicationRecord
           security_code = document[:secCode][..-2] # NOTE: 最後の0を削除
           next unless Security.find_by(code: security_code)
 
+          # NOTE: バッチ処理日より1年古いレコードを削除する HerokuのPostgresのレコード数10,000を超過させないため
+          Document.where(security_code: security_code).where('submitted_at < ?', Date.today.ago(1.year)).destroy_all
+
           document_id = document[:docID]
-          document_record = Document.find_by(document_id: document_id)
-
-          next if document_record && document_record.submitted_at.present?
-
-          document_record ||= new
+          next if Document.find_by(document_id: document_id)
 
           submitted_at = document[:submitDateTime].present? ? Date.parse(document[:submitDateTime]) : nil
 
-          document_record.update!(
+          doc.create(
             document_id: document_id,
             edinet_code: edinet_code,
             filer_name: document[:filerName],
