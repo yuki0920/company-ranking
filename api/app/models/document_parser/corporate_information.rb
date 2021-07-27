@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class DocumentParser::CorporateInformation
   require 'open-uri'
 

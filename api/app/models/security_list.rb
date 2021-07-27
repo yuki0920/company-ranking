@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class SecurityList < ApplicationRecord
   validates :file_title, uniqueness: true, presence: true
   validates :downloaded_at, presence: true
@@ -13,7 +15,7 @@ class SecurityList < ApplicationRecord
       return if latest_security_list && latest_security_list.file_title == title
 
       agent.download(src_path, dest_path)
-      create!(file_title: title, downloaded_at: Time.now)
+      create!(file_title: title, downloaded_at: Time.zone.now)
     end
 
     def latest_security_list

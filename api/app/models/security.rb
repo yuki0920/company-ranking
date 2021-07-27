@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Security < ApplicationRecord
   belongs_to :market
   belongs_to :industry, foreign_key: :industry_code, primary_key: :code

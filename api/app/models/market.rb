@@ -1,4 +1,6 @@
-class Market  < ApplicationRecord
+# frozen_string_literal: true
+
+class Market < ApplicationRecord
   INITIAL_DATA = [
     { name: '市場第一部' },
     { name: '市場第二部' },

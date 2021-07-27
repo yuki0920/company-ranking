@@ -1,4 +1,6 @@
-class Industry  < ApplicationRecord
+# frozen_string_literal: true
+
+class Industry < ApplicationRecord
   INITIAL_DATA = [
     { name: '水産・農林業', code: 50 },
     { name: '鉱業', code: 1050 },

@@ -1,6 +1,9 @@
+# frozen_string_literal: true
+
 require 'spreadsheet'
 
-HEADER = {'日付' => 0, 'コード' => 1, '銘柄名' => 2, '市場・商品区分' => 3, '33業種コード' => 4, '33業種区分' => 5, '17業種コード' => 6, '17業種区分' => 7, '規模コード' => 8, '規模区分' => 9}.freeze
+HEADER = { '日付' => 0, 'コード' => 1, '銘柄名' => 2, '市場・商品区分' => 3, '33業種コード' => 4, '33業種区分' => 5, '17業種コード' => 6, '17業種区分' => 7, '規模コード' => 8,
+           '規模区分' => 9 }.freeze
 
 namespace :save_securities do
   desc '月に2回東証から銘柄銘柄のリストをダウンロードしダウンロードしたファイルから証券を更新する'
@@ -37,7 +40,7 @@ namespace :save_securities do
         code: code,
         name: name,
         market: market,
-        industry_code: row[HEADER['33業種コード']].to_i,
+        industry_code: row[HEADER['33業種コード']].to_i
       )
       puts "#{code}: #{name} の保存終了"
     end

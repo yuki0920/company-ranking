@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Document < ApplicationRecord
   # NOTE: 書類一覧APIのresultsの1要素
   # {
@@ -35,7 +37,7 @@ class Document < ApplicationRecord
 
   DOC_LIST_URL = 'https://disclosure.edinet-fsa.go.jp/api/v1/documents.json'
   DOC_URL = 'https://disclosure.edinet-fsa.go.jp/api/v1/documents'
-  PAGE_NUMBER = {header: '0000000', corporate_information: '0101010'}
+  PAGE_NUMBER = { header: '0000000', corporate_information: '0101010' }.freeze
 
   belongs_to :security, foreign_key: 'security_code', primary_key: 'code'
 
@@ -48,7 +50,7 @@ class Document < ApplicationRecord
   class << self
     def save_summary(date)
       # NOTE: 1がメタデータのみ、2がメタデータ+書類一覧
-      params = {'date': date, 'type': 2}
+      params = { 'date': date, 'type': 2 }
       response = Faraday.get(DOC_LIST_URL, params)
 
       raise "StatusCode: #{response.status}, #{date}の書類一覧取得に失敗しました" unless response.status == 200
@@ -58,11 +60,13 @@ class Document < ApplicationRecord
       # ordinanceCode: 府令コード
       # formCode: 様式コード
       transaction do
-        body[:results].select {|document| document[:ordinanceCode] == '010' && document[:formCode] == '030000' && document[:secCode] != nil}.each do |document|
+        body[:results].select { |document|
+          document[:ordinanceCode] == '010' && document[:formCode] == '030000' && !document[:secCode].nil?
+        }.each do |document|
           edinet_code = document[:edinetCode]
           next unless edinet_code
 
-          security_code = document[:secCode][..-2]  # NOTE: 最後の0を削除
+          security_code = document[:secCode][..-2] # NOTE: 最後の0を削除
           next unless Security.find_by(code: security_code)
 
           document_id = document[:docID]
@@ -81,7 +85,7 @@ class Document < ApplicationRecord
             security_code: security_code,
             period_started_at: document[:periodStart],
             period_ended_at: document[:periodEnd],
-            submitted_at: submitted_at,
+            submitted_at: submitted_at
           )
         rescue ActiveRecord::RecordInvalid => e
           # NOTE: security.codeが存在しない場合に発生
@@ -92,9 +96,9 @@ class Document < ApplicationRecord
   end
 
   def download
-    return if File.exists?(document_zip_path)
+    return if File.exist?(document_zip_path)
 
-    response = Faraday.get("#{DOC_URL}/#{document_id}", {'type': 1})
+    response = Faraday.get("#{DOC_URL}/#{document_id}", { 'type': 1 })
 
     raise "#{document_id}の書類取得に失敗しました" unless response.status == 200
 
@@ -106,7 +110,7 @@ class Document < ApplicationRecord
   end
 
   def unzip
-    return unless File.exists?(document_zip_path)
+    return unless File.exist?(document_zip_path)
 
     Zip::File.open(document_zip_path) do |zip|
       zip.each do |file|
@@ -126,7 +130,7 @@ class Document < ApplicationRecord
   def save_detail!
     assign_attributes(DocumentParser::Header.new(header_path).parse.attributes) if header_path
     assign_attributes(DocumentParser::CorporateInformation.new(corporate_information_path).parse.attributes) if corporate_information_path
-    self.details_searched_at = Time.now
+    self.details_searched_at = Time.zone.now
 
     save!
   end

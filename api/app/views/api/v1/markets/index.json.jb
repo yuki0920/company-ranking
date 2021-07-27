@@ -1,7 +1,9 @@
+# frozen_string_literal: true
+
 @markets.map { |market|
   {
     id: market.id,
     name: market.name,
-    count: @markets_count[market.id],
+    count: @markets_count[market.id]
   }
 }

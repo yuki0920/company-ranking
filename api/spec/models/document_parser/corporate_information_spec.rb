@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 RSpec.describe DocumentParser::CorporateInformation do
@@ -10,15 +12,14 @@ RSpec.describe DocumentParser::CorporateInformation do
       aggregate_failures do
         expect(document.last_year_net_sales).to eq 1_047_881_000_000
         expect(document.net_sales).to eq 939_243_000_000
-        expect(document.last_year_operating_income).to eq -3_358_000_000
-        expect(document.operating_income).to eq -140_625_000_000
+        expect(document.last_year_operating_income).to eq(-3_358_000_000)
+        expect(document.operating_income).to eq(-140_625_000_000)
         expect(document.last_year_ordinary_income).to be_nil
         expect(document.ordinary_income).to be_nil
         expect(document.number_of_employees).to eq 164
         expect(document.average_age_years).to eq 46.4
         expect(document.average_length_of_service_years).to eq 17.3
         expect(document.average_annual_salary).to eq 13_418_790
-
       end
     end
 
