@@ -1,3 +1,5 @@
+inherit_from: .rubocop_todo.yml
+
 # inherit_from: .rubocop_todo.yml
 
 require:
@@ -25,7 +27,7 @@ Layout/CommentIndentation:
   Enabled: false
 
 Layout/LineLength:
-  Max: 150
+  Enabled: false
 
 Metrics/AbcSize:
   Enabled: false
@@ -40,8 +42,7 @@ Metrics/ClassLength:
   CountComments: false
 
 Metrics/MethodLength:
-  CountComments: false
-  Max: 30
+  Enabled: false
 
 Metrics/ModuleLength:
   CountComments: false
