@@ -1,9 +1,9 @@
 import { useContext, ref, watch, useRoute } from '@nuxtjs/composition-api'
 
-const replaceUrl = ({ page, sortType, industryId }: { page: number, sortType: string, industryId: number }) => {
-  const industryIdParam = industryId ? `&industry_id=${industryId}` : ''
+const replaceUrl = ({ page, sortType, query }: { page: number, sortType: string, query: string }) => {
+  const queryParam = query !== undefined ? `&q=${query}` : ''
 
-  window.history.replaceState(null, '', `${location.pathname}?page=${page}&sort_type=${sortType}${industryIdParam}`)
+  window.history.replaceState(null, '', `${location.pathname}?page=${page}&sort_type=${sortType}${queryParam}`)
 }
 
 export const useCompany = () => {
@@ -15,10 +15,17 @@ export const useCompany = () => {
   const from = ref(0)
   const sortType = ref(route.value.query.sort_type || 'net_sales')
   const industryId = ref(route.value.params.industryId)
+  const query = ref(route.value.query.q)
   const companies = ref([])
 
   const fetchCompanies = () => {
-    return $axios.get('/api/v1/companies', { params: { page: page.value, sort_type: sortType.value, industry_id: industryId.value } })
+    let params = { page: page.value, sort_type: sortType.value }
+    // @ts-ignore
+    params = industryId.value ? { ...params, industry_id: industryId.value } : params
+    // @ts-ignore
+    params = [null, undefined, ''].includes(query.value) ? { ...params, q: query.value } : params
+
+    return $axios.get('/api/v1/companies', { params })
   }
 
   watch(sortType, () => {
@@ -27,9 +34,15 @@ export const useCompany = () => {
     page.value = 1
   })
 
+  watch(query, () => {
+    companies.value = []
+    from.value = 0
+    page.value = 1
+  })
+
   const infiniteHandler = ($state: any) => {
     // @ts-ignore
-    replaceUrl({ page: page.value, sortType: sortType.value })
+    replaceUrl({ page: page.value, sortType: sortType.value, query: query.value })
 
     fetchCompanies().then(({ data }) => {
       if (from.value === 0) {
@@ -49,7 +62,7 @@ export const useCompany = () => {
     })
   }
 
-  return { count, from, sortType, industryId, companies, infiniteHandler }
+  return { count, from, sortType, query, industryId, companies, infiniteHandler }
 }
 
 export const useIndustries = () => {
