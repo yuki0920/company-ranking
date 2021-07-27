@@ -66,12 +66,22 @@ export default {
 
   generate: {
     routes () {
-      return axios.get(`${process.env.API_URL}/api/v1/company_ids`)
+      const companies = axios.get(`${process.env.API_URL}/api/v1/company_ids`)
         .then(({ data }) => {
           return data.company_ids.map((id) => {
             return `/companies/${id}`
           })
         })
+
+      const industries = axios.get(`${process.env.API_URL}/api/v1/industry_ids`)
+        .then(({ data }) => {
+          return data.industry_ids.map((id) => {
+            return `/industries/${id}`
+          })
+        })
+      return Promise.all([companies, industries]).then((values) => {
+        return values.join().split(',')
+      })
     }
   },
 
