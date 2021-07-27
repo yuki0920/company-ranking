@@ -17,15 +17,11 @@ paths:
           required: true
           schema:
             type: string
-        # - in: query
-        #   name: per
-        #   schema:
-        #     type: integer
-        # - in: query
-        #   name: q
-        #   description: query for company_name or security_id
-        #   schema:
-        #     type: string
+        - in: query
+          name: q
+          description: query for company_name or security_id
+          schema:
+            type: string
       responses:
         200:
           description: get Companies
@@ -101,7 +97,42 @@ paths:
                     type: array
                     items:
                       $ref: "#/components/schemas/eachMarket"
-
+  /api/v1/company_ids:
+    get:
+      operationId: fetchCompanyIds
+      summary: Get CompanyIds
+      responses:
+        200:
+          description: get CompanyIds
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - company_ids
+                properties:
+                  company_ids:
+                    type: array
+                    items:
+                      type: integer
+  /api/v1/industry_ids:
+    get:
+      operationId: fetchIndustryIds
+      summary: Get IndustryIds
+      responses:
+        200:
+          description: get IndustryIds
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - industry_ids
+                properties:
+                  industry_ids:
+                    type: array
+                    items:
+                      type: integer
 components:
   schemas:
     eachCompany:
