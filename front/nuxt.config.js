@@ -1,3 +1,5 @@
+// import axios from 'axios'
+
 export default {
   // Disable server-side rendering: https://go.nuxtjs.dev/ssr-mode
   ssr: false,
@@ -60,6 +62,17 @@ export default {
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {
   },
+
+  // generate: {
+  //   routes () {
+  //     return axios.get('https://company-ranking.herokuapp.com//api/v1/company_ids')
+  //       .then(({ data }) => {
+  //         return data.company_ids.map((id) => {
+  //           return `/companies/${id}`
+  //         })
+  //       })
+  //   }
+  // },
 
   bootstrapVue: {
     componentPlugins: [
