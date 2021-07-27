@@ -49,7 +49,8 @@ export default {
     // https://go.nuxtjs.dev/bootstrap
     'bootstrap-vue/nuxt',
     // https://go.nuxtjs.dev/axios
-    '@nuxtjs/axios'
+    '@nuxtjs/axios',
+    '@nuxtjs/sitemap'
   ],
 
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
@@ -81,5 +82,10 @@ export default {
     googleAnalytics: {
       id: process.env.GOOGLE_ANALYTICS_ID
     }
+  },
+
+  sitemap: {
+    hostname: 'https://company-ranking.net',
+    gzip: true
   }
 }
