@@ -19,9 +19,10 @@
         年間給与順
       </option>
     </select>
+    <input v-model="query" class="form-control  col-sm-3 mb-3" placeholder="社名 または 証券コード">
     <mobile-company-list v-if="isMobile" :companies="companies" />
     <pc-company-list v-else :companies="companies" :from="from" />
-    <infinite-loading :identifier="sortType" spinner="bubbles" @infinite="infiniteHandler">
+    <infinite-loading :identifier="[sortType, query]" spinner="bubbles" @infinite="infiniteHandler">
       <div slot="no-more" class="mb-3" />
       <div slot="no-results" class="mb-3">
         対象の企業はありません
@@ -40,7 +41,7 @@ export default defineComponent({
   components: { InfiniteLoading },
   setup () {
     const { isMobile } = useUtility()
-    const { from, sortType, companies, infiniteHandler } = useCompany()
+    const { from, sortType, query, companies, infiniteHandler } = useCompany()
     const { title, meta } = useMeta()
 
     title.value = 'すべての企業'
@@ -52,6 +53,7 @@ export default defineComponent({
       isMobile,
       from,
       sortType,
+      query,
       companies,
       infiniteHandler
     }
