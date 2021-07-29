@@ -1,7 +1,7 @@
 import { useContext, ref, watch, useRoute } from '@nuxtjs/composition-api'
 
 const replaceUrl = ({ page, sortType, query }: { page: number, sortType: string, query: string }) => {
-  const queryParam = query !== undefined ? `&q=${query}` : ''
+  const queryParam = [null, undefined, ''].includes(query) ? '' : `&q=${query}`
 
   window.history.replaceState(null, '', `${location.pathname}?page=${page}&sort_type=${sortType}${queryParam}`)
 }
@@ -23,7 +23,7 @@ export const useCompany = () => {
     // @ts-ignore
     params = industryId.value ? { ...params, industry_id: industryId.value } : params
     // @ts-ignore
-    params = [null, undefined, ''].includes(query.value) ? { ...params, q: query.value } : params
+    params = [null, undefined, ''].includes(query.value) ? params : { ...params, q: query.value }
 
     return $axios.get('/api/v1/companies', { params })
   }
