@@ -33,10 +33,12 @@
   </div>
 </template>
 
-<script>
+<script lang='ts'>
 import { defineComponent, useMeta, onMounted } from '@nuxtjs/composition-api'
 import InfiniteLoading from 'vue-infinite-loading'
+// @ts-ignore
 import { useCompany, useIndustry } from '~/compositions'
+// @ts-ignore
 import { useUtility } from '~/lib/utility'
 
 export default defineComponent({

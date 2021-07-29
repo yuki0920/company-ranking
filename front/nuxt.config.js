@@ -9,7 +9,7 @@ export default {
 
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
-    title: '上場企業ランキング',
+    title: 'TOP',
     titleTemplate: '%s | 上場企業ランキング',
     htmlAttrs: {
       lang: 'ja'
