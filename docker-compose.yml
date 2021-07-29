@@ -19,6 +19,7 @@ services:
       FRONT_DOMAIN: "localhost:$FRONT_PORT"
     volumes:
       - ./api:/$WORKDIR
+      - ./openapi:/$WORKDIR/openapi
     depends_on:
       - db
     ports:

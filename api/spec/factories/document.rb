@@ -9,7 +9,7 @@ FactoryBot.define do
     period_ended_at { Date.new(2022, 3, 31) }
     details_searched_at { Date.new(2022, 6, 30) }
     company_name {  'ＮＥＣネッツエスアイ株式会社' }
-    company_name_en { 'NEC Networks & System Integration }Corporation' }
+    company_name_en { 'NEC Networks & System Integration Corporation' }
     head_office_location { '東京都文京区後楽二丁目6番1号' }
     submitted_at { Date.new(2022, 6, 24) }
     fiscal_year {  '第89期（自　2020年 4月 1日　至　2021年 3月31日）' }
