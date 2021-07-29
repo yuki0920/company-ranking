@@ -70,7 +70,7 @@ class Document < ApplicationRecord
           next unless Security.find_by(code: security_code)
 
           # NOTE: バッチ処理日より1年古いレコードを削除する HerokuのPostgresのレコード数10,000を超過させないため
-          Document.where(security_code: security_code).where('submitted_at < ?', Date.today.ago(1.year)).destroy_all
+          Document.where(security_code: security_code).where('submitted_at < ?', Time.zone.today.ago(1.year)).destroy_all
 
           document_id = document[:docID]
           next if Document.find_by(document_id: document_id)

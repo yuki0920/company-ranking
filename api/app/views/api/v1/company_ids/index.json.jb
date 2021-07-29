@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 {
   company_ids: @security_ids
 }
