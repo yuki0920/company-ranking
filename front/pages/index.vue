@@ -19,8 +19,9 @@
   </div>
 </template>
 
-<script>
+<script lang='ts'>
 import { defineComponent, useMeta, onMounted } from '@nuxtjs/composition-api'
+// @ts-ignore
 import { useIndustries } from '~/compositions'
 
 export default defineComponent({

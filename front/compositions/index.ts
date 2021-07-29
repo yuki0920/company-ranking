@@ -1,4 +1,5 @@
 import { useContext, ref, watch, useRoute } from '@nuxtjs/composition-api'
+import { StateChanger } from 'vue-infinite-loading/types'
 
 const replaceUrl = ({ page, sortType, query }: { page: number, sortType: string, query: string }) => {
   const queryParam = [null, undefined, ''].includes(query) ? '' : `&q=${query}`
@@ -40,7 +41,7 @@ export const useCompany = () => {
     page.value = 1
   })
 
-  const infiniteHandler = ($state: any) => {
+  const infiniteHandler = ($state: StateChanger) => {
     // @ts-ignore
     replaceUrl({ page: page.value, sortType: sortType.value, query: query.value })
 

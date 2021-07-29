@@ -1,5 +1,5 @@
 export const useUtility = () => {
-  const numberWithDelimiter = (number: Number | null): any => {
+  const numberWithDelimiter = (number: Number | null): string => {
     if (typeof number === 'number') {
       return number.toLocaleString()
     } else {
@@ -15,7 +15,8 @@ export const useUtility = () => {
     }
   }
 
-  const profitColor = (number: Number | null): string => {
+  type ProfitColor = 'red' | 'inherit'
+  const profitColor = (number: Number | null): ProfitColor => {
     return isNegative(number) ? 'red' : 'inherit'
   }
 

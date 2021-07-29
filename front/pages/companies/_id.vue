@@ -19,11 +19,12 @@
   </div>
 </template>
 
-<script>
+<script lang='ts'>
 import { defineComponent, useContext, useRoute, computed, ref, useMeta, onMounted } from '@nuxtjs/composition-api'
 
 export default defineComponent({
   setup () {
+    // @ts-ignore
     const { $axios } = useContext()
     const route = useRoute()
     const id = computed(() => route.value.params.id)
