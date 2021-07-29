@@ -24,9 +24,7 @@
     <pc-company-list v-else :companies="companies" :from="from" />
     <infinite-loading :identifier="[sortType, query]" spinner="bubbles" @infinite="infiniteHandler">
       <div slot="no-more" class="mb-3" />
-      <div slot="no-results" class="mb-3">
-        対象の企業はありません
-      </div>
+      <div slot="no-results" class="mb-3" />
     </infinite-loading>
   </div>
 </template>
