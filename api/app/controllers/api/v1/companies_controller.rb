@@ -9,12 +9,12 @@ module Api
         securities = Security.joins(:documents, :industry).eager_load(:documents, :industry)
         securities = securities.where(industry: { id: params[:industry_id] }) if params[:industry_id]
 
-        if query = params[:q]
-          case query
+        if (query = params[:q])
+          securities = case query
           when /^[0-9]+$/
-            securities = securities.where(code: query)
+            securities.where(code: query)
           else
-            securities = securities.where("securities.name LIKE ?", "%#{query}%")
+            securities.where('documents.company_name ILIKE :query OR documents.company_name_en ILIKE :query', query: "%#{query}%")
           end
         end
 

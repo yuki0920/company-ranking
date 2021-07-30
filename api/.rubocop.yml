@@ -23,8 +23,14 @@ Rails:
 Style/AsciiComments:
   Enabled: false
 
+Layout/CaseIndentation:
+  EnforcedStyle: end
+
 Layout/CommentIndentation:
   Enabled: false
+
+Layout/EndAlignment:
+  EnforcedStyleAlignWith: start_of_line
 
 Layout/LineLength:
   Enabled: false
