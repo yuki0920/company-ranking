@@ -6,7 +6,15 @@ module ElementUtil
 
     sign = element.attr('sign') == '-' ? -1 : 1
     scale = element.attr('scale').to_i
+    decimals = element.attr('decimals').to_i
     base_number = element.text.delete(',').to_f
-    sign * base_number * (10**scale)
+
+    if scale
+      sign * base_number * (10**scale)
+    elsif decimals
+      sign * base_number * (10**(-1*decimals))
+    else
+      sign * base_number
+    end
   end
 end
