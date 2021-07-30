@@ -20,7 +20,7 @@ class Industry < ApplicationRecord
     { name: '電気機器', code: 3650, industry_category_id: 5 },
     { name: '輸送用機器', code: 3700, industry_category_id: 5 },
     { name: '精密機器', code: 3750, industry_category_id: 5 },
-    { name: 'その他製品', code: 3800, industry_category_id: 1 },
+    { name: 'その他製品', code: 3800, industry_category_id: 5 },
     { name: '電気・ガス業', code: 4050, industry_category_id: 10 },
     { name: '陸運業', code: 5050, industry_category_id: 6 },
     { name: '海運業', code: 5100, industry_category_id: 6 },

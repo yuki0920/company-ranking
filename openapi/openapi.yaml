@@ -267,6 +267,7 @@ components:
         - id
         - name
         - code
+        - category_id
         - count
       properties:
         id:
@@ -276,6 +277,8 @@ components:
         code:
           type: integer
           description: 33業種コード
+        category_id:
+          type: integer
         count:
           type: integer
           description: 業種に属する企業数

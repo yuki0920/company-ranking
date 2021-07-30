@@ -1,6 +1,5 @@
 class IndustryCategory < ActiveHash::Base
   include ActiveHash::Associations
-
   has_many :industries
 
   self.data = [
