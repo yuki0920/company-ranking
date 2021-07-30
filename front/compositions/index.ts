@@ -68,13 +68,13 @@ export const useCompany = () => {
 
 export const useIndustries = () => {
   const { $axios } = useContext()
-  const industries = ref([])
+  const industryCategories = ref([])
 
   const fetchIndustries = () => {
     return $axios.get('/api/v1/industries')
   }
 
-  return { fetchIndustries, industries }
+  return { fetchIndustries, industryCategories }
 }
 
 export const useIndustry = () => {

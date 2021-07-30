@@ -8,13 +8,16 @@
         <b-icon-building />
         業種から探す
       </h5>
-      <ul class="row list-unstyled">
-        <li v-for="industry in industries" :key="`industry-${industry.id}`" class="col-6 col-md-3">
-          <NuxtLink :to="`/industries/${industry.id}`">
-            {{ industry.name }}({{ industry.count }})
-          </NuxtLink>
-        </li>
-      </ul>
+      <div v-for="industryCategory in industryCategories" :key="`industry-category-${industryCategory.id}`">
+        <h6>{{ industryCategory.name }}</h6>
+        <ul class="row list-unstyled">
+          <li v-for="industry in industryCategory.industries" :key="`industry-${industry.id}`" class="col-6">
+            <NuxtLink :to="`/industries/${industry.id}`">
+              {{ industry.name }}({{ industry.count }})
+            </NuxtLink>
+          </li>
+        </ul>
+      </div>
     </section>
   </div>
 </template>
@@ -26,7 +29,7 @@ import { useIndustries } from '~/compositions'
 
 export default defineComponent({
   setup () {
-    const { fetchIndustries, industries } = useIndustries()
+    const { fetchIndustries, industryCategories } = useIndustries()
     const { title, meta } = useMeta()
     title.value = 'トップ'
     meta.value = [
@@ -35,11 +38,11 @@ export default defineComponent({
 
     onMounted(async () => {
       const { data } = await fetchIndustries()
-      industries.value = data.industries
+      industryCategories.value = data.industry_categories
     })
 
     return {
-      industries
+      industryCategories
     }
   },
   head: {}
