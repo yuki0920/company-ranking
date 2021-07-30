@@ -38,6 +38,7 @@ export default defineComponent({
     onMounted(async () => {
       const { data } = await fetchCompany()
       company.value = data.company
+      // @ts-ignore
       const securityName = company.value.security_name || '企業詳細'
       title.value = securityName
       meta.value = [

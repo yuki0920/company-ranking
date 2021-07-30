@@ -52,6 +52,7 @@ export default defineComponent({
     onMounted(async () => {
       const { data } = await fetchIndustry()
       industry.value = data.industry
+      // @ts-ignore
       const industryName = industry.value.name || '業種一覧'
       title.value = industryName
       meta.value = [
