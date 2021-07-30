@@ -14,7 +14,7 @@ module Api
           when /^[0-9]+$/
             securities.where(code: query)
           else
-            securities.where('securities.name LIKE ?', "%#{query}%")
+            securities.where('documents.company_name ILIKE :query OR documents.company_name_en ILIKE :query', query: "%#{query}%")
           end
         end
 
