@@ -1,6 +1,7 @@
 export default ({ $axios }: { $axios: any }) => {
   if (process.env.NODE_ENV !== 'development') {
     $axios.onRequest((config: any) => {
+      /* eslint no-console: */
       console.log(config)
     })
     $axios.onResponse((config: any) => {
