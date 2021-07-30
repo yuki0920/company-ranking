@@ -7,21 +7,34 @@
             {{ company.security_name }}
           </p>
         </div>
-        <small class="text-muted">
-          年間給与 {{ numberWithDelimiter(company.average_annual_salary) }} 万円
-        </small>
-        <br>
-        <small class="text-muted">
-          売上 {{ numberWithDelimiter(company.net_sales) }} 百万円
-        </small>
-        <br>
-        <small class="text-muted">
-          経常利益
-          <span :style="{color: profitColor(company.ordinary_income)}">
-            {{ numberWithDelimiter(company.ordinary_income) }}
-          </span>
-          百万円
-        </small>
+        <dl class="row mb-0">
+          <dt class="col-4 mb-0">
+            <small class="text-muted">年間給与</small>
+          </dt>
+          <dd class="col-8 text-right mb-0">
+            <small class="text-muted">{{ numberWithDelimiter(company.average_annual_salary) }} 万円</small>
+          </dd>
+          <dt class="col-4 mb-0">
+            <small class="text-muted">
+              売上
+            </small>
+          </dt>
+          <dd class="col-8 text-right mb-0">
+            <small class="text-muted">
+              {{ numberWithDelimiter(company.net_sales) }} 百万円
+            </small>
+          </dd>
+          <dt class="col-4 mb-0">
+            <small class="text-muted">
+              経常利益
+            </small>
+          </dt>
+          <dd class="col-8 text-right mb-0">
+            <small class="text-muted">
+              {{ numberWithDelimiter(company.ordinary_income) }} 百万円
+            </small>
+          </dd>
+        </dl>
       </NuxtLink>
     </li>
   </ul>
