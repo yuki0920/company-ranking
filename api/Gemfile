@@ -48,6 +48,7 @@ group :test do
   gem 'rspec-rails'
 end
 
+gem 'active_hash'
 gem 'faraday'
 gem 'jb'
 gem 'mechanize'
