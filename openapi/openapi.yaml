@@ -31,17 +31,7 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                required:
-                  - meta
-                  - companies
-                properties:
-                  meta:
-                    $ref: "#/components/schemas/meta"
-                  companies:
-                    type: array
-                    items:
-                      $ref: "#/components/schemas/eachCompany"
+                $ref: "#/components/schemas/responseCompanies"
   /api/v1/companies/{id}:
     get:
       operationId: fetchCompany
@@ -58,12 +48,7 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                required:
-                  - company
-                properties:
-                  company:
-                    $ref: "#/components/schemas/Company"
+                $ref: "#/components/schemas/responseCompany"
   /api/v1/industries:
     get:
       operationId: fetchIndustries
@@ -138,6 +123,18 @@ paths:
                       type: integer
 components:
   schemas:
+    responseCompanies:
+      type: object
+      required:
+        - meta
+        - companies
+      properties:
+        meta:
+          $ref: "#/components/schemas/meta"
+        companies:
+          type: array
+          items:
+            $ref: "#/components/schemas/eachCompany"
     eachCompany:
       type: object
       required:
@@ -163,6 +160,13 @@ components:
           type: number
           nullable: true
           description: 1億で割った値
+    responseCompany:
+      type: object
+      required:
+        - company
+      properties:
+        company:
+          $ref: "#/components/schemas/Company"
     Company:
       type: object
       required:

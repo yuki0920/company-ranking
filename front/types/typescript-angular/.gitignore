@@ -1,0 +1,4 @@
+*
+!.gitignore
+!model
+!model/*.ts
