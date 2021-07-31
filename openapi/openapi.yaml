@@ -59,7 +59,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/responseIndustry"
+                $ref: "#/components/schemas/responseIndustries"
   /api/v1/markets:
     get:
       operationId: fetchMarkets
@@ -70,14 +70,7 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                required:
-                  - markets
-                properties:
-                  markets:
-                    type: array
-                    items:
-                      $ref: "#/components/schemas/eachMarket"
+                $ref: "#/components/schemas/responseMarkets"
   /api/v1/company_ids:
     get:
       operationId: fetchCompanyIds
@@ -258,7 +251,7 @@ components:
           type: number
           nullable: true
           description: 1億で割った値
-    responseIndustry:
+    responseIndustries:
       type: object
       required:
         - industry_categories
@@ -299,6 +292,15 @@ components:
               count:
                 type: integer
                 description: 業種に属する企業数
+    responseMarkets:
+      type: object
+      required:
+        - markets
+      properties:
+        markets:
+          type: array
+          items:
+            $ref: "#/components/schemas/eachMarket"
     eachMarket:
       type: object
       required:
