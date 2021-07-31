@@ -1,5 +1,6 @@
 import { useContext, ref, watch, useRoute } from '@nuxtjs/composition-api'
 import { StateChanger } from 'vue-infinite-loading/types'
+import { EachCompany, ResponseCompanies } from '~/types/typescript-angular/model/models'
 
 const replaceUrl = ({ page, sortType, query }: { page: number, sortType: string, query: string }) => {
   const queryParam = [null, undefined, ''].includes(query) ? '' : `&q=${query}`
@@ -11,13 +12,13 @@ export const useCompany = () => {
   const { $axios } = useContext()
   const route = useRoute()
   const pageParam = typeof route.value.query.page === 'string' ? parseInt(route.value.query.page, 10) : null
-  const page = ref(pageParam || 1)
-  const count = ref(0)
-  const from = ref(0)
-  const sortType = ref(route.value.query.sort_type || 'net_sales')
-  const industryId = ref(route.value.params.industryId)
-  const query = ref(route.value.query.q)
-  const companies = ref([])
+  const page = ref<number>(pageParam || 1)
+  const count = ref<number>(0)
+  const from = ref<number>(0)
+  const sortType = ref<any>(route.value.query.sort_type || 'net_sales')
+  const industryId = ref<any>(route.value.params.industryId)
+  const query = ref<any>(route.value.query.q)
+  const companies = ref<Array<EachCompany>>([])
 
   const fetchCompanies = () => {
     let params = { page: page.value, sort_type: sortType.value }
@@ -45,16 +46,15 @@ export const useCompany = () => {
     // @ts-ignore
     replaceUrl({ page: page.value, sortType: sortType.value, query: query.value })
 
-    fetchCompanies().then(({ data }) => {
+    fetchCompanies().then(({ data }: { data: ResponseCompanies }) => {
       if (from.value === 0) {
-        from.value = parseInt(data.meta.from, 10)
+        from.value = data.meta.from
       }
 
       count.value = data.meta.count
 
       if (data.meta.items > 0) {
         page.value += 1
-        // @ts-ignore
         companies.value.push(...data.companies)
         $state.loaded()
       } else {

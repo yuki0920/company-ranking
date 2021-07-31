@@ -303,6 +303,7 @@ components:
     meta:
       type: object
       required:
+        - from
         - count
         - items
         - page
@@ -310,6 +311,9 @@ components:
         - prev
         - next
       properties:
+        from:
+          type: number
+          description: アイテムの取得開始位置
         count:
           type: number
           description: 総アイテム数
