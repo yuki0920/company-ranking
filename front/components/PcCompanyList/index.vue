@@ -44,7 +44,6 @@
 </template>
 <script lnag="ts">
 import { defineComponent } from '@nuxtjs/composition-api'
-// @ts-ignore
 import { useUtility } from '~/lib/utility'
 
 export default defineComponent({

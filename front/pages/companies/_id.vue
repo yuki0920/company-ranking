@@ -24,7 +24,6 @@ import { Company, ResponseCompany } from '~/types/typescript-angular/model/model
 
 export default defineComponent({
   setup () {
-    // @ts-ignore
     const { $axios } = useContext()
     const route = useRoute()
     const id = computed(() => route.value.params.id)
