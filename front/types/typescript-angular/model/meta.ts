@@ -10,7 +10,12 @@
  * Do not edit the class manually.
  */
 
+
 export interface Meta {
+    /**
+     * アイテムの取得開始位置
+     */
+    from: number;
     /**
      * 総アイテム数
      */
