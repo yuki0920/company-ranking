@@ -9,6 +9,12 @@ module Api
 
         render 'index.json.jb'
       end
+
+      def show
+        @market = Market.find(params[:id])
+
+        render 'show.json.jb'
+      end
     end
   end
 end

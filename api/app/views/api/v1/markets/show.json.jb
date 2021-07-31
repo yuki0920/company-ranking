@@ -1,0 +1,8 @@
+# frozen_string_literal: true
+
+{
+  market: {
+    id: @market.id,
+    name: @market.name
+  }
+}

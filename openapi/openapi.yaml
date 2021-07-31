@@ -62,7 +62,7 @@ paths:
                 $ref: "#/components/schemas/responseIndustries"
   /api/v1/industries/{id}:
     get:
-      operationId: fetchIndusty
+      operationId: fetchIndustry
       summary: Get Industry
       parameters:
         - in: path
@@ -88,6 +88,23 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/responseMarkets"
+  /api/v1/markets/{id}:
+    get:
+      operationId: fetchMarket
+      summary: Get Market
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      responses:
+        200:
+          description: get Market
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/responseMarket"
   /api/v1/company_ids:
     get:
       operationId: fetchCompanyIds
@@ -338,6 +355,18 @@ components:
           type: array
           items:
             $ref: "#/components/schemas/eachMarket"
+    responseMarket:
+      type: object
+      required:
+        - market
+      properties:
+        market:
+          $ref: "#/components/schemas/market"
+    market:
+      type: object
+      required:
+        - id
+        - name
     eachMarket:
       type: object
       required:
