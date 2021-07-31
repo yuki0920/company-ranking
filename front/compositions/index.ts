@@ -1,6 +1,6 @@
 import { useContext, ref, watch, useRoute } from '@nuxtjs/composition-api'
 import { StateChanger } from 'vue-infinite-loading/types'
-import { EachCompany, ResponseCompanies, EachIndustryCategory } from '~/types/typescript-angular/model/models'
+import { EachCompany, ResponseCompanies, EachIndustryCategory, Industry } from '~/types/typescript-angular/model/models'
 
 const replaceUrl = ({ page, sortType, query }: { page: number, sortType: string, query: string }) => {
   const queryParam = [null, undefined, ''].includes(query) ? '' : `&q=${query}`
@@ -80,7 +80,7 @@ export const useIndustries = () => {
 export const useIndustry = () => {
   const { $axios } = useContext()
   const route = useRoute()
-  const industry = ref(null)
+  const industry = ref<Industry | null>(null)
   const industryId = ref(route.value.params.industryId)
 
   const fetchIndustry = () => {

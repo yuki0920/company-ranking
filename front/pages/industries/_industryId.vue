@@ -38,6 +38,7 @@ import { defineComponent, useMeta, onMounted } from '@nuxtjs/composition-api'
 import InfiniteLoading from 'vue-infinite-loading'
 import { useCompany, useIndustry } from '~/compositions'
 import { useUtility } from '~/lib/utility'
+import { ResponseIndustry } from '~/types/typescript-angular/model/models'
 
 export default defineComponent({
   components: { InfiniteLoading },
@@ -48,7 +49,7 @@ export default defineComponent({
     const { title, meta } = useMeta()
 
     onMounted(async () => {
-      const { data } = await fetchIndustry()
+      const { data }: { data: ResponseIndustry } = await fetchIndustry()
       industry.value = data.industry
       const industryName = industry.value.name || '業種一覧'
       title.value = industryName

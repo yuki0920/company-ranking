@@ -9,10 +9,16 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
-import { EachIndustryCategoryIndustries } from './eachIndustryCategoryIndustries'
 
-export interface EachIndustryCategory {
+export interface EachIndustryCategoryIndustries {
     id: number;
     name: string;
-    industries: Array<EachIndustryCategoryIndustries> | null;
+    /**
+     * 33業種コード
+     */
+    code: number;
+    /**
+     * 業種に属する企業数
+     */
+    count: number;
 }

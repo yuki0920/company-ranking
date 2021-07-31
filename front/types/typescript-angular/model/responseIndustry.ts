@@ -9,10 +9,8 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
-import { EachIndustryCategoryIndustries } from './eachIndustryCategoryIndustries'
+import { Industry } from './industry'
 
-export interface EachIndustryCategory {
-    id: number;
-    name: string;
-    industries: Array<EachIndustryCategoryIndustries> | null;
+export interface ResponseIndustry {
+    industry: Industry;
 }
