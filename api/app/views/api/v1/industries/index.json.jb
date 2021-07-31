@@ -5,7 +5,7 @@
     {
       id: category.id,
       name: category.name,
-      industries: @industries[category.id].map { |industry|
+      industries: @industries[category.id]&.map { |industry|
         {
           id: industry.id,
           name: industry.name,

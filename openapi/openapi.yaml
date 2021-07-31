@@ -59,14 +59,7 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                required:
-                  - industries
-                properties:
-                  industries:
-                    type: array
-                    items:
-                      $ref: "#/components/schemas/eachIndustry"
+                $ref: "#/components/schemas/responseIndustries"
   /api/v1/markets:
     get:
       operationId: fetchMarkets
@@ -77,14 +70,7 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                required:
-                  - markets
-                properties:
-                  markets:
-                    type: array
-                    items:
-                      $ref: "#/components/schemas/eachMarket"
+                $ref: "#/components/schemas/responseMarkets"
   /api/v1/company_ids:
     get:
       operationId: fetchCompanyIds
@@ -265,27 +251,56 @@ components:
           type: number
           nullable: true
           description: 1億で割った値
-    eachIndustry:
+    responseIndustries:
+      type: object
+      required:
+        - industry_categories
+      properties:
+        industry_categories:
+          type: array
+          items:
+            $ref: "#/components/schemas/eachIndustryCategory"
+    eachIndustryCategory:
       type: object
       required:
         - id
         - name
-        - code
-        - category_id
-        - count
+        - industries
       properties:
         id:
           type: integer
         name:
           type: string
-        code:
-          type: integer
-          description: 33業種コード
-        category_id:
-          type: integer
-        count:
-          type: integer
-          description: 業種に属する企業数
+        industries:
+          type: array
+          nullable: true
+          items:
+            type: object
+            required:
+              - id
+              - name
+              - code
+              - count
+            properties:
+              id:
+                type: integer
+              name:
+                type: string
+              code:
+                type: integer
+                description: 33業種コード
+              count:
+                type: integer
+                description: 業種に属する企業数
+    responseMarkets:
+      type: object
+      required:
+        - markets
+      properties:
+        markets:
+          type: array
+          items:
+            $ref: "#/components/schemas/eachMarket"
     eachMarket:
       type: object
       required:
