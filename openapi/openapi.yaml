@@ -60,6 +60,23 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/responseIndustries"
+  /api/v1/industries/{id}:
+    get:
+      operationId: fetchIndusty
+      summary: Get Industry
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      responses:
+        200:
+          description: get Industry
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/responseIndustry"
   /api/v1/markets:
     get:
       operationId: fetchMarkets
@@ -292,6 +309,26 @@ components:
               count:
                 type: integer
                 description: 業種に属する企業数
+    responseIndustry:
+      type: object
+      required:
+        - industry
+      properties:
+        industry:
+          $ref: "#/components/schemas/industry"
+    industry:
+      type: object
+      required:
+        - id
+        - name
+        - code
+      properties:
+        id:
+          type: number
+        name:
+          type: string
+        code:
+          type: number
     responseMarkets:
       type: object
       required:

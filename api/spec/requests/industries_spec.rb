@@ -21,4 +21,15 @@ RSpec.describe '/api/v1/industries', type: :request do
       assert_response_schema_confirm
     end
   end
+
+  describe 'GET /api/v1/industries/:id' do
+    it do
+      get "/api/v1/industries/#{industry.id}"
+
+      expect(response).to have_http_status :ok
+
+      assert_request_schema_confirm
+      assert_response_schema_confirm
+    end
+  end
 end
