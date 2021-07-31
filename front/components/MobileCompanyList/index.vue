@@ -40,14 +40,15 @@
   </ul>
 </template>
 <script lang="ts">
-import { defineComponent } from '@nuxtjs/composition-api'
+import { defineComponent, PropType } from '@nuxtjs/composition-api'
 import { useUtility } from '~/lib/utility'
+import { EachCompany } from '~/types/typescript-angular/model/models'
 
 export default defineComponent({
   name: 'PcCompanyList',
   props: {
     companies: {
-      type: Array,
+      type: Array as PropType<EachCompany[]>,
       required: true
     }
   },
