@@ -8,9 +8,9 @@
         すべての企業
       </b-breadcrumb-item>
     </b-breadcrumb>
-    <h5>
+    <h1>
       すべての企業
-    </h5>
+    </h1>
     <select v-model="sortType" class="form-control col-sm-3 mb-3">
       <option value="net_sales">
         売上順

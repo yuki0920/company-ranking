@@ -1,17 +1,17 @@
 <template>
   <div class="container mt-3">
     <NuxtLink to="/companies" class="d-block mb-2">
-      <span>全ての企業から探す</span>
+      <p>全ての企業から探す</p>
     </NuxtLink>
     <section class="industries">
-      <h5>
+      <h2>
         <b-icon-building />
         業種から探す
-      </h5>
+      </h2>
       <div v-for="industryCategory in industryCategories" :key="`industry-category-${industryCategory.id}`">
-        <h6>{{ industryCategory.name }}</h6>
+        <h3>{{ industryCategory.name }}</h3>
         <ul class="row list-unstyled">
-          <li v-for="industry in industryCategory.industries" :key="`industry-${industry.id}`" class="col-6">
+          <li v-for="industry in industryCategory.industries" :key="`industry-${industry.id}`" class="col-6 col-sm-2">
             <NuxtLink :to="`/industries/${industry.id}`">
               {{ industry.name }}({{ industry.count }})
             </NuxtLink>

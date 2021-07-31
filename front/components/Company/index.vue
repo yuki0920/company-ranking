@@ -1,7 +1,6 @@
 <template>
   <div class="company-detail">
-    <h4>{{ company.security_name }} の企業情報</h4>
-    <h5>基本情報</h5>
+    <h2>基本情報</h2>
     <dl class="company-detail__list row">
       <dt class="col-4">
         従業員数
@@ -28,7 +27,7 @@
         {{ company.average_length_of_service_years }} 年
       </dd>
     </dl>
-    <h5>基本情報</h5>
+    <h2>基本情報</h2>
     <dl class="company-detail__list row">
       <dt class="col-4">
         社名
@@ -69,10 +68,10 @@
         {{ company.representative }}
       </dd>
     </dl>
-    <h5>
+    <h2>
       決算情報
       <small class="text-muted">※連結ベース</small>
-    </h5>
+    </h2>
     <dl class="company-detail__list row">
       <dt class="col-4">
         基準事業年度
