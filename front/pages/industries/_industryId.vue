@@ -36,9 +36,7 @@
 <script lang='ts'>
 import { defineComponent, useMeta, onMounted } from '@nuxtjs/composition-api'
 import InfiniteLoading from 'vue-infinite-loading'
-// @ts-ignore
 import { useCompany, useIndustry } from '~/compositions'
-// @ts-ignore
 import { useUtility } from '~/lib/utility'
 
 export default defineComponent({
@@ -52,7 +50,6 @@ export default defineComponent({
     onMounted(async () => {
       const { data } = await fetchIndustry()
       industry.value = data.industry
-      // @ts-ignore
       const industryName = industry.value.name || '業種一覧'
       title.value = industryName
       meta.value = [
