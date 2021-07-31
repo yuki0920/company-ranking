@@ -25,6 +25,7 @@
 <script lang='ts'>
 import { defineComponent, useMeta, onMounted } from '@nuxtjs/composition-api'
 import { useIndustries } from '~/compositions'
+import { ResponseIndustries } from '~/types/typescript-angular/model/models'
 
 export default defineComponent({
   setup () {
@@ -36,7 +37,7 @@ export default defineComponent({
     ]
 
     onMounted(async () => {
-      const { data } = await fetchIndustries()
+      const { data }:{ data: ResponseIndustries } = await fetchIndustries()
       industryCategories.value = data.industry_categories
     })
 
