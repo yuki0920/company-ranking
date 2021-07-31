@@ -21,6 +21,7 @@
 
 <script lang='ts'>
 import { defineComponent, useContext, useRoute, computed, ref, useMeta, onMounted } from '@nuxtjs/composition-api'
+import { Company, ResponseCompany } from '~/types/typescript-angular/model/models'
 
 export default defineComponent({
   setup () {
@@ -28,7 +29,7 @@ export default defineComponent({
     const { $axios } = useContext()
     const route = useRoute()
     const id = computed(() => route.value.params.id)
-    const company = ref(null)
+    const company = ref<Company | null>(null)
     const { title, meta } = useMeta()
 
     const fetchCompany = () => {
@@ -36,9 +37,8 @@ export default defineComponent({
     }
 
     onMounted(async () => {
-      const { data } = await fetchCompany()
+      const { data }:{ data: ResponseCompany } = await fetchCompany()
       company.value = data.company
-      // @ts-ignore
       const securityName = company.value.security_name || '企業詳細'
       title.value = securityName
       meta.value = [
