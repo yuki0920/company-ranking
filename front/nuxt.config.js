@@ -79,7 +79,15 @@ export default {
             return `/industries/${id}`
           })
         })
-      return Promise.all([companies, industries]).then((values) => {
+
+      const markets = axios.get(`${process.env.API_URL}/api/v1/market_ids`)
+        .then(({ data }) => {
+          return data.market_ids.map((id) => {
+            return `/markets/${id}`
+          })
+        })
+
+      return Promise.all([companies, industries, markets]).then((values) => {
         return values.join().split(',')
       })
     }

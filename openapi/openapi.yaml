@@ -149,6 +149,24 @@ paths:
                     type: array
                     items:
                       type: integer
+  /api/v1/market_ids:
+    get:
+      operationId: fetchMarketIds
+      summary: Get MarketIds
+      responses:
+        200:
+          description: get MarketIds
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - market_ids
+                properties:
+                  industry_ids:
+                    type: array
+                    items:
+                      type: integer
 components:
   schemas:
     responseCompanies:

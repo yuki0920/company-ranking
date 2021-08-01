@@ -7,6 +7,7 @@ Rails.application.routes.draw do
       resources :markets, only: %i(index show)
       resources :company_ids, only: %i(index)
       resources :industry_ids, only: %i(index)
+      resources :market_ids, only: %i(index)
     end
   end
 end
