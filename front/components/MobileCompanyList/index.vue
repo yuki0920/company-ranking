@@ -9,19 +9,13 @@
       </div>
       <dl class="row mb-0">
         <dt class="col-4 mb-0">
-          <small class="text-muted">年間給与</small>
-        </dt>
-        <dd class="col-8 text-right mb-0">
-          <small class="text-muted">{{ numberWithDelimiter(company.average_annual_salary) }} 万円</small>
-        </dd>
-        <dt class="col-4 mb-0">
           <small class="text-muted">
             売上
           </small>
         </dt>
         <dd class="col-8 text-right mb-0">
           <small class="text-muted">
-            {{ numberWithDelimiter(company.net_sales) }} 百万円
+            {{ numberWithDelimiter(company.net_sales) }} 億円
           </small>
         </dd>
         <dt class="col-4 mb-0">
@@ -31,8 +25,14 @@
         </dt>
         <dd class="col-8 text-right mb-0">
           <small class="text-muted">
-            {{ numberWithDelimiter(company.ordinary_income) }} 百万円
+            {{ numberWithDelimiter(company.ordinary_income) }} 億円
           </small>
+        </dd>
+        <dt class="col-4 mb-0">
+          <small class="text-muted">年間給与</small>
+        </dt>
+        <dd class="col-8 text-right mb-0">
+          <small class="text-muted">{{ numberWithDelimiter(company.average_annual_salary) }} 万円</small>
         </dd>
       </dl>
     </li>
