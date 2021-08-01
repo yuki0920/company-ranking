@@ -95,7 +95,8 @@ export default {
     ],
     components: [
       'BIconBarChart',
-      'BIconBuilding'
+      'BIconBuilding',
+      'BIconGraphUp'
     ]
   },
 

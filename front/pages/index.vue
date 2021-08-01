@@ -20,6 +20,12 @@
           </ul>
         </div>
       </section>
+      <section>
+        <h2>
+          <b-icon-graph-up />
+          市場から探す
+        </h2>
+      </section>
     </div>
     <div v-else class="text-center mt-5">
       <div class="spinner-border" role="status">
