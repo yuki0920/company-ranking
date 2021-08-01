@@ -2,10 +2,9 @@
   <ul class="list-group">
     <li v-for="company in companies" :key="company.security_id" class="list-group-item flex-column align-items-start">
       <NuxtLink :to="`/companies/${company.security_id}`">
-        <div class="d-flex w-100 justify-content-between">
-          <p class="mb-1">
-            {{ company.security_name }}
-          </p>
+        <div class="d-flex w-100 justify-content-between mb-1">
+          <span>{{ company.security_name }}</span>
+          <small class="text-muted">{{ company.industry_name }}・{{ company.market_name }}</small>
         </div>
         <dl class="row mb-0">
           <dt class="col-4 mb-0">
