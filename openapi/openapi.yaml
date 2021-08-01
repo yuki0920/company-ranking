@@ -186,18 +186,16 @@ components:
       required:
         - security_id
         - security_name
-        - average_annual_salary
         - net_sales
         - ordinary_income
+        - average_annual_salary
+        - industry_name
+        - market_name
       properties:
         security_id:
           type: number
         security_name:
           type: string
-        average_annual_salary:
-          type: number
-          nullable: true
-          description: 1万で割った値
         net_sales:
           type: number
           nullable: true
@@ -206,6 +204,14 @@ components:
           type: number
           nullable: true
           description: 1億で割った値
+        average_annual_salary:
+          type: number
+          nullable: true
+          description: 1万で割った値
+        industry_name:
+          type: string
+        market_name:
+          type: string
     responseCompany:
       type: object
       required:

@@ -1,12 +1,15 @@
 # frozen_string_literal: true
 
 { meta: @meta,
-  companies: @securities.map do |security|
+  companies: @securities.map { |security|
     {
       security_id: security.id,
       security_name: security.name,
       average_annual_salary: divved_number(security.documents.last.average_annual_salary, 10_000),
       net_sales: divved_number(security.documents.last.net_sales, 1_000_000),
-      ordinary_income: divved_number(security.documents.last.ordinary_income, 1_000_000)
+      ordinary_income: divved_number(security.documents.last.ordinary_income, 1_000_000),
+      industry_name: security.industry.name,
+      market_name: security.market.name
     }
-  end }
+  }
+}

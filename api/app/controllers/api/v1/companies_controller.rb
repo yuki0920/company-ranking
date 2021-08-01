@@ -6,7 +6,7 @@ module Api
       include Pagy::Backend
 
       def index
-        securities = Security.joins(:documents, :industry, :market).eager_load(:documents, :industry)
+        securities = Security.joins(:documents, :industry, :market).eager_load(:documents, :industry, :market)
         securities = securities.where(industry: { id: params[:industry_id] }) if params[:industry_id]
         securities = securities.where(market: { id: params[:market_id] }) if params[:market_id]
 
