@@ -30,3 +30,4 @@
 .lesshst
 .local/
 /.cache/*
+*.DS_Store

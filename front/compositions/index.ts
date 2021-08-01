@@ -1,6 +1,6 @@
 import { useContext, ref, watch, useRoute } from '@nuxtjs/composition-api'
 import { StateChanger } from 'vue-infinite-loading/types'
-import { EachCompany, ResponseCompanies, EachIndustryCategory, Industry } from '~/types/typescript-angular/model/models'
+import { EachCompany, ResponseCompanies, EachIndustryCategory, Industry, EachMarket, Market } from '~/types/typescript-angular/model/models'
 
 const replaceUrl = ({ page, sortType, query }: { page: number, sortType: string, query: string }) => {
   const queryParam = [null, undefined, ''].includes(query) ? '' : `&q=${query}`
@@ -17,6 +17,7 @@ export const useCompany = () => {
   const from = ref<number>(0)
   const sortType = ref<any>(route.value.query.sort_type || 'net_sales')
   const industryId = ref<any>(route.value.params.industryId)
+  const marketId = ref<any>(route.value.params.marketId)
   const query = ref<any>(route.value.query.q)
   const companies = ref<Array<EachCompany>>([])
 
@@ -24,6 +25,8 @@ export const useCompany = () => {
     let params = { page: page.value, sort_type: sortType.value }
     // @ts-ignore
     params = industryId.value ? { ...params, industry_id: industryId.value } : params
+    // @ts-ignore
+    params = marketId.value ? { ...params, market_id: marketId.value } : params
     // @ts-ignore
     params = [null, undefined, ''].includes(query.value) ? params : { ...params, q: query.value }
 
@@ -63,12 +66,12 @@ export const useCompany = () => {
     })
   }
 
-  return { count, from, sortType, query, industryId, companies, infiniteHandler }
+  return { count, from, sortType, query, industryId, marketId, companies, infiniteHandler }
 }
 
 export const useIndustries = () => {
   const { $axios } = useContext()
-  const industryCategories = ref<Array<EachIndustryCategory>>([])
+  const industryCategories = ref<EachIndustryCategory[]>([])
 
   const fetchIndustries = () => {
     return $axios.get('/api/v1/industries')
@@ -88,4 +91,28 @@ export const useIndustry = () => {
   }
 
   return { fetchIndustry, industry }
+}
+
+export const useMarkets = () => {
+  const { $axios } = useContext()
+  const markets = ref<EachMarket[]>([])
+
+  const fetchMarkets = () => {
+    return $axios.get('/api/v1/markets')
+  }
+
+  return { fetchMarkets, markets }
+}
+
+export const useMarket = () => {
+  const { $axios } = useContext()
+  const route = useRoute()
+  const market = ref<Market | null>(null)
+  const marketId = ref(route.value.params.marketId)
+
+  const fetchMarket = () => {
+    return $axios.get(`api/v1/markets/${marketId.value}`)
+  }
+
+  return { fetchMarket, market }
 }

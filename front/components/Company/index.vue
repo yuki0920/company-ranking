@@ -45,7 +45,9 @@
         上場市場
       </dt>
       <dd class="col-8">
-        {{ company.market_name }}
+        <NuxtLink :to="`/markets/${company.market_id}`">
+          {{ company.market_name }}
+        </NuxtLink>
       </dd>
       <dt class="col-4">
         業種

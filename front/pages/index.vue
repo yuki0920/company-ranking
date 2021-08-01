@@ -6,6 +6,19 @@
       </NuxtLink>
       <section>
         <h2>
+          <b-icon-graph-up />
+          市場から探す
+        </h2>
+        <ul class="row list-unstyled">
+          <li v-for="market in markets" :key="`market-${market.id}`" class="col-6 col-sm-2">
+            <NuxtLink :to="`/markets/${market.id}`">
+              {{ market.name }}({{ market.count }})
+            </NuxtLink>
+          </li>
+        </ul>
+      </section>
+      <section>
+        <h2>
           <b-icon-building />
           業種から探す
         </h2>
@@ -31,12 +44,13 @@
 
 <script lang='ts'>
 import { defineComponent, useMeta, onMounted } from '@nuxtjs/composition-api'
-import { useIndustries } from '~/compositions'
-import { ResponseIndustries } from '~/types/typescript-angular/model/models'
+import { useIndustries, useMarkets } from '~/compositions'
+import { ResponseIndustries, ResponseMarkets } from '~/types/typescript-angular/model/models'
 
 export default defineComponent({
   setup () {
     const { fetchIndustries, industryCategories } = useIndustries()
+    const { fetchMarkets, markets } = useMarkets()
     const { title, meta } = useMeta()
     title.value = 'トップ'
     meta.value = [
@@ -44,11 +58,14 @@ export default defineComponent({
     ]
 
     onMounted(async () => {
-      const { data }:{ data: ResponseIndustries } = await fetchIndustries()
-      industryCategories.value = data.industry_categories
+      const { data: industriesData }:{ data: ResponseIndustries } = await fetchIndustries()
+      industryCategories.value = industriesData.industry_categories
+      const { data: marketsData }:{ data: ResponseMarkets } = await fetchMarkets()
+      markets.value = marketsData.markets
     })
 
     return {
+      markets,
       industryCategories
     }
   },

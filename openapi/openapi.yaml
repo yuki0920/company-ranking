@@ -25,6 +25,14 @@ paths:
           description: query for company_name or security_id
           schema:
             type: string
+        - in: query
+          name: industry_id
+          schema:
+            type: integer
+        - in: query
+          name: market_id
+          schema:
+            type: integer
       responses:
         200:
           description: get Companies
@@ -62,7 +70,7 @@ paths:
                 $ref: "#/components/schemas/responseIndustries"
   /api/v1/industries/{id}:
     get:
-      operationId: fetchIndusty
+      operationId: fetchIndustry
       summary: Get Industry
       parameters:
         - in: path
@@ -88,6 +96,23 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/responseMarkets"
+  /api/v1/markets/{id}:
+    get:
+      operationId: fetchMarket
+      summary: Get Market
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      responses:
+        200:
+          description: get Market
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/responseMarket"
   /api/v1/company_ids:
     get:
       operationId: fetchCompanyIds
@@ -119,6 +144,24 @@ paths:
                 type: object
                 required:
                   - industry_ids
+                properties:
+                  industry_ids:
+                    type: array
+                    items:
+                      type: integer
+  /api/v1/market_ids:
+    get:
+      operationId: fetchMarketIds
+      summary: Get MarketIds
+      responses:
+        200:
+          description: get MarketIds
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - market_ids
                 properties:
                   industry_ids:
                     type: array
@@ -352,6 +395,23 @@ components:
         count:
           type: integer
           description: 市場に属する企業数
+    responseMarket:
+      type: object
+      required:
+        - market
+      properties:
+        market:
+          $ref: "#/components/schemas/market"
+    market:
+      type: object
+      required:
+        - id
+        - name
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
     meta:
       type: object
       required:
