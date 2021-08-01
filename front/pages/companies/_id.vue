@@ -38,9 +38,9 @@ export default defineComponent({
       const { data }:{ data: ResponseCompany } = await fetchCompany()
       company.value = data.company
       const securityName = company.value.security_name || '企業詳細'
-      title.value = securityName
+      title.value = `[${company.value.security_code}]${securityName} - 売上・年収`
       meta.value = [
-        { hid: 'description', name: 'description', content: `${securityName}の企業情報です。年収、従業員数、平均年齢、売上、利益を掲載しています。` }
+        { hid: 'description', name: 'description', content: `${securityName}の企業情報です。年収、従業員数、平均年齢、業績、売上、利益を掲載しています。` }
       ]
     })
 
