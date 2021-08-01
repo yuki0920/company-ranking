@@ -3,33 +3,6 @@
     <h2>基本情報</h2>
     <dl class="company-detail__list row">
       <dt class="col-4">
-        従業員数
-      </dt>
-      <dd class="col-8">
-        {{ company.number_of_employees }} 人
-      </dd>
-      <dt class="col-4">
-        平均年間給与
-      </dt>
-      <dd class="col-8">
-        {{ numberWithDelimiter(company.average_annual_salary) }} 万円
-      </dd>
-      <dt class="col-4">
-        平均年齢
-      </dt>
-      <dd class="col-8">
-        {{ company.average_age_years }} 歳
-      </dd>
-      <dt class="col-4">
-        平均勤続年数
-      </dt>
-      <dd class="col-8">
-        {{ company.average_length_of_service_years }} 年
-      </dd>
-    </dl>
-    <h2>基本情報</h2>
-    <dl class="company-detail__list row">
-      <dt class="col-4">
         社名
       </dt>
       <dd class="col-8">
@@ -68,6 +41,33 @@
       </dt>
       <dd class="col-8">
         {{ company.representative }}
+      </dd>
+    </dl>
+    <h2>従業員情報</h2>
+    <dl class="company-detail__list row">
+      <dt class="col-4">
+        従業員数
+      </dt>
+      <dd class="col-8">
+        {{ company.number_of_employees }} 人
+      </dd>
+      <dt class="col-4">
+        平均年間給与
+      </dt>
+      <dd class="col-8">
+        {{ numberWithDelimiter(company.average_annual_salary) }} 万円
+      </dd>
+      <dt class="col-4">
+        平均年齢
+      </dt>
+      <dd class="col-8">
+        {{ company.average_age_years }} 歳
+      </dd>
+      <dt class="col-4">
+        平均勤続年数
+      </dt>
+      <dd class="col-8">
+        {{ company.average_length_of_service_years }} 年
       </dd>
     </dl>
     <h2>
