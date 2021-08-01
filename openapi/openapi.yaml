@@ -355,18 +355,6 @@ components:
           type: array
           items:
             $ref: "#/components/schemas/eachMarket"
-    responseMarket:
-      type: object
-      required:
-        - market
-      properties:
-        market:
-          $ref: "#/components/schemas/market"
-    market:
-      type: object
-      required:
-        - id
-        - name
     eachMarket:
       type: object
       required:
@@ -381,6 +369,23 @@ components:
         count:
           type: integer
           description: 市場に属する企業数
+    responseMarket:
+      type: object
+      required:
+        - market
+      properties:
+        market:
+          $ref: "#/components/schemas/market"
+    market:
+      type: object
+      required:
+        - id
+        - name
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
     meta:
       type: object
       required:
