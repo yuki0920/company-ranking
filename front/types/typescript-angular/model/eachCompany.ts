@@ -11,7 +11,7 @@
  */
 
 export interface EachCompany {
-    security_id: number;
+    security_code: number;
     security_name: string;
     /**
      * 1億で割った値
