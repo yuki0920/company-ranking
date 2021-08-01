@@ -9,13 +9,13 @@
           企業名
         </th>
         <th scope="col">
-          年間給与(万円)
-        </th>
-        <th scope="col">
           売上(百万円)
         </th>
         <th scope="col">
           経常利益(百万円)
+        </th>
+        <th scope="col">
+          年間給与(万円)
         </th>
       </tr>
     </thead>
@@ -30,13 +30,13 @@
           </NuxtLink>
         </td>
         <td class="text-right">
-          {{ numberWithDelimiter(company.average_annual_salary) }}
-        </td>
-        <td class="text-right">
           {{ numberWithDelimiter(company.net_sales) }}
         </td>
         <td class="text-right" :style="{color: profitColor(company.ordinary_income)}">
           {{ numberWithDelimiter(company.ordinary_income) }}
+        </td>
+        <td class="text-right">
+          {{ numberWithDelimiter(company.average_annual_salary) }}
         </td>
       </tr>
     </tbody>
