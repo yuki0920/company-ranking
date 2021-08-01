@@ -14,10 +14,6 @@ export interface EachCompany {
     security_id: number;
     security_name: string;
     /**
-     * 1万で割った値
-     */
-    average_annual_salary: number | null;
-    /**
      * 1億で割った値
      */
     net_sales: number | null;
@@ -25,4 +21,10 @@ export interface EachCompany {
      * 1億で割った値
      */
     ordinary_income: number | null;
+    /**
+     * 1万で割った値
+     */
+    average_annual_salary: number | null;
+    industry_name: string;
+    market_name: string;
 }

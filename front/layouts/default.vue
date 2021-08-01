@@ -6,6 +6,9 @@
 </template>
 
 <style lang="scss">
+body {
+  font-size: 14px;
+}
 h1 {
   font-size: 1.50rem;
 }
