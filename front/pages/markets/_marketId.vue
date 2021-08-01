@@ -23,7 +23,7 @@
       </option>
     </select>
     <mobile-company-list v-if="isMobile" :companies="companies" />
-    <pc-company-list v-else :companies="companies" :from="from" />
+    <pc-company-list v-else :companies="companies" :from="from" :is-market="true" />
     <infinite-loading :identifier="sortType" spinner="bubbles" @infinite="infiniteHandler">
       <div slot="no-more" class="mb-3" />
       <div slot="no-results" class="mb-3">

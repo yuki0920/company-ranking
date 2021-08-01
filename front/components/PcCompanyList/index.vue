@@ -8,6 +8,12 @@
         <th scope="col">
           企業名
         </th>
+        <th v-if="!isIndustry" scope="col">
+          業種
+        </th>
+        <th v-if="!isMarket" scope="col">
+          上場市場
+        </th>
         <th scope="col">
           売上(百万円)
         </th>
@@ -28,6 +34,12 @@
           <NuxtLink :to="`/companies/${company.security_id}`">
             {{ company.security_name }}
           </NuxtLink>
+        </td>
+        <td v-if="!isIndustry" class="text-right">
+          {{ company.industry_name }}
+        </td>
+        <td v-if="!isMarket" class="text-right">
+          {{ company.market_name }}
         </td>
         <td class="text-right">
           {{ numberWithDelimiter(company.net_sales) }}
@@ -57,6 +69,16 @@ export default defineComponent({
     from: {
       type: Number,
       required: true
+    },
+    isIndustry: {
+      type: Boolean,
+      required: false,
+      default: false
+    },
+    isMarket: {
+      type: Boolean,
+      required: false,
+      default: false
     }
   },
   setup () {
