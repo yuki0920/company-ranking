@@ -15,10 +15,15 @@
 
 - ホストのコンテナは`8000`を使用している
 
-### StoryBook
 
-run コマンド実行時はportのマッピングがされないため、指定する
+### OpenAPI Generator
 
-```bash
-dc run -p 6006:6006 front yarn storybook
+実行後にLintをかける
+
+```
+docker run --rm -v "${PWD}:/local" openapitools/openapi-generator-cli generate \
+  -i local/openapi/openapi.yaml \
+  -g typescript-angular \
+  -o local/front/types/typescript-angular
+dc run --rm front yarn lint --fix
 ```
