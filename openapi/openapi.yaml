@@ -25,6 +25,14 @@ paths:
           description: query for company_name or security_id
           schema:
             type: string
+        - in: query
+          name: industry_id
+          schema:
+            type: integer
+        - in: query
+          name: market_id
+          schema:
+            type: integer
       responses:
         200:
           description: get Companies
@@ -59,14 +67,24 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                required:
-                  - industries
-                properties:
-                  industries:
-                    type: array
-                    items:
-                      $ref: "#/components/schemas/eachIndustry"
+                $ref: "#/components/schemas/responseIndustries"
+  /api/v1/industries/{id}:
+    get:
+      operationId: fetchIndustry
+      summary: Get Industry
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      responses:
+        200:
+          description: get Industry
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/responseIndustry"
   /api/v1/markets:
     get:
       operationId: fetchMarkets
@@ -77,14 +95,24 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                required:
-                  - markets
-                properties:
-                  markets:
-                    type: array
-                    items:
-                      $ref: "#/components/schemas/eachMarket"
+                $ref: "#/components/schemas/responseMarkets"
+  /api/v1/markets/{id}:
+    get:
+      operationId: fetchMarket
+      summary: Get Market
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      responses:
+        200:
+          description: get Market
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/responseMarket"
   /api/v1/company_ids:
     get:
       operationId: fetchCompanyIds
@@ -121,6 +149,24 @@ paths:
                     type: array
                     items:
                       type: integer
+  /api/v1/market_ids:
+    get:
+      operationId: fetchMarketIds
+      summary: Get MarketIds
+      responses:
+        200:
+          description: get MarketIds
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - market_ids
+                properties:
+                  industry_ids:
+                    type: array
+                    items:
+                      type: integer
 components:
   schemas:
     responseCompanies:
@@ -140,18 +186,16 @@ components:
       required:
         - security_id
         - security_name
-        - average_annual_salary
         - net_sales
         - ordinary_income
+        - average_annual_salary
+        - industry_name
+        - market_name
       properties:
         security_id:
           type: number
         security_name:
           type: string
-        average_annual_salary:
-          type: number
-          nullable: true
-          description: 1万で割った値
         net_sales:
           type: number
           nullable: true
@@ -160,6 +204,14 @@ components:
           type: number
           nullable: true
           description: 1億で割った値
+        average_annual_salary:
+          type: number
+          nullable: true
+          description: 1万で割った値
+        industry_name:
+          type: string
+        market_name:
+          type: string
     responseCompany:
       type: object
       required:
@@ -265,27 +317,76 @@ components:
           type: number
           nullable: true
           description: 1億で割った値
-    eachIndustry:
+    responseIndustries:
+      type: object
+      required:
+        - industry_categories
+      properties:
+        industry_categories:
+          type: array
+          items:
+            $ref: "#/components/schemas/eachIndustryCategory"
+    eachIndustryCategory:
       type: object
       required:
         - id
         - name
-        - code
-        - category_id
-        - count
+        - industries
       properties:
         id:
           type: integer
         name:
           type: string
+        industries:
+          type: array
+          nullable: true
+          items:
+            type: object
+            required:
+              - id
+              - name
+              - code
+              - count
+            properties:
+              id:
+                type: integer
+              name:
+                type: string
+              code:
+                type: integer
+                description: 33業種コード
+              count:
+                type: integer
+                description: 業種に属する企業数
+    responseIndustry:
+      type: object
+      required:
+        - industry
+      properties:
+        industry:
+          $ref: "#/components/schemas/industry"
+    industry:
+      type: object
+      required:
+        - id
+        - name
+        - code
+      properties:
+        id:
+          type: number
+        name:
+          type: string
         code:
-          type: integer
-          description: 33業種コード
-        category_id:
-          type: integer
-        count:
-          type: integer
-          description: 業種に属する企業数
+          type: number
+    responseMarkets:
+      type: object
+      required:
+        - markets
+      properties:
+        markets:
+          type: array
+          items:
+            $ref: "#/components/schemas/eachMarket"
     eachMarket:
       type: object
       required:
@@ -300,9 +401,27 @@ components:
         count:
           type: integer
           description: 市場に属する企業数
+    responseMarket:
+      type: object
+      required:
+        - market
+      properties:
+        market:
+          $ref: "#/components/schemas/market"
+    market:
+      type: object
+      required:
+        - id
+        - name
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
     meta:
       type: object
       required:
+        - from
         - count
         - items
         - page
@@ -310,6 +429,9 @@ components:
         - prev
         - next
       properties:
+        from:
+          type: number
+          description: アイテムの取得開始位置
         count:
           type: number
           description: 総アイテム数

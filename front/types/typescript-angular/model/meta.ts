@@ -12,6 +12,10 @@
 
 export interface Meta {
     /**
+     * アイテムの取得開始位置
+     */
+    from: number;
+    /**
      * 総アイテム数
      */
     count: number;

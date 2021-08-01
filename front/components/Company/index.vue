@@ -1,7 +1,6 @@
 <template>
   <div class="company-detail">
-    <h4>{{ company.security_name }} の企業情報</h4>
-    <h5>基本情報</h5>
+    <h2>基本情報</h2>
     <dl class="company-detail__list row">
       <dt class="col-4">
         従業員数
@@ -28,7 +27,7 @@
         {{ company.average_length_of_service_years }} 年
       </dd>
     </dl>
-    <h5>基本情報</h5>
+    <h2>基本情報</h2>
     <dl class="company-detail__list row">
       <dt class="col-4">
         社名
@@ -46,7 +45,9 @@
         上場市場
       </dt>
       <dd class="col-8">
-        {{ company.market_name }}
+        <NuxtLink :to="`/markets/${company.market_id}`">
+          {{ company.market_name }}
+        </NuxtLink>
       </dd>
       <dt class="col-4">
         業種
@@ -69,10 +70,10 @@
         {{ company.representative }}
       </dd>
     </dl>
-    <h5>
+    <h2>
       決算情報
       <small class="text-muted">※連結ベース</small>
-    </h5>
+    </h2>
     <dl class="company-detail__list row">
       <dt class="col-4">
         基準事業年度
@@ -84,44 +85,43 @@
         前年度売上
       </dt>
       <dd class="col-8">
-        {{ numberWithDelimiter(company.last_year_net_sales) }} 百万円
+        {{ numberWithDelimiter(company.last_year_net_sales) }} 億円
       </dd>
       <dt class="col-4">
         当年度売上
       </dt>
       <dd class="col-8">
-        {{ numberWithDelimiter(company.net_sales) }} 百万円
+        {{ numberWithDelimiter(company.net_sales) }} 億円
       </dd>
       <dt class="col-4">
         前年度営業利益
       </dt>
       <dd class="col-8" :style="{color: profitColor(company.last_year_operating_income)}">
-        {{ numberWithDelimiter(company.last_year_operating_income) }} 百万円
+        {{ numberWithDelimiter(company.last_year_operating_income) }} 億円
       </dd>
       <dt class="col-4">
         当年度営業利益
       </dt>
       <dd class="col-8" :style="{color: profitColor(company.operating_income)}">
-        {{ numberWithDelimiter(company.operating_income) }} 百万円
+        {{ numberWithDelimiter(company.operating_income) }} 億円
       </dd>
       <dt class="col-4">
         前年度経常利益
       </dt>
       <dd class="col-8" :style="{color: profitColor(company.last_year_ordinary_income)}">
-        {{ numberWithDelimiter(company.last_year_ordinary_income) }} 百万円
+        {{ numberWithDelimiter(company.last_year_ordinary_income) }} 億円
       </dd>
       <dt class="col-4">
         当年度経常利益
       </dt>
       <dd class="col-8" :style="{color: profitColor(company.ordinary_income)}">
-        {{ numberWithDelimiter(company.ordinary_income) }} 百万円
+        {{ numberWithDelimiter(company.ordinary_income) }} 億円
       </dd>
     </dl>
   </div>
 </template>
 <script lang="ts">
 import { defineComponent } from '@nuxtjs/composition-api'
-// @ts-ignore
 import { useUtility } from '~/lib/utility'
 
 export default defineComponent({

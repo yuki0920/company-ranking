@@ -90,3 +90,8 @@ sw.*
 *.swp
 
 .ash_history
+
+types/typescript-angular/*
+!types/typescript-angular/model
+!types/typescript-angular/model/*.ts
+types/typescript-angular/model/inline*.ts

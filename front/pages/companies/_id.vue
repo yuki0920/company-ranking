@@ -1,5 +1,5 @@
 <template>
-  <div v-if="company">
+  <div v-if="company" class="container">
     <b-breadcrumb class="bg-white mb-0">
       <b-breadcrumb-item to="/">
         トップ
@@ -13,9 +13,8 @@
         {{ company.security_name }}
       </b-breadcrumb-item>
     </b-breadcrumb>
-    <div class="container">
-      <company :company="company" />
-    </div>
+    <h1>{{ company.security_name }} の企業情報</h1>
+    <company :company="company" />
   </div>
 </template>
 
@@ -25,7 +24,6 @@ import { Company, ResponseCompany } from '~/types/typescript-angular/model/model
 
 export default defineComponent({
   setup () {
-    // @ts-ignore
     const { $axios } = useContext()
     const route = useRoute()
     const id = computed(() => route.value.params.id)

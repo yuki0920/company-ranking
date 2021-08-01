@@ -20,11 +20,11 @@
     representative: @security.documents.last.representative,
     period_started_at: @security.documents.last.period_started_at.to_s(:ymd),
     period_ended_at: @security.documents.last.period_ended_at.to_s(:ymd),
-    net_sales: divved_number(@security.documents.last.net_sales, 1_000_000),
-    last_year_net_sales: divved_number(@security.documents.last.last_year_net_sales, 1_000_000),
-    operating_income: divved_number(@security.documents.last.operating_income, 1_000_000),
-    last_year_operating_income: divved_number(@security.documents.last.last_year_operating_income, 1_000_000),
-    ordinary_income: divved_number(@security.documents.last.ordinary_income, 1_000_000),
-    last_year_ordinary_income: divved_number(@security.documents.last.last_year_ordinary_income, 1_000_000)
+    net_sales: divved_number(@security.documents.last.net_sales, 100_000_000),
+    last_year_net_sales: divved_number(@security.documents.last.last_year_net_sales, 100_000_000),
+    operating_income: divved_number(@security.documents.last.operating_income, 100_000_000),
+    last_year_operating_income: divved_number(@security.documents.last.last_year_operating_income, 100_000_000),
+    ordinary_income: divved_number(@security.documents.last.ordinary_income, 100_000_000),
+    last_year_ordinary_income: divved_number(@security.documents.last.last_year_ordinary_income, 100_000_000)
   }
 }
