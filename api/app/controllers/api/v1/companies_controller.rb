@@ -33,7 +33,7 @@ module Api
       end
 
       def show
-        @security = Security.find(params[:id])
+        @security = Security.find_by!(code: params[:id])
         render 'show.json.jb'
       rescue ActiveRecord::RecordNotFound
         render json: { message: 'Not found' }, status: :not_found

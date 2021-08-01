@@ -112,7 +112,7 @@ RSpec.describe '/api/v1/companies', type: :request do
 
   describe 'GET /api/v1/companies/:id' do
     it do
-      get "/api/v1/companies/#{security.id}"
+      get "/api/v1/companies/#{security.code}"
 
       expect(response).to have_http_status :ok
 

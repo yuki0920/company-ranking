@@ -31,7 +31,7 @@
           {{ from + index }}
         </td>
         <td>
-          <NuxtLink :to="`/companies/${company.security_id}`">
+          <NuxtLink :to="`/companies/${company.security_code}`">
             {{ company.security_name }}
           </NuxtLink>
         </td>

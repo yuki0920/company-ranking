@@ -40,13 +40,13 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/responseCompanies"
-  /api/v1/companies/{id}:
+  /api/v1/companies/{code}:
     get:
       operationId: fetchCompany
       summary: Get Company
       parameters:
         - in: path
-          name: id
+          name: code
           required: true
           schema:
             type: integer
@@ -184,7 +184,7 @@ components:
     eachCompany:
       type: object
       required:
-        - security_id
+        - security_code
         - security_name
         - net_sales
         - ordinary_income
@@ -192,7 +192,7 @@ components:
         - industry_name
         - market_name
       properties:
-        security_id:
+        security_code:
           type: number
         security_name:
           type: string
