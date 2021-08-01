@@ -25,6 +25,14 @@ paths:
           description: query for company_name or security_id
           schema:
             type: string
+        - in: query
+          name: industry_id
+          schema:
+            type: integer
+        - in: query
+          name: market_id
+          schema:
+            type: integer
       responses:
         200:
           description: get Companies
