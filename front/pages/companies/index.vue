@@ -1,13 +1,17 @@
 <template>
   <div class="container">
-    <b-breadcrumb class="bg-white mb-0">
-      <b-breadcrumb-item to="/">
-        トップ
-      </b-breadcrumb-item>
-      <b-breadcrumb-item active>
-        すべての企業
-      </b-breadcrumb-item>
-    </b-breadcrumb>
+    <nav aria-label="breadcrumb">
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item">
+          <NuxtLink to="/">
+            トップ
+          </NuxtLink>
+        </li>
+        <li class="breadcrumb-item active" aria-current="page">
+          すべての企業
+        </li>
+      </ol>
+    </nav>
     <h1>
       すべての企業
     </h1>

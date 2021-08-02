@@ -99,10 +99,6 @@ export default {
 
   bootstrapVue: {
     componentPlugins: [
-      'BreadcrumbPlugin',
-      'ButtonPlugin',
-      'FormPlugin',
-      'FormInputPlugin',
       'NavbarPlugin'
     ],
     components: [
