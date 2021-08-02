@@ -8,49 +8,60 @@ class DocumentParser::CorporateInformation
   def initialize(src_path)
     @src_path = src_path
     @document = Document::CorporateInformation.new
+    html = URI.open(@src_path).read
+    @parsed_html = Nokogiri::HTML.parse(html)
+    # NOE: Prior1YearDuration は連結会社のみ、提出会社はPrior4YearDuration_NonConsolidatedMemberになる
+    @is_parent = @parsed_html.css('nonfraction').any? {|element| element.attr('contextref') == 'CurrentYearDuration' }
   end
 
   def parse
-    html = URI.open(@src_path).read
-    parsed_html = Nokogiri::HTML.parse(html)
-    is_parent = html.include?('連結経営指標等')
+    parse_settlement_info
+    parse_employee_info
 
-    parsed_html.css('nonfraction').each do |element|
+    @document
+  end
+
+  private
+
+  def parse_settlement_info
+    @parsed_html.css('nonfraction').each do |element|
       case element.attr('name')
       when /NetSales/, /:Revenue/
         if element.attr('contextref') == 'Prior1YearDuration'
           @document.last_year_net_sales = calculate_scale(element)
-        elsif !is_parent && element.attr('contextref') == 'Prior1YearDuration_NonConsolidatedMember'
-          @document.last_year_net_sales = calculate_scale(element)
         elsif element.attr('contextref') == 'CurrentYearDuration'
           @document.net_sales = calculate_scale(element)
-        elsif !is_parent && element.attr('contextref') == 'CurrentYearDuration_NonConsolidatedMember'
+        elsif !@is_parent && element.attr('contextref') == 'Prior1YearDuration_NonConsolidatedMember'
+          @document.last_year_net_sales = calculate_scale(element)
+        elsif !@is_parent && element.attr('contextref') == 'CurrentYearDuration_NonConsolidatedMember'
           @document.net_sales = calculate_scale(element)
         end
       when /OperatingIncome/, /OperatingProfitLoss/, /OperatingRevenue1/
         if element.attr('contextref') == 'Prior1YearDuration'
           @document.last_year_operating_income = calculate_scale(element)
-        elsif !is_parent && element.attr('contextref') == 'Prior1YearDuration_NonConsolidatedMember'
-          @document.last_year_operating_income = calculate_scale(element)
         elsif element.attr('contextref') == 'CurrentYearDuration'
           @document.operating_income = calculate_scale(element)
-        elsif !is_parent && element.attr('contextref') == 'CurrentYearDuration_NonConsolidatedMember'
+        elsif !@is_parent && element.attr('contextref') == 'Prior1YearDuration_NonConsolidatedMember'
+          @document.last_year_operating_income = calculate_scale(element)
+        elsif !@is_parent && element.attr('contextref') == 'CurrentYearDuration_NonConsolidatedMember'
           @document.operating_income = calculate_scale(element)
         end
       when /OrdinaryIncome/, /OrdinaryProfitLoss/
         if element.attr('contextref') == 'Prior1YearDuration'
           @document.last_year_ordinary_income = calculate_scale(element)
-        elsif !is_parent && element.attr('contextref') == 'Prior1YearDuration_NonConsolidatedMember'
-          @document.last_year_ordinary_income = calculate_scale(element)
         elsif element.attr('contextref') == 'CurrentYearDuration'
           @document.ordinary_income = calculate_scale(element)
-        elsif !is_parent && element.attr('contextref') == 'CurrentYearDuration_NonConsolidatedMember'
+        elsif !@is_parent && element.attr('contextref') == 'Prior1YearDuration_NonConsolidatedMember'
+          @document.last_year_ordinary_income = calculate_scale(element)
+        elsif !@is_parent && element.attr('contextref') == 'CurrentYearDuration_NonConsolidatedMember'
           @document.ordinary_income = calculate_scale(element)
         end
       end
     end
+  end
 
-    parsed_html.css('nonfraction').each do |element|
+  def parse_employee_info
+    @parsed_html.css('nonfraction').each do |element|
       next unless element.attr('contextref') == 'CurrentYearInstant_NonConsolidatedMember'
 
       case element.attr('name')
@@ -64,8 +75,6 @@ class DocumentParser::CorporateInformation
         @document.average_annual_salary = calculate_scale(element)
       end
     end
-
-    @document
   end
 end
 

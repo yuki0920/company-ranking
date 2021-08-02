@@ -4,42 +4,65 @@ require 'rails_helper'
 
 RSpec.describe DocumentParser::CorporateInformation do
   describe 'パース後のattributesについて' do
-    it 'S100L0TZ 電通' do
-      src_path = Rails.root.join('spec/fixture/documents/S100L0TZ/XBRL/PublicDoc/0101010_honbun_jpcrp030000-asr-001_E04760-000_2020-12-31_01_2021-03-26_ixbrl.htm').to_s
-      parser = described_class.new(src_path)
-      document = parser.parse
+    context '連結会社の場合' do
+      it 'S100L0TZ 電通' do
+        src_path = Rails.root.join('spec/fixture/documents/S100L0TZ/XBRL/PublicDoc/0101010_honbun_jpcrp030000-asr-001_E04760-000_2020-12-31_01_2021-03-26_ixbrl.htm').to_s
+        parser = described_class.new(src_path)
+        document = parser.parse
 
-      aggregate_failures do
-        expect(document.last_year_net_sales).to eq 1_047_881_000_000
-        expect(document.net_sales).to eq 939_243_000_000
-        expect(document.last_year_operating_income).to eq(-3_358_000_000)
-        expect(document.operating_income).to eq(-140_625_000_000)
-        expect(document.last_year_ordinary_income).to be_nil
-        expect(document.ordinary_income).to be_nil
-        expect(document.number_of_employees).to eq 164
-        expect(document.average_age_years).to eq 46.4
-        expect(document.average_length_of_service_years).to eq 17.3
-        expect(document.average_annual_salary).to eq 13_418_790
+        aggregate_failures do
+          expect(document.last_year_net_sales).to eq 1_047_881_000_000
+          expect(document.net_sales).to eq 939_243_000_000
+          expect(document.last_year_operating_income).to eq(-3_358_000_000)
+          expect(document.operating_income).to eq(-140_625_000_000)
+          expect(document.last_year_ordinary_income).to be_nil
+          expect(document.ordinary_income).to be_nil
+          expect(document.number_of_employees).to eq 164
+          expect(document.average_age_years).to eq 46.4
+          expect(document.average_length_of_service_years).to eq 17.3
+          expect(document.average_annual_salary).to eq 13_418_790
+        end
+      end
+
+      it 'S100LLIE ソフトバンク' do
+        src_path = Rails.root.join('spec/fixture/documents/S100LLIE/XBRL/PublicDoc/0101010_honbun_jpcrp030000-asr-001_E02778-000_2021-03-31_01_2021-06-23_ixbrl.htm').to_s
+        parser = described_class.new(src_path)
+        document = parser.parse
+
+        aggregate_failures do
+          expect(document.last_year_net_sales).to eq 5_238_938_000_000
+          expect(document.net_sales).to eq 5_628_167_000_000
+          expect(document.last_year_operating_income).to be_nil
+          expect(document.operating_income).to be_nil
+          expect(document.last_year_ordinary_income).to be_nil
+          expect(document.ordinary_income).to be_nil
+
+          expect(document.number_of_employees).to eq 241
+          expect(document.average_age_years).to eq 40.0
+          expect(document.average_length_of_service_years).to eq 8.9
+          expect(document.average_annual_salary).to eq 14_049_675
+        end
       end
     end
 
-    it 'S100LLIE ソフトバンク' do
-      src_path = Rails.root.join('spec/fixture/documents/S100LLIE/XBRL/PublicDoc/0101010_honbun_jpcrp030000-asr-001_E02778-000_2021-03-31_01_2021-06-23_ixbrl.htm').to_s
-      parser = described_class.new(src_path)
-      document = parser.parse
+    context '単体のみの場合' do
+      it 'S100LL7Y オービックビジネスコンサルタント' do
+        src_path = Rails.root.join('spec/fixture/documents/S100LL7Y/XBRL/PublicDoc/0101010_honbun_jpcrp030000-asr-001_E05048-000_2021-03-31_01_2021-06-22_ixbrl.htm').to_s
+        parser = described_class.new(src_path)
+        document = parser.parse
 
-      aggregate_failures do
-        expect(document.last_year_net_sales).to eq 5_238_938_000_000
-        expect(document.net_sales).to eq 5_628_167_000_000
-        expect(document.last_year_operating_income).to be_nil
-        expect(document.operating_income).to be_nil
-        expect(document.last_year_ordinary_income).to be_nil
-        expect(document.ordinary_income).to be_nil
-
-        expect(document.number_of_employees).to eq 241
-        expect(document.average_age_years).to eq 40.0
-        expect(document.average_length_of_service_years).to eq 8.9
-        expect(document.average_annual_salary).to eq 14_049_675
+        aggregate_failures do
+          expect(document.last_year_net_sales).to eq 30_068_682_000
+          expect(document.net_sales).to eq 29_252_330_000
+          expect(document.last_year_operating_income).to be_nil
+          expect(document.operating_income).to be_nil
+          expect(document.last_year_ordinary_income).to eq 14_030_263_000
+          expect(document.ordinary_income).to eq 13_934_707_000
+          expect(document.number_of_employees).to eq 898
+          expect(document.average_age_years).to eq 34.1
+          expect(document.average_length_of_service_years).to eq 10.1
+          expect(document.average_annual_salary).to eq 6_864_979
+        end
       end
     end
   end
