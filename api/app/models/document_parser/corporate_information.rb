@@ -12,6 +12,7 @@ class DocumentParser::CorporateInformation
     @parsed_html = Nokogiri::HTML.parse(html)
     # NOE: Prior1YearDuration は連結会社のみ、提出会社はPrior4YearDuration_NonConsolidatedMemberになる
     @is_parent = @parsed_html.css('nonfraction').any? {|element| element.attr('contextref') == 'CurrentYearDuration' }
+    binding.pry
   end
 
   def parse
