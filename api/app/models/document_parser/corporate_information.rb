@@ -12,7 +12,6 @@ class DocumentParser::CorporateInformation
     @parsed_html = Nokogiri::HTML.parse(html)
     # NOE: Prior1YearDuration は連結会社のみ、提出会社はPrior4YearDuration_NonConsolidatedMemberになる
     @is_parent = @parsed_html.css('nonfraction').any? {|element| element.attr('contextref') == 'CurrentYearDuration' }
-    binding.pry
   end
 
   def parse
@@ -30,30 +29,30 @@ class DocumentParser::CorporateInformation
       when /NetSales/, /:Revenue/
         if element.attr('contextref') == 'Prior1YearDuration'
           @document.last_year_net_sales = calculate_scale(element)
-        elsif !@is_parent && element.attr('contextref') == 'Prior1YearDuration_NonConsolidatedMember'
-          @document.last_year_net_sales = calculate_scale(element)
         elsif element.attr('contextref') == 'CurrentYearDuration'
           @document.net_sales = calculate_scale(element)
+        elsif !@is_parent && element.attr('contextref') == 'Prior1YearDuration_NonConsolidatedMember'
+          @document.last_year_net_sales = calculate_scale(element)
         elsif !@is_parent && element.attr('contextref') == 'CurrentYearDuration_NonConsolidatedMember'
           @document.net_sales = calculate_scale(element)
         end
       when /OperatingIncome/, /OperatingProfitLoss/, /OperatingRevenue1/
         if element.attr('contextref') == 'Prior1YearDuration'
           @document.last_year_operating_income = calculate_scale(element)
-        elsif !@is_parent && element.attr('contextref') == 'Prior1YearDuration_NonConsolidatedMember'
-          @document.last_year_operating_income = calculate_scale(element)
         elsif element.attr('contextref') == 'CurrentYearDuration'
           @document.operating_income = calculate_scale(element)
+        elsif !@is_parent && element.attr('contextref') == 'Prior1YearDuration_NonConsolidatedMember'
+          @document.last_year_operating_income = calculate_scale(element)
         elsif !@is_parent && element.attr('contextref') == 'CurrentYearDuration_NonConsolidatedMember'
           @document.operating_income = calculate_scale(element)
         end
       when /OrdinaryIncome/, /OrdinaryProfitLoss/
         if element.attr('contextref') == 'Prior1YearDuration'
           @document.last_year_ordinary_income = calculate_scale(element)
-        elsif !@is_parent && element.attr('contextref') == 'Prior1YearDuration_NonConsolidatedMember'
-          @document.last_year_ordinary_income = calculate_scale(element)
         elsif element.attr('contextref') == 'CurrentYearDuration'
           @document.ordinary_income = calculate_scale(element)
+        elsif !@is_parent && element.attr('contextref') == 'Prior1YearDuration_NonConsolidatedMember'
+          @document.last_year_ordinary_income = calculate_scale(element)
         elsif !@is_parent && element.attr('contextref') == 'CurrentYearDuration_NonConsolidatedMember'
           @document.ordinary_income = calculate_scale(element)
         end

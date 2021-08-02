@@ -54,10 +54,10 @@ RSpec.describe DocumentParser::CorporateInformation do
         aggregate_failures do
           expect(document.last_year_net_sales).to eq 30_068_682_000
           expect(document.net_sales).to eq 29_252_330_000
-          expect(document.last_year_operating_income).to eq 14_030_263_000
-          expect(document.operating_income).to eq 13_934_707_000
-          expect(document.last_year_ordinary_income).to be_nil
-          expect(document.ordinary_income).to be_nil
+          expect(document.last_year_operating_income).to be_nil
+          expect(document.operating_income).to be_nil
+          expect(document.last_year_ordinary_income).to eq 14_030_263_000
+          expect(document.ordinary_income).to eq 13_934_707_000
           expect(document.number_of_employees).to eq 898
           expect(document.average_age_years).to eq 34.1
           expect(document.average_length_of_service_years).to eq 10.1
