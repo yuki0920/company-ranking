@@ -10,7 +10,8 @@ class DocumentParser::CorporateInformation
     @document = Document::CorporateInformation.new
     html = URI.open(@src_path).read
     @parsed_html = Nokogiri::HTML.parse(html)
-    @is_parent = html.include?('連結経営指標等')
+    # NOE: Prior1YearDuration は連結会社のみ、提出会社はPrior4YearDuration_NonConsolidatedMemberになる
+    @is_parent = @parsed_html.css('nonfraction').any? {|element| element.attr('contextref') == 'CurrentYearDuration' }
   end
 
   def parse
