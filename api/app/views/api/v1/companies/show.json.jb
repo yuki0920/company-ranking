@@ -20,11 +20,24 @@
     representative: @security.documents.last.representative,
     period_started_at: @security.documents.last.period_started_at.to_s(:ymd),
     period_ended_at: @security.documents.last.period_ended_at.to_s(:ymd),
+    period_ended_at_year: @security.documents.last.period_ended_at.year,
+    period_ended_at_month: @security.documents.last.period_ended_at.month,
     net_sales: divved_number(@security.documents.last.net_sales, 100_000_000),
     last_year_net_sales: divved_number(@security.documents.last.last_year_net_sales, 100_000_000),
     operating_income: divved_number(@security.documents.last.operating_income, 100_000_000),
     last_year_operating_income: divved_number(@security.documents.last.last_year_operating_income, 100_000_000),
     ordinary_income: divved_number(@security.documents.last.ordinary_income, 100_000_000),
-    last_year_ordinary_income: divved_number(@security.documents.last.last_year_ordinary_income, 100_000_000)
+    last_year_ordinary_income: divved_number(@security.documents.last.last_year_ordinary_income, 100_000_000),
+    capital_stock: divved_number(@security.documents.last.capital_stock, 100_000_000),
+    net_assets: divved_number(@security.documents.last.net_assets, 100_000_000),
+    total_assets: divved_number(@security.documents.last.total_assets, 100_000_000),
+    equity_to_asset_ratio: format_ratio(@security.documents.last.equity_to_asset_ratio),
+    rate_of_return_on_equity: format_ratio(@security.documents.last.rate_of_return_on_equity),
+    price_earnings_ratio: @security.documents.last.price_earnings_ratio&.round(1),
+    net_cash_provided_by_used_in_operating_activities: divved_number(@security.documents.last.net_cash_provided_by_used_in_operating_activities, 100_000_000),
+    net_cash_provided_by_used_in_investing_activities: divved_number(@security.documents.last.net_cash_provided_by_used_in_investing_activities, 100_000_000),
+    net_cash_provided_by_used_in_financing_activities: divved_number(@security.documents.last.net_cash_provided_by_used_in_financing_activities, 100_000_000),
+    cash_and_cash_equivalents: divved_number(@security.documents.last.cash_and_cash_equivalents, 100_000_000),
+    consolidated_number_of_employees: @security.documents.last.consolidated_number_of_employees
   }
 }
