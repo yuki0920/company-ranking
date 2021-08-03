@@ -48,7 +48,7 @@ ActiveRecord::Schema.define(version: 2021_08_02_234100) do
     t.float "rate_of_return_on_equity"
     t.float "price_earnings_ratio"
     t.bigint "net_cash_provided_by_used_in_operating_activities"
-    t.bigint "net_cash_provided_by_used_in_investing_activitie"
+    t.bigint "net_cash_provided_by_used_in_investing_activities"
     t.bigint "net_cash_provided_by_used_in_financing_activities"
     t.bigint "cash_and_cash_equivalents"
     t.integer "consolidated_number_of_employees"
