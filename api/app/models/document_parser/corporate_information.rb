@@ -44,6 +44,50 @@ class DocumentParser::CorporateInformation
         elsif prior_1year_duration?(element)
           @document.last_year_ordinary_income = calculate_scale(element)
         end
+      when /CapitalStock/ # 資本金
+        if current_year_instant?(element)
+          @document.capital_stock = calculate_scale(element)
+        end
+      when /NetAssetsSummary/ # 純資産
+        if current_year_instant?(element)
+          @document.net_assets = calculate_scale(element)
+        end
+      when /TotalAssets/ # 総資産
+        if current_year_instant?(element)
+          @document.total_assets = calculate_scale(element)
+        end
+      when /EquityToAssetRatio/ # 自己資本比率
+        if current_year_instant?(element)
+          @document.equity_to_asset_ratio = calculate_scale(element)
+        end
+      when /RateOfReturnOnEquity/ # 自己資本利益率(ROE)
+        if current_year_duration?(element)
+          @document.rate_of_return_on_equity = calculate_scale(element)
+        end
+      when /PriceEarningsRatio/ # 株価収益率(PER)
+        if current_year_duration?(element)
+          @document.price_earnings_ratio = calculate_scale(element)
+        end
+      when /NetCashProvidedByUsedInOperatingActivities/, /CashFlowsFromUsedInOperatingActivities/ # 営業CF
+        if current_year_duration?(element)
+          @document.net_cash_provided_by_used_in_operating_activities = calculate_scale(element)
+        end
+      when /NetCashProvidedByUsedInInvestingActivitie/, /CashFlowsFromUsedInInvestingActivities/ # 営業CF
+        if current_year_duration?(element)
+          @document.net_cash_provided_by_used_in_investing_activities = calculate_scale(element)
+        end
+      when /NetCashProvidedByUsedInFinancingActivities/, /CashFlowsFromUsedInFinancingActivities/ # 営業CF
+        if current_year_duration?(element)
+          @document.net_cash_provided_by_used_in_financing_activities = calculate_scale(element)
+        end
+      when /CashAndCashEquivalents/ # 営業CF
+        if current_year_instant?(element)
+          @document.cash_and_cash_equivalents = calculate_scale(element)
+        end
+      when /NumberOfEmployees/
+        if current_year_instant?(element)
+          @document.consolidated_number_of_employees = calculate_scale(element)
+        end
       end
     end
   end
@@ -54,6 +98,10 @@ class DocumentParser::CorporateInformation
 
   def prior_1year_duration?(element)
     element.attr('contextref') == 'Prior1YearDuration' || (!@is_parent && element.attr('contextref') == 'Prior1YearDuration_NonConsolidatedMember')
+  end
+
+  def current_year_instant?(element)
+    element.attr('contextref') == 'CurrentYearInstant' || (!@is_parent && element.attr('contextref') == 'CurrentYearInstant_NonConsolidatedMember')
   end
 
   def parse_employee_info
@@ -85,6 +133,15 @@ class Document::CorporateInformation
   attribute :last_year_ordinary_income, :integer
   attribute :ordinary_income, :integer
   attribute :capital_stock, :integer
+  attribute :net_assets, :integer
+  attribute :total_assets, :integer
+  attribute :equity_to_asset_ratio, :float
+  attribute :rate_of_return_on_equity, :float
+  attribute :price_earnings_ratio, :float
+  attribute :net_cash_provided_by_used_in_operating_activities, :integer
+  attribute :net_cash_provided_by_used_in_investing_activities, :integer
+  attribute :net_cash_provided_by_used_in_financing_activities, :integer
+  attribute :cash_and_cash_equivalents, :integer
   attribute :consolidated_number_of_employees, :integer
   attribute :number_of_employees, :integer
   attribute :average_age_years, :float

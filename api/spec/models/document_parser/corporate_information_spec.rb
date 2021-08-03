@@ -17,6 +17,18 @@ RSpec.describe DocumentParser::CorporateInformation do
           expect(document.operating_income).to eq(-140_625_000_000)
           expect(document.last_year_ordinary_income).to be_nil
           expect(document.ordinary_income).to be_nil
+          expect(document.capital_stock).to be_nil
+          expect(document.net_assets).to be_nil
+          expect(document.total_assets).to eq 3_380_412_000_000
+          expect(document.equity_to_asset_ratio).to eq 2_690.36
+          expect(document.rate_of_return_on_equity).to eq 0
+          expect(document.price_earnings_ratio).to eq 0
+          expect(document.net_cash_provided_by_used_in_operating_activities).to eq 88_313_000_000
+          expect(document.net_cash_provided_by_used_in_investing_activities).to eq(137_013_000_000)
+          expect(document.net_cash_provided_by_used_in_financing_activities).to eq (-96_622_000_000)
+          expect(document.cash_and_cash_equivalents).to eq 530_692_000_000
+          expect(document.consolidated_number_of_employees).to eq 64533
+
           expect(document.number_of_employees).to eq 164
           expect(document.average_age_years).to eq 46.4
           expect(document.average_length_of_service_years).to eq 17.3
@@ -36,6 +48,17 @@ RSpec.describe DocumentParser::CorporateInformation do
           expect(document.operating_income).to be_nil
           expect(document.last_year_ordinary_income).to be_nil
           expect(document.ordinary_income).to be_nil
+          expect(document.capital_stock).to be_nil
+          expect(document.net_assets).to be_nil
+          expect(document.total_assets).to eq 45_750_453_000_000
+          expect(document.equity_to_asset_ratio).to eq 5_588.80
+          expect(document.rate_of_return_on_equity).to eq 0.619
+          expect(document.price_earnings_ratio).to eq 3.6
+          expect(document.net_cash_provided_by_used_in_operating_activities).to eq 557_250_000_000
+          expect(document.net_cash_provided_by_used_in_investing_activities).to eq(-1_468_599_000_000)
+          expect(document.net_cash_provided_by_used_in_financing_activities).to eq 2_194_077_000_000
+          expect(document.cash_and_cash_equivalents).to eq 4_662_725_000_000
+          expect(document.consolidated_number_of_employees).to eq 58_786
 
           expect(document.number_of_employees).to eq 241
           expect(document.average_age_years).to eq 40.0
@@ -58,6 +81,17 @@ RSpec.describe DocumentParser::CorporateInformation do
           expect(document.operating_income).to be_nil
           expect(document.last_year_ordinary_income).to eq 14_030_263_000
           expect(document.ordinary_income).to eq 13_934_707_000
+          expect(document.capital_stock).to eq 10_519_000_000
+          expect(document.net_assets).to eq 128_562_860_000
+          expect(document.total_assets).to eq 158_362_403_000
+          expect(document.equity_to_asset_ratio).to eq 0.812
+          expect(document.rate_of_return_on_equity).to eq 0.078
+          expect(document.price_earnings_ratio).to eq 45.1
+          expect(document.net_cash_provided_by_used_in_operating_activities).to eq 11_918_009_000
+          expect(document.net_cash_provided_by_used_in_investing_activities).to eq(-753_506_000)
+          expect(document.net_cash_provided_by_used_in_financing_activities).to eq (-3_760_154_000)
+          expect(document.cash_and_cash_equivalents).to eq 114_095_127_000
+          expect(document.consolidated_number_of_employees).to eq 898
           expect(document.number_of_employees).to eq 898
           expect(document.average_age_years).to eq 34.1
           expect(document.average_length_of_service_years).to eq 10.1
