@@ -27,37 +27,33 @@ class DocumentParser::CorporateInformation
     @parsed_html.css('nonfraction').each do |element|
       case element.attr('name')
       when /NetSales/, /:Revenue/
-        if element.attr('contextref') == 'Prior1YearDuration'
-          @document.last_year_net_sales = calculate_scale(element)
-        elsif element.attr('contextref') == 'CurrentYearDuration'
+        if current_year_duration?(element)
           @document.net_sales = calculate_scale(element)
-        elsif !@is_parent && element.attr('contextref') == 'Prior1YearDuration_NonConsolidatedMember'
+        elsif prior_1year_duration?(element)
           @document.last_year_net_sales = calculate_scale(element)
-        elsif !@is_parent && element.attr('contextref') == 'CurrentYearDuration_NonConsolidatedMember'
-          @document.net_sales = calculate_scale(element)
         end
       when /OperatingIncome/, /OperatingProfitLoss/, /OperatingRevenue1/
-        if element.attr('contextref') == 'Prior1YearDuration'
-          @document.last_year_operating_income = calculate_scale(element)
-        elsif element.attr('contextref') == 'CurrentYearDuration'
+        if current_year_duration?(element)
           @document.operating_income = calculate_scale(element)
-        elsif !@is_parent && element.attr('contextref') == 'Prior1YearDuration_NonConsolidatedMember'
+        elsif prior_1year_duration?(element)
           @document.last_year_operating_income = calculate_scale(element)
-        elsif !@is_parent && element.attr('contextref') == 'CurrentYearDuration_NonConsolidatedMember'
-          @document.operating_income = calculate_scale(element)
         end
       when /OrdinaryIncome/, /OrdinaryProfitLoss/
-        if element.attr('contextref') == 'Prior1YearDuration'
-          @document.last_year_ordinary_income = calculate_scale(element)
-        elsif element.attr('contextref') == 'CurrentYearDuration'
+        if current_year_duration?(element)
           @document.ordinary_income = calculate_scale(element)
-        elsif !@is_parent && element.attr('contextref') == 'Prior1YearDuration_NonConsolidatedMember'
+        elsif prior_1year_duration?(element)
           @document.last_year_ordinary_income = calculate_scale(element)
-        elsif !@is_parent && element.attr('contextref') == 'CurrentYearDuration_NonConsolidatedMember'
-          @document.ordinary_income = calculate_scale(element)
         end
       end
     end
+  end
+
+  def current_year_duration?(element)
+    element.attr('contextref') == 'CurrentYearDuration' || (!@is_parent && element.attr('contextref') == 'CurrentYearDuration_NonConsolidatedMember')
+  end
+
+  def prior_1year_duration?(element)
+    element.attr('contextref') == 'Prior1YearDuration' || (!@is_parent && element.attr('contextref') == 'Prior1YearDuration_NonConsolidatedMember')
   end
 
   def parse_employee_info
@@ -88,6 +84,8 @@ class Document::CorporateInformation
   attribute :operating_income, :integer
   attribute :last_year_ordinary_income, :integer
   attribute :ordinary_income, :integer
+  attribute :capital_stock, :integer
+  attribute :consolidated_number_of_employees, :integer
   attribute :number_of_employees, :integer
   attribute :average_age_years, :float
   attribute :average_length_of_service_years, :float
