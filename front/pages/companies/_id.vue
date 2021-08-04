@@ -17,7 +17,7 @@
         </li>
       </ol>
     </nav>
-    <h1>{{ company.security_name }} の企業情報</h1>
+    <h1>{{ company.security_name }} の企業データ</h1>
     <company :company="company" />
   </div>
 </template>

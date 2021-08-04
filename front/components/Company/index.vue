@@ -1,13 +1,13 @@
 <template>
   <div class="row company-detail">
     <div class="col-12 col-md-6">
-      <h2>基本情報</h2>
+      <h2>企業概要</h2>
       <dl class="company-detail__list row m-0">
         <dt class="col-4">
           社名
         </dt>
         <dd class="col-8">
-          {{ company.company_name }} ({{ company.company_name_en }})
+          {{ company.company_name }}({{ company.company_name_en }})
         </dd>
         <dt class="col-4">
           証券コード
@@ -30,6 +30,12 @@
           <NuxtLink :to="`/industries/${company.industry_id}`">
             {{ company.industry_name }}
           </NuxtLink>
+        </dd>
+        <dt class="col-4">
+          決算月
+        </dt>
+        <dd class="col-8">
+          {{ company.period_ended_at_month }}月
         </dd>
         <dt class="col-4">
           本店所在地
@@ -55,9 +61,7 @@
           従業員数
         </dt>
         <dd class="col-8">
-          {{ numberWithDelimiter(company.consolidated_number_of_employees) }} 人（連結）
-          /
-          {{ numberWithDelimiter(company.number_of_employees) }} 人（単独）
+          {{ numberWithDelimiter(company.consolidated_number_of_employees) }} 人（連結）／ {{ numberWithDelimiter(company.number_of_employees) }} 人（単独）
         </dd>
         <dt class="col-4">
           平均年間給与
@@ -84,8 +88,7 @@
     </div>
     <div class="col-12 col-md-6">
       <h2>
-        決算情報
-        <small class="text-muted">※連結ベース</small>
+        決算・業績推移
       </h2>
       <dl class="company-detail__list row m-0">
         <dt class="col-4">
@@ -132,7 +135,79 @@
         </dd>
       </dl>
       <div class="d-flex justify-content-end mt-1 mb-2">
-        （{{ company.period_ended_at_year }}年{{ company.period_ended_at_month }}月時点）
+        ※連結ベース（{{ company.period_ended_at_year }}年{{ company.period_ended_at_month }}月時点）
+      </div>
+    </div>
+    <div class="col-12 col-md-6">
+      <h2>
+        財務・指標
+      </h2>
+      <dl class="company-detail__list row m-0">
+        <dt class="col-4">
+          資本金
+        </dt>
+        <dd class="col-8">
+          {{ numberWithDelimiter(company.capital_stock) }} 億円
+        </dd>
+        <dt class="col-4">
+          純資産
+        </dt>
+        <dd class="col-8">
+          {{ numberWithDelimiter(company.net_assets) }} 億円
+        </dd>
+        <dt class="col-4">
+          総資産
+        </dt>
+        <dd class="col-8">
+          {{ numberWithDelimiter(company.total_assets) }} 億円
+        </dd>
+        <dt class="col-4">
+          自己資本比率
+        </dt>
+        <dd class="col-8" :style="{color: profitColor(company.last_year_operating_income)}">
+          {{ company.equity_to_asset_ratio }} %
+        </dd>
+        <dt class="col-4">
+          自己資本利益率(ROE)
+        </dt>
+        <dd class="col-8" :style="{color: profitColor(company.operating_income)}">
+          {{ company.rate_of_return_on_equity }} %
+        </dd>
+        <dt class="col-4">
+          株価収益率(PER)
+        </dt>
+        <dd class="col-8" :style="{color: profitColor(company.last_year_ordinary_income)}">
+          {{ company.price_earnings_ratio }} 倍
+        </dd>
+        <dt class="col-4">
+          営業CF
+        </dt>
+        <dd class="col-8">
+          {{ numberWithDelimiter(company.net_cash_provided_by_used_in_operating_activities) }} 億円
+        </dd>
+        <dt class="col-4">
+          投資CF
+        </dt>
+        <dd class="col-8">
+          {{ numberWithDelimiter(company.net_cash_provided_by_used_in_investing_activities) }} 億円
+        </dd>
+        <dt class="col-4">
+          財務CF
+        </dt>
+        <dd class="col-8">
+          {{ numberWithDelimiter(company.net_cash_provided_by_used_in_financing_activities) }} 億円
+        </dd>
+        <dt class="col-4">
+          現金及び現金同等物
+          <br>
+          の期末残高
+        </dt>
+        <dd class="col-8 d-flex align-items-center">
+          {{ numberWithDelimiter(company.cash_and_cash_equivalents) }} 億円
+        </dd>
+      </dl>
+      <div class="d-flex justify-content-end mt-1 mb-2">
+        ※連結ベース（{{ company.period_ended_at_year }}年{{ company.period_ended_at_month }}月時点）
       </div>
     </div>
   </div>
