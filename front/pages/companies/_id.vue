@@ -1,7 +1,7 @@
 <template>
   <div v-if="company" class="container">
     <nav aria-label="breadcrumb">
-      <ol class="breadcrumb">
+      <ol class="breadcrumb pl-0">
         <li class="breadcrumb-item">
           <NuxtLink to="/">
             トップ
@@ -17,7 +17,7 @@
         </li>
       </ol>
     </nav>
-    <h1>{{ company.security_name }} の企業情報</h1>
+    <h1>{{ company.security_name }} の企業データ</h1>
     <company :company="company" />
   </div>
 </template>

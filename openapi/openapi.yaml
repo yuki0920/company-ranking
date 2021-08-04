@@ -362,7 +362,7 @@ components:
         net_cash_provided_by_used_in_operating_activities:
           type: number
           nullable: true
-        net_cash_provided_by_used_in_investing_activitie:
+        net_cash_provided_by_used_in_investing_activities:
           type: number
           nullable: true
         net_cash_provided_by_used_in_financing_activities:
