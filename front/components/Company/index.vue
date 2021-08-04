@@ -1,123 +1,129 @@
 <template>
-  <div class="company-detail">
-    <h2>基本情報</h2>
-    <dl class="company-detail__list row">
-      <dt class="col-4">
-        社名
-      </dt>
-      <dd class="col-8">
-        {{ company.company_name }} ({{ company.company_name_en }})
-      </dd>
-      <dt class="col-4">
-        証券コード
-      </dt>
-      <dd class="col-8">
-        {{ company.security_code }}
-      </dd>
-      <dt class="col-4">
-        上場市場
-      </dt>
-      <dd class="col-8">
-        <NuxtLink :to="`/markets/${company.market_id}`">
-          {{ company.market_name }}
-        </NuxtLink>
-      </dd>
-      <dt class="col-4">
-        業種
-      </dt>
-      <dd class="col-8">
-        <NuxtLink :to="`/industries/${company.industry_id}`">
-          {{ company.industry_name }}
-        </NuxtLink>
-      </dd>
-      <dt class="col-4">
-        本店所在地
-      </dt>
-      <dd class="col-8">
-        {{ company.head_office_location }}
-      </dd>
-      <dt class="col-4">
-        代表者氏名
-      </dt>
-      <dd class="col-8">
-        {{ company.representative }}
-      </dd>
-    </dl>
-    <h2>従業員情報</h2>
-    <dl class="company-detail__list row">
-      <dt class="col-4">
-        従業員数
-      </dt>
-      <dd class="col-8">
-        {{ company.number_of_employees }} 人
-      </dd>
-      <dt class="col-4">
-        平均年間給与
-      </dt>
-      <dd class="col-8">
-        {{ numberWithDelimiter(company.average_annual_salary) }} 万円
-      </dd>
-      <dt class="col-4">
-        平均年齢
-      </dt>
-      <dd class="col-8">
-        {{ company.average_age_years }} 歳
-      </dd>
-      <dt class="col-4">
-        平均勤続年数
-      </dt>
-      <dd class="col-8">
-        {{ company.average_length_of_service_years }} 年
-      </dd>
-    </dl>
-    <h2>
-      決算情報
-      <small class="text-muted">※連結ベース</small>
-    </h2>
-    <dl class="company-detail__list row">
-      <dt class="col-4">
-        基準事業年度
-      </dt>
-      <dd class="col-8">
-        {{ company.period_started_at }} 〜 {{ company.period_ended_at }}
-      </dd>
-      <dt class="col-4">
-        前年度売上
-      </dt>
-      <dd class="col-8">
-        {{ numberWithDelimiter(company.last_year_net_sales) }} 億円
-      </dd>
-      <dt class="col-4">
-        当年度売上
-      </dt>
-      <dd class="col-8">
-        {{ numberWithDelimiter(company.net_sales) }} 億円
-      </dd>
-      <dt class="col-4">
-        前年度営業利益
-      </dt>
-      <dd class="col-8" :style="{color: profitColor(company.last_year_operating_income)}">
-        {{ numberWithDelimiter(company.last_year_operating_income) }} 億円
-      </dd>
-      <dt class="col-4">
-        当年度営業利益
-      </dt>
-      <dd class="col-8" :style="{color: profitColor(company.operating_income)}">
-        {{ numberWithDelimiter(company.operating_income) }} 億円
-      </dd>
-      <dt class="col-4">
-        前年度経常利益
-      </dt>
-      <dd class="col-8" :style="{color: profitColor(company.last_year_ordinary_income)}">
-        {{ numberWithDelimiter(company.last_year_ordinary_income) }} 億円
-      </dd>
-      <dt class="col-4">
-        当年度経常利益
-      </dt>
-      <dd class="col-8" :style="{color: profitColor(company.ordinary_income)}">
-        {{ numberWithDelimiter(company.ordinary_income) }} 億円
-      </dd>
-    </dl>
+  <div class="row company-detail">
+    <div class="col-sm-6">
+      <h2>基本情報</h2>
+      <dl class="company-detail__list row">
+        <dt class="col-4">
+          社名
+        </dt>
+        <dd class="col-8">
+          {{ company.company_name }} ({{ company.company_name_en }})
+        </dd>
+        <dt class="col-4">
+          証券コード
+        </dt>
+        <dd class="col-8">
+          {{ company.security_code }}
+        </dd>
+        <dt class="col-4">
+          上場市場
+        </dt>
+        <dd class="col-8">
+          <NuxtLink :to="`/markets/${company.market_id}`">
+            {{ company.market_name }}
+          </NuxtLink>
+        </dd>
+        <dt class="col-4">
+          業種
+        </dt>
+        <dd class="col-8">
+          <NuxtLink :to="`/industries/${company.industry_id}`">
+            {{ company.industry_name }}
+          </NuxtLink>
+        </dd>
+        <dt class="col-4">
+          本店所在地
+        </dt>
+        <dd class="col-8">
+          {{ company.head_office_location }}
+        </dd>
+        <dt class="col-4">
+          代表者氏名
+        </dt>
+        <dd class="col-8">
+          {{ company.representative }}
+        </dd>
+      </dl>
+    </div>
+    <div class="col-sm-6">
+      <h2>従業員情報</h2>
+      <dl class="company-detail__list row">
+        <dt class="col-4">
+          従業員数
+        </dt>
+        <dd class="col-8">
+          {{ company.number_of_employees }} 人
+        </dd>
+        <dt class="col-4">
+          平均年間給与
+        </dt>
+        <dd class="col-8">
+          {{ numberWithDelimiter(company.average_annual_salary) }} 万円
+        </dd>
+        <dt class="col-4">
+          平均年齢
+        </dt>
+        <dd class="col-8">
+          {{ company.average_age_years }} 歳
+        </dd>
+        <dt class="col-4">
+          平均勤続年数
+        </dt>
+        <dd class="col-8">
+          {{ company.average_length_of_service_years }} 年
+        </dd>
+      </dl>
+    </div>
+    <div class="col-sm-6">
+      <h2>
+        決算情報
+        <small class="text-muted">※連結ベース</small>
+      </h2>
+      <dl class="company-detail__list row">
+        <dt class="col-4">
+          基準事業年度
+        </dt>
+        <dd class="col-8">
+          {{ company.period_started_at }} 〜 {{ company.period_ended_at }}
+        </dd>
+        <dt class="col-4">
+          前年度売上
+        </dt>
+        <dd class="col-8">
+          {{ numberWithDelimiter(company.last_year_net_sales) }} 億円
+        </dd>
+        <dt class="col-4">
+          当年度売上
+        </dt>
+        <dd class="col-8">
+          {{ numberWithDelimiter(company.net_sales) }} 億円
+        </dd>
+        <dt class="col-4">
+          前年度営業利益
+        </dt>
+        <dd class="col-8" :style="{color: profitColor(company.last_year_operating_income)}">
+          {{ numberWithDelimiter(company.last_year_operating_income) }} 億円
+        </dd>
+        <dt class="col-4">
+          当年度営業利益
+        </dt>
+        <dd class="col-8" :style="{color: profitColor(company.operating_income)}">
+          {{ numberWithDelimiter(company.operating_income) }} 億円
+        </dd>
+        <dt class="col-4">
+          前年度経常利益
+        </dt>
+        <dd class="col-8" :style="{color: profitColor(company.last_year_ordinary_income)}">
+          {{ numberWithDelimiter(company.last_year_ordinary_income) }} 億円
+        </dd>
+        <dt class="col-4">
+          当年度経常利益
+        </dt>
+        <dd class="col-8" :style="{color: profitColor(company.ordinary_income)}">
+          {{ numberWithDelimiter(company.ordinary_income) }} 億円
+        </dd>
+      </dl>
+    </div>
   </div>
 </template>
 <script lang="ts">
