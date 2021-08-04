@@ -31,6 +31,8 @@ export interface Company {
     representative: string;
     period_started_at: string;
     period_ended_at: string;
+    period_ended_at_year: number;
+    period_ended_at_month: number;
     /**
      * 1億で割った値
      */
@@ -55,4 +57,30 @@ export interface Company {
      * 1億で割った値
      */
     last_year_ordinary_income: number | null;
+    capital_stock: number | null;
+    /**
+     * 純資産
+     */
+    net_assets: number | null;
+    /**
+     * 総資産
+     */
+    total_assets: number | null;
+    /**
+     * 自己資本比率
+     */
+    equity_to_asset_ratio: number | null;
+    /**
+     * 自己資本利益率(ROE)
+     */
+    rate_of_return_on_equity: number | null;
+    /**
+     * 株価収益率(PER)
+     */
+    price_earnings_ratio: number | null;
+    net_cash_provided_by_used_in_operating_activities: number | null;
+    net_cash_provided_by_used_in_investing_activitie: number | null;
+    net_cash_provided_by_used_in_financing_activities: number | null;
+    cash_and_cash_equivalents: number | null;
+    consolidated_number_of_employees: number | null;
 }

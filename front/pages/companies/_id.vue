@@ -1,19 +1,23 @@
 <template>
   <div v-if="company" class="container">
-    <b-breadcrumb class="bg-white mb-0">
-      <b-breadcrumb-item to="/">
-        トップ
-      </b-breadcrumb-item>
-      <b-breadcrumb-item to="/companies">
-        <NuxtLink :to="`/industries/${company.industry_id}`">
-          {{ company.industry_name }}
-        </NuxtLink>
-      </b-breadcrumb-item>
-      <b-breadcrumb-item active>
-        {{ company.security_name }}
-      </b-breadcrumb-item>
-    </b-breadcrumb>
-    <h1>{{ company.security_name }} の企業情報</h1>
+    <nav aria-label="breadcrumb">
+      <ol class="breadcrumb pl-0">
+        <li class="breadcrumb-item">
+          <NuxtLink to="/">
+            トップ
+          </NuxtLink>
+        </li>
+        <li class="breadcrumb-item" aria-current="page">
+          <NuxtLink :to="`/industries/${company.industry_id}`">
+            {{ company.industry_name }}
+          </NuxtLink>
+        </li>
+        <li class="breadcrumb-item active" aria-current="page">
+          {{ company.security_name }}
+        </li>
+      </ol>
+    </nav>
+    <h1>{{ company.security_name }} の企業データ</h1>
     <company :company="company" />
   </div>
 </template>

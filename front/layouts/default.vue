@@ -10,7 +10,7 @@ body {
   font-size: 14px;
 }
 h1 {
-  font-size: 1.50rem;
+  font-size: 1.375rem;
 }
 h2 {
   font-size: 1.25rem;
@@ -20,5 +20,9 @@ h3 {
 }
 h4, h5, h6 {
   font-size: 1rem;
+}
+.breadcrumb {
+  background-color: white;
+  margin-bottom: 0;
 }
 </style>

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_07_30_111150) do
+ActiveRecord::Schema.define(version: 2021_08_02_234100) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -41,6 +41,17 @@ ActiveRecord::Schema.define(version: 2021_07_30_111150) do
     t.bigint "ordinary_income"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.bigint "capital_stock"
+    t.bigint "net_assets"
+    t.bigint "total_assets"
+    t.float "equity_to_asset_ratio"
+    t.float "rate_of_return_on_equity"
+    t.float "price_earnings_ratio"
+    t.bigint "net_cash_provided_by_used_in_operating_activities"
+    t.bigint "net_cash_provided_by_used_in_investing_activities"
+    t.bigint "net_cash_provided_by_used_in_financing_activities"
+    t.bigint "cash_and_cash_equivalents"
+    t.integer "consolidated_number_of_employees"
     t.index ["document_id"], name: "index_documents_on_document_id", unique: true
     t.index ["security_code"], name: "index_documents_on_security_code"
   end

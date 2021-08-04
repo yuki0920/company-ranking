@@ -1,13 +1,17 @@
 <template>
   <div v-if="market" class="container">
-    <b-breadcrumb class="bg-white mb-0">
-      <b-breadcrumb-item to="/">
-        トップ
-      </b-breadcrumb-item>
-      <b-breadcrumb-item active>
-        {{ market.name }}
-      </b-breadcrumb-item>
-    </b-breadcrumb>
+    <nav aria-label="breadcrumb">
+      <ol class="breadcrumb pl-0">
+        <li class="breadcrumb-item">
+          <NuxtLink to="/">
+            トップ
+          </NuxtLink>
+        </li>
+        <li class="breadcrumb-item active" aria-current="page">
+          {{ market.name }}
+        </li>
+      </ol>
+    </nav>
     <h1>
       東証 {{ market.name }} のランキング
       <small class="text-muted">
