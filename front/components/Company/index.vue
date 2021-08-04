@@ -1,8 +1,8 @@
 <template>
   <div class="row company-detail">
-    <div class="col-sm-6">
+    <div class="col-12 col-md-6">
       <h2>基本情報</h2>
-      <dl class="company-detail__list row">
+      <dl class="company-detail__list row m-0">
         <dt class="col-4">
           社名
         </dt>
@@ -44,48 +44,50 @@
           {{ company.representative }}
         </dd>
       </dl>
-      <div class="d-flex justify-content-end">
+      <div class="d-flex justify-content-end mt-1 mb-2">
         （{{ company.period_ended_at_year }}年{{ company.period_ended_at_month }}月時点）
       </div>
     </div>
-    <div class="col-sm-6">
+    <div class="col-12 col-md-6">
       <h2>従業員情報</h2>
-      <dl class="company-detail__list row">
+      <dl class="company-detail__list row m-0">
         <dt class="col-4">
           従業員数
         </dt>
         <dd class="col-8">
-          {{ company.number_of_employees }} 人
+          {{ numberWithDelimiter(company.consolidated_number_of_employees) }} 人（連結）
+          /
+          {{ numberWithDelimiter(company.number_of_employees) }} 人（単独）
         </dd>
         <dt class="col-4">
           平均年間給与
         </dt>
         <dd class="col-8">
-          {{ numberWithDelimiter(company.average_annual_salary) }} 万円
+          {{ numberWithDelimiter(company.average_annual_salary) }} 万円（単独）
         </dd>
         <dt class="col-4">
           平均年齢
         </dt>
         <dd class="col-8">
-          {{ company.average_age_years }} 歳
+          {{ company.average_age_years }} 歳（単独）
         </dd>
         <dt class="col-4">
           平均勤続年数
         </dt>
         <dd class="col-8">
-          {{ company.average_length_of_service_years }} 年
+          {{ company.average_length_of_service_years }} 年（単独）
         </dd>
       </dl>
-      <div class="d-flex justify-content-end">
+      <div class="d-flex justify-content-end mt-1 mb-2">
         （{{ company.period_ended_at_year }}年{{ company.period_ended_at_month }}月時点）
       </div>
     </div>
-    <div class="col-sm-6">
+    <div class="col-12 col-md-6">
       <h2>
         決算情報
         <small class="text-muted">※連結ベース</small>
       </h2>
-      <dl class="company-detail__list row">
+      <dl class="company-detail__list row m-0">
         <dt class="col-4">
           基準事業年度
         </dt>
@@ -129,7 +131,7 @@
           {{ numberWithDelimiter(company.ordinary_income) }} 億円
         </dd>
       </dl>
-      <div class="d-flex justify-content-end">
+      <div class="d-flex justify-content-end mt-1 mb-2">
         （{{ company.period_ended_at_year }}年{{ company.period_ended_at_month }}月時点）
       </div>
     </div>

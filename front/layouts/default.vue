@@ -10,7 +10,7 @@ body {
   font-size: 14px;
 }
 h1 {
-  font-size: 1.50rem;
+  font-size: 1.375rem;
 }
 h2 {
   font-size: 1.25rem;

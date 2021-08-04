@@ -1,7 +1,7 @@
 <template>
   <div v-if="company" class="container">
     <nav aria-label="breadcrumb">
-      <ol class="breadcrumb">
+      <ol class="breadcrumb pl-0">
         <li class="breadcrumb-item">
           <NuxtLink to="/">
             トップ
