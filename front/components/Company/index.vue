@@ -44,6 +44,9 @@
           {{ company.representative }}
         </dd>
       </dl>
+      <div class="d-flex justify-content-end">
+        （{{ company.period_ended_at_year }}年{{ company.period_ended_at_month }}月時点）
+      </div>
     </div>
     <div class="col-sm-6">
       <h2>従業員情報</h2>
@@ -73,6 +76,9 @@
           {{ company.average_length_of_service_years }} 年
         </dd>
       </dl>
+      <div class="d-flex justify-content-end">
+        （{{ company.period_ended_at_year }}年{{ company.period_ended_at_month }}月時点）
+      </div>
     </div>
     <div class="col-sm-6">
       <h2>
@@ -123,6 +129,9 @@
           {{ numberWithDelimiter(company.ordinary_income) }} 億円
         </dd>
       </dl>
+      <div class="d-flex justify-content-end">
+        （{{ company.period_ended_at_year }}年{{ company.period_ended_at_month }}月時点）
+      </div>
     </div>
   </div>
 </template>
@@ -154,6 +163,7 @@ $border-color: #ced4da;
   &__list {
     border: 1px solid $border-color;
     border-top: none;
+    margin-bottom: 0;
 
     dt {
       background: #f6f9fc;
