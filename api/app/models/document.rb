@@ -77,7 +77,7 @@ class Document < ApplicationRecord
 
           submitted_at = document[:submitDateTime].present? ? Date.parse(document[:submitDateTime]) : nil
 
-          doc.create(
+          create!(
             document_id: document_id,
             edinet_code: edinet_code,
             filer_name: document[:filerName],

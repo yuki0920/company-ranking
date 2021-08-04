@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-namespace :save_detail do
+namespace :save_document_detail do
   desc '書類取得APIから書類ダウンロードし解析してレコードに保存'
 
   task batch: :environment do
