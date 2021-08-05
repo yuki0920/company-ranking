@@ -13,7 +13,7 @@ RSpec.describe '/api/v1/companies', type: :request do
   describe 'GET /api/v1/companies' do
     context 'pageなし' do
       it do
-        get "/api/v1/companies", params: { sort_type: 'net_sales' }
+        get '/api/v1/companies', params: { sort_type: 'net_sales' }
 
         expect(response).to have_http_status :ok
 
@@ -27,7 +27,7 @@ RSpec.describe '/api/v1/companies', type: :request do
 
     context 'pageあり' do
       it do
-        get "/api/v1/companies", params: { page: 1, sort_type: 'net_sales' }
+        get '/api/v1/companies', params: { page: 1, sort_type: 'net_sales' }
 
         expect(response).to have_http_status :ok
 
@@ -41,7 +41,7 @@ RSpec.describe '/api/v1/companies', type: :request do
 
     context 'queryが文字列' do
       it do
-        get "/api/v1/companies", params: { page: 1, sort_type: 'net_sales', q: 'ネッツエスアイ' }
+        get '/api/v1/companies', params: { page: 1, sort_type: 'net_sales', q: 'ネッツエスアイ' }
 
         expect(response).to have_http_status :ok
 
@@ -55,7 +55,7 @@ RSpec.describe '/api/v1/companies', type: :request do
 
     context 'queryが存在しない社名の場合' do
       it do
-        get "/api/v1/companies", params: { page: 1, sort_type: 'net_sales', q: 'ネットワーク' }
+        get '/api/v1/companies', params: { page: 1, sort_type: 'net_sales', q: 'ネットワーク' }
 
         expect(response).to have_http_status :ok
 
@@ -69,7 +69,7 @@ RSpec.describe '/api/v1/companies', type: :request do
 
     context 'queryが英語の文字列' do
       it do
-        get "/api/v1/companies", params: { page: 1, sort_type: 'net_sales', q: 'Networks' }
+        get '/api/v1/companies', params: { page: 1, sort_type: 'net_sales', q: 'Networks' }
 
         expect(response).to have_http_status :ok
 
@@ -83,7 +83,7 @@ RSpec.describe '/api/v1/companies', type: :request do
 
     context 'queryが英語の文字列の小文字' do
       it do
-        get "/api/v1/companies", params: { page: 1, sort_type: 'net_sales', q: 'networks' }
+        get '/api/v1/companies', params: { page: 1, sort_type: 'net_sales', q: 'networks' }
 
         expect(response).to have_http_status :ok
 
@@ -97,7 +97,7 @@ RSpec.describe '/api/v1/companies', type: :request do
 
     context 'queryが数値' do
       it do
-        get "/api/v1/companies", params: { page: 1, sort_type: 'net_sales', q: '1000' }
+        get '/api/v1/companies', params: { page: 1, sort_type: 'net_sales', q: '1000' }
 
         expect(response).to have_http_status :ok
 
