@@ -104,7 +104,8 @@ export default {
     components: [
       'BIconBarChart',
       'BIconBuilding',
-      'BIconGraphUp'
+      'BIconGraphUp',
+      'BIconTwitter'
     ]
   },
 
