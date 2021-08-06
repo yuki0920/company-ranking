@@ -1,0 +1,12 @@
+version: 2
+updates:
+  - package-ecosystem: "npm"
+    directory: "./front"
+    schedule:
+      interval: "daily"
+      time: "13:10"
+  - package-ecosystem: "bundler"
+    directory: "./api"
+    schedule:
+      interval: "daily"
+      time: "13:20"
