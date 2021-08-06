@@ -1,6 +1,6 @@
 <template>
   <ul class="list-group">
-    <li v-for="company in companies" :key="company.security_id" class="list-group-item flex-column align-items-start">
+    <li v-for="company in companies" :key="company.security_code" class="list-group-item flex-column align-items-start">
       <div class="d-flex w-100 justify-content-between mb-1">
         <NuxtLink :to="`/companies/${company.security_code}`">
           <span>{{ company.security_name }}</span>
