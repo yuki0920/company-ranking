@@ -1,0 +1,12 @@
+name: Update sitemap
+on:
+  schedule:
+    # NTOE: UTCで15:00, JSTで24:1.0.0
+    # NOTE: schedulerによって定期的に更新するため、毎日通知する
+    - cron: '0 15 * * *'
+jobs:
+  update-sitemap:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Ping to Google
+        run: curl -X GET "http://www.google.com/ping?sitemap=https://company-ranking.net/sitemap.xml"

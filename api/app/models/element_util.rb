@@ -12,7 +12,7 @@ module ElementUtil
     if scale
       sign * base_number * (10**scale)
     elsif decimals
-      sign * base_number * (10**(-1*decimals))
+      sign * base_number * (10**(-1 * decimals))
     else
       sign * base_number
     end

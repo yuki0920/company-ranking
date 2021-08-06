@@ -255,7 +255,7 @@ components:
         - rate_of_return_on_equity
         - price_earnings_ratio
         - net_cash_provided_by_used_in_operating_activities
-        - net_cash_provided_by_used_in_investing_activitie
+        - net_cash_provided_by_used_in_investing_activities
         - net_cash_provided_by_used_in_financing_activities
         - cash_and_cash_equivalents
         - consolidated_number_of_employees

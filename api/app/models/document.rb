@@ -50,7 +50,7 @@ class Document < ApplicationRecord
   class << self
     def save_summary(date)
       # NOTE: 1がメタデータのみ、2がメタデータ+書類一覧
-      params = { 'date': date, 'type': 2 }
+      params = { date: date, type: 2 }
       response = Faraday.get(DOC_LIST_URL, params)
 
       raise "StatusCode: #{response.status}, #{date}の書類一覧取得に失敗しました" unless response.status == 200
@@ -97,7 +97,7 @@ class Document < ApplicationRecord
   def download
     return if File.exist?(document_zip_path)
 
-    response = Faraday.get("#{DOC_URL}/#{document_id}", { 'type': 1 })
+    response = Faraday.get("#{DOC_URL}/#{document_id}", { type: 1 })
 
     raise "#{document_id}の書類取得に失敗しました" unless response.status == 200
 

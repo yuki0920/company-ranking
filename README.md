@@ -22,7 +22,7 @@
 
 ```
 docker run --rm -v "${PWD}:/local" openapitools/openapi-generator-cli generate \
-  -i local/openapi/openapi.yaml \
+  -i local/api/openapi/openapi.yaml \
   -g typescript-angular \
   -o local/front/types/typescript-angular
 dc run --rm front yarn lint --fix

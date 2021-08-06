@@ -1,22 +1,31 @@
-name: reviewdog
+name: RuboCop
 on: [push]
 jobs:
   rubocop:
-    name: runner / rubocop
+    name: Run rubocop
     runs-on: ubuntu-latest
     defaults:
       run:
         working-directory: ./api
+    env:
+      RAILS_ENV: test
+      FRONT_DOMAIN: dummy
     steps:
-      - name: Check out code
-        uses: actions/checkout@v1
-      - uses: ruby/setup-ruby@v1
+      - uses: actions/checkout@v2
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@v1
         with:
           ruby-version: 2.7.4
-      - name: rubocop
-        uses: reviewdog/action-rubocop@v1
+      - name: Cache gems
+        uses: actions/cache@v1
         with:
-          rubocop_version: gemfile
-          rubocop_extensions: rubocop-rails:gemfile rubocop-rspec:gemfile rubocop-performance:gemfile
-          github_token: ${{ secrets.github_token }}
-          reporter: github-pr-review # Default is github-pr-check
+          path: vendor/bundle
+          key: ${{ runner.os }}-gem-${{ hashFiles('**/Gemfile.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-gem-
+      - name: Install dependencies
+        run: |
+          gem install bundler
+          bundle install --path vendor/bundle
+      - name: Run rubocop
+        run: bundle exec rubocop
