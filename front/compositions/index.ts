@@ -2,14 +2,8 @@ import { useContext, ref, watch, useRoute } from '@nuxtjs/composition-api'
 import { StateChanger } from 'vue-infinite-loading/types'
 import { EachCompany, ResponseCompanies, EachIndustryCategory, Industry, EachMarket, Market } from '~/types/typescript-angular/model/models'
 
-const replaceUrl = ({ page, sortType, query }: { page: number, sortType: string, query: string }) => {
-  const queryParam = [null, undefined, ''].includes(query) ? '' : `&q=${query}`
-
-  window.history.replaceState(null, '', `${location.pathname}?page=${page}&sort_type=${sortType}${queryParam}`)
-}
-
 export const useCompany = () => {
-  const { $axios } = useContext()
+  const { $axios, $ga } = useContext()
   const route = useRoute()
   const pageParam = typeof route.value.query.page === 'string' ? parseInt(route.value.query.page, 10) : null
   const page = ref<number>(pageParam || 1)
@@ -20,6 +14,14 @@ export const useCompany = () => {
   const marketId = ref<any>(route.value.params.marketId)
   const query = ref<any>(route.value.query.q)
   const companies = ref<Array<EachCompany>>([])
+
+  const replaceUrl = ({ page, sortType, query }: { page: number, sortType: string, query: string }) => {
+    const queryParam = [null, undefined, ''].includes(query) ? '' : `&q=${query}`
+    const url = `${location.pathname}?page=${page}&sort_type=${sortType}${queryParam}`
+
+    $ga.page(url)
+    window.history.replaceState(null, '', url)
+  }
 
   const fetchCompanies = () => {
     let params = { page: page.value, sort_type: sortType.value }
