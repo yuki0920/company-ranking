@@ -20,6 +20,7 @@ paths:
             enum:
               - net_sales
               - average_annual_salary
+              - ordinary_income
         - in: query
           name: q
           description: query for company_name or security_id
