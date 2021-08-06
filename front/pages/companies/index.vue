@@ -22,6 +22,9 @@
       <option value="average_annual_salary">
         年間給与順
       </option>
+      <option value="ordinary_income">
+        経常利益順
+      </option>
     </select>
     <input v-model="query" class="form-control  col-sm-3 mb-3" placeholder="社名 または 証券コード">
     <mobile-company-list v-if="isMobile" :companies="companies" />

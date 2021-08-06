@@ -24,6 +24,10 @@ module Api
           securities = securities.order('documents.average_annual_salary DESC NULLS LAST')
         when 'net_sales'
           securities = securities.order('documents.net_sales DESC NULLS LAST')
+        when 'ordinary_income'
+          securities = securities.order('documents.ordinary_income DESC NULLS LAST')
+        else
+          raise
         end
 
         meta, @securities = pagy(securities)

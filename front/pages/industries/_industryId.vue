@@ -25,6 +25,9 @@
       <option value="average_annual_salary">
         年間給与順
       </option>
+      <option value="ordinary_income">
+        経常利益順
+      </option>
     </select>
     <mobile-company-list v-if="isMobile" :companies="companies" />
     <pc-company-list v-else :companies="companies" :from="from" :is-industry="true" />
