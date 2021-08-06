@@ -1,22 +1,52 @@
-# name of our action
-# name: Rspec
-# on: [push]
-# jobs:
-#   rspec:
-#     name: Run rspec
-#     runs-on: ubuntu-latest
-#     defaults:
-#       run:
-#         working-directory: ./api
-#     steps:
-#       - uses: actions/checkout@v2
-#       - uses: ruby/setup-ruby@v1
-#         with:
-#           ruby-version: 2.7.4
-#           bundler-cache: true
-#           cache-version: 1
-#       - name: Run rspec
-#         run: |
-#           gem install bundler
-#           bundle install --path vendor/bundle --quiet --jobs 4 --retry 3
-#           bundle exec rspec
+name: Rspec
+on: [push]
+jobs:
+  rspec:
+    name: Run rspec
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./api
+    services:
+      postgres:
+        image: postgres:12.7
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: test
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        ports:
+          - 5432:5432
+    env:
+      RAILS_ENV: test
+      POSTGRES_HOST: postgres
+      RAILS_DATABASE_USER: postgres
+      RAILS_DATABASE_PASSWORD: password
+      FRONT_DOMAIN: dummy
+      DATABASE_URL: postgres://postgres:postgres@localhost:5432/test
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: 2.7.4
+      - name: Cache gems
+        uses: actions/cache@v1
+        with:
+          path: vendor/bundle
+          key: ${{ runner.os }}-gem-${{ hashFiles('**/Gemfile.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-gem-
+      - name: Install dependencies
+        run: |
+          gem install bundler
+          bundle install --path vendor/bundle
+      - name: setup DB
+        run: |
+          bundle exec rails db:migrate
+      - name: Run tests
+        run: bundle exec rspec

@@ -12,7 +12,7 @@ RSpec.describe '/api/v1/markets', type: :request do
 
   describe 'GET /api/v1/markets' do
     it do
-      get "/api/v1/markets"
+      get '/api/v1/markets'
 
       expect(response).to have_http_status :ok
 

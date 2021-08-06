@@ -1,6 +1,7 @@
 [build]
   base = "front/"
   publish = "dist/"
+  ignore = "git diff --quiet $CACHED_COMMIT_REF $COMMIT_REF ./front"
 [build.environment]
   YARN_VERSION = "1.22.5"
   YARN_FLAGS = "--no-ignore-optional"
