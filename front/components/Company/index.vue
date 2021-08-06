@@ -164,37 +164,37 @@
         <dt class="col-4">
           自己資本比率
         </dt>
-        <dd class="col-8" :style="{color: profitColor(company.last_year_operating_income)}">
-          {{ company.equity_to_asset_ratio }} %
+        <dd class="col-8">
+          {{ numberWithDelimiter(company.equity_to_asset_ratio) }} %
         </dd>
         <dt class="col-4">
           自己資本利益率(ROE)
         </dt>
-        <dd class="col-8" :style="{color: profitColor(company.operating_income)}">
-          {{ company.rate_of_return_on_equity }} %
+        <dd class="col-8" :style="{color: profitColor(company.rate_of_return_on_equity)}">
+          {{ numberWithDelimiter(company.rate_of_return_on_equity) }} %
         </dd>
         <dt class="col-4">
           株価収益率(PER)
         </dt>
-        <dd class="col-8" :style="{color: profitColor(company.last_year_ordinary_income)}">
-          {{ company.price_earnings_ratio }} 倍
+        <dd class="col-8">
+          {{ numberWithDelimiter(company.price_earnings_ratio) }} 倍
         </dd>
         <dt class="col-4">
           営業CF
         </dt>
-        <dd class="col-8">
+        <dd class="col-8" :style="{color: profitColor(company.net_cash_provided_by_used_in_operating_activities)}">
           {{ numberWithDelimiter(company.net_cash_provided_by_used_in_operating_activities) }} 億円
         </dd>
         <dt class="col-4">
           投資CF
         </dt>
-        <dd class="col-8">
+        <dd class="col-8" :style="{color: profitColor(company.net_cash_provided_by_used_in_investing_activities)}">
           {{ numberWithDelimiter(company.net_cash_provided_by_used_in_investing_activities) }} 億円
         </dd>
         <dt class="col-4">
           財務CF
         </dt>
-        <dd class="col-8">
+        <dd class="col-8" :style="{color: profitColor(company.net_cash_provided_by_used_in_financing_activities)}">
           {{ numberWithDelimiter(company.net_cash_provided_by_used_in_financing_activities) }} 億円
         </dd>
         <dt class="col-4">
