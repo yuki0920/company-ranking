@@ -29,13 +29,12 @@
         経常利益順
       </option>
     </select>
+    <input v-model="query" class="form-control  col-sm-3 mb-3" placeholder="社名 または 証券コード">
     <mobile-company-list v-if="isMobile" :companies="companies" />
     <pc-company-list v-else :companies="companies" :from="from" :is-industry="true" />
-    <infinite-loading :identifier="sortType" spinner="bubbles" @infinite="infiniteHandler">
+    <infinite-loading :identifier="[sortType, query]" spinner="bubbles" @infinite="infiniteHandler">
       <div slot="no-more" class="mb-3" />
-      <div slot="no-results" class="mb-3">
-        対象の企業はありません
-      </div>
+      <div slot="no-results" class="mb-3" />
     </infinite-loading>
   </div>
 </template>
@@ -51,7 +50,7 @@ export default defineComponent({
   components: { InfiniteLoading },
   setup () {
     const { isMobile } = useUtility()
-    const { count, from, sortType, companies, infiniteHandler } = useCompany()
+    const { count, from, sortType, query, companies, infiniteHandler } = useCompany()
     const { fetchIndustry, industry } = useIndustry()
     const { title, meta } = useMeta()
 
@@ -70,6 +69,7 @@ export default defineComponent({
       count,
       from,
       sortType,
+      query,
       companies,
       industry,
       infiniteHandler
