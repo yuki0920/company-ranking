@@ -3,7 +3,7 @@ import { StateChanger } from 'vue-infinite-loading/types'
 import { EachCompany, ResponseCompanies, EachIndustryCategory, Industry, EachMarket, Market } from '~/types/typescript-angular/model/models'
 
 export const useCompany = () => {
-  const { $axios, $ga } = useContext()
+  const { $axios } = useContext()
   const route = useRoute()
   const pageParam = typeof route.value.query.page === 'string' ? parseInt(route.value.query.page, 10) : null
   const page = ref<number>(pageParam || 1)
@@ -19,7 +19,6 @@ export const useCompany = () => {
     const queryParam = [null, undefined, ''].includes(query) ? '' : `&q=${query}`
     const url = `${location.pathname}?page=${page}&sort_type=${sortType}${queryParam}`
 
-    $ga.page(url)
     window.history.replaceState(null, '', url)
   }
 
