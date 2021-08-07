@@ -27,3 +27,18 @@ docker run --rm -v "${PWD}:/local" openapitools/openapi-generator-cli generate \
   -o local/front/types/typescript-angular
 dc run --rm front yarn lint --fix
 ```
+
+## Dependabotによるライブラリアップデートの注意点
+
+### loader系は固定
+
+```bash
+"css-loader": "^5.2.0"
+"sass-loader": "10"
+```
+
+ref: [設定 プリプロセッサ - NuxtJS](https://ja.nuxtjs.org/docs/2.x/features/configuration)
+
+### 1つのPRにまとめる
+
+ビルドに時間がかかるので1つのPRにまとめた上でマージすることで、ビルド時間を短縮する
