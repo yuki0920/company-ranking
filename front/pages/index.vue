@@ -57,11 +57,14 @@ export default defineComponent({
       { hid: 'description', name: 'description', content: '上場企業ランキングのトップページです。売上、利益、年収を掲載しています。' }
     ]
 
-    onMounted(async () => {
-      const { data: industriesData }:{ data: ResponseIndustries } = await fetchIndustries()
-      industryCategories.value = industriesData.industry_categories
-      const { data: marketsData }:{ data: ResponseMarkets } = await fetchMarkets()
-      markets.value = marketsData.markets
+    onMounted(() => {
+      Promise.all([
+        fetchIndustries(),
+        fetchMarkets()
+      ]).then(([{ data: industriesData }, { data: marketsData }]: [ResponseIndustries, ResponseMarkets]) => {
+        industryCategories.value = industriesData.industry_categories
+        markets.value = marketsData.markets
+      })
     })
 
     return {
