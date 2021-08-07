@@ -48,7 +48,6 @@
 <script lang='ts'>
 import { defineComponent, useMeta, onMounted } from '@nuxtjs/composition-api'
 import { useIndustries, useMarkets } from '~/compositions'
-import { ResponseIndustries, ResponseMarkets } from '~/types/typescript-angular/model/models'
 
 export default defineComponent({
   setup () {
@@ -64,7 +63,7 @@ export default defineComponent({
       Promise.all([
         fetchIndustries(),
         fetchMarkets()
-      ]).then(([{ data: industriesData }, { data: marketsData }]: [ResponseIndustries, ResponseMarkets]) => {
+      ]).then(([{ data: industriesData }, { data: marketsData }]) => {
         industryCategories.value = industriesData.industry_categories
         markets.value = marketsData.markets
       })
