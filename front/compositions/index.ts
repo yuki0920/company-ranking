@@ -2,6 +2,27 @@ import { useContext, ref, watch, useRoute } from '@nuxtjs/composition-api'
 import { StateChanger } from 'vue-infinite-loading/types'
 import { EachCompany, ResponseCompanies, EachIndustryCategory, Industry, EachMarket, Market } from '~/types/typescript-angular/model/models'
 
+export const useMetaTags = (title: string) => {
+  const description = `${title}の業績、売上、利益、年収などの企業データをランキング形式で掲載しています。企業研究にご利用ください。`
+
+  return [
+    // NOTE: Google Analytics の検索ワードで漏れているキーワードを追加する
+    // NOTE: titleには社名+証券コード+業界, 業界, 市場
+    { hid: 'description', name: 'description', content: description },
+    { hid: 'keyword', name: 'keyword', content: `${title},年収,年間収入,従業員数,平均年齢,業績,売上,利益,財務,資本金,総資産,自己資本利益率,ROE,キャッシュフロー,現金,上場企業,ランキング` },
+    { hid: 'og:description', property: 'og:description', content: description },
+    { hid: 'og:locale', property: 'og:locale', content: 'ja_JP' },
+    { hid: 'og:type', property: 'og:type', content: 'website' },
+    { hid: 'og:site_name', property: 'og:site_name', content: '上場企業ランキング' },
+    { hid: 'og:title', property: 'og:title', content: `${title} | 上場企業ランキング` },
+    { hid: 'og:url', property: 'og:url', content: `${location.href}` },
+    { hid: 'article:author', property: 'article:author', content: 'https://www.facebook.com/ywsep20/' },
+    { hid: 'og:image', property: 'og:image', content: '~/assets/img/ogp.jpg' },
+    { hid: 'twitter:card', name: 'twitter:card', content: 'summary' },
+    { hid: 'twitter:site', name: 'twitter:site', content: '@YukiWebTech' }
+  ]
+}
+
 export const useCompany = () => {
   const { $axios } = useContext()
   const route = useRoute()
