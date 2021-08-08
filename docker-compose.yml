@@ -17,6 +17,7 @@ services:
     environment:
       POSTGRES_PASSWORD: $POSTGRES_PASSWORD
       FRONT_DOMAIN: "localhost:$FRONT_PORT"
+      SLACK_WEBHOOK_URL: https://hooks.slack.com/services/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
     volumes:
       - ./api:/$WORKDIR
     depends_on:

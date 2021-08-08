@@ -254,6 +254,7 @@ GEM
     ruby2_keywords (0.0.5)
     rubyntlm (0.6.3)
     rubyzip (2.3.2)
+    slack-notifier (2.4.0)
     spreadsheet (1.2.9)
       ruby-ole
     spring (2.1.1)
@@ -304,6 +305,7 @@ DEPENDENCIES
   rubocop-rails
   rubocop-rspec
   rubyzip
+  slack-notifier
   spreadsheet
   spring
 
