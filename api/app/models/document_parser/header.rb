@@ -15,17 +15,17 @@ class DocumentParser::Header
     parsed_html.css('nonnumeric').each do |element|
       case element.attr('name')
       when 'jpcrp_cor:FilingDateCoverPage'
-        @document.submitted_at = element.children[0].text
+        @document.submitted_at = element.children.find { |child| child.text.present? }.text.strip
       when 'jpcrp_cor:FiscalYearCoverPage'
-        @document.fiscal_year = element.children[0].text
+        @document.fiscal_year = element.children.find { |child| child.text.present? }.text.strip
       when 'jpcrp_cor:CompanyNameCoverPage'
-        @document.company_name = element.children[0].text
+        @document.company_name = element.children.find { |child| child.text.present? }.text.strip
       when 'jpcrp_cor:CompanyNameInEnglishCoverPage'
-        @document.company_name_en = element.children[0].text
+        @document.company_name_en = element.children.find { |child| child.text.present? }.text.strip
       when 'jpcrp_cor:TitleAndNameOfRepresentativeCoverPage'
-        @document.representative = element.children[0].text
+        @document.representative = element.children.find { |child| child.text.present? }.text.strip
       when 'jpcrp_cor:AddressOfRegisteredHeadquarterCoverPage'
-        @document.head_office_location = element.children[0].text
+        @document.head_office_location = element.children.find { |child| child.text.present? }.text.strip
       end
     end
 
