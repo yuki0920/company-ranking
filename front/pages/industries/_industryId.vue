@@ -40,9 +40,9 @@
 </template>
 
 <script lang='ts'>
-import { defineComponent, useMeta, onMounted } from '@nuxtjs/composition-api'
+import { defineComponent, useMeta } from '@nuxtjs/composition-api'
 import InfiniteLoading from 'vue-infinite-loading'
-import { useCompany, useIndustry } from '~/compositions'
+import { useMetaTags, useCompany, useIndustry } from '~/compositions'
 import { useUtility } from '~/lib/utility'
 import { ResponseIndustry } from '~/types/typescript-angular/model/models'
 
@@ -54,14 +54,10 @@ export default defineComponent({
     const { fetchIndustry, industry } = useIndustry()
     const { title, meta } = useMeta()
 
-    onMounted(async () => {
-      const { data }: { data: ResponseIndustry } = await fetchIndustry()
+    fetchIndustry().then(({ data }: { data: ResponseIndustry }) => {
       industry.value = data.industry
-      const industryName = industry.value.name || '業種一覧'
-      title.value = industryName
-      meta.value = [
-        { hid: 'description', name: 'description', content: `${industryName}の企業をランキング形式で掲載しています。売上、利益、年収を掲載しています。` }
-      ]
+      title.value = industry.value.name
+      meta.value = useMetaTags(industry.value.name)
     })
 
     return {

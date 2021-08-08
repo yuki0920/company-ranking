@@ -23,8 +23,9 @@
 </template>
 
 <script lang='ts'>
-import { defineComponent, useContext, useRoute, computed, ref, useMeta, onMounted } from '@nuxtjs/composition-api'
+import { defineComponent, useContext, useRoute, computed, ref, useMeta } from '@nuxtjs/composition-api'
 import { Company, ResponseCompany } from '~/types/typescript-angular/model/models'
+import { useMetaTags } from '~/compositions'
 
 export default defineComponent({
   setup () {
@@ -38,14 +39,11 @@ export default defineComponent({
       return $axios.get(`/api/v1/companies/${id.value}`)
     }
 
-    onMounted(async () => {
-      const { data }:{ data: ResponseCompany } = await fetchCompany()
+    fetchCompany().then(({ data }:{ data: ResponseCompany }) => {
       company.value = data.company
-      const securityName = company.value.security_name || '企業詳細'
-      title.value = `[${company.value.security_code}]${securityName} - 売上・年収`
-      meta.value = [
-        { hid: 'description', name: 'description', content: `${securityName}の企業情報です。年収、従業員数、平均年齢、業績、売上、利益を掲載しています。` }
-      ]
+      const description = `[${company.value.security_code}]${company.value.security_name}`
+      title.value = description
+      meta.value = useMetaTags(description)
     })
 
     return {

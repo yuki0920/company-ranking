@@ -39,7 +39,7 @@
 <script lang='ts'>
 import { defineComponent, useMeta } from '@nuxtjs/composition-api'
 import InfiniteLoading from 'vue-infinite-loading'
-import { useCompany } from '~/compositions'
+import { useMetaTags, useCompany } from '~/compositions'
 import { useUtility } from '~/lib/utility'
 
 export default defineComponent({
@@ -49,10 +49,8 @@ export default defineComponent({
     const { from, sortType, query, companies, infiniteHandler } = useCompany()
     const { title, meta } = useMeta()
 
-    title.value = 'すべての企業'
-    meta.value = [
-      { hid: 'description', name: 'description', content: 'すべての企業情報です。年収、従業員数、平均年齢、売上、利益を掲載しています。' }
-    ]
+    title.value = 'すべての企業から探す'
+    meta.value = useMetaTags('すべての上場企業')
 
     return {
       isMobile,

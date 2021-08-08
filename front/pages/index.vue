@@ -47,7 +47,7 @@
 
 <script lang='ts'>
 import { defineComponent, useMeta, onMounted } from '@nuxtjs/composition-api'
-import { useIndustries, useMarkets } from '~/compositions'
+import { useMetaTags, useIndustries, useMarkets } from '~/compositions'
 
 export default defineComponent({
   setup () {
@@ -55,9 +55,7 @@ export default defineComponent({
     const { fetchMarkets, markets } = useMarkets()
     const { title, meta } = useMeta()
     title.value = 'トップ'
-    meta.value = [
-      { hid: 'description', name: 'description', content: '上場企業ランキングのトップページです。売上、利益、年収を掲載しています。' }
-    ]
+    meta.value = useMetaTags('トップ')
 
     onMounted(() => {
       Promise.all([

@@ -40,9 +40,9 @@
 </template>
 
 <script lang='ts'>
-import { defineComponent, useMeta, onMounted } from '@nuxtjs/composition-api'
+import { defineComponent, useMeta } from '@nuxtjs/composition-api'
 import InfiniteLoading from 'vue-infinite-loading'
-import { useCompany, useMarket } from '~/compositions'
+import { useMetaTags, useCompany, useMarket } from '~/compositions'
 import { useUtility } from '~/lib/utility'
 import { ResponseMarket } from '~/types/typescript-angular/model/models'
 
@@ -54,14 +54,10 @@ export default defineComponent({
     const { fetchMarket, market } = useMarket()
     const { title, meta } = useMeta()
 
-    onMounted(async () => {
-      const { data }: { data: ResponseMarket } = await fetchMarket()
+    fetchMarket().then(({ data }: { data: ResponseMarket }) => {
       market.value = data.market
-      const marketName = market.value.name || '業種一覧'
-      title.value = marketName
-      meta.value = [
-        { hid: 'description', name: 'description', content: `${marketName}の企業をランキング形式で掲載しています。売上、利益、年収を掲載しています。` }
-      ]
+      title.value = market.value.name
+      meta.value = useMetaTags(market.value.name)
     })
 
     return {
