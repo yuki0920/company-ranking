@@ -33,5 +33,20 @@ RSpec.describe DocumentParser::Header do
         expect(document.head_office_location).to eq '東京都港区海岸一丁目７番１号'
       end
     end
+
+    it 'S100LPKB 三菱ＨＣキャピタル' do
+      src_path = Rails.root.join('spec/fixture/documents/S100LPKB/XBRL/PublicDoc/0000000_header_jpcrp030000-asr-001_E04788-000_2021-03-31_01_2021-06-25_ixbrl.htm').to_s
+      parser = described_class.new(src_path)
+      document = parser.parse
+
+      aggregate_failures do
+        expect(document.submitted_at).to eq '2021年6月25日'
+        expect(document.fiscal_year).to eq '第50期（自　2020年4月1日　至　2021年3月31日）'
+        expect(document.company_name).to eq '三菱ＨＣキャピタル株式会社'
+        expect(document.company_name_en).to eq 'Mitsubishi HC Capital Inc.'
+        expect(document.representative).to eq '代表取締役　社長執行役員　　柳井　隆博'
+        expect(document.head_office_location).to eq '東京都千代田区丸の内一丁目5番1号'
+      end
+    end
   end
 end
