@@ -11,6 +11,7 @@ setup:
     FRONT_DOMAIN: 'company-ranking.net'
     WORKDIR: myapp
     PROJECT_PATH: api
+    SLACK_WEBHOOK_URL: https://hooks.slack.com/services/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
 build:
   docker:
     web: Dockerfile
