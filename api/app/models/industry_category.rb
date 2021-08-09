@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class IndustryCategory < ActiveHash::Base
   include ActiveHash::Associations
   has_many :industries

@@ -60,9 +60,9 @@ class Document < ApplicationRecord
       # ordinanceCode: 府令コード
       # formCode: 様式コード
       transaction do
-        body[:results].select { |document|
-          document[:ordinanceCode] == '010' && document[:formCode] == '030000' && !document[:secCode].nil?
-        }.each do |document|
+        documents = body[:results].select { |document| document[:ordinanceCode] == '010' && document[:formCode] == '030000' && !document[:secCode].nil? }
+
+        documents.each do |document|
           edinet_code = document[:edinetCode]
           next unless edinet_code
 
@@ -103,7 +103,7 @@ class Document < ApplicationRecord
 
     FileUtils.mkdir_p(document_dir_path)
 
-    open(document_zip_path, 'w+b') do |file|
+    File.open(document_zip_path, 'w+b') do |file|
       file.write(response.body)
     end
   end
