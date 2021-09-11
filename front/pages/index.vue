@@ -34,7 +34,7 @@
         </div>
       </section>
     </div>
-    <Footer />
+    <Footer class="mt-auto" />
   </div>
   <div v-else class="text-center mt-5">
     <div class="spinner-border text-lighter" role="status">
