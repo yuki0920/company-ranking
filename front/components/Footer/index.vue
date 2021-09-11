@@ -1,5 +1,5 @@
 <template>
-  <footer class="py-2 bg-lighter fixed-bottom">
+  <footer class="py-2 bg-lighter">
     <div class="container text-center">
       <ul class="nav justify-content-center mb-3">
         <li class="nav-item">
