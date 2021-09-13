@@ -1,5 +1,5 @@
 <template>
-  <div v-if="industryCategories.length > 1">
+  <div v-if="industryCategories.length > 1" class="toppage d-flex flex-column">
     <div class="container mt-3">
       <NuxtLink to="/companies" class="d-block mb-2">
         <p>全ての企業から探す</p>
@@ -73,3 +73,9 @@ export default defineComponent({
   head: {}
 })
 </script>
+
+<style lang="scss" scoped>
+.toppage {
+  min-height: calc(100vh - 56px);
+}
+</style>
