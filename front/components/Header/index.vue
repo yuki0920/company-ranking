@@ -9,9 +9,6 @@
         <b-navbar-toggle target="nav-collapse" />
         <b-collapse id="nav-collapse" is-nav>
           <b-navbar-nav>
-            <b-nav-item to="/">
-              市場・業種から探す
-            </b-nav-item>
             <b-nav-item to="/companies">
               すべての企業
             </b-nav-item>
