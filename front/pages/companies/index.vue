@@ -26,7 +26,7 @@
         経常利益順
       </option>
     </select>
-    <input v-model="query" class="form-control  col-sm-3 mb-3" placeholder="社名 または 証券コード">
+    <input v-model.lazy="query" class="form-control  col-sm-3 mb-3" placeholder="社名 または 証券コード">
     <mobile-company-list v-if="isMobile" :companies="companies" />
     <pc-company-list v-else :companies="companies" :from="from" />
     <infinite-loading :identifier="[sortType, query]" spinner="bubbles" @infinite="infiniteHandler">
