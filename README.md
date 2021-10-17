@@ -42,3 +42,31 @@ ref: [設定 プリプロセッサ - NuxtJS](https://ja.nuxtjs.org/docs/2.x/feat
 ### 1つのPRにまとめる
 
 ビルドに時間がかかるので1つのPRにまとめた上でマージすることで、ビルド時間を短縮する
+
+## 企業情報登録フロー
+
+rake taskで実行している
+
+### 1. 証券コードから企業登録
+
+```
+bundle exec rake save_securities:every_2weeks
+```
+
+確認方法: https://www.jpx.co.jp/listing/stocks/new/index.html に掲載されている企業が登録されていればOK
+
+### 2. EDINET APIから概要を取得
+
+```
+bundle exec rake save_document_summary:year
+```
+
+確認方法: 最新の決算発表をした企業の**概要**が反映されていればOK
+
+### 3. EDINET APIから有報をダウンロードし解析
+
+```
+bundle exec rake save_document_detail:batch
+```
+
+確認方法: 最新の決算発表をした企業の**詳細**が反映されていればOK
