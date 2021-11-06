@@ -33,6 +33,6 @@
     "eslint-plugin-vue": "^7.18.0",
     "fibers": "^5.0.0",
     "sass": "^1.43.4",
-    "sass-loader": "10"
+    "sass-loader": "12"
   }
 }
