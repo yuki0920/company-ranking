@@ -12,6 +12,9 @@ module.exports = {
   ],
   // add your custom rules here
   rules: {
-    camelcase: 'off'
+    camelcase: 'off',
+    'vue/multi-word-component-names': ['error', {
+      ignores: ['index', 'default']
+    }]
   }
 }
