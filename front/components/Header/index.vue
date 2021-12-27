@@ -12,6 +12,9 @@
             <b-nav-item to="/companies">
               すべての企業
             </b-nav-item>
+            <b-nav-item to="/contact">
+              お問い合わせ
+            </b-nav-item>
           </b-navbar-nav>
         </b-collapse>
       </div>
