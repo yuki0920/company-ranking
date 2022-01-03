@@ -15,24 +15,24 @@
     "@nuxtjs/composition-api": "^0.31.0",
     "@nuxtjs/sitemap": "^2.4.0",
     "bootstrap-vue": "^2.21.2",
-    "core-js": "^3.19.2",
+    "core-js": "^3.20.1",
     "nuxt": "^2.15.8",
     "vue-infinite-loading": "^2.4.5"
   },
   "devDependencies": {
-    "@babel/eslint-parser": "^7.16.3",
+    "@babel/eslint-parser": "^7.16.5",
     "@nuxt/types": "^2.15.8",
     "@nuxt/typescript-build": "^2.1.0",
-    "@nuxtjs/eslint-config-typescript": "^6.0.1",
+    "@nuxtjs/eslint-config-typescript": "^8.0.0",
     "@nuxtjs/eslint-module": "^3.0.2",
     "@nuxtjs/google-analytics": "^2.4.0",
     "babel-loader": "^8.2.3",
     "css-loader": "^5.2.0",
-    "eslint": "^7.32.0",
+    "eslint": "^8.6.0",
     "eslint-plugin-nuxt": "^3.0.0",
-    "eslint-plugin-vue": "^8.1.1",
+    "eslint-plugin-vue": "^8.2.0",
     "fibers": "^5.0.0",
-    "sass": "^1.44.0",
-    "sass-loader": "10"
+    "sass": "^1.45.2",
+    "sass-loader": "12"
   }
 }
