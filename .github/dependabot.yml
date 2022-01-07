@@ -4,7 +4,11 @@ updates:
     directory: "./front"
     schedule:
       interval: "monthly"
+    ignore:
+      - dependency-name: "sass-loader"
   - package-ecosystem: "bundler"
     directory: "./api"
     schedule:
       interval: "monthly"
+    ignore:
+      - dependency-name: "rails"
