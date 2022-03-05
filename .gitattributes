@@ -1,0 +1,2 @@
+# Mark any test files as documents
+api/spec/fixture/documents/* linguist-documentation
