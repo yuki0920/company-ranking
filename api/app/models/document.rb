@@ -103,7 +103,7 @@ class Document < ApplicationRecord
 
     FileUtils.mkdir_p(document_dir_path)
 
-    File.open(document_zip_path, 'w+b') do |file|
+    File.binwrite(document_zip_path, 'w+b') do |file|
       file.write(response.body)
     end
   end
