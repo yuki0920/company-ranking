@@ -18,7 +18,10 @@ namespace :save_document_detail do
 
     document = Document.find_by(document_id: document_id)
 
-    return puts "#{document_id}の書類はありません" unless document
+    unless document
+      puts "#{document_id}の書類はありません"
+      exit
+    end
 
     execute(document)
   end
