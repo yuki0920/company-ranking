@@ -28,6 +28,10 @@ namespace :save_securities do
       code = row[HEADER['コード']]
       next if Security.find_by(code: code)
 
+      name = row[HEADER['銘柄名']] # TODO: すでに銘柄名がある場合はエクセル記載の法を優先するようにロジックを修正する
+      old_security = Security.find_by(name: name)
+      old_security&.destroy!
+
       name = row[HEADER['銘柄名']]
       puts "#{code}: #{name} の保存開始"
 

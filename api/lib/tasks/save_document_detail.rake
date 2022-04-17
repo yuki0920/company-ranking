@@ -12,13 +12,16 @@ namespace :save_document_detail do
     end
   end
 
-  # NOTE: rake save_detail:target['S100LMNS']
+  # NOTE: rake save_document_detail:target\['S100LMNS'\] カッコをエスケープする
   task :target, ['document_id'] => :environment do |_, args|
     document_id = args.document_id
 
     document = Document.find_by(document_id: document_id)
 
-    return puts "#{document_id}の書類はありません" unless document
+    unless document
+      puts "#{document_id}の書類はありません"
+      exit
+    end
 
     execute(document)
   end
