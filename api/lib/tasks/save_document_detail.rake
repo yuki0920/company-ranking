@@ -12,7 +12,7 @@ namespace :save_document_detail do
     end
   end
 
-  # NOTE: rake save_detail:target['S100LMNS']
+  # NOTE: rake save_document_detail:target\['S100LMNS'\] カッコをエスケープする
   task :target, ['document_id'] => :environment do |_, args|
     document_id = args.document_id
 
