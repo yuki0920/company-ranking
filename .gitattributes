@@ -1,3 +1,4 @@
 # Mark any test files as documents
 api/spec/fixture/documents/** linguist-documentation
 api/spec/fixture/documents/** linguist-vendored
+front/assets/scss/core/** linguist-vendored
