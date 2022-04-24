@@ -44,6 +44,9 @@ import { useUtility } from '~/lib/utility'
 
 export default defineComponent({
   components: { InfiniteLoading },
+  beforeRouteEnter(_to, _from, next) {
+    next()
+  },
   setup () {
     const { isMobile } = useUtility()
     const { from, sortType, query, companies, infiniteHandler } = useCompany()
