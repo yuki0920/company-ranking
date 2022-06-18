@@ -2,10 +2,9 @@
 
 class Market < ApplicationRecord
   INITIAL_DATA = [
-    { name: '市場第一部' },
-    { name: '市場第二部' },
-    { name: 'マザーズ' },
-    { name: 'JASDAQ' }
+    { name: 'プライム' },
+    { name: 'スタンダード' },
+    { name: 'グロース' }
   ].freeze
 
   has_many :securities
