@@ -2,6 +2,17 @@
 
 ## 起動
 
+### はじめに
+
+```
+cp .env_sample .env
+docker-compose build
+docker-compose run --rm api bundle
+docker-compose run --rm api bundle exec rails db setup
+docker-compose run --rm front yarn
+docker-compose up
+```
+
 ### API
 
 - コンテナのポートは`3000`
