@@ -6,7 +6,7 @@ namespace :notify_slack do
   desc '月に2回rakeタスクの更新状況をslackに通知する'
 
   task every_2weeks: :environment do
-    notifier = Slack::Notifier.new(ENV['SLACK_WEBHOOK_URL'])
+    notifier = Slack::Notifier.new(ENV.fetch('SLACK_WEBHOOK_URL'))
     message = "#{Time.zone.today}\n"
     message += created_securities_message
     message += created_documents_message
