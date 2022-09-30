@@ -15,7 +15,7 @@
     "@nuxtjs/composition-api": "^0.32.0",
     "@nuxtjs/sitemap": "^2.4.0",
     "bootstrap-vue": "^2.22.0",
-    "core-js": "^3.25.0",
+    "core-js": "^3.25.3",
     "nuxt": "^2.15.8",
     "vue-infinite-loading": "^2.4.5"
   },
