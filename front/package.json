@@ -15,7 +15,7 @@
     "@nuxtjs/composition-api": "^0.32.0",
     "@nuxtjs/sitemap": "^2.4.0",
     "bootstrap-vue": "^2.22.0",
-    "core-js": "^3.25.0",
+    "core-js": "^3.29.0",
     "nuxt": "^2.15.8",
     "vue-infinite-loading": "^2.4.5"
   },
@@ -30,9 +30,9 @@
     "css-loader": "^5.2.0",
     "eslint": "^8.16.0",
     "eslint-plugin-nuxt": "^3.0.0",
-    "eslint-plugin-vue": "^9.1.1",
+    "eslint-plugin-vue": "^9.7.0",
     "fibers": "^5.0.0",
-    "sass": "^1.54.8",
+    "sass": "^1.55.0",
     "sass-loader": "10"
   }
 }
