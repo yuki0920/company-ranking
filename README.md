@@ -81,3 +81,27 @@ bundle exec rake save_document_detail:batch
 ```
 
 確認方法: 最新の決算発表をした企業の**詳細**が反映されていればOK
+
+## DB(for Development)
+
+### DB情報出力
+```sh
+# rails console
+Rails.configuration.database_configuration["development"]
+# {"adapter"=>"postgresql", "encoding"=>"unicode", "pool"=>5, "host"=>"db", "username"=>"postgres", "password"=>"password", "database"=>"myapp_development"}
+```
+
+### DB接続
+```sh
+docker-compose ps | grep postgres
+company-ranking-db-1        postgres:12.7-alpine    "docker-entrypoint.s…"   db                  13 minutes ago      Up 13 minutes       0.0.0.0:5432->5432/tcp
+
+psql -h 0.0.0.0 -p 5432 -U postgres myapp_development
+# or
+psql "postgresql://0.0.0.0:5432/myapp_development?user=postgres&password=password&sslmode=disable"
+```
+
+### xo
+```sh
+xo schema "postgresql://0.0.0.0:5432/myapp_development?user=postgres&password=password&sslmode=disable" -o api-go/model
+```
