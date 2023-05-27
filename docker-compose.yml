@@ -28,6 +28,16 @@ services:
     ports:
       - "$API_PORT:$CONTAINER_PORT"
     command: /bin/sh -c "rm -f tmp/pids/server.pid && bundle exec rails s -b '0.0.0.0'"
+  api-go:
+    build:
+      context: ./api-go
+      args:
+        WORKDIR: $WORKDIR
+    volumes:
+      - ./api-go:/$WORKDIR
+    depends_on:
+      - db
+
   front:
     build:
       context: ./front
