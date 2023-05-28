@@ -35,7 +35,7 @@ paths:
           schema:
             type: integer
       responses:
-        200:
+        "200":
           description: get Companies
           content:
             application/json:
@@ -52,7 +52,7 @@ paths:
           schema:
             type: integer
       responses:
-        200:
+        "200":
           description: get Company
           content:
             application/json:
@@ -63,7 +63,7 @@ paths:
       operationId: fetchIndustries
       summary: Get Industries
       responses:
-        200:
+        "200":
           description: get Industries
           content:
             application/json:
@@ -80,7 +80,7 @@ paths:
           schema:
             type: integer
       responses:
-        200:
+        "200":
           description: get Industry
           content:
             application/json:
@@ -91,7 +91,7 @@ paths:
       operationId: fetchMarkets
       summary: Get Markets
       responses:
-        200:
+        "200":
           description: get Markets
           content:
             application/json:
@@ -108,7 +108,7 @@ paths:
           schema:
             type: integer
       responses:
-        200:
+        "200":
           description: get Market
           content:
             application/json:
@@ -119,7 +119,7 @@ paths:
       operationId: fetchCompanyIds
       summary: Get CompanyIds
       responses:
-        200:
+        "200":
           description: get CompanyIds
           content:
             application/json:
@@ -137,7 +137,7 @@ paths:
       operationId: fetchIndustryIds
       summary: Get IndustryIds
       responses:
-        200:
+        "200":
           description: get IndustryIds
           content:
             application/json:
@@ -155,7 +155,7 @@ paths:
       operationId: fetchMarketIds
       summary: Get MarketIds
       responses:
-        200:
+        "200":
           description: get MarketIds
           content:
             application/json:
@@ -164,7 +164,7 @@ paths:
                 required:
                   - market_ids
                 properties:
-                  industry_ids:
+                  market_ids:
                     type: array
                     items:
                       type: integer
@@ -194,19 +194,22 @@ components:
         - market_name
       properties:
         security_code:
-          type: number
+          type: integer
         security_name:
           type: string
         net_sales:
-          type: number
+          type: integer
+          format: int64
           nullable: true
           description: 1億で割った値
         ordinary_income:
-          type: number
+          type: integer
+          format: int64
           nullable: true
           description: 1億で割った値
         average_annual_salary:
-          type: number
+          type: integer
+          format: int64
           nullable: true
           description: 1万で割った値
         industry_name:
@@ -262,13 +265,14 @@ components:
         - consolidated_number_of_employees
       properties:
         security_id:
-          type: number
+          type: integer
         # 従業員情報
         number_of_employees:
-          type: number
+          type: integer
           nullable: true
         average_annual_salary:
-          type: number
+          type: integer
+          format: int64
           nullable: true
           description: 1万で割った値
         average_age_years:
@@ -281,22 +285,24 @@ components:
           nullable: true
         # 基本情報
         security_code:
-          type: number
+          type: integer
         security_name:
           type: string
         market_name:
           type: string
         market_id:
-          type: number
+          type: integer
         industry_name:
           type: string
         industry_id:
-          type: number
+          type: integer
         company_name:
           type: string
         company_name_en:
           type: string
         head_office_location:
+          type: string
+        submitted_at:
           type: string
         representative:
           type: string
@@ -314,67 +320,88 @@ components:
           type: integer
           example: 3
         net_sales:
-          type: number
+          type: integer
+          format: int64
           nullable: true
           description: 1億で割った値
         last_year_net_sales:
-          type: number
+          type: integer
+          format: int64
           nullable: true
           description: 1億で割った値
         operating_income:
-          type: number
+          type: integer
+          format: int64
           nullable: true
           description: 1億で割った値
         last_year_operating_income:
-          type: number
+          type: integer
+          format: int64
           nullable: true
           description: 1億で割った値
         ordinary_income:
-          type: number
+          type: integer
+          format: int64
           nullable: true
           description: 1億で割った値
         last_year_ordinary_income:
-          type: number
+          type: integer
+          format: int64
           nullable: true
           description: 1億で割った値
         capital_stock:
-          type: number
+          type: integer
+          format: int64
           nullable: true
         net_assets:
-          type: number
+          type: integer
+          format: int64
           nullable: true
           description: 純資産
         total_assets:
-          type: number
+          type: integer
+          format: int64
           nullable: true
           description: 総資産
         equity_to_asset_ratio:
           type: number
+          format: float
           nullable: true
           description: 自己資本比率
         rate_of_return_on_equity:
           type: number
+          format: float
           nullable: true
           description: 自己資本利益率(ROE)
         price_earnings_ratio:
           type: number
+          format: float
           nullable: true
           description: 株価収益率(PER)
         net_cash_provided_by_used_in_operating_activities:
-          type: number
+          type: integer
+          format: int64
           nullable: true
+          description: 営業キャッシュフロー
         net_cash_provided_by_used_in_investing_activities:
-          type: number
+          type: integer
+          format: int64
           nullable: true
+          description: 投資キャッシュフロー
         net_cash_provided_by_used_in_financing_activities:
-          type: number
+          type: integer
+          format: int64
           nullable: true
+          description: 財務キャッシュフロー
         cash_and_cash_equivalents:
-          type: number
+          type: integer
+          format: int64
           nullable: true
+          description: 現金及び現金同等物
         consolidated_number_of_employees:
-          type: number
+          type: integer
           nullable: true
+          description: 連結従業員数
     responseIndustries:
       type: object
       required:
@@ -431,11 +458,11 @@ components:
         - code
       properties:
         id:
-          type: number
+          type: integer
         name:
           type: string
         code:
-          type: number
+          type: integer
     responseMarkets:
       type: object
       required:
@@ -488,25 +515,25 @@ components:
         - next
       properties:
         from:
-          type: number
+          type: integer
           description: アイテムの取得開始位置
         count:
-          type: number
+          type: integer
           description: 総アイテム数
         items:
-          type: number
+          type: integer
           description: 1ページあたりのアイテム数
         page:
-          type: number
+          type: integer
           description: 現在のページ番号
         pages:
-          type: number
+          type: integer
           description: 最後ののページ番号
         prev:
-          type: number
+          type: integer
           nullable: true
           description: 前のページ番号
         next:
-          type: number
+          type: integer
           nullable: true
           description: 次のページ番号
