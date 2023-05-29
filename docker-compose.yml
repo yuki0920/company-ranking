@@ -6,9 +6,12 @@ services:
     environment:
       TZ: UTC
       PGTZ: UTC
+      POSTGRES_PORT: $POSTGRES_PORT
       POSTGRES_PASSWORD: $POSTGRES_PASSWORD
     volumes:
       - ./api/tmp/db:/var/lib/postgresql/data
+    ports:
+      - "$POSTGRES_PORT:$POSTGRES_PORT"
   api:
     build:
       context: ./api
