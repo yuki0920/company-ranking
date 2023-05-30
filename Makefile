@@ -19,8 +19,13 @@ POSTGRES_DATABASE_URL := "postgresql://${POSTGRES_HOST}:${POSTGRES_PORT}/${POSTG
 install/tools:
 	@echo "Installing tools..."
 	@go install github.com/xo/xo@latest
+	@go install github.com/deepmap/oapi-codegen/cmd/oapi-codegen@latest
 
 .PHONY: generate/models
 generate/models:
 	@xo schema ${POSTGRES_DATABASE_URL} -o go/models -e "*.created_at" -e "*.updated_at"
 	rm -f go/models/arinternalmetadatum.xo.go go/models/schemamigration.xo.go
+
+.PHONY: generate/server
+generate/server:
+	@oapi-codegen -config go/server/config.yaml -o go/server/server.gen.go api/openapi/openapi.yaml
