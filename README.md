@@ -6,6 +6,7 @@
 
 ```
 cp .env_sample .env
+cp .envrc_sample .envrc
 docker-compose build
 docker-compose run --rm api bundle
 docker-compose run --rm api bundle exec rails db setup
