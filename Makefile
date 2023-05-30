@@ -13,6 +13,7 @@ POSTGRES_PORT := 5432
 POSTGRES_NAME := myapp_development
 POSTGRES_USER := postgres
 POSTGRES_PASSWORD := password
+POSTGRES_DATABASE_URL := "postgresql://${POSTGRES_HOST}:${POSTGRES_PORT}/${POSTGRES_NAME}?user=${POSTGRES_USER}&password=${POSTGRES_PASSWORD}&sslmode=disable"
 
 .PHONY: install/tools
 install/tools:
@@ -21,5 +22,5 @@ install/tools:
 
 .PHONY: generate/models
 generate/models:
-	@xo schema "postgresql://${POSTGRES_HOST}:${POSTGRES_PORT}/${POSTGRES_NAME}?user=${POSTGRES_USER}&password=${POSTGRES_PASSWORD}&sslmode=disable" -o go/models -e "*.created_at" -e "*.updated_at"
-	rm -rf go/models/arinternalmetadatum.xo.go go/models/schemamigration.xo.go
+	@xo schema ${POSTGRES_DATABASE_URL} -o go/models -e "*.created_at" -e "*.updated_at"
+	rm -f go/models/arinternalmetadatum.xo.go go/models/schemamigration.xo.go
