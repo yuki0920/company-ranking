@@ -106,3 +106,10 @@ func (s *Server) FetchMarkets(w http.ResponseWriter, r *http.Request) {
 
 func (s *Server) FetchMarket(w http.ResponseWriter, r *http.Request, id int) {
 }
+
+func ErrorResponse(w http.ResponseWriter, statusCode int, message string) {
+	w.WriteHeader(statusCode)
+	json.NewEncoder(w).Encode(Error{Message: message})
+
+	return
+}

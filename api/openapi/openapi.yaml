@@ -168,6 +168,7 @@ paths:
                     type: array
                     items:
                       type: integer
+                      format: int64
 components:
   schemas:
     responseCompanies:
@@ -266,9 +267,11 @@ components:
       properties:
         security_id:
           type: integer
+          format: int64
         # 従業員情報
         number_of_employees:
           type: integer
+          format: int64
           nullable: true
         average_annual_salary:
           type: integer
@@ -277,11 +280,11 @@ components:
           description: 1万で割った値
         average_age_years:
           type: number
-          format: float
+          format: double
           nullable: true
         average_length_of_service_years:
           type: number
-          format: float
+          format: double
           nullable: true
         # 基本情報
         security_code:
@@ -292,10 +295,12 @@ components:
           type: string
         market_id:
           type: integer
+          format: int64
         industry_name:
           type: string
         industry_id:
           type: integer
+          format: int32
         company_name:
           type: string
         company_name_en:
@@ -365,17 +370,17 @@ components:
           description: 総資産
         equity_to_asset_ratio:
           type: number
-          format: float
+          format: double
           nullable: true
           description: 自己資本比率
         rate_of_return_on_equity:
           type: number
-          format: float
+          format: double
           nullable: true
           description: 自己資本利益率(ROE)
         price_earnings_ratio:
           type: number
-          format: float
+          format: double
           nullable: true
           description: 株価収益率(PER)
         net_cash_provided_by_used_in_operating_activities:
@@ -400,6 +405,7 @@ components:
           description: 現金及び現金同等物
         consolidated_number_of_employees:
           type: integer
+          format: int64
           nullable: true
           description: 連結従業員数
     responseIndustries:

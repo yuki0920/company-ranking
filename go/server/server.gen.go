@@ -27,11 +27,11 @@ const (
 
 // Company defines model for Company.
 type Company struct {
-	AverageAgeYears *float32 `json:"average_age_years"`
+	AverageAgeYears *float64 `json:"average_age_years"`
 
 	// AverageAnnualSalary 1万で割った値
 	AverageAnnualSalary         *int64   `json:"average_annual_salary"`
-	AverageLengthOfServiceYears *float32 `json:"average_length_of_service_years"`
+	AverageLengthOfServiceYears *float64 `json:"average_length_of_service_years"`
 	CapitalStock                *int64   `json:"capital_stock"`
 
 	// CashAndCashEquivalents 現金及び現金同等物
@@ -40,12 +40,12 @@ type Company struct {
 	CompanyNameEn          string `json:"company_name_en"`
 
 	// ConsolidatedNumberOfEmployees 連結従業員数
-	ConsolidatedNumberOfEmployees *int `json:"consolidated_number_of_employees"`
+	ConsolidatedNumberOfEmployees *int64 `json:"consolidated_number_of_employees"`
 
 	// EquityToAssetRatio 自己資本比率
-	EquityToAssetRatio *float32 `json:"equity_to_asset_ratio"`
+	EquityToAssetRatio *float64 `json:"equity_to_asset_ratio"`
 	HeadOfficeLocation string   `json:"head_office_location"`
-	IndustryId         int      `json:"industry_id"`
+	IndustryId         int32    `json:"industry_id"`
 	IndustryName       string   `json:"industry_name"`
 
 	// LastYearNetSales 1億で割った値
@@ -56,7 +56,7 @@ type Company struct {
 
 	// LastYearOrdinaryIncome 1億で割った値
 	LastYearOrdinaryIncome *int64 `json:"last_year_ordinary_income"`
-	MarketId               int    `json:"market_id"`
+	MarketId               int64  `json:"market_id"`
 	MarketName             string `json:"market_name"`
 
 	// NetAssets 純資産
@@ -73,7 +73,7 @@ type Company struct {
 
 	// NetSales 1億で割った値
 	NetSales          *int64 `json:"net_sales"`
-	NumberOfEmployees *int   `json:"number_of_employees"`
+	NumberOfEmployees *int64 `json:"number_of_employees"`
 
 	// OperatingIncome 1億で割った値
 	OperatingIncome *int64 `json:"operating_income"`
@@ -86,13 +86,13 @@ type Company struct {
 	PeriodStartedAt    string `json:"period_started_at"`
 
 	// PriceEarningsRatio 株価収益率(PER)
-	PriceEarningsRatio *float32 `json:"price_earnings_ratio"`
+	PriceEarningsRatio *float64 `json:"price_earnings_ratio"`
 
 	// RateOfReturnOnEquity 自己資本利益率(ROE)
-	RateOfReturnOnEquity *float32 `json:"rate_of_return_on_equity"`
+	RateOfReturnOnEquity *float64 `json:"rate_of_return_on_equity"`
 	Representative       string   `json:"representative"`
 	SecurityCode         int      `json:"security_code"`
-	SecurityId           int      `json:"security_id"`
+	SecurityId           int64    `json:"security_id"`
 	SecurityName         string   `json:"security_name"`
 	SubmittedAt          string   `json:"submitted_at"`
 
@@ -628,37 +628,37 @@ func HandlerWithOptions(si ServerInterface, options ChiServerOptions) http.Handl
 // Base64 encoded, gzipped, json marshaled Swagger object
 var swaggerSpec = []string{
 
-	"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",
+	"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",
 }
 
 // GetSwagger returns the content of the embedded swagger specification file
