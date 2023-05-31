@@ -65,11 +65,14 @@ func (s *Server) FetchCompany(w http.ResponseWriter, r *http.Request, code int) 
 		return
 	}
 
-	periodEndedAt, err := strconv.Atoi(doc.PeriodEndedAt.Month().String())
-	if err != nil {
-		message := fmt.Sprintf("failed to parse period_ended_at: %s", doc.PeriodEndedAt.String())
-		ErrorResponse(w, http.StatusInternalServerError, message)
-		return
+	var periodEndedAt int
+	if doc != nil {
+		periodEndedAt, err = strconv.Atoi(doc.PeriodEndedAt.Month().String())
+		if err != nil {
+			message := fmt.Sprintf("failed to parse period_ended_at: %s", doc.PeriodEndedAt.String())
+			ErrorResponse(w, http.StatusInternalServerError, message)
+			return
+		}
 	}
 
 	company := Company{
