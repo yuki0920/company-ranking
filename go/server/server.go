@@ -42,24 +42,34 @@ func (s *Server) FetchCompany(w http.ResponseWriter, r *http.Request, code int) 
 		message := fmt.Sprintf("failed to fetch documents: %d", code)
 		ErrorResponse(w, http.StatusInternalServerError, message)
 	}
-	doc := docs[len(docs)-1]
+	var doc *models.Document
+	if len(docs) != 0 {
+		doc = docs[len(docs)-1]
+	} else {
+		message := fmt.Sprintf("document not found: %d", code)
+		ErrorResponse(w, http.StatusInternalServerError, message)
+		return
+	}
 
 	market, err := models.MarketByID(ctx, s.DB, sec.MarketID)
 	if err != nil {
 		message := fmt.Sprintf("failed to fetch market: %d", sec.MarketID)
 		ErrorResponse(w, http.StatusInternalServerError, message)
+		return
 	}
 
 	industry, err := models.IndustryByID(ctx, s.DB, int64(sec.IndustryCode))
 	if err != nil {
 		message := fmt.Sprintf("failed to fetch industry: %d", sec.IndustryCode)
 		ErrorResponse(w, http.StatusInternalServerError, message)
+		return
 	}
 
 	periodEndedAt, err := strconv.Atoi(doc.PeriodEndedAt.Month().String())
 	if err != nil {
 		message := fmt.Sprintf("failed to parse period_ended_at: %s", doc.PeriodEndedAt.String())
 		ErrorResponse(w, http.StatusInternalServerError, message)
+		return
 	}
 
 	company := Company{
