@@ -9,10 +9,10 @@ import (
 
 	oapimiddleware "github.com/deepmap/oapi-codegen/pkg/chi-middleware"
 	"github.com/go-chi/chi/v5"
-	"github.com/go-chi/chi/v5/middleware"
 	_ "github.com/lib/pq"
 	"go.uber.org/zap"
 
+	"github.com/yuki0920/company-ranking/go/middleware"
 	"github.com/yuki0920/company-ranking/go/models"
 	"github.com/yuki0920/company-ranking/go/server"
 )
@@ -20,9 +20,9 @@ import (
 func main() {
 	// setup logger
 	logger, _ := zap.NewProduction()
+	defer logger.Sync()
 
 	// setup db
-	defer logger.Sync()
 	dbLogger := func(s string, v ...any) {
 		logger.Info(
 			"Query Executed",
@@ -40,6 +40,8 @@ func main() {
 	}
 	defer db.Close()
 
+	logger.Info("Connected to database")
+
 	// setup server
 	swagger, err := server.GetSwagger()
 	if err != nil {
@@ -49,7 +51,7 @@ func main() {
 
 	r := chi.NewRouter()
 	r.Use(oapimiddleware.OapiRequestValidator(swagger))
-	r.Use(middleware.Logger)
+	r.Use(middleware.Logger(logger))
 
 	svr := server.NewServer(db)
 	server.HandlerFromMux(svr, r)
@@ -60,5 +62,6 @@ func main() {
 		Addr:    fmt.Sprintf("localhost:%s", port),
 	}
 
+	logger.Info("Server starting...")
 	log.Fatal(s.ListenAndServe())
 }
