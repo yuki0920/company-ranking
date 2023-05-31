@@ -6,6 +6,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"net/http"
+	"strconv"
 
 	"github.com/yuki0920/company-ranking/go/models"
 )
@@ -32,50 +33,72 @@ func (s *Server) FetchCompany(w http.ResponseWriter, r *http.Request, code int) 
 
 	sec, err := models.SecurityByCode(ctx, s.DB, code)
 	if err != nil {
-		w.WriteHeader(http.StatusNotFound)
 		message := fmt.Sprintf("security not found: %d", code)
-		json.NewEncoder(w).Encode(Error{Message: message})
+		ErrorResponse(w, http.StatusInternalServerError, message)
+	}
 
-		return
+	docs, err := models.DocumentsBySecurityCode(ctx, s.DB, code)
+	if err != nil {
+		message := fmt.Sprintf("failed to fetch documents: %d", code)
+		ErrorResponse(w, http.StatusInternalServerError, message)
+	}
+	doc := docs[len(docs)-1]
+
+	market, err := models.MarketByID(ctx, s.DB, sec.MarketID)
+	if err != nil {
+		message := fmt.Sprintf("failed to fetch market: %d", sec.MarketID)
+		ErrorResponse(w, http.StatusInternalServerError, message)
+	}
+
+	industry, err := models.IndustryByID(ctx, s.DB, int64(sec.IndustryCode))
+	if err != nil {
+		message := fmt.Sprintf("failed to fetch industry: %d", sec.IndustryCode)
+		ErrorResponse(w, http.StatusInternalServerError, message)
+	}
+
+	periodEndedAt, err := strconv.Atoi(doc.PeriodEndedAt.Month().String())
+	if err != nil {
+		message := fmt.Sprintf("failed to parse period_ended_at: %s", doc.PeriodEndedAt.String())
+		ErrorResponse(w, http.StatusInternalServerError, message)
 	}
 
 	company := Company{
-		AverageAgeYears:               nil,
-		AverageAnnualSalary:           nil,
-		AverageLengthOfServiceYears:   nil,
-		CapitalStock:                  nil,
-		CashAndCashEquivalents:        nil,
-		CompanyName:                   "",
-		CompanyNameEn:                 "",
-		ConsolidatedNumberOfEmployees: nil,
-		EquityToAssetRatio:            nil,
-		HeadOfficeLocation:            "",
-		IndustryId:                    0.0,
-		IndustryName:                  "",
-		LastYearNetSales:              nil,
-		LastYearOperatingIncome:       nil,
-		LastYearOrdinaryIncome:        nil,
-		MarketId:                      0.0,
-		MarketName:                    "",
-		NetAssets:                     nil,
-		NetCashProvidedByUsedInFinancingActivities: nil,
-		NetCashProvidedByUsedInInvestingActivities: nil,
-		NetCashProvidedByUsedInOperatingActivities: nil,
-		NetSales:             nil,
-		NumberOfEmployees:    nil,
-		OperatingIncome:      nil,
-		OrdinaryIncome:       nil,
-		PeriodEndedAt:        "",
-		PeriodEndedAtMonth:   0,
-		PeriodEndedAtYear:    0,
-		PeriodStartedAt:      "",
-		PriceEarningsRatio:   nil,
-		RateOfReturnOnEquity: nil,
-		Representative:       "",
+		AverageAgeYears:               &doc.AverageAgeYears.Float64,
+		AverageAnnualSalary:           &doc.AverageAnnualSalary.Int64,
+		AverageLengthOfServiceYears:   &doc.AverageLengthOfServiceYears.Float64,
+		CapitalStock:                  &doc.CapitalStock.Int64,
+		CashAndCashEquivalents:        &doc.CashAndCashEquivalents.Int64,
+		CompanyName:                   doc.CompanyName.String,
+		CompanyNameEn:                 doc.CompanyNameEn.String,
+		ConsolidatedNumberOfEmployees: &doc.ConsolidatedNumberOfEmployees.Int64,
+		EquityToAssetRatio:            &doc.EquityToAssetRatio.Float64,
+		HeadOfficeLocation:            doc.HeadOfficeLocation.String,
+		IndustryId:                    int32(industry.Code),
+		IndustryName:                  industry.Name,
+		LastYearNetSales:              &doc.LastYearNetSales.Int64,
+		LastYearOperatingIncome:       &doc.LastYearOperatingIncome.Int64,
+		LastYearOrdinaryIncome:        &doc.LastYearOrdinaryIncome.Int64,
+		MarketId:                      market.ID,
+		MarketName:                    market.Name,
+		NetAssets:                     &doc.NetAssets.Int64,
+		NetCashProvidedByUsedInFinancingActivities: &doc.NetCashProvidedByUsedInFinancingActivities.Int64,
+		NetCashProvidedByUsedInInvestingActivities: &doc.NetCashProvidedByUsedInInvestingActivities.Int64,
+		NetCashProvidedByUsedInOperatingActivities: &doc.NetCashProvidedByUsedInOperatingActivities.Int64,
+		NetSales:             &doc.NetSales.Int64,
+		NumberOfEmployees:    &doc.NumberOfEmployees.Int64,
+		OperatingIncome:      &doc.OperatingIncome.Int64,
+		OrdinaryIncome:       &doc.OrdinaryIncome.Int64,
+		PeriodEndedAt:        doc.PeriodEndedAt.String(),
+		PeriodEndedAtMonth:   periodEndedAt,
+		PeriodEndedAtYear:    doc.PeriodEndedAt.Year(),
+		PeriodStartedAt:      doc.PeriodStartedAt.Format("2006-01-02"),
+		PriceEarningsRatio:   &doc.PriceEarningsRatio.Float64,
+		RateOfReturnOnEquity: &doc.RateOfReturnOnEquity.Float64,
+		Representative:       doc.Representative.String,
 		SecurityCode:         sec.Code,
-		SecurityId:           int(sec.ID),
+		SecurityId:           sec.ID,
 		SecurityName:         sec.Name,
-		TotalAssets:          nil,
+		TotalAssets:          &doc.TotalAssets.Int64,
 	}
 
 	res := ResponseCompany{
@@ -105,4 +128,11 @@ func (s *Server) FetchMarkets(w http.ResponseWriter, r *http.Request) {
 }
 
 func (s *Server) FetchMarket(w http.ResponseWriter, r *http.Request, id int) {
+}
+
+func ErrorResponse(w http.ResponseWriter, statusCode int, message string) {
+	w.WriteHeader(statusCode)
+	json.NewEncoder(w).Encode(Error{Message: message})
+
+	return
 }
