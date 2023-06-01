@@ -142,14 +142,7 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                required:
-                  - industry_ids
-                properties:
-                  industry_ids:
-                    type: array
-                    items:
-                      type: integer
+                $ref: "#/components/schemas/responseIndustryIDs"
   /api/v1/market_ids:
     get:
       operationId: fetchMarketIds
@@ -160,15 +153,7 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                required:
-                  - market_ids
-                properties:
-                  market_ids:
-                    type: array
-                    items:
-                      type: integer
-                      format: int64
+                $ref: "#/components/schemas/responseMarketIDs"
 components:
   schemas:
     responseCompanies:
@@ -449,6 +434,16 @@ components:
               count:
                 type: integer
                 description: 業種に属する企業数
+    responseIndustryIDs:
+      type: object
+      required:
+        - industry_ids
+      properties:
+        industry_ids:
+          type: array
+          items:
+            type: integer
+            format: int64
     responseIndustry:
       type: object
       required:
@@ -469,6 +464,16 @@ components:
           type: string
         code:
           type: integer
+    responseMarketIDs:
+      type: object
+      required:
+        - market_ids
+      properties:
+        market_ids:
+          type: array
+          items:
+            type: integer
+            format: int64
     responseMarkets:
       type: object
       required:
