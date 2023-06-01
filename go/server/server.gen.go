@@ -197,9 +197,19 @@ type ResponseIndustry struct {
 	Industry Industry `json:"industry"`
 }
 
+// ResponseIndustryIDs defines model for responseIndustryIDs.
+type ResponseIndustryIDs struct {
+	IndustryIds []int64 `json:"industry_ids"`
+}
+
 // ResponseMarket defines model for responseMarket.
 type ResponseMarket struct {
 	Market Market `json:"market"`
+}
+
+// ResponseMarketIDs defines model for responseMarketIDs.
+type ResponseMarketIDs struct {
+	MarketIds []int64 `json:"market_ids"`
 }
 
 // ResponseMarkets defines model for responseMarkets.
@@ -628,37 +638,37 @@ func HandlerWithOptions(si ServerInterface, options ChiServerOptions) http.Handl
 // Base64 encoded, gzipped, json marshaled Swagger object
 var swaggerSpec = []string{
 
-	"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",
+	"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",
 }
 
 // GetSwagger returns the content of the embedded swagger specification file

@@ -122,6 +122,20 @@ func (s *Server) FetchIndustry(w http.ResponseWriter, r *http.Request, id int) {
 }
 
 func (s *Server) FetchIndustryIds(w http.ResponseWriter, r *http.Request) {
+	ctx := context.Background()
+	ids, err := models.IndustryIDs(ctx, s.DB)
+	if err != nil {
+		message := fmt.Sprintf("failed to fetch industry ids")
+		ErrorResponse(w, http.StatusInternalServerError, message)
+		return
+	}
+
+	res := ResponseIndustryIDs{
+		IndustryIds: ids,
+	}
+
+	w.WriteHeader(http.StatusOK)
+	json.NewEncoder(w).Encode(res)
 }
 
 func (s *Server) FetchMarketIds(w http.ResponseWriter, r *http.Request) {
