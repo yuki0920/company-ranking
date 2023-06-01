@@ -11,6 +11,7 @@ import (
 	"github.com/go-chi/chi/v5"
 	_ "github.com/lib/pq"
 	"go.uber.org/zap"
+	"go.uber.org/zap/zapcore"
 
 	"github.com/yuki0920/company-ranking/go/middleware"
 	"github.com/yuki0920/company-ranking/go/models"
@@ -19,7 +20,19 @@ import (
 
 func main() {
 	// setup logger
-	logger, _ := zap.NewProduction()
+	env := os.Getenv("ENV")
+
+	var zapConfig zap.Config
+	if env == "production" {
+		zapConfig = zap.NewProductionConfig()
+	} else {
+		zapConfig := zap.NewDevelopmentConfig()
+		zapConfig.EncoderConfig.EncodeLevel = zapcore.CapitalColorLevelEncoder
+	}
+	zapConfig = zap.NewDevelopmentConfig()
+	zapConfig.EncoderConfig.EncodeLevel = zapcore.CapitalColorLevelEncoder
+
+	logger, _ := zapConfig.Build()
 	defer logger.Sync()
 
 	// setup db
