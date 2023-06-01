@@ -53,7 +53,9 @@ class Document < ApplicationRecord
       params = { date: date, type: 2 }
       response = Faraday.get(DOC_LIST_URL, params)
 
-      raise "StatusCode: #{response.status}, #{date}の書類一覧取得に失敗しました" unless response.status == 200
+      raise "StatusCode: #{response.status}, #{date}の書類一覧取得に失敗しました" if response.status != 200 && response.status != 403
+
+      Rails.logger.info("#{date}の書類一覧取得は403でした") and return if response.status == 403
 
       body = JSON.parse(response.body, symbolize_names: true)
 
