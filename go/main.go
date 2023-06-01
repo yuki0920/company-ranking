@@ -57,11 +57,12 @@ func main() {
 	server.HandlerFromMux(svr, r)
 
 	port := os.Getenv("SERVER_PORT")
+	addr := fmt.Sprintf("localhost:%s", port)
 	s := &http.Server{
 		Handler: r,
-		Addr:    fmt.Sprintf("localhost:%s", port),
+		Addr:    addr,
 	}
 
-	logger.Info("Server starting...")
+	logger.Info("Server starting", zap.String("address", addr))
 	log.Fatal(s.ListenAndServe())
 }

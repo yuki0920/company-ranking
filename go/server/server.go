@@ -6,7 +6,6 @@ import (
 	"encoding/json"
 	"fmt"
 	"net/http"
-	"strconv"
 
 	"github.com/yuki0920/company-ranking/go/models"
 )
@@ -35,6 +34,7 @@ func (s *Server) FetchCompany(w http.ResponseWriter, r *http.Request, code int) 
 	if err != nil {
 		message := fmt.Sprintf("security not found: %d", code)
 		ErrorResponse(w, http.StatusInternalServerError, message)
+		return
 	}
 
 	docs, err := models.DocumentsBySecurityCode(ctx, s.DB, code)
@@ -58,21 +58,11 @@ func (s *Server) FetchCompany(w http.ResponseWriter, r *http.Request, code int) 
 		return
 	}
 
-	industry, err := models.IndustryByID(ctx, s.DB, int64(sec.IndustryCode))
+	industry, err := models.IndustryByCode(ctx, s.DB, sec.IndustryCode)
 	if err != nil {
 		message := fmt.Sprintf("failed to fetch industry: %d", sec.IndustryCode)
 		ErrorResponse(w, http.StatusInternalServerError, message)
 		return
-	}
-
-	var periodEndedAt int
-	if doc != nil {
-		periodEndedAt, err = strconv.Atoi(doc.PeriodEndedAt.Month().String())
-		if err != nil {
-			message := fmt.Sprintf("failed to parse period_ended_at: %s", doc.PeriodEndedAt.String())
-			ErrorResponse(w, http.StatusInternalServerError, message)
-			return
-		}
 	}
 
 	company := Company{
@@ -102,7 +92,7 @@ func (s *Server) FetchCompany(w http.ResponseWriter, r *http.Request, code int) 
 		OperatingIncome:      &doc.OperatingIncome.Int64,
 		OrdinaryIncome:       &doc.OrdinaryIncome.Int64,
 		PeriodEndedAt:        doc.PeriodEndedAt.String(),
-		PeriodEndedAtMonth:   periodEndedAt,
+		PeriodEndedAtMonth:   int(doc.PeriodEndedAt.Month()),
 		PeriodEndedAtYear:    doc.PeriodEndedAt.Year(),
 		PeriodStartedAt:      doc.PeriodStartedAt.Format("2006-01-02"),
 		PriceEarningsRatio:   &doc.PriceEarningsRatio.Float64,
