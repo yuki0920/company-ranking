@@ -27,7 +27,7 @@ namespace :save_document_detail do
   end
 
   def execute(document)
-    meta = "[Info] id: #{document.id}, document_id: #{document.document_id} filer_name: #{document.filer_name}"
+    meta = "[Info] code: #{document.security_code}, id: #{document.id}, document_id: #{document.document_id} filer_name: #{document.filer_name}"
     puts "#{meta} ダウンロード開始"
     document.download
     puts "#{meta} ダウンロード終了"
