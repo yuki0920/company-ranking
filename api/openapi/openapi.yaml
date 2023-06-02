@@ -411,6 +411,7 @@ components:
       properties:
         id:
           type: integer
+          format: int64
         name:
           type: string
         industries:
@@ -426,6 +427,7 @@ components:
             properties:
               id:
                 type: integer
+                format: int64
               name:
                 type: string
               code:
@@ -492,6 +494,7 @@ components:
       properties:
         id:
           type: integer
+          format: int64
         name:
           type: string
         count:
@@ -512,6 +515,7 @@ components:
       properties:
         id:
           type: integer
+          format: int64
         name:
           type: string
     meta:
