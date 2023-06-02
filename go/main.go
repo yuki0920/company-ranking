@@ -9,6 +9,7 @@ import (
 
 	oapimiddleware "github.com/deepmap/oapi-codegen/pkg/chi-middleware"
 	"github.com/go-chi/chi/v5"
+	"github.com/go-chi/cors"
 	_ "github.com/lib/pq"
 	"go.uber.org/zap"
 	"go.uber.org/zap/zapcore"
@@ -65,6 +66,20 @@ func main() {
 	r := chi.NewRouter()
 	r.Use(oapimiddleware.OapiRequestValidator(swagger))
 	r.Use(middleware.Logger(logger))
+	r.Use(cors.Handler(cors.Options{
+		// AllowedOrigins:   []string{"https://foo.com"}, // Use this to allow specific origin hosts
+		AllowedOrigins: []string{"https://*", "http://*"},
+		// AllowOriginFunc:  func(r *http.Request, origin string) bool { return true },
+		AllowedMethods: []string{
+			http.MethodGet,
+			http.MethodHead,
+			http.MethodPut,
+			http.MethodPatch,
+			http.MethodPost,
+			http.MethodDelete,
+		},
+		AllowCredentials: false, // Because cookie is not used
+	}))
 
 	svr := server.NewServer(db)
 	server.HandlerFromMux(svr, r)
