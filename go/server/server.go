@@ -203,6 +203,20 @@ func (s *Server) FetchIndustryIds(w http.ResponseWriter, r *http.Request) {
 }
 
 func (s *Server) FetchMarketIds(w http.ResponseWriter, r *http.Request) {
+	ctx := context.Background()
+	ids, err := models.MarketIDs(ctx, s.DB)
+	if err != nil {
+		message := fmt.Sprintf("failed to fetch market ids")
+		ErrorResponse(w, http.StatusInternalServerError, message)
+		return
+	}
+
+	res := ResponseMarketIDs{
+		MarketIds: ids,
+	}
+
+	w.WriteHeader(http.StatusOK)
+	json.NewEncoder(w).Encode(res)
 }
 
 func (s *Server) FetchMarkets(w http.ResponseWriter, r *http.Request) {
