@@ -165,6 +165,24 @@ func (s *Server) FetchIndustries(w http.ResponseWriter, r *http.Request) {
 }
 
 func (s *Server) FetchIndustry(w http.ResponseWriter, r *http.Request, id int) {
+	ctx := context.Background()
+	industry, err := models.IndustryByID(ctx, s.DB, int64(id))
+	if err != nil {
+		message := fmt.Sprintf("failed to fetch industry: %d", id)
+		ErrorResponse(w, http.StatusInternalServerError, message)
+		return
+	}
+
+	res := ResponseIndustry{
+		Industry: Industry{
+			Id:   industry.ID,
+			Name: industry.Name,
+			Code: industry.Code,
+		},
+	}
+
+	w.WriteHeader(http.StatusOK)
+	json.NewEncoder(w).Encode(res)
 }
 
 func (s *Server) FetchIndustryIds(w http.ResponseWriter, r *http.Request) {
@@ -185,12 +203,72 @@ func (s *Server) FetchIndustryIds(w http.ResponseWriter, r *http.Request) {
 }
 
 func (s *Server) FetchMarketIds(w http.ResponseWriter, r *http.Request) {
+	ctx := context.Background()
+	ids, err := models.MarketIDs(ctx, s.DB)
+	if err != nil {
+		message := fmt.Sprintf("failed to fetch market ids")
+		ErrorResponse(w, http.StatusInternalServerError, message)
+		return
+	}
+
+	res := ResponseMarketIDs{
+		MarketIds: ids,
+	}
+
+	w.WriteHeader(http.StatusOK)
+	json.NewEncoder(w).Encode(res)
 }
 
 func (s *Server) FetchMarkets(w http.ResponseWriter, r *http.Request) {
+	ctx := context.Background()
+	markets, err := models.MarketALL(ctx, s.DB)
+	if err != nil {
+		message := fmt.Sprintf("failed to fetch markets")
+		ErrorResponse(w, http.StatusInternalServerError, message)
+		return
+	}
+	counts, err := models.SecurityCountByMarket(ctx, s.DB)
+	if err != nil {
+		message := fmt.Sprintf("failed to fetch security counts")
+		ErrorResponse(w, http.StatusInternalServerError, message)
+		return
+	}
+
+	var eachMarkets []EachMarket
+	for _, market := range markets {
+		var eachMarket EachMarket
+		eachMarket.Id = market.ID
+		eachMarket.Name = market.Name
+		eachMarket.Count = counts[int(market.ID)]
+		eachMarkets = append(eachMarkets, eachMarket)
+	}
+
+	res := ResponseMarkets{
+		Markets: eachMarkets,
+	}
+
+	w.WriteHeader(http.StatusOK)
+	json.NewEncoder(w).Encode(res)
 }
 
 func (s *Server) FetchMarket(w http.ResponseWriter, r *http.Request, id int) {
+	ctx := context.Background()
+	market, err := models.MarketByID(ctx, s.DB, int64(id))
+	if err != nil {
+		message := fmt.Sprintf("failed to fetch market: %d", id)
+		ErrorResponse(w, http.StatusInternalServerError, message)
+		return
+	}
+
+	res := ResponseMarket{
+		Market: Market{
+			Id:   market.ID,
+			Name: market.Name,
+		},
+	}
+
+	w.WriteHeader(http.StatusOK)
+	json.NewEncoder(w).Encode(res)
 }
 
 func ErrorResponse(w http.ResponseWriter, statusCode int, message string) {
