@@ -116,6 +116,52 @@ func (s *Server) FetchCompanyIds(w http.ResponseWriter, r *http.Request) {
 }
 
 func (s *Server) FetchIndustries(w http.ResponseWriter, r *http.Request) {
+	ctx := context.Background()
+	industries, err := models.IndustryALL(ctx, s.DB)
+	if err != nil {
+		message := fmt.Sprintf("failed to fetch industries")
+		ErrorResponse(w, http.StatusInternalServerError, message)
+		return
+	}
+	counts, err := models.SecurityCountByIndustry(ctx, s.DB)
+	if err != nil {
+		message := fmt.Sprintf("failed to fetch security counts")
+		ErrorResponse(w, http.StatusInternalServerError, message)
+		return
+	}
+	categories, err := models.IndustryCategoryALL(ctx, s.DB)
+	if err != nil {
+		message := fmt.Sprintf("failed to fetch category counts")
+		ErrorResponse(w, http.StatusInternalServerError, message)
+		return
+	}
+
+	var eachCategories []EachIndustryCategory
+	for _, category := range categories {
+		var eachCategory EachIndustryCategory
+		eachCategory.Id = category.ID
+		eachCategory.Name = category.Name
+		var inds []EachIndustryCategoryIndustry
+		for _, industry := range industries {
+			if industry.IndustryCategoryID.Int64 == category.ID {
+				ind := EachIndustryCategoryIndustry{
+					Id:    industry.ID,
+					Name:  industry.Name,
+					Code:  int32(industry.Code),
+					Count: int32(counts[industry.Code]),
+				}
+				inds = append(inds, ind)
+			}
+		}
+		eachCategory.Industries = &inds
+		eachCategories = append(eachCategories, eachCategory)
+	}
+
+	res := ResponseIndustries{
+		IndustryCategories: eachCategories,
+	}
+	w.WriteHeader(http.StatusOK)
+	json.NewEncoder(w).Encode(res)
 }
 
 func (s *Server) FetchIndustry(w http.ResponseWriter, r *http.Request, id int) {

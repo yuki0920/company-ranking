@@ -418,24 +418,28 @@ components:
           type: array
           nullable: true
           items:
-            type: object
-            required:
-              - id
-              - name
-              - code
-              - count
-            properties:
-              id:
-                type: integer
-                format: int64
-              name:
-                type: string
-              code:
-                type: integer
-                description: 33業種コード
-              count:
-                type: integer
-                description: 業種に属する企業数
+            $ref: "#/components/schemas/eachIndustryCategoryIndustry"
+    eachIndustryCategoryIndustry:
+      type: object
+      required:
+        - id
+        - name
+        - code
+        - count
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        code:
+          type: integer
+          format: int32
+          description: 33業種コード
+        count:
+          type: integer
+          format: int32
+          description: 業種に属する企業数
     responseIndustryIDs:
       type: object
       required:
