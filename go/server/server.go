@@ -6,6 +6,8 @@ import (
 	"encoding/json"
 	"fmt"
 	"net/http"
+	"regexp"
+	"strconv"
 
 	"github.com/yuki0920/company-ranking/go/models"
 )
@@ -29,17 +31,50 @@ const perPage = 50
 
 func (s *Server) FetchCompanies(w http.ResponseWriter, r *http.Request, params FetchCompaniesParams) {
 	ctx := context.Background()
-	page := params.Page
+
+	// calculate metadata
+	page := 1
 	limit := perPage
 	var offset int
-	initPage := 1
-	if page == nil {
-		page = &initPage
+	if params.Page != nil {
+		page = *params.Page
 	}
-	offset = (*page - 1) * perPage
-	fmt.Println("offset", offset)
+	offset = (page - 1) * perPage
 
-	securities, err := models.SecurityListPagination(ctx, s.DB, limit, offset)
+	// parse params
+	var sortType string
+	switch params.SortType {
+	case "net_sales", "average_annual_salary", "ordinary_income":
+		sortType = string(params.SortType)
+	default:
+		message := fmt.Sprintf("invalid sort_type: %s", params.SortType)
+		ErrorResponse(w, http.StatusBadRequest, message)
+		return
+	}
+
+	var code *int
+	var query *string
+	if params.Q != nil {
+		isNum, _ := regexp.MatchString(`^[0-9]+$`, *params.Q)
+		if isNum {
+			cod, _ := strconv.Atoi(*params.Q)
+			code = &cod
+		} else {
+			query = params.Q
+		}
+	}
+
+	// fetch securities count
+	count, err := models.SecurityListCount(ctx, s.DB, params.IndustryId, params.MarketId, code, query)
+	if err != nil {
+		message := "failed to fetch securities count"
+		ErrorResponse(w, http.StatusInternalServerError, message)
+		return
+	}
+	meta := metaData(page, offset, limit, count)
+
+	// fetch securities
+	securities, err := models.SecurityListPagination(ctx, s.DB, limit, offset, sortType, params.IndustryId, params.MarketId, code, query)
 	if err != nil {
 		message := "failed to fetch securities"
 		ErrorResponse(w, http.StatusInternalServerError, message)
@@ -60,14 +95,6 @@ func (s *Server) FetchCompanies(w http.ResponseWriter, r *http.Request, params F
 		eachCompanies = append(eachCompanies, company)
 	}
 
-	count, err := models.SecurityListCount(ctx, s.DB)
-	if err != nil {
-		message := "failed to fetch securities count"
-		ErrorResponse(w, http.StatusInternalServerError, message)
-		return
-	}
-
-	meta := metaData(offset, limit, count, page)
 	res := ResponseCompanies{
 		Companies: eachCompanies,
 		Meta:      meta,
@@ -77,7 +104,7 @@ func (s *Server) FetchCompanies(w http.ResponseWriter, r *http.Request, params F
 	json.NewEncoder(w).Encode(res)
 }
 
-func metaData(offset, limit, count int, page *int) Meta {
+func metaData(page, offset, limit, count int) Meta {
 	var pages int
 	var prev, next *int
 
@@ -86,12 +113,12 @@ func metaData(offset, limit, count int, page *int) Meta {
 	} else {
 		pages = 0
 	}
-	if *page != 1 {
-		pre := (*page - 1)
+	if page != 1 {
+		pre := (page - 1)
 		prev = &pre
 	}
-	if *page <= pages {
-		nex := (*page + 1)
+	if page <= pages {
+		nex := (page + 1)
 		next = &nex
 	}
 
@@ -100,7 +127,7 @@ func metaData(offset, limit, count int, page *int) Meta {
 		From:  offset + 1,
 		Items: perPage,
 		Next:  next,
-		Page:  *page,
+		Page:  page,
 		Pages: pages,
 		Prev:  prev,
 	}
