@@ -44,8 +44,15 @@ func main() {
 			zap.Any("Value", v),
 		)
 	}
-
+	dbErrLogger := func(s string, v ...any) {
+		msg := fmt.Sprintf(s, v)
+		logger.Error(
+			"Query Error",
+			zap.String("message", msg),
+		)
+	}
 	models.SetLogger(dbLogger)
+	models.SetErrorLogger(dbErrLogger)
 
 	databaseURL := os.Getenv("POSTGRES_DATABASE_URL")
 	db, err := sql.Open("postgres", databaseURL)

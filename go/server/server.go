@@ -24,7 +24,86 @@ func NewServer(db *sql.DB) *Server {
 	}
 }
 
+// perPage is the number of securities to return per page.
+const perPage = 50
+
 func (s *Server) FetchCompanies(w http.ResponseWriter, r *http.Request, params FetchCompaniesParams) {
+	ctx := context.Background()
+	page := params.Page
+	limit := perPage
+	var offset int
+	initPage := 1
+	if page == nil {
+		page = &initPage
+	}
+	offset = (*page - 1) * perPage
+	fmt.Println("offset", offset)
+
+	securities, err := models.SecurityListPagination(ctx, s.DB, limit, offset)
+	if err != nil {
+		message := "failed to fetch securities"
+		ErrorResponse(w, http.StatusInternalServerError, message)
+		return
+	}
+
+	var eachCompanies []EachCompany
+	for _, security := range securities {
+		company := EachCompany{
+			SecurityName:        security.Name,
+			SecurityCode:        security.Code,
+			IndustryName:        security.IndustryName,
+			MarketName:          security.MarketName,
+			AverageAnnualSalary: security.AverageAnnualSalary,
+			NetSales:            security.NetSales,
+			OrdinaryIncome:      security.OrdinaryIncome,
+		}
+		eachCompanies = append(eachCompanies, company)
+	}
+
+	count, err := models.SecurityListCount(ctx, s.DB)
+	if err != nil {
+		message := "failed to fetch securities count"
+		ErrorResponse(w, http.StatusInternalServerError, message)
+		return
+	}
+
+	meta := metaData(offset, limit, count, page)
+	res := ResponseCompanies{
+		Companies: eachCompanies,
+		Meta:      meta,
+	}
+
+	w.WriteHeader(http.StatusOK)
+	json.NewEncoder(w).Encode(res)
+}
+
+func metaData(offset, limit, count int, page *int) Meta {
+	var pages int
+	var prev, next *int
+
+	if count != 0 {
+		pages = count/perPage + 1
+	} else {
+		pages = 0
+	}
+	if *page != 1 {
+		pre := (*page - 1)
+		prev = &pre
+	}
+	if *page <= pages {
+		nex := (*page + 1)
+		next = &nex
+	}
+
+	return Meta{
+		Count: count,
+		From:  offset + 1,
+		Items: perPage,
+		Next:  next,
+		Page:  *page,
+		Pages: pages,
+		Prev:  prev,
+	}
 }
 
 func (s *Server) FetchCompany(w http.ResponseWriter, r *http.Request, code int) {
