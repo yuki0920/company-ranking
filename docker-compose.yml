@@ -34,7 +34,7 @@ services:
       args:
         WORKDIR: $WORKDIR
         CONTAINER_PORT: $CONTAINER_PORT
-        API_URL: "http://localhost:$API_PORT"
+        API_URL: "http://localhost:3333"
     command: yarn run dev
     volumes:
       - ./front:/$WORKDIR
