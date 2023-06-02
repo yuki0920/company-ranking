@@ -220,6 +220,35 @@ func (s *Server) FetchMarketIds(w http.ResponseWriter, r *http.Request) {
 }
 
 func (s *Server) FetchMarkets(w http.ResponseWriter, r *http.Request) {
+	ctx := context.Background()
+	markets, err := models.MarketALL(ctx, s.DB)
+	if err != nil {
+		message := fmt.Sprintf("failed to fetch markets")
+		ErrorResponse(w, http.StatusInternalServerError, message)
+		return
+	}
+	counts, err := models.SecurityCountByMarket(ctx, s.DB)
+	if err != nil {
+		message := fmt.Sprintf("failed to fetch security counts")
+		ErrorResponse(w, http.StatusInternalServerError, message)
+		return
+	}
+
+	var eachMarkets []EachMarket
+	for _, market := range markets {
+		var eachMarket EachMarket
+		eachMarket.Id = market.ID
+		eachMarket.Name = market.Name
+		eachMarket.Count = counts[int(market.ID)]
+		eachMarkets = append(eachMarkets, eachMarket)
+	}
+
+	res := ResponseMarkets{
+		Markets: eachMarkets,
+	}
+
+	w.WriteHeader(http.StatusOK)
+	json.NewEncoder(w).Encode(res)
 }
 
 func (s *Server) FetchMarket(w http.ResponseWriter, r *http.Request, id int) {

@@ -33,3 +33,32 @@ func MarketIDs(ctx context.Context, db DB) ([]int64, error) {
 	}
 	return ids, nil
 }
+
+// MarketALL returns a slice of all Market.
+func MarketALL(ctx context.Context, db DB) ([]*Market, error) {
+	// query
+	const sqlstr = `SELECT ` +
+		`id, name ` +
+		`FROM public.markets`
+	// run
+	logf(sqlstr)
+	rows, err := db.QueryContext(ctx, sqlstr)
+	if err != nil {
+		return nil, logerror(err)
+	}
+	defer rows.Close()
+	// process
+	var markets []*Market
+	for rows.Next() {
+		var market Market
+		err := rows.Scan(&market.ID, &market.Name)
+		if err != nil {
+			return nil, logerror(err)
+		}
+		markets = append(markets, &market)
+	}
+	if err := rows.Err(); err != nil {
+		return nil, logerror(err)
+	}
+	return markets, nil
+}
