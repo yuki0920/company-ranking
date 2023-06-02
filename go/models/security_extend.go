@@ -1,6 +1,9 @@
 package models
 
-import "context"
+import (
+	"context"
+	"strings"
+)
 
 type SecurityData struct {
 	ID                  int64
@@ -14,16 +17,17 @@ type SecurityData struct {
 }
 
 // SecurityListPagination returns a slice of SecurityData.
-func SecurityListPagination(ctx context.Context, db DB, limit, offset int) ([]*SecurityData, error) {
+func SecurityListPagination(ctx context.Context, db DB, limit, offset int, sortType string, industryID, marketId *int) ([]*SecurityData, error) {
 	// query
-	const sqlstr = `
+	sqlstr := `
 	SELECT securities.id, securities.code, securities.name, industries.name, markets.name, documents.net_sales, documents.average_annual_salary, documents.ordinary_income
 	FROM securities
 	INNER JOIN documents ON documents.security_code = securities.code
 	INNER JOIN industries ON industries.code = securities.industry_code
 	INNER JOIN markets ON markets.id = securities.market_id
-	ORDER BY documents.net_sales DESC NULLS LAST LIMIT $1 OFFSET $2
+	ORDER BY documents.@sort_type DESC NULLS LAST LIMIT $1 OFFSET $2
 	`
+	sqlstr = strings.Replace(sqlstr, "@sort_type", sortType, 1)
 	// run
 	logf(sqlstr, limit, offset)
 	rows, err := db.QueryContext(ctx, sqlstr, limit, offset)
