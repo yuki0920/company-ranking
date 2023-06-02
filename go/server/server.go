@@ -6,6 +6,8 @@ import (
 	"encoding/json"
 	"fmt"
 	"net/http"
+	"regexp"
+	"strconv"
 
 	"github.com/yuki0920/company-ranking/go/models"
 )
@@ -38,15 +40,8 @@ func (s *Server) FetchCompanies(w http.ResponseWriter, r *http.Request, params F
 		page = *params.Page
 	}
 	offset = (page - 1) * perPage
-	count, err := models.SecurityListCount(ctx, s.DB, params.IndustryId, params.MarketId)
-	if err != nil {
-		message := "failed to fetch securities count"
-		ErrorResponse(w, http.StatusInternalServerError, message)
-		return
-	}
-	meta := metaData(page, offset, limit, count)
 
-	// validate params
+	// parse params
 	var sortType string
 	switch params.SortType {
 	case "net_sales", "average_annual_salary", "ordinary_income":
@@ -57,8 +52,29 @@ func (s *Server) FetchCompanies(w http.ResponseWriter, r *http.Request, params F
 		return
 	}
 
+	var code *int
+	var query *string
+	if params.Q != nil {
+		isNum, _ := regexp.MatchString(`^[0-9]+$`, *params.Q)
+		if isNum {
+			cod, _ := strconv.Atoi(*params.Q)
+			code = &cod
+		} else {
+			query = params.Q
+		}
+	}
+
+	// fetch securities count
+	count, err := models.SecurityListCount(ctx, s.DB, params.IndustryId, params.MarketId, code, query)
+	if err != nil {
+		message := "failed to fetch securities count"
+		ErrorResponse(w, http.StatusInternalServerError, message)
+		return
+	}
+	meta := metaData(page, offset, limit, count)
+
 	// fetch securities
-	securities, err := models.SecurityListPagination(ctx, s.DB, limit, offset, sortType, params.IndustryId, params.MarketId)
+	securities, err := models.SecurityListPagination(ctx, s.DB, limit, offset, sortType, params.IndustryId, params.MarketId, code, query)
 	if err != nil {
 		message := "failed to fetch securities"
 		ErrorResponse(w, http.StatusInternalServerError, message)

@@ -18,7 +18,7 @@ type SecurityData struct {
 }
 
 // SecurityListPagination returns a slice of SecurityData.
-func SecurityListPagination(ctx context.Context, db DB, limit, offset int, sortType string, industryId, marketId *int) ([]*SecurityData, error) {
+func SecurityListPagination(ctx context.Context, db DB, limit, offset int, sortType string, industryId, marketId, code *int, query *string) ([]*SecurityData, error) {
 	// query
 	sqlstr := `
 	SELECT securities.id, securities.code, securities.name, industries.name, markets.name, documents.net_sales, documents.average_annual_salary, documents.ordinary_income
@@ -35,6 +35,12 @@ func SecurityListPagination(ctx context.Context, db DB, limit, offset int, sortT
 		sqlstr = strings.Replace(sqlstr, "@where", where, 1)
 	} else if marketId != nil {
 		where := fmt.Sprintf("WHERE markets.id = %d", *marketId)
+		sqlstr = strings.Replace(sqlstr, "@where", where, 1)
+	} else if code != nil {
+		where := fmt.Sprintf("WHERE securities.code = %d", *code)
+		sqlstr = strings.Replace(sqlstr, "@where", where, 1)
+	} else if query != nil {
+		where := fmt.Sprintf("WHERE documents.company_name ILIKE '%%%s%%' OR documents.company_name_en ILIKE '%%%s%%'", *query, *query)
 		sqlstr = strings.Replace(sqlstr, "@where", where, 1)
 	} else {
 		sqlstr = strings.Replace(sqlstr, "@where", "", 1)
@@ -62,7 +68,7 @@ func SecurityListPagination(ctx context.Context, db DB, limit, offset int, sortT
 }
 
 // SecurityCount returns a slice of SecurityData.
-func SecurityListCount(ctx context.Context, db DB, industryId, marketId *int) (int, error) {
+func SecurityListCount(ctx context.Context, db DB, industryId, marketId, code *int, query *string) (int, error) {
 	// query
 	sqlstr := `
 	SELECT COUNT(*) FROM
@@ -80,6 +86,12 @@ func SecurityListCount(ctx context.Context, db DB, industryId, marketId *int) (i
 		sqlstr = strings.Replace(sqlstr, "@where", where, 1)
 	} else if marketId != nil {
 		where := fmt.Sprintf("WHERE markets.id = %d", *marketId)
+		sqlstr = strings.Replace(sqlstr, "@where", where, 1)
+	} else if code != nil {
+		where := fmt.Sprintf("WHERE securities.code = %d", *code)
+		sqlstr = strings.Replace(sqlstr, "@where", where, 1)
+	} else if query != nil {
+		where := fmt.Sprintf("WHERE documents.company_name ILIKE '%%%s%%' OR documents.company_name_en ILIKE '%%%s%%'", *query, *query)
 		sqlstr = strings.Replace(sqlstr, "@where", where, 1)
 	} else {
 		sqlstr = strings.Replace(sqlstr, "@where", "", 1)
