@@ -252,6 +252,23 @@ func (s *Server) FetchMarkets(w http.ResponseWriter, r *http.Request) {
 }
 
 func (s *Server) FetchMarket(w http.ResponseWriter, r *http.Request, id int) {
+	ctx := context.Background()
+	market, err := models.MarketByID(ctx, s.DB, int64(id))
+	if err != nil {
+		message := fmt.Sprintf("failed to fetch market: %d", id)
+		ErrorResponse(w, http.StatusInternalServerError, message)
+		return
+	}
+
+	res := ResponseMarket{
+		Market: Market{
+			Id:   market.ID,
+			Name: market.Name,
+		},
+	}
+
+	w.WriteHeader(http.StatusOK)
+	json.NewEncoder(w).Encode(res)
 }
 
 func ErrorResponse(w http.ResponseWriter, statusCode int, message string) {

@@ -53,12 +53,12 @@ func SecurityCountByMarket(ctx context.Context, db DB) (map[int]int, error) {
 	// process
 	var counts map[int]int = make(map[int]int)
 	for rows.Next() {
-		var count, code int
-		err := rows.Scan(&count, &code)
+		var count, id int
+		err := rows.Scan(&count, &id)
 		if err != nil {
 			return nil, logerror(err)
 		}
-		counts[code] = count
+		counts[id] = count
 	}
 	if err := rows.Err(); err != nil {
 		return nil, logerror(err)
