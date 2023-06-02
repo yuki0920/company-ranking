@@ -1,10 +1,9 @@
 # frozen_string_literal: true
 
-class IndustryCategory < ActiveHash::Base
-  include ActiveHash::Associations
+class IndustryCategory < ApplicationRecord
   has_many :industries
 
-  self.data = [
+  INITIAL_DATA = [
     { id: 1, name: 'IT・通信系' },
     { id: 2, name: 'メーカー系(食料・繊維・医薬品)' },
     { id: 3, name: 'メーカー系(素材)' },
@@ -15,5 +14,13 @@ class IndustryCategory < ActiveHash::Base
     { id: 8, name: '金融系' },
     { id: 9, name: '不動産・建設系' },
     { id: 10, name: 'その他' }
-  ]
+  ].freeze
+
+  class << self
+    def create_seed
+      INITIAL_DATA.each do |data|
+        create!(data)
+      end
+    end
+  end
 end

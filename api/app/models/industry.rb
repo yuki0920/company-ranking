@@ -38,8 +38,7 @@ class Industry < ApplicationRecord
   ].freeze
 
   has_many :securities, foreign_key: :industry_code, primary_key: :code
-  extend ActiveHash::Associations::ActiveRecordExtensions
-  belongs_to_active_hash :industry_category
+  belongs_to :industry_category
 
   class << self
     def create_seed

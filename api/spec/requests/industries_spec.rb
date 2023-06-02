@@ -3,7 +3,7 @@
 require 'rails_helper'
 RSpec.describe '/api/v1/industries', type: :request do
   let(:market) { create(:market) }
-  let(:industry_category) { IndustryCategory.first }
+  let(:industry_category) { create(:industry_category) }
   let(:industry) { create(:industry, industry_category: industry_category) }
   let(:security) { create(:security, market: market, industry: industry) }
 
