@@ -2,6 +2,7 @@ package models
 
 import (
 	"context"
+	"fmt"
 	"strings"
 )
 
@@ -17,7 +18,7 @@ type SecurityData struct {
 }
 
 // SecurityListPagination returns a slice of SecurityData.
-func SecurityListPagination(ctx context.Context, db DB, limit, offset int, sortType string, industryID, marketId *int) ([]*SecurityData, error) {
+func SecurityListPagination(ctx context.Context, db DB, limit, offset int, sortType string, industryId, marketId *int) ([]*SecurityData, error) {
 	// query
 	sqlstr := `
 	SELECT securities.id, securities.code, securities.name, industries.name, markets.name, documents.net_sales, documents.average_annual_salary, documents.ordinary_income
@@ -25,9 +26,20 @@ func SecurityListPagination(ctx context.Context, db DB, limit, offset int, sortT
 	INNER JOIN documents ON documents.security_code = securities.code
 	INNER JOIN industries ON industries.code = securities.industry_code
 	INNER JOIN markets ON markets.id = securities.market_id
+	@where
 	ORDER BY documents.@sort_type DESC NULLS LAST LIMIT $1 OFFSET $2
 	`
 	sqlstr = strings.Replace(sqlstr, "@sort_type", sortType, 1)
+	if industryId != nil {
+		where := fmt.Sprintf("WHERE industries.id = %d", *industryId)
+		sqlstr = strings.Replace(sqlstr, "@where", where, 1)
+	} else if marketId != nil {
+		where := fmt.Sprintf("WHERE markets.id = %d", *marketId)
+		sqlstr = strings.Replace(sqlstr, "@where", where, 1)
+	} else {
+		sqlstr = strings.Replace(sqlstr, "@where", "", 1)
+	}
+
 	// run
 	logf(sqlstr, limit, offset)
 	rows, err := db.QueryContext(ctx, sqlstr, limit, offset)
@@ -50,16 +62,28 @@ func SecurityListPagination(ctx context.Context, db DB, limit, offset int, sortT
 }
 
 // SecurityCount returns a slice of SecurityData.
-func SecurityListCount(ctx context.Context, db DB) (int, error) {
+func SecurityListCount(ctx context.Context, db DB, industryId, marketId *int) (int, error) {
 	// query
-	const sqlstr = `
+	sqlstr := `
 	SELECT COUNT(*) FROM
-	(SELECT DISTINCT "securities"."id"
-	FROM "securities"
-	INNER JOIN "documents" ON "documents"."security_code" = "securities"."code"
-	INNER JOIN "industries" ON "industries"."code" = "securities"."industry_code"
-	INNER JOIN "markets" ON "markets"."id" = "securities"."market_id") subquery_for_count
+	(
+		SELECT DISTINCT securities.id
+		FROM securities
+		INNER JOIN documents ON documents.security_code = securities.code
+		INNER JOIN industries ON industries.code = securities.industry_code
+		INNER JOIN markets ON markets.id = securities.market_id
+		@where
+	) subquery_for_count
 	`
+	if industryId != nil {
+		where := fmt.Sprintf("WHERE industries.id = %d", *industryId)
+		sqlstr = strings.Replace(sqlstr, "@where", where, 1)
+	} else if marketId != nil {
+		where := fmt.Sprintf("WHERE markets.id = %d", *marketId)
+		sqlstr = strings.Replace(sqlstr, "@where", where, 1)
+	} else {
+		sqlstr = strings.Replace(sqlstr, "@where", "", 1)
+	}
 	// run
 	logf(sqlstr)
 	var count int

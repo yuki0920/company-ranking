@@ -38,7 +38,7 @@ func (s *Server) FetchCompanies(w http.ResponseWriter, r *http.Request, params F
 		page = *params.Page
 	}
 	offset = (page - 1) * perPage
-	count, err := models.SecurityListCount(ctx, s.DB)
+	count, err := models.SecurityListCount(ctx, s.DB, params.IndustryId, params.MarketId)
 	if err != nil {
 		message := "failed to fetch securities count"
 		ErrorResponse(w, http.StatusInternalServerError, message)
