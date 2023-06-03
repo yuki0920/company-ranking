@@ -91,7 +91,8 @@ func main() {
 	svr := server.NewServer(db)
 	server.HandlerFromMux(svr, r)
 
-	port := os.Getenv("API_PORT")
+	// NOTE: Heroku provides the port to bind to $PORT, don't change this.
+	port := os.Getenv("PORT")
 	addr := fmt.Sprintf(":%s", port)
 	s := &http.Server{
 		Handler: r,

@@ -33,7 +33,7 @@ services:
       FRONT_DOMAIN: "localhost:$FRONT_PORT"
       ENV: development
       DATABASE_URL: "postgres://postgres:password@db:5432/myapp_development?sslmode=disable"
-      API_PORT: $API_PORT
+      PORT: $API_PORT
     volumes:
       - ./go:/go/src
     depends_on:
