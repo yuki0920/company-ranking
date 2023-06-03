@@ -20,6 +20,7 @@ install/tools:
 	@echo "Installing tools..."
 	@go install github.com/xo/xo@latest
 	@go install github.com/deepmap/oapi-codegen/cmd/oapi-codegen@latest
+	@go install github.com/golangci/golangci-lint/cmd/golangci-lint@latest
 
 .PHONY: generate/models
 generate/models:
@@ -29,3 +30,15 @@ generate/models:
 .PHONY: generate/server
 generate/server:
 	@oapi-codegen -config go/server/config.yaml -o go/server/server.gen.go openapi/openapi.yaml
+
+.PHONY: lint
+lint:
+	@echo "Linting..."
+	@cd go && golangci-lint run ./...
+	@cd ..
+
+.PHONY: lint/fix
+lint/fix:
+	@echo "Linting..."
+	@cd go && golangci-lint run ./... --fix
+	@cd ..

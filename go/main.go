@@ -33,7 +33,9 @@ func main() {
 	zapConfig.EncoderConfig.EncodeLevel = zapcore.CapitalColorLevelEncoder
 
 	logger, _ := zapConfig.Build()
-	defer logger.Sync()
+	defer func() {
+		_ = logger.Sync()
+	}()
 
 	// setup db
 	dbLogger := func(s string, v ...any) {
