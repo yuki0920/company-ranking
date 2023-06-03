@@ -15,13 +15,13 @@
           上場市場
         </th>
         <th scope="col">
-          売上(億円)
+          売上(百万円)
         </th>
         <th scope="col">
-          経常利益(億円)
+          経常利益(百万円)
         </th>
         <th scope="col">
-          年間給与(万円)
+          年間給与(千円)
         </th>
       </tr>
     </thead>
@@ -42,13 +42,13 @@
           {{ company.market_name }}
         </td>
         <td class="text-right">
-          {{ numberWithDelimiter(company.net_sales) }}
+          {{ numberWithDelimiter(divide_1_000_000(company.net_sales)) }}
         </td>
         <td class="text-right" :style="{color: profitColor(company.ordinary_income)}">
-          {{ numberWithDelimiter(company.ordinary_income) }}
+          {{ numberWithDelimiter(divide_1_000_000(company.ordinary_income)) }}
         </td>
         <td class="text-right">
-          {{ numberWithDelimiter(company.average_annual_salary) }}
+          {{ numberWithDelimiter(divide_1_000(company.average_annual_salary)) }}
         </td>
       </tr>
     </tbody>
@@ -82,10 +82,12 @@ export default defineComponent({
     }
   },
   setup () {
-    const { numberWithDelimiter, profitColor } = useUtility()
+    const { numberWithDelimiter, divide_1_000, divide_1_000_000, profitColor } = useUtility()
 
     return {
       numberWithDelimiter,
+      divide_1_000,
+      divide_1_000_000,
       profitColor
     }
   }

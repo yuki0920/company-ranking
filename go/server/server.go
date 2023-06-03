@@ -197,7 +197,7 @@ func (s *Server) FetchCompany(w http.ResponseWriter, r *http.Request, code int) 
 		NumberOfEmployees:    &doc.NumberOfEmployees.Int64,
 		OperatingIncome:      &doc.OperatingIncome.Int64,
 		OrdinaryIncome:       &doc.OrdinaryIncome.Int64,
-		PeriodEndedAt:        doc.PeriodEndedAt.String(),
+		PeriodEndedAt:        doc.PeriodEndedAt.Format("2006-01-02"),
 		PeriodEndedAtMonth:   int(doc.PeriodEndedAt.Month()),
 		PeriodEndedAtYear:    doc.PeriodEndedAt.Year(),
 		PeriodStartedAt:      doc.PeriodStartedAt.Format("2006-01-02"),
