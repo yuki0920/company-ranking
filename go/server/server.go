@@ -101,7 +101,7 @@ func (s *Server) FetchCompanies(w http.ResponseWriter, r *http.Request, params F
 	}
 
 	w.WriteHeader(http.StatusOK)
-	json.NewEncoder(w).Encode(res)
+	_ = json.NewEncoder(w).Encode(res)
 }
 
 func metaData(page, offset, limit, count int) Meta {
@@ -215,7 +215,7 @@ func (s *Server) FetchCompany(w http.ResponseWriter, r *http.Request, code int) 
 	}
 
 	w.WriteHeader(http.StatusOK)
-	json.NewEncoder(w).Encode(res)
+	_ = json.NewEncoder(w).Encode(res)
 }
 
 func (s *Server) FetchCompanyIds(w http.ResponseWriter, r *http.Request) {
@@ -225,19 +225,19 @@ func (s *Server) FetchIndustries(w http.ResponseWriter, r *http.Request) {
 	ctx := context.Background()
 	industries, err := models.IndustryALL(ctx, s.DB)
 	if err != nil {
-		message := fmt.Sprintf("failed to fetch industries")
+		message := "failed to fetch industries"
 		ErrorResponse(w, http.StatusInternalServerError, message)
 		return
 	}
 	counts, err := models.SecurityCountByIndustry(ctx, s.DB)
 	if err != nil {
-		message := fmt.Sprintf("failed to fetch security counts")
+		message := "failed to fetch security counts"
 		ErrorResponse(w, http.StatusInternalServerError, message)
 		return
 	}
 	categories, err := models.IndustryCategoryALL(ctx, s.DB)
 	if err != nil {
-		message := fmt.Sprintf("failed to fetch category counts")
+		message := "failed to fetch category counts"
 		ErrorResponse(w, http.StatusInternalServerError, message)
 		return
 	}
@@ -267,7 +267,7 @@ func (s *Server) FetchIndustries(w http.ResponseWriter, r *http.Request) {
 		IndustryCategories: eachCategories,
 	}
 	w.WriteHeader(http.StatusOK)
-	json.NewEncoder(w).Encode(res)
+	_ = json.NewEncoder(w).Encode(res)
 }
 
 func (s *Server) FetchIndustry(w http.ResponseWriter, r *http.Request, id int) {
@@ -288,14 +288,14 @@ func (s *Server) FetchIndustry(w http.ResponseWriter, r *http.Request, id int) {
 	}
 
 	w.WriteHeader(http.StatusOK)
-	json.NewEncoder(w).Encode(res)
+	_ = json.NewEncoder(w).Encode(res)
 }
 
 func (s *Server) FetchIndustryIds(w http.ResponseWriter, r *http.Request) {
 	ctx := context.Background()
 	ids, err := models.IndustryIDs(ctx, s.DB)
 	if err != nil {
-		message := fmt.Sprintf("failed to fetch industry ids")
+		message := "failed to fetch industry ids"
 		ErrorResponse(w, http.StatusInternalServerError, message)
 		return
 	}
@@ -305,14 +305,14 @@ func (s *Server) FetchIndustryIds(w http.ResponseWriter, r *http.Request) {
 	}
 
 	w.WriteHeader(http.StatusOK)
-	json.NewEncoder(w).Encode(res)
+	_ = json.NewEncoder(w).Encode(res)
 }
 
 func (s *Server) FetchMarketIds(w http.ResponseWriter, r *http.Request) {
 	ctx := context.Background()
 	ids, err := models.MarketIDs(ctx, s.DB)
 	if err != nil {
-		message := fmt.Sprintf("failed to fetch market ids")
+		message := "failed to fetch market ids"
 		ErrorResponse(w, http.StatusInternalServerError, message)
 		return
 	}
@@ -322,20 +322,20 @@ func (s *Server) FetchMarketIds(w http.ResponseWriter, r *http.Request) {
 	}
 
 	w.WriteHeader(http.StatusOK)
-	json.NewEncoder(w).Encode(res)
+	_ = json.NewEncoder(w).Encode(res)
 }
 
 func (s *Server) FetchMarkets(w http.ResponseWriter, r *http.Request) {
 	ctx := context.Background()
 	markets, err := models.MarketALL(ctx, s.DB)
 	if err != nil {
-		message := fmt.Sprintf("failed to fetch markets")
+		message := "failed to fetch markets"
 		ErrorResponse(w, http.StatusInternalServerError, message)
 		return
 	}
 	counts, err := models.SecurityCountByMarket(ctx, s.DB)
 	if err != nil {
-		message := fmt.Sprintf("failed to fetch security counts")
+		message := "failed to fetch security counts"
 		ErrorResponse(w, http.StatusInternalServerError, message)
 		return
 	}
@@ -354,7 +354,7 @@ func (s *Server) FetchMarkets(w http.ResponseWriter, r *http.Request) {
 	}
 
 	w.WriteHeader(http.StatusOK)
-	json.NewEncoder(w).Encode(res)
+	_ = json.NewEncoder(w).Encode(res)
 }
 
 func (s *Server) FetchMarket(w http.ResponseWriter, r *http.Request, id int) {
@@ -374,12 +374,10 @@ func (s *Server) FetchMarket(w http.ResponseWriter, r *http.Request, id int) {
 	}
 
 	w.WriteHeader(http.StatusOK)
-	json.NewEncoder(w).Encode(res)
+	_ = json.NewEncoder(w).Encode(res)
 }
 
 func ErrorResponse(w http.ResponseWriter, statusCode int, message string) {
 	w.WriteHeader(statusCode)
-	json.NewEncoder(w).Encode(Error{Message: message})
-
-	return
+	_ = json.NewEncoder(w).Encode(Error{Message: message})
 }
