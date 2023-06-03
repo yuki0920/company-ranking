@@ -44,15 +44,15 @@ group :development do
 end
 
 group :test do
-  gem 'committee-rails'
+  # gem 'committee-rails'
   gem 'rspec-rails'
 end
 
 gem 'faraday'
-gem 'jb'
+# gem 'jb'
 gem 'mechanize'
 gem 'nokogiri'
-gem 'pagy'
+# gem 'pagy'
 gem 'pry-rails'
 gem 'rubyzip'
 gem 'slack-notifier'
