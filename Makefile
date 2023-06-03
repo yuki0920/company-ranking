@@ -28,4 +28,4 @@ generate/models:
 
 .PHONY: generate/server
 generate/server:
-	@oapi-codegen -config go/server/config.yaml -o go/server/server.gen.go api/openapi/openapi.yaml
+	@oapi-codegen -config go/server/config.yaml -o go/server/server.gen.go openapi/openapi.yaml

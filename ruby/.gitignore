@@ -33,4 +33,4 @@
 *.DS_Store
 
 # Temp files
-./api/lib/documents
+./ruby/lib/documents
