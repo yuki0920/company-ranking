@@ -84,6 +84,7 @@ func main() {
 			http.MethodPatch,
 			http.MethodPost,
 			http.MethodDelete,
+			http.MethodOptions,
 		},
 		AllowCredentials: false, // Because cookie is not used
 	}))
