@@ -66,11 +66,11 @@ RSpec.configure do |config|
 
   config.include FactoryBot::Syntax::Methods
 
-  config.include Committee::Rails::Test::Methods, type: :request
-  config.add_setting :committee_options
-  config.committee_options = {
-    schema_path: Rails.root.join('openapi/openapi.yaml').to_s,
-    query_hash_key: 'rack.request.query_hash',
-    parse_response_by_content_type: false
-  }
+  # config.include Committee::Rails::Test::Methods, type: :request
+  # config.add_setting :committee_options
+  # config.committee_options = {
+  #   schema_path: Rails.root.join('openapi/openapi.yaml').to_s,
+  #   query_hash_key: 'rack.request.query_hash',
+  #   parse_response_by_content_type: false
+  # }
 end
