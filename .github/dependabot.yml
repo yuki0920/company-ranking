@@ -8,7 +8,7 @@ updates:
       - dependency-name: "sass-loader"
       - dependency-name: "css-loader"
   - package-ecosystem: "bundler"
-    directory: "./api"
+    directory: "./ruby"
     schedule:
       interval: "monthly"
     ignore:

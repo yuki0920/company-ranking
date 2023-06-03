@@ -9,12 +9,12 @@ services:
       POSTGRES_PORT: $POSTGRES_PORT
       POSTGRES_PASSWORD: $POSTGRES_PASSWORD
     volumes:
-      - ./api/tmp/db:/var/lib/postgresql/data
+      - ./ruby/tmp/db:/var/lib/postgresql/data
     ports:
       - "$POSTGRES_PORT:$POSTGRES_PORT"
-  api:
+  ruby:
     build:
-      context: ./api
+      context: ./ruby
       args:
         WORKDIR: $WORKDIR
     environment:
@@ -22,7 +22,7 @@ services:
       FRONT_URL: "localhost:$FRONT_HOST_PORT"
       SLACK_WEBHOOK_URL: https://hooks.slack.com/services/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
     volumes:
-      - ./api:/$WORKDIR
+      - ./ruby:/$WORKDIR
     depends_on:
       - db
     command: /bin/sh -c "echo rails api is not used."
@@ -53,14 +53,12 @@ services:
     ports:
       - "$FRONT_HOST_PORT:$CONTAINER_PORT"
     depends_on:
-      - api
+      - ruby
       - go
   swagger:
     image: swaggerapi/swagger-ui
     volumes:
       - ./openapi:/usr/share/nginx/html/openapi
-    environment:
-      API_URL: ./openapi/openapi.yaml
     ports:
       # NOTE: ホストからは8000で接続する
       - 8000:8080
