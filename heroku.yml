@@ -8,4 +8,4 @@ build:
   docker:
     web: Dockerfile.prod
 run:
-  web: bin/server
+  web: /bin/server
