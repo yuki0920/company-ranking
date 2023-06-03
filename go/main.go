@@ -54,7 +54,7 @@ func main() {
 	models.SetLogger(dbLogger)
 	models.SetErrorLogger(dbErrLogger)
 
-	databaseURL := os.Getenv("POSTGRES_DATABASE_URL")
+	databaseURL := os.Getenv("DATABASE_URL")
 	db, err := sql.Open("postgres", databaseURL)
 	if err != nil {
 		panic(err)
@@ -91,8 +91,8 @@ func main() {
 	svr := server.NewServer(db)
 	server.HandlerFromMux(svr, r)
 
-	port := os.Getenv("SERVER_PORT")
-	addr := fmt.Sprintf("localhost:%s", port)
+	port := os.Getenv("API_PORT")
+	addr := fmt.Sprintf("0.0.0.0:%s", port)
 	s := &http.Server{
 		Handler: r,
 		Addr:    addr,

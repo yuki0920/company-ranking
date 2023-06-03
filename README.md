@@ -2,8 +2,9 @@
 
 ## 起動
 
-### はじめに
+### Getting Started
 
+1. Setup DB & Front server using Docker
 ```
 cp .env_sample .env
 cp .envrc_sample .envrc
@@ -12,6 +13,14 @@ docker-compose run --rm api bundle
 docker-compose run --rm api bundle exec rails db setup
 docker-compose run --rm front yarn
 docker-compose up
+```
+
+2. Setup API server using local Go
+
+```
+cd ./go
+go mod download
+go run main.go
 ```
 
 ### API
