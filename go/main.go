@@ -86,7 +86,10 @@ func main() {
 			http.MethodDelete,
 			http.MethodOptions,
 		},
-		AllowCredentials: false, // Because cookie is not used
+		AllowedHeaders:     []string{"*"},
+		AllowCredentials:   false, // Because cookie is not used
+		OptionsPassthrough: true,
+		Debug:              true,
 	}))
 
 	svr := server.NewServer(db)
