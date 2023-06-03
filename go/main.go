@@ -92,7 +92,7 @@ func main() {
 	server.HandlerFromMux(svr, r)
 
 	port := os.Getenv("API_PORT")
-	addr := fmt.Sprintf("0.0.0.0:%s", port)
+	addr := fmt.Sprintf(":%s", port)
 	s := &http.Server{
 		Handler: r,
 		Addr:    addr,
