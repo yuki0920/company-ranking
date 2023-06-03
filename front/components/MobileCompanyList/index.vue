@@ -15,7 +15,7 @@
         </dt>
         <dd class="col-8 text-right mb-0">
           <small class="text-muted">
-            {{ numberWithDelimiter(company.net_sales) }} 億円
+            {{ numberWithDelimiter(divide_1_000_000(company.net_sales)) }} 百万円
           </small>
         </dd>
         <dt class="col-4 mb-0">
@@ -25,14 +25,14 @@
         </dt>
         <dd class="col-8 text-right mb-0">
           <small class="text-muted">
-            {{ numberWithDelimiter(company.ordinary_income) }} 億円
+            {{ numberWithDelimiter(divide_1_000_000(company.ordinary_income)) }} 百万円
           </small>
         </dd>
         <dt class="col-4 mb-0">
           <small class="text-muted">年間給与</small>
         </dt>
         <dd class="col-8 text-right mb-0">
-          <small class="text-muted">{{ numberWithDelimiter(company.average_annual_salary) }} 万円</small>
+          <small class="text-muted">{{ numberWithDelimiter(divide_1_000(company.average_annual_salary)) }} 千円</small>
         </dd>
       </dl>
     </li>
@@ -53,10 +53,12 @@ export default defineComponent({
   },
 
   setup () {
-    const { numberWithDelimiter, profitColor } = useUtility()
+    const { numberWithDelimiter, divide_1_000, divide_1_000_000, profitColor } = useUtility()
 
     return {
       numberWithDelimiter,
+      divide_1_000,
+      divide_1_000_000,
       profitColor
     }
   }

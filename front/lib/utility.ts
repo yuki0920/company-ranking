@@ -1,9 +1,25 @@
 export const useUtility = () => {
   const numberWithDelimiter = (number: Number | null): string => {
-    if (typeof number === 'number') {
+    if (typeof number === 'number' && number !== 0) {
       return number.toLocaleString()
     } else {
       return '-'
+    }
+  }
+
+  const divide_1_000 = (number: Number | null): number => {
+    if (typeof number === 'number') {
+      return Math.round(number / 1_000)
+    } else {
+      return 0
+    }
+  }
+
+  const divide_1_000_000 = (number: Number | null): number => {
+    if (typeof number === 'number') {
+      return Math.round(number / 1_000_000)
+    } else {
+      return 0
     }
   }
 
@@ -22,5 +38,5 @@ export const useUtility = () => {
 
   const isMobile = window.innerWidth < 576
 
-  return { numberWithDelimiter, profitColor, isMobile }
+  return { numberWithDelimiter, divide_1_000, divide_1_000_000, profitColor, isMobile }
 }
