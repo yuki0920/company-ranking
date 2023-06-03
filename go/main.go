@@ -72,9 +72,10 @@ func main() {
 	r := chi.NewRouter()
 	// r.Use(oapimiddleware.OapiRequestValidator(swagger))
 	r.Use(middleware.Logger(logger))
+	frontURL := os.Getenv("FRONT_URL")
 	r.Use(cors.Handler(cors.Options{
 		// AllowedOrigins:   []string{"https://foo.com"}, // Use this to allow specific origin hosts
-		AllowedOrigins: []string{"https://*", "http://*"},
+		AllowedOrigins: []string{frontURL, "https://*", "company-ranking.net", "company-ranking.netlify.app"},
 		// AllowOriginFunc:  func(r *http.Request, origin string) bool { return true },
 		AllowedMethods: []string{
 			http.MethodGet,
@@ -94,9 +95,11 @@ func main() {
 	svr := server.NewServer(db)
 	server.HandlerFromMux(svr, r)
 
+	// NOTE: API_HOST is for local development, don't change this.
+	apiHost := os.Getenv("API_HOST")
 	// NOTE: Heroku provides the port to bind to $PORT, don't change this.
-	port := os.Getenv("PORT")
-	addr := fmt.Sprintf(":%s", port)
+	apiPort := os.Getenv("PORT")
+	addr := fmt.Sprintf("%s:%s", apiHost, apiPort)
 	s := &http.Server{
 		Handler: r,
 		Addr:    addr,

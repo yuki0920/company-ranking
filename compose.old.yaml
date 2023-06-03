@@ -19,14 +19,14 @@ services:
         WORKDIR: $WORKDIR
     environment:
       POSTGRES_PASSWORD: $POSTGRES_PASSWORD
-      FRONT_DOMAIN: "localhost:$FRONT_PORT"
+      FRONT_URL: "localhost:$FRONT_HOST_PORT"
       SLACK_WEBHOOK_URL: https://hooks.slack.com/services/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
     volumes:
       - ./api:/$WORKDIR
     depends_on:
       - db
     ports:
-      - "$API_PORT:$CONTAINER_PORT"
+      - "$API_HOST_PORT:$CONTAINER_PORT"
     command: /bin/sh -c "rm -f tmp/pids/server.pid && bundle exec rails s -b '0.0.0.0'"
   front:
     build:
@@ -39,7 +39,7 @@ services:
     volumes:
       - ./front:/$WORKDIR
     ports:
-      - "$FRONT_PORT:$CONTAINER_PORT"
+      - "$FRONT_HOST_PORT:$CONTAINER_PORT"
     depends_on:
       - api
   swagger:
