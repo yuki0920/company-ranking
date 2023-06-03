@@ -87,7 +87,7 @@ func main() {
 		},
 		AllowedHeaders:     []string{"*"},
 		AllowCredentials:   false, // Because cookie is not used
-		OptionsPassthrough: true,
+		OptionsPassthrough: false, // Always return status 200 for OPTIONS requests
 		Debug:              true,
 	}))
 
