@@ -7,7 +7,6 @@ import (
 	"net/http"
 	"os"
 
-	oapimiddleware "github.com/deepmap/oapi-codegen/pkg/chi-middleware"
 	"github.com/go-chi/chi/v5"
 	"github.com/go-chi/cors"
 	_ "github.com/lib/pq"
@@ -64,14 +63,14 @@ func main() {
 	logger.Info("Connected to database")
 
 	// setup server
-	swagger, err := server.GetSwagger()
+	// swagger, err := server.GetSwagger()
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "Error loading swagger spec\n: %s", err)
 		os.Exit(1)
 	}
 
 	r := chi.NewRouter()
-	r.Use(oapimiddleware.OapiRequestValidator(swagger))
+	// r.Use(oapimiddleware.OapiRequestValidator(swagger))
 	r.Use(middleware.Logger(logger))
 	r.Use(cors.Handler(cors.Options{
 		// AllowedOrigins:   []string{"https://foo.com"}, // Use this to allow specific origin hosts
