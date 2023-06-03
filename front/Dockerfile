@@ -3,7 +3,6 @@ FROM --platform=linux/amd64 node:14.18-alpine
 RUN apk add --no-cache python2 g++ make
 
 ARG WORKDIR
-ARG CONTAINER_PORT
 ARG API_URL
 
 ENV HOME=/${WORKDIR} \
@@ -18,5 +17,3 @@ COPY package*.json ./
 RUN yarn install
 
 COPY . .
-
-EXPOSE ${CONTAINER_PORT}

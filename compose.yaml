@@ -19,7 +19,7 @@ services:
         WORKDIR: $WORKDIR
     environment:
       POSTGRES_PASSWORD: $POSTGRES_PASSWORD
-      FRONT_DOMAIN: "localhost:$FRONT_PORT"
+      FRONT_URL: $FRONT_URL
       SLACK_WEBHOOK_URL: https://hooks.slack.com/services/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
     volumes:
       - ./api:/$WORKDIR
@@ -31,13 +31,12 @@ services:
       context: ./front
       args:
         WORKDIR: $WORKDIR
-        CONTAINER_PORT: $CONTAINER_PORT
-        API_URL: "http://localhost:$API_PORT"
+        API_URL: $API_URL
     command: yarn run dev
     volumes:
       - ./front:/$WORKDIR
     ports:
-      - "$FRONT_PORT:$CONTAINER_PORT"
+      - "$FRONT_HOST_PORT:$CONTAINER_PORT"
     depends_on:
       - api
   swagger:
