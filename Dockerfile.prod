@@ -9,7 +9,7 @@ RUN go mod download
 
 COPY ./go ./
 
-RUN CGO_ENABLED=0 GOOS=linux go build -o /go/bin/server
+RUN CGO_ENABLED=0 GOOS=linux go build -o /go/bin/server ./cmd/server
 
 FROM ruby:2.7.4-alpine
 
@@ -33,4 +33,4 @@ RUN apk update && \
 COPY --from=builder /go/bin/server /bin/server
 COPY ./ruby .
 
-CMD ["bin/server"]
+CMD ["/bin/server"]

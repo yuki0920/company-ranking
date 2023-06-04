@@ -19,18 +19,17 @@ services:
         WORKDIR: $WORKDIR
     environment:
       POSTGRES_PASSWORD: $POSTGRES_PASSWORD
-      FRONT_URL: "localhost:$FRONT_HOST_PORT"
       SLACK_WEBHOOK_URL: https://hooks.slack.com/services/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
     volumes:
       - ./ruby:/$WORKDIR
     depends_on:
       - db
     command: /bin/sh -c "echo rails api is not used."
-  go:
+  go: # use hot reload tool like air
     build:
       context: ./go
     environment:
-      FRONT_URL: "localhost:$FRONT_HOST_PORT"
+      FRONT_URL: $FRONT_URL
       ENV: development
       DATABASE_URL: "postgres://postgres:password@db:5432/myapp_development?sslmode=disable"
       PORT: $API_HOST_PORT

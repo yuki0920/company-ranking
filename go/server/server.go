@@ -9,21 +9,67 @@ import (
 	"regexp"
 	"strconv"
 
+	"github.com/go-chi/chi/v5"
+	"github.com/go-chi/cors"
+	_ "github.com/lib/pq"
+
+	"github.com/yuki0920/company-ranking/go/middleware"
 	"github.com/yuki0920/company-ranking/go/models"
+	"go.uber.org/zap"
 )
 
 type Server struct {
-	DB *sql.DB
+	Router *chi.Mux
+	DB     *sql.DB
+	Logger *zap.Logger
 }
 
 type Error struct {
 	Message string `json:"message"`
 }
 
-func NewServer(db *sql.DB) *Server {
+func NewServer(db *sql.DB, logger *zap.Logger) *Server {
+	router := chi.NewRouter()
 	return &Server{
-		DB: db,
+		Router: router,
+		DB:     db,
+		Logger: logger,
 	}
+}
+
+func (s *Server) MountHandlers(frontURL string) {
+	s.Router.Use(middleware.Logger(s.Logger))
+	s.Router.Use(cors.Handler(cors.Options{
+		// AllowedOrigins:   []string{"https://foo.com"}, // Use this to allow specific origin hosts
+		AllowedOrigins: []string{frontURL, "https://*", "company-ranking.net", "company-ranking.netlify.app"},
+		// AllowOriginFunc:  func(r *http.Request, origin string) bool { return true },
+		AllowedMethods: []string{
+			http.MethodGet,
+			http.MethodHead,
+			http.MethodPut,
+			http.MethodPatch,
+			http.MethodPost,
+			http.MethodDelete,
+			http.MethodOptions,
+		},
+		AllowedHeaders:     []string{"*"},
+		AllowCredentials:   false, // Because cookie is not used
+		OptionsPassthrough: false, // Always return status 200 for OPTIONS requests
+		Debug:              true,
+	}))
+
+	HandlerFromMux(s, s.Router)
+}
+
+func (s *Server) StartServer(addr string) error {
+	hs := &http.Server{
+		Handler: s.Router,
+		Addr:    addr,
+	}
+
+	s.Logger.Info("Server starting", zap.String("address", addr))
+
+	return hs.ListenAndServe()
 }
 
 // perPage is the number of securities to return per page.

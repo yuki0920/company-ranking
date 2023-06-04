@@ -9,6 +9,6 @@ RUN go mod download
 
 COPY . .
 
-RUN CGO_ENABLED=0 GOOS=linux go build -o ./bin/run-server
+RUN CGO_ENABLED=0 GOOS=linux go build -o /go/bin/server ./cmd/server
 
-CMD ["./bin/run-server"]
+CMD ["/go/bin/server"]

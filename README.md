@@ -20,7 +20,7 @@ docker-compose up
 ```
 cd ./go
 go mod download
-go run main.go
+go run cmd/server/main.go
 ```
 
 ### API
