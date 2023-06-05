@@ -28,14 +28,18 @@ go run cmd/server/main.go
 - コンテナのポートは`3000`
 - ホストのコンテナは`3003`など`3000`以外を使用している
 
+http://localhost:3003/api/v1/markets
+
 ### Front
 
 - ホストのコンテナは`8008`を使用している
 
+http://localhost:8008
 ### Swagger
 
 - ホストのコンテナは`8000`を使用している
 
+http://localhost:8000
 
 ### OpenAPI Generator
 
