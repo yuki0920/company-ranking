@@ -1,5 +1,0 @@
-# frozen_string_literal: true
-
-{
-  market_ids: @market_ids
-}
