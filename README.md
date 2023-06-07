@@ -95,3 +95,12 @@ bundle exec rake save_document_detail:batch
 ```
 
 確認方法: 最新の決算発表をした企業の**詳細**が反映されていればOK
+
+## Dependency Management
+
+### Front
+```
+docker compose run --rm typescript npm install
+```
+
+If run locally, `Failed to load SWC binary for linux/x64` error happens.

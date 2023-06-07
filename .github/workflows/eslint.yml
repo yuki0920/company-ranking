@@ -1,8 +1,8 @@
 name: ESLint
 on: [push]
 jobs:
-  lint:
-    name: Run eslint
+  nuxt-lint:
+    name: Run eslint for nuxt.js
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -19,3 +19,18 @@ jobs:
           eslint_flags: './**/*.{vue,ts,js}'
       - name: Run eslint
         run: yarn lint
+  next-lint:
+    name: Run eslint for next.js
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./typescript
+    steps:
+          - uses: actions/checkout@v3
+          - uses: actions/setup-node@v3
+          - name: Install dependencies
+            run: npm ci
+          - name: Run lint check
+            run: npm run lint
+          - name: Reviewdog
+            uses: reviewdog/action-eslint@v1

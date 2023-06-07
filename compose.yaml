@@ -38,6 +38,19 @@ services:
       - "$FRONT_HOST_PORT:$CONTAINER_PORT"
     depends_on:
       - ruby
+  typescript:
+    build:
+      context: ./typescript
+      args:
+        WORKDIR: $WORKDIR
+    environment:
+      WATCHPACK_POLLING: true
+      PORT: $NEXT_PORT
+    command: npm run dev
+    volumes:
+      - ./typescript:/$WORKDIR
+    ports:
+      - "$NEXT_PORT:$NEXT_PORT"
   swagger:
     image: swaggerapi/swagger-ui
     volumes:
