@@ -42,3 +42,15 @@ lint/fix:
 	@echo "Linting..."
 	@cd go && golangci-lint run ./... --fix
 	@cd ..
+
+.PHONY: generate/client
+generate/client:
+	@openapi-generator-cli generate -i openapi/openapi.yaml -g typescript-fetch -o typescript/client
+
+.PHONY: typescript/lint
+typescript/lint:
+	@docker compose run --rm typescript npm run lint
+
+.PHONY: typescript/lint/fix
+typescript/lint/fix:
+	@docker compose run --rm typescript npm run lint --fix
