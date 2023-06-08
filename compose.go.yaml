@@ -33,6 +33,7 @@ services:
       ENV: development
       DATABASE_URL: "postgres://postgres:password@db:5432/myapp_development?sslmode=disable"
       PORT: $API_HOST_PORT
+    command: "bin/air -c .air.toml"
     volumes:
       - ./go:/go/src
     depends_on:
@@ -57,7 +58,9 @@ services:
   swagger:
     image: swaggerapi/swagger-ui
     volumes:
-      - ./openapi:/usr/share/nginx/html/openapi
+      - ./openapi:/usr/share/nginx/html/doc
     ports:
       # NOTE: ホストからは8000で接続する
       - 8000:8080
+    environment:
+      API_URL: doc/openapi.yaml

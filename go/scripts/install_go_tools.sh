@@ -12,4 +12,4 @@ do
   go install "$tool"
 done
 
-popd tools
+popd
