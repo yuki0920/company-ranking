@@ -46,11 +46,13 @@ services:
     environment:
       WATCHPACK_POLLING: true
       PORT: $NEXT_PORT
+      API_HOST_BASE_URL: $API_HOST_BASE_URL
     command: npm run dev
     volumes:
       - ./typescript:/$WORKDIR
     ports:
       - "$NEXT_PORT:$NEXT_PORT"
+      - "$API_HOST_PORT:$API_HOST_PORT"
   swagger:
     image: swaggerapi/swagger-ui
     volumes:
