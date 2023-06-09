@@ -22,6 +22,12 @@ cd ./go
 go mod download
 go run cmd/server/main.go
 ```
+or using air
+```
+cd ./go
+make install/tools
+./bin/air
+```
 
 ### API
 

@@ -9,6 +9,8 @@ RUN go mod download
 
 COPY . .
 
+RUN make install/tools
+
 RUN CGO_ENABLED=0 GOOS=linux go build -o /go/bin/server ./cmd/server
 
 CMD ["/go/bin/server"]
