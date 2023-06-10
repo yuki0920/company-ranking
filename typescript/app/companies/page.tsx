@@ -2,7 +2,7 @@
 
 import { DefaultApi, Configuration } from "@/client"
 import { BASE_PATH } from "@/constant"
-import { useRouter } from 'next/router'
+import Link from 'next/link'
 import { useSearchParams } from 'next/navigation'
 import { numberWithDelimiter, divide_1_000, divide_1_000_000 } from "@/lib/utility"
 
@@ -10,7 +10,7 @@ export default async function Page() {
   const searchParams = useSearchParams()
   const currentPage = searchParams.get('page') ? Number(searchParams.get('page')) : 1
   const { companies, meta } = await getCompanies(currentPage)
-  const { from, count, items, page, pages, prev, next } = meta
+  const { from, page, prev, next } = meta
 
   return (
     <div className="overflow-x-auto">
@@ -40,6 +40,17 @@ export default async function Page() {
           })}
         </tbody>
       </table>
+      <div className="flex items-center justify-center">
+        <div className="join">
+          <button className={`join-item btn btn-sm ${prev ?? "btn-disabled"}`}>
+            <Link href={{ pathname: '/companies', query: { page: page - 1 }}}>«</Link>
+          </button>
+          <button className="join-item btn btn-sm">Page {page}</button>
+          <button className={`join-item btn btn-sm ${next ?? "btn-disabled"}`}>
+            <Link href={{ pathname: '/companies', query: { page: page + 1 }}}>»</Link>
+          </button>
+        </div>
+      </div>
     </div>
   )
 }
