@@ -1,10 +1,17 @@
+'use client'
+
 import { DefaultApi, Configuration } from "@/client"
 import { BASE_PATH } from "@/constant"
-
+import { useRouter } from 'next/router'
+import { useSearchParams } from 'next/navigation'
 import { numberWithDelimiter, divide_1_000, divide_1_000_000 } from "@/lib/utility"
 
 export default async function Page() {
-  const companies = await getCompanies()
+  const searchParams = useSearchParams()
+  const currentPage = searchParams.get('page') ? Number(searchParams.get('page')) : 1
+  const { companies, meta } = await getCompanies(currentPage)
+  const { from, count, items, page, pages, prev, next } = meta
+
   return (
     <div className="overflow-x-auto">
       <table className="table table-sm">
@@ -22,7 +29,7 @@ export default async function Page() {
         {companies.map((company, index) => {
             return (
               <tr key={index}>
-                <th>{index + 1}</th>
+                <th>{from + index}</th>
                 <td>{company.securityName}</td>
                 <td>{company.industryName}</td>
                 <td>{company.marketName}</td>
@@ -37,12 +44,13 @@ export default async function Page() {
   )
 }
 
-const getCompanies = async () => {
+const getCompanies = async (page: number) => {
   const config = new Configuration({ basePath: BASE_PATH })
   const DefaultAPI = new DefaultApi(config)
   const res = await DefaultAPI.fetchCompanies({
+    page: page,
     sortType: "net_sales",
   })
-  const { companies } = res
-  return companies
+  const { companies, meta } = res
+  return { companies, meta }
 }
