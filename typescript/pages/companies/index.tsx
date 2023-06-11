@@ -55,7 +55,9 @@ export default function Companies({ companies, meta }: { companies: EachCompany[
             return (
               <tr key={index}>
                 <th>{from + index}</th>
-                <td>{company.securityName}</td>
+                <td className="text-accent hover:text-accent-focus">
+                  <Link href={{ pathname: `/companies/${company.securityCode}` }}>{company.securityName}</Link>
+                </td>
                 <td>{company.industryName}</td>
                 <td>{company.marketName}</td>
                 <td className="text-right">{numberWithDelimiter(divide_1_000_000(company.netSales))}</td>
