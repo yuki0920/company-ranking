@@ -163,7 +163,7 @@ func metaData(page, offset, limit, count int) Meta {
 		pre := (page - 1)
 		prev = &pre
 	}
-	if page <= pages {
+	if page < pages {
 		nex := (page + 1)
 		next = &nex
 	}
