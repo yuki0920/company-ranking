@@ -1,9 +1,8 @@
 import Link from 'next/link'
 import { useState, ChangeEventHandler, MouseEventHandler } from "react"
 import { useRouter } from "next/router"
-
 import { DefaultApi, Configuration, FetchCompaniesSortTypeEnum, EachCompany, Meta } from "@/client"
-import { BASE_PATH } from "@/constant"
+import { NEXT_PUBLIC_API_URL } from "@/constant"
 import { numberWithDelimiter, divide_1_000, divide_1_000_000 } from "@/lib/utility"
 
 export default function Companies({ companies, meta }: { companies: EachCompany[], meta: Meta }) {
@@ -91,7 +90,7 @@ export async function getServerSideProps({
 }:{
   query: { sortType: FetchCompaniesSortTypeEnum, page: number, q: string }
 }) {
-  const config = new Configuration({ basePath: BASE_PATH })
+  const config = new Configuration({ basePath: NEXT_PUBLIC_API_URL })
   const DefaultAPI = new DefaultApi(config)
   const res = await DefaultAPI.fetchCompanies({
     page: page,
