@@ -6,6 +6,14 @@ export const numberWithDelimiter = (number: Number | null): string => {
   }
 }
 
+export const toInt = (number: Number | null): number => {
+  if (typeof number === 'number') {
+    return Math.round(number)
+  } else {
+    return 0
+  }
+}
+
 export const divide_1_000 = (number: Number | null): number => {
   if (typeof number === 'number') {
     return Math.round(number / 1_000)
