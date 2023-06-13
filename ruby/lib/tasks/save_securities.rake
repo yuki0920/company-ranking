@@ -19,34 +19,63 @@ namespace :save_securities do
     puts '証券の保存終了'
   end
 
+  task all: :environment do
+    puts '証券一覧のダウンロード開始'
+    SecurityList.download
+    puts '証券一覧のダウンロード終了'
+    puts '証券の保存開始'
+    save!
+    puts '証券の保存終了'
+  end
+
   def save!
     file_path = SecurityList.dest_path
 
     book = Spreadsheet.open(file_path)
     sheet = book.worksheet('Sheet1')
     sheet.rows[1..].each do |row|
+      market = row[HEADER['市場・商品区分']]
+      market_data = Market::INITIAL_DATA.find { |mark| market.match?(mark[:name]) }
+      unless market_data
+        puts "#{row[HEADER['銘柄名']]} の市場 #{market} が見つからないためスキップ"
+        next
+      end
+
+      market = Market.find_by!(name: market_data[:name])
       code = row[HEADER['コード']]
-      next if Security.find_by(code: code)
-
-      name = row[HEADER['銘柄名']] # TODO: すでに銘柄名がある場合はエクセル記載の法を優先するようにロジックを修正する
-      old_security = Security.find_by(name: name)
-      old_security&.destroy!
-
       name = row[HEADER['銘柄名']]
-      puts "#{code}: #{name} の保存開始"
+      industry_code = row[HEADER['33業種コード']].to_i
 
-      market_hash = Market::INITIAL_DATA.find { |market| row[HEADER['市場・商品区分']].match?(market[:name]) }
-      next unless market_hash
+      security = Security.find_by(code: code)
+      if security.present?
+        puts "#{code}: #{name} の更新開始"
+        security.update!(
+          name: name,
+          market: market,
+          industry_code: industry_code
+        )
+      else
+        puts "#{code}: #{name} の新規作成開始"
+        Security.create!(
+          code: code,
+          name: name,
+          market: market,
+          industry_code: industry_code
+        )
+      end
 
-      market = Market.find_by!(name: market_hash[:name])
-
-      Security.create!(
-        code: code,
-        name: name,
-        market: market,
-        industry_code: row[HEADER['33業種コード']].to_i
-      )
       puts "#{code}: #{name} の保存終了"
+
+      same_securities = Security.where(name: name).order(created_at: :desc)
+      next if same_securities.count <= 1
+
+      puts "#{code}: #{name} は同じ名前の証券が#{same_securities.count}件存在するため、古い証券を削除"
+      same_securities.each_with_index do |sec, i|
+        next if i.zero?
+
+        puts "#{code}: #{name} 削除"
+        sec.destroy!
+      end
     end
   end
 end

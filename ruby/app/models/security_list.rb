@@ -11,15 +11,14 @@ class SecurityList < ApplicationRecord
       element = page.at('.component-file')
       title = element.at('th').inner_text
       src_path = element.at('a').get_attribute('href')
-
-      return if latest_security_list && latest_security_list.file_title == title
+      return if same(title)
 
       agent.download(src_path, dest_path)
       create!(file_title: title, downloaded_at: Time.zone.now)
     end
 
-    def latest_security_list
-      SecurityList.order(downloaded_at: :desc).last
+    def same(title)
+      SecurityList.find_by(file_title: title)
     end
 
     def dest_path
