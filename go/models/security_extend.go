@@ -2,8 +2,8 @@ package models
 
 import (
 	"context"
+	"database/sql"
 	"fmt"
-	"strings"
 )
 
 type SecurityData struct {
@@ -19,36 +19,7 @@ type SecurityData struct {
 
 // SecurityListPagination returns a slice of SecurityData.
 func SecurityListPagination(ctx context.Context, db DB, limit, offset int, sortType string, industryId, marketId, code *int, query *string) ([]*SecurityData, error) {
-	// query
-	sqlstr := `
-	SELECT securities.id, securities.code, securities.name, industries.name, markets.name, documents.net_sales, documents.average_annual_salary, documents.ordinary_income
-	FROM securities
-	INNER JOIN documents ON documents.security_code = securities.code
-	INNER JOIN industries ON industries.code = securities.industry_code
-	INNER JOIN markets ON markets.id = securities.market_id
-	@where
-	ORDER BY documents.@sort_type DESC NULLS LAST LIMIT $1 OFFSET $2
-	`
-	sqlstr = strings.Replace(sqlstr, "@sort_type", sortType, 1)
-	if industryId != nil {
-		where := fmt.Sprintf("WHERE industries.id = %d", *industryId)
-		sqlstr = strings.Replace(sqlstr, "@where", where, 1)
-	} else if marketId != nil {
-		where := fmt.Sprintf("WHERE markets.id = %d", *marketId)
-		sqlstr = strings.Replace(sqlstr, "@where", where, 1)
-	} else if code != nil {
-		where := fmt.Sprintf("WHERE securities.code = %d", *code)
-		sqlstr = strings.Replace(sqlstr, "@where", where, 1)
-	} else if query != nil {
-		where := fmt.Sprintf("WHERE documents.company_name ILIKE '%%%s%%' OR documents.company_name_en ILIKE '%%%s%%'", *query, *query)
-		sqlstr = strings.Replace(sqlstr, "@where", where, 1)
-	} else {
-		sqlstr = strings.Replace(sqlstr, "@where", "", 1)
-	}
-
-	// run
-	logf(sqlstr, limit, offset)
-	rows, err := db.QueryContext(ctx, sqlstr, limit, offset)
+	rows, err := securityListQuery(ctx, db, baseSelectQuery, limit, offset, sortType, industryId, marketId, code, query)
 	if err != nil {
 		return nil, logerror(err)
 	}
@@ -67,44 +38,203 @@ func SecurityListPagination(ctx context.Context, db DB, limit, offset int, sortT
 	return datum, nil
 }
 
+var baseSelectQuery = `
+SELECT securities.id, securities.code, securities.name, industries.name, markets.name, documents.net_sales, documents.average_annual_salary, documents.ordinary_income
+FROM securities
+INNER JOIN documents ON documents.security_code = securities.code
+INNER JOIN industries ON industries.code = securities.industry_code
+INNER JOIN markets ON markets.id = securities.market_id
+`
+
+var baseCountQuery = `
+SELECT DISTINCT securities.id
+FROM securities
+INNER JOIN documents ON documents.security_code = securities.code
+INNER JOIN industries ON industries.code = securities.industry_code
+INNER JOIN markets ON markets.id = securities.market_id
+`
+
+var marketQuery1 = `
+WHERE markets.id = $1
+`
+
+var marketCodeQuery12 = `
+WHERE markets.id = $1 AND securities.code = $2
+`
+
+var marketQueryQuery123 = `
+WHERE markets.id = $1 AND (documents.company_name ILIKE '%%$2%%' OR documents.company_name_en ILIKE '%%$3%%')
+`
+
+var industryQuery1 = `
+WHERE industries.id = $1
+`
+
+var industryCodeQuery12 = `
+WHERE industries.id = $1 AND securities.code = $2
+`
+
+var industryQueryQuery123 = `
+WHERE industries.id = $1 AND (documents.company_name ILIKE '%%$2%%' OR documents.company_name_en ILIKE '%%$3%%')
+`
+
+var codeQuery1 = `
+WHERE securities.code = $1
+`
+
+var queryQuery12 = `
+WHERE documents.company_name ILIKE $1 OR documents.company_name_en ILIKE $2
+`
+
+var orderQuery123 = `
+ORDER BY
+CASE $1
+WHEN 'net_sales' THEN documents.net_sales
+WHEN 'average_annual_salary' THEN documents.average_annual_salary
+WHEN 'ordinary_income' THEN documents.ordinary_income
+END DESC NULLS LAST
+LIMIT $2 OFFSET $3
+`
+
+var orderQuery234 = `
+ORDER BY
+CASE $2
+WHEN 'net_sales' THEN documents.net_sales
+WHEN 'average_annual_salary' THEN documents.average_annual_salary
+WHEN 'ordinary_income' THEN documents.ordinary_income
+END DESC NULLS LAST
+LIMIT $3 OFFSET $4
+`
+
+var orderQuery345 = `
+ORDER BY
+CASE $3
+WHEN 'net_sales' THEN documents.net_sales
+WHEN 'average_annual_salary' THEN documents.average_annual_salary
+WHEN 'ordinary_income' THEN documents.ordinary_income
+END DESC NULLS LAST
+LIMIT $4 OFFSET $5
+`
+
+var orderQuery456 = `
+ORDER BY
+CASE $4
+WHEN 'net_sales' THEN documents.net_sales
+WHEN 'average_annual_salary' THEN documents.average_annual_salary
+WHEN 'ordinary_income' THEN documents.ordinary_income
+END DESC NULLS LAST
+LIMIT $5 OFFSET $6
+`
+
+func securityListQuery(ctx context.Context, db DB, baseQuery string, limit, offset int, sortType string, industryId, marketId, code *int, query *string) (*sql.Rows, error) {
+	sqlstr := baseQuery
+
+	if marketId != nil {
+		if code != nil {
+			sqlstr = sqlstr + marketCodeQuery12 + orderQuery345
+			logf(sqlstr, *marketId, *code, sortType, limit, offset)
+			return db.QueryContext(ctx, sqlstr, *marketId, *code, sortType, limit, offset)
+		} else if query != nil && *query != "" {
+			sqlstr = sqlstr + marketQueryQuery123 + orderQuery456
+			logf(sqlstr, *marketId, *query, *query, sortType, limit, offset)
+			return db.QueryContext(ctx, sqlstr, *marketId, fmt.Sprintf("%%%s%%", *query), fmt.Sprintf("%%%s%%", *query), sortType, limit, offset)
+		} else {
+			sqlstr = sqlstr + marketQuery1 + orderQuery234
+			logf(sqlstr, *marketId, sortType, limit, offset)
+			return db.QueryContext(ctx, sqlstr, *marketId, sortType, limit, offset)
+		}
+	} else if industryId != nil {
+		if code != nil {
+			sqlstr = sqlstr + industryCodeQuery12 + orderQuery345
+			logf(sqlstr, *industryId, *code, sortType, limit, offset)
+			return db.QueryContext(ctx, sqlstr, *industryId, *code, sortType, limit, offset)
+		} else if query != nil && *query != "" {
+			sqlstr = sqlstr + industryQueryQuery123 + orderQuery456
+			logf(sqlstr, *industryId, *query, *query, sortType, limit, offset)
+			return db.QueryContext(ctx, sqlstr, *industryId, fmt.Sprintf("%%%s%%", *query), fmt.Sprintf("%%%s%%", *query), sortType, limit, offset)
+		} else {
+			sqlstr = sqlstr + industryQuery1 + orderQuery234
+			logf(sqlstr, *industryId, sortType, limit, offset)
+			return db.QueryContext(ctx, sqlstr, *industryId, sortType, limit, offset)
+		}
+	} else {
+		if code != nil {
+			sqlstr = sqlstr + codeQuery1 + orderQuery234
+			logf(sqlstr, *code, sortType, limit, offset)
+			return db.QueryContext(ctx, sqlstr, *code, sortType, limit, offset)
+		} else if query != nil && *query != "" {
+			sqlstr = sqlstr + queryQuery12 + orderQuery345
+			logf(sqlstr, *query, *query, sortType, limit, offset)
+			return db.QueryContext(ctx, sqlstr, fmt.Sprintf("%%%s%%", *query), fmt.Sprintf("%%%s%%", *query), sortType, limit, offset)
+		} else {
+			sqlstr = sqlstr + orderQuery123
+			logf(sqlstr, sortType, limit, offset)
+			return db.QueryContext(ctx, sqlstr, sortType, limit, offset)
+		}
+	}
+}
+
 // SecurityCount returns a slice of SecurityData.
 func SecurityListCount(ctx context.Context, db DB, industryId, marketId, code *int, query *string) (int, error) {
-	// query
-	sqlstr := `
-	SELECT COUNT(*) FROM
-	(
-		SELECT DISTINCT securities.id
-		FROM securities
-		INNER JOIN documents ON documents.security_code = securities.code
-		INNER JOIN industries ON industries.code = securities.industry_code
-		INNER JOIN markets ON markets.id = securities.market_id
-		@where
-	) subquery_for_count
-	`
-	if industryId != nil {
-		where := fmt.Sprintf("WHERE industries.id = %d", *industryId)
-		sqlstr = strings.Replace(sqlstr, "@where", where, 1)
-	} else if marketId != nil {
-		where := fmt.Sprintf("WHERE markets.id = %d", *marketId)
-		sqlstr = strings.Replace(sqlstr, "@where", where, 1)
-	} else if code != nil {
-		where := fmt.Sprintf("WHERE securities.code = %d", *code)
-		sqlstr = strings.Replace(sqlstr, "@where", where, 1)
-	} else if query != nil {
-		where := fmt.Sprintf("WHERE documents.company_name ILIKE '%%%s%%' OR documents.company_name_en ILIKE '%%%s%%'", *query, *query)
-		sqlstr = strings.Replace(sqlstr, "@where", where, 1)
-	} else {
-		sqlstr = strings.Replace(sqlstr, "@where", "", 1)
-	}
-	// run
-	logf(sqlstr)
 	var count int
-	row := db.QueryRowContext(ctx, sqlstr)
+	row := securityListCountQuery(ctx, db, baseCountQuery, industryId, marketId, code, query)
 	err := row.Scan(&count)
 	if err != nil {
 		return 0, logerror(err)
 	}
 	return count, nil
+}
+
+func securityListCountQuery(ctx context.Context, db DB, baseQuery string, industryId, marketId, code *int, query *string) *sql.Row {
+	sqlstr := baseQuery
+
+	if marketId != nil {
+		if code != nil {
+			sqlstr = countQuery(sqlstr + marketCodeQuery12)
+			logf(sqlstr, *marketId, *code)
+			return db.QueryRowContext(ctx, sqlstr, *marketId, *code)
+		} else if query != nil && *query != "" {
+			sqlstr = countQuery(sqlstr + marketQueryQuery123)
+			logf(sqlstr, *marketId, *query, *query)
+			return db.QueryRowContext(ctx, sqlstr, *marketId, fmt.Sprintf("%%%s%%", *query), fmt.Sprintf("%%%s%%", *query))
+		} else {
+			sqlstr = countQuery(sqlstr + marketQuery1)
+			logf(sqlstr, *marketId)
+			return db.QueryRowContext(ctx, sqlstr, *marketId)
+		}
+	} else if industryId != nil {
+		if code != nil {
+			sqlstr = countQuery(sqlstr + industryCodeQuery12)
+			logf(sqlstr, *industryId, *code)
+			return db.QueryRowContext(ctx, sqlstr, *industryId, *code)
+		} else if query != nil && *query != "" {
+			sqlstr = countQuery(sqlstr + industryQueryQuery123)
+			logf(sqlstr, *industryId, *query, *query)
+			return db.QueryRowContext(ctx, sqlstr, *industryId, fmt.Sprintf("%%%s%%", *query), fmt.Sprintf("%%%s%%", *query))
+		} else {
+			sqlstr = countQuery(sqlstr + industryQuery1)
+			logf(sqlstr, *industryId)
+			return db.QueryRowContext(ctx, sqlstr, *industryId)
+		}
+	} else {
+		if code != nil {
+			sqlstr = countQuery(sqlstr + codeQuery1)
+			logf(sqlstr, *code)
+			return db.QueryRowContext(ctx, sqlstr, *code)
+		} else if query != nil && *query != "" {
+			sqlstr = countQuery(sqlstr + queryQuery12)
+			logf(sqlstr, *query, *query)
+			return db.QueryRowContext(ctx, sqlstr, fmt.Sprintf("%%%s%%", *query), fmt.Sprintf("%%%s%%", *query))
+		} else {
+			sqlstr = countQuery(sqlstr)
+			logf(sqlstr)
+			return db.QueryRowContext(ctx, sqlstr)
+		}
+	}
+}
+
+func countQuery(sqlstr string) string {
+	return "SELECT COUNT(*) FROM ( " + sqlstr + " ) AS count"
 }
 
 // SecurityCountByIndustry returns a map of industry code to security count.
