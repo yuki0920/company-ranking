@@ -3,7 +3,7 @@ import { useState, ChangeEventHandler, MouseEventHandler } from "react"
 import { useRouter } from "next/router"
 import { DefaultApi, Configuration, FetchCompaniesSortTypeEnum, EachCompany, Meta } from "@/client"
 import { NEXT_PUBLIC_API_URL } from "@/constant"
-import { numberWithDelimiter, divide_1_000, divide_1_000_000 } from "@/lib/utility"
+import CompanyTable from "@/components/CompanyTable"
 
 export default function Companies({ companies, meta }: { companies: EachCompany[], meta: Meta }) {
   const [query, setQuery] = useState("")
@@ -38,34 +38,7 @@ export default function Companies({ companies, meta }: { companies: EachCompany[
       {/* search */}
 
       {/* companies */}
-      <table className="table table-sm">
-        <thead>
-          <tr className="text-left">
-            <th>順位</th>
-            <th>企業</th>
-            <th>業種</th>
-            <th>市場</th>
-            <th className="text-right">売上(百万円)</th>
-            <th className="text-right">平均給与(千円)</th>
-          </tr>
-        </thead>
-        <tbody>
-        {companies.map((company, index) => {
-            return (
-              <tr key={index}>
-                <th>{from + index}</th>
-                <td className="text-accent hover:text-accent-focus">
-                  <Link href={{ pathname: `/companies/${company.securityCode}` }}>{company.securityName}</Link>
-                </td>
-                <td>{company.industryName}</td>
-                <td>{company.marketName}</td>
-                <td className="text-right">{numberWithDelimiter(divide_1_000_000(company.netSales))}</td>
-                <td className="text-right">{numberWithDelimiter(divide_1_000(company.averageAnnualSalary))}</td>
-              </tr>
-            )
-          })}
-        </tbody>
-      </table>
+      <CompanyTable companies={companies} from={from} />
       {/* companies */}
 
       {/* pagination */}
