@@ -63,7 +63,7 @@ WHERE markets.id = $1 AND securities.code = $2
 `
 
 var marketQueryQuery123 = `
-WHERE markets.id = $1 AND (documents.company_name ILIKE '%%$2%%' OR documents.company_name_en ILIKE '%%$3%%')
+WHERE markets.id = $1 AND (documents.company_name ILIKE $2 OR documents.company_name_en ILIKE $3)
 `
 
 var industryQuery1 = `
@@ -75,7 +75,7 @@ WHERE industries.id = $1 AND securities.code = $2
 `
 
 var industryQueryQuery123 = `
-WHERE industries.id = $1 AND (documents.company_name ILIKE '%%$2%%' OR documents.company_name_en ILIKE '%%$3%%')
+WHERE industries.id = $1 AND (documents.company_name ILIKE $2 OR documents.company_name_en ILIKE $3)
 `
 
 var codeQuery1 = `
