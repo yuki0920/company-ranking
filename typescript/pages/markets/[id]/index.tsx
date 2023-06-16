@@ -1,10 +1,10 @@
-import Link from 'next/link'
 import { useState, ChangeEventHandler, MouseEventHandler } from "react"
 import { useRouter } from "next/router"
 import { DefaultApi, Configuration, FetchCompaniesSortTypeEnum, EachCompany, Meta } from "@/client"
 import { NEXT_PUBLIC_API_URL } from "@/constant"
 import CompanyTable from "@/components/CompanyTable"
 import SearchBox from "@/components/SearchBox"
+import Pagination from "@/components/Pagination"
 
 export default function Markets({ companies, meta }: { companies: EachCompany[], meta: Meta }) {
   const [query, setQuery] = useState("")
@@ -37,17 +37,13 @@ export default function Markets({ companies, meta }: { companies: EachCompany[],
       {/* companies */}
 
       {/* pagination */}
-      <div className="flex items-center justify-center">
-        <div className="join">
-          <button className={`join-item btn btn-sm ${prev ?? "btn-disabled"}`}>
-            <Link href={{ pathname: `/markets/${id}`, query: { page: page - 1 }}}>«</Link>
-          </button>
-          <button className="join-item btn btn-sm">Page {page}</button>
-          <button className={`join-item btn btn-sm ${next ?? "btn-disabled"}`}>
-            <Link href={{ pathname: `/markets/${id}`, query: { page: page + 1 }}}>»</Link>
-          </button>
-        </div>
-      </div>
+      <Pagination
+        prevRef={{ pathname: `/markets/${id}`, query: { page: page - 1 }}}
+        nextRef={{ pathname: `/markets/${id}`, query: { page: page + 1 }}}
+        page={page}
+        prev={prev}
+        next={next}
+      />
       {/* pagination */}
     </>
   )
