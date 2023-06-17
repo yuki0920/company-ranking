@@ -30,7 +30,7 @@ export default function Header({
                 <Link href={{ pathname: "/companies" }}>すべての企業</Link>
               </li>
               <li>
-                <Link href={{ pathname: "/terms_of_service" }}>利用規約</Link>
+                <Link href={{ pathname: "/terms_of_use" }}>利用規約</Link>
               </li>
             </ul>
             <ThemeChangeMenu />
