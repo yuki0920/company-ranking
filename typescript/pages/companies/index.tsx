@@ -28,9 +28,7 @@ export default function Companies({ companies, meta }: { companies: EachCompany[
   return (
     <>
       {/* search */}
-      <div className="mt-10">
-        <SearchBox query={query} handleQuery={handleQuery} handleSearch={handleSearch} />
-      </div>
+      <SearchBox query={query} handleQuery={handleQuery} handleSearch={handleSearch} />
       {/* search */}
 
       {/* companies */}
