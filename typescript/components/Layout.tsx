@@ -1,3 +1,4 @@
+import Header from '@/components/Header'
 import Footer from '@/components/Footer'
 
 export default function Layout({
@@ -7,7 +8,9 @@ export default function Layout({
 }) {
   return (
     <>
-      <main>{children}</main>
+      <Header>
+        <main>{children}</main>
+      </Header>
       <Footer />
     </>
   )
