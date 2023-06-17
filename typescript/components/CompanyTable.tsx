@@ -20,7 +20,7 @@ export default function CompanyTable({ companies, from }: { companies: EachCompa
           return (
             <tr key={index}>
               <th>{from + index}</th>
-              <td className="text-accent hover:text-accent-focus">
+              <td className="link-text">
                 <Link href={{ pathname: `/companies/${company.securityCode}` }}>{company.securityName}</Link>
               </td>
               <td>{company.industryName}</td>

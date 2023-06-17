@@ -15,7 +15,7 @@ export default async function TopPage() {
         <div className="toppage flex flex-col min-h-screen">
           <div className="container mt-3">
             <Link href="/companies">
-                <p>全ての企業から探す</p>
+                <p className="link-text">全ての企業から探す</p>
             </Link>
             <section>
               <h2 className="flex items-center text-xl">
@@ -24,7 +24,7 @@ export default async function TopPage() {
               </h2>
               <ul className="row list-unstyled grid grid-cols-2 sm:grid-cols-6 gap-2">
                 {markets.map((market) => (
-                  <li key={`market-${market.id}`} className="col-6 col-sm-2">
+                  <li key={`market-${market.id}`} className="col-6 col-sm-2 link-text">
                     <Link href={`/markets/${market.id}`}>
                       {market.name}({market.count})
                     </Link>
@@ -42,7 +42,7 @@ export default async function TopPage() {
                   <h3>{industryCategory.name}</h3>
                   <ul className="row list-unstyled grid grid-cols-2 sm:grid-cols-6 gap-2">
                     {industryCategory.industries !== null && industryCategory.industries.map((industry) => (
-                      <li key={`industry-${industry.id}`} className="col-6 col-sm-2">
+                      <li key={`industry-${industry.id}`} className="col-6 col-sm-2 link-text">
                         <Link href={`/industries/${industry.id}`}>
                           {industry.name}({industry.count})
                         </Link>
