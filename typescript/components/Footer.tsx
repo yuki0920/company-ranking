@@ -9,7 +9,7 @@ export default function Footer() {
         <div className="text-center">
           <ul className="flex justify-center mb-3 space-x-4">
             <li>
-              <Link href={{ pathname: "/terms_of_service" }} className="link link-hover">利用規約</Link>
+              <Link href={{ pathname: "/terms_of_use" }} className="link link-hover">利用規約</Link>
             </li>
             <li>
               <Link href={{ pathname: "/contact" }} className="link link-hover">お問い合わせ</Link>

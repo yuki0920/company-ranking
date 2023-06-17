@@ -5,7 +5,7 @@ import { EachCompany } from "@/client"
 export default function CompanyTable({ companies, from }: { companies: EachCompany[], from: number }) {
   return (
     <div className="overflow-x-auto">
-      <table className="table table-sm table-pin-rows table-pin-cols">
+      <table className="table table-sm">
         <thead>
           <tr className="text-left">
             <th>順位</th>
