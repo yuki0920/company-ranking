@@ -9,7 +9,11 @@ export default function Layout({
   return (
     <>
       <Header>
-        <main>{children}</main>
+        <div className="flex justify-center">
+          <div className="container">
+            <main>{children}</main>
+          </div>
+        </div>
       </Header>
       <Footer />
     </>
