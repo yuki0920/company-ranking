@@ -13,3 +13,15 @@ updates:
       interval: "monthly"
     ignore:
       - dependency-name: "rails"
+  - package-ecosystem: "npm"
+    directory: "./typescript"
+    schedule:
+      interval: "monthly"
+  - package-ecosystem: "gomod"
+    directory: "./go"
+    schedule:
+      interval: "monthly"
+  - package-ecosystem: "github-actions"
+    directory: "./.github/workflows"
+    schedule:
+      interval: "monthly"
