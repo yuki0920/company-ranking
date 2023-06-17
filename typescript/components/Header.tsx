@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import ThemeChangeMenu from '@/components/ThemeChangeMenu'
 
 export default function Header({
   children,
@@ -27,6 +28,7 @@ export default function Header({
                 <Link href={{ pathname: "/terms_of_service" }}>利用規約</Link>
               </li>
             </ul>
+            <ThemeChangeMenu />
           </div>
         </div>
         {/* Page content here */}
