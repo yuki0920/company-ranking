@@ -33,7 +33,7 @@ export default async function Page({ params }: {
           </dd>
           <dt className="col-span-1 p-2 border-t border-neutral-content">業種</dt>
           <dd className="col-span-1 p-2 border-l border-t border-neutral-content link-text text-right">
-            <Link href={{ pathname: `/markets/${company.industryId}` }}>{company.industryName}</Link>
+            <Link href={{ pathname: `/industries/${company.industryId}` }}>{company.industryName}</Link>
           </dd>
           <dt className="col-span-1 p-2 border-t border-neutral-content">決算月</dt>
           <dd className="col-span-1 p-2 border-l border-t border-neutral-content text-right">
