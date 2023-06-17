@@ -228,7 +228,7 @@ func (s *Server) FetchCompany(w http.ResponseWriter, r *http.Request, code int) 
 		ConsolidatedNumberOfEmployees: &doc.ConsolidatedNumberOfEmployees.Int64,
 		EquityToAssetRatio:            &doc.EquityToAssetRatio.Float64,
 		HeadOfficeLocation:            doc.HeadOfficeLocation.String,
-		IndustryId:                    int32(industry.Code),
+		IndustryId:                    int32(industry.ID),
 		IndustryName:                  industry.Name,
 		LastYearNetSales:              &doc.LastYearNetSales.Int64,
 		LastYearOperatingIncome:       &doc.LastYearOperatingIncome.Int64,

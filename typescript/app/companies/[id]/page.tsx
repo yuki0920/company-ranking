@@ -28,12 +28,12 @@ export default async function Page({ params }: {
             {company.securityCode}
           </dd>
           <dt className="col-span-1 p-2 border-t border-neutral-content">上場市場</dt>
-          <dd className="col-span-1 p-2 border-l border-t border-neutral-content text-accent  hover:text-accent-focus text-right">
+          <dd className="col-span-1 p-2 border-l border-t border-neutral-content link-text text-right">
             <Link href={{ pathname: `/markets/${company.marketId}` }}>{company.marketName}</Link>
           </dd>
           <dt className="col-span-1 p-2 border-t border-neutral-content">業種</dt>
-          <dd className="col-span-1 p-2 border-l border-t border-neutral-content text-accent  hover:text-accent-focus text-right">
-            <Link href={{ pathname: `/markets/${company.industryId}` }}>{company.industryName}</Link>
+          <dd className="col-span-1 p-2 border-l border-t border-neutral-content link-text text-right">
+            <Link href={{ pathname: `/industries/${company.industryId}` }}>{company.industryName}</Link>
           </dd>
           <dt className="col-span-1 p-2 border-t border-neutral-content">決算月</dt>
           <dd className="col-span-1 p-2 border-l border-t border-neutral-content text-right">
