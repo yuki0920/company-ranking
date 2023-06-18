@@ -1,14 +1,15 @@
 import { useState, ChangeEventHandler, MouseEventHandler } from "react"
 import { useRouter } from "next/router"
-import { DefaultApi, Configuration, FetchCompaniesSortTypeEnum, EachCompany, Meta } from "@/client"
+import { DefaultApi, Configuration, FetchCompaniesSortTypeEnum, EachCompany, Meta, Industry } from "@/client"
 import { NEXT_PUBLIC_API_URL } from "@/constant"
 import CompanyTable from "@/components/CompanyTable"
 import SearchBox from "@/components/SearchBox"
 import SortButtons from "@/components/SortButtons"
 import Pagination from "@/components/Pagination"
 import { ParsedUrlQueryInput } from "querystring"
+import SeoHead from "@/components/SeoHead"
 
-export default function Industries({ companies, meta }: { companies: EachCompany[], meta: Meta }) {
+export default function Industries({ companies, meta, industry }: { companies: EachCompany[], meta: Meta, industry: Industry }) {
   const [query, setQuery] = useState("")
   const router = useRouter()
   let currentSortType: string
@@ -49,6 +50,12 @@ export default function Industries({ companies, meta }: { companies: EachCompany
 
   return (
     <>
+      {/* SEO */}
+      <SeoHead
+        pageTitle={`${industry.name}業界`}
+      />
+      {/* SEO */}
+
       {/* search */}
       <SearchBox query={query} handleQuery={handleQuery} handleSearch={handleSearch} />
       {/* search */}
@@ -81,17 +88,23 @@ export async function getServerSideProps({
 }) {
   const config = new Configuration({ basePath: NEXT_PUBLIC_API_URL })
   const DefaultAPI = new DefaultApi(config)
-  const res = await DefaultAPI.fetchCompanies({
-    industryId: id,
-    page: page,
-    sortType: sortType,
-    q: q,
-  })
-  const { companies, meta } = res
+  const [{ companies, meta }, { industry }] = await Promise.all([
+    DefaultAPI.fetchCompanies({
+      industryId: id,
+      page: page,
+      sortType: sortType,
+      q: q,
+    }),
+    DefaultAPI.fetchIndustry({
+      id: id
+    })
+  ])
+
   return {
     props: {
       companies,
-      meta
+      meta,
+      industry,
     }
   }
 }

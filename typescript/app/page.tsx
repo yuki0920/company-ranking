@@ -1,7 +1,7 @@
 
-import { DefaultApi, Configuration, ResponseIndustries,  EachIndustryCategory, EachMarket } from "@/client"
+import { DefaultApi, Configuration } from "@/client"
 import { NEXT_PUBLIC_API_URL } from "@/constant"
-import Link from 'next/link';
+import Link from 'next/link'
 
 export default async function TopPage() {
   const [{ industryCategories }, { markets }] = await Promise.all([

@@ -1,14 +1,15 @@
 import { useState, ChangeEventHandler, MouseEventHandler } from "react"
 import { useRouter } from "next/router"
-import { DefaultApi, Configuration, FetchCompaniesSortTypeEnum, EachCompany, Meta } from "@/client"
+import { DefaultApi, Configuration, FetchCompaniesSortTypeEnum, EachCompany, Meta, Market } from "@/client"
 import { NEXT_PUBLIC_API_URL } from "@/constant"
 import CompanyTable from "@/components/CompanyTable"
 import SearchBox from "@/components/SearchBox"
 import SortButtons from "@/components/SortButtons"
 import Pagination from "@/components/Pagination"
 import { ParsedUrlQueryInput } from "querystring"
+import SeoHead from "@/components/SeoHead"
 
-export default function Markets({ companies, meta }: { companies: EachCompany[], meta: Meta }) {
+export default function Markets({ companies, meta, market }: { companies: EachCompany[], meta: Meta, market: Market }) {
   const [query, setQuery] = useState("")
   const router = useRouter()
   const { page, from, prev, next } = meta
@@ -49,6 +50,12 @@ export default function Markets({ companies, meta }: { companies: EachCompany[],
 
   return (
     <>
+      {/* SEO */}
+      <SeoHead
+        pageTitle={`${market.name}市場`}
+      />
+      {/* SEO */}
+
       {/* search */}
       <SearchBox query={query} handleQuery={handleQuery} handleSearch={handleSearch} />
       {/* search */}
@@ -81,17 +88,23 @@ export async function getServerSideProps({
 }) {
   const config = new Configuration({ basePath: NEXT_PUBLIC_API_URL })
   const DefaultAPI = new DefaultApi(config)
-  const res = await DefaultAPI.fetchCompanies({
-    marketId: id,
-    page: page,
-    sortType: sortType,
-    q: q,
-  })
-  const { companies, meta } = res
+  const [{ companies, meta }, { market }] = await Promise.all([
+    DefaultAPI.fetchCompanies({
+      marketId: id,
+      page: page,
+      sortType: sortType,
+      q: q,
+    }),
+    DefaultAPI.fetchMarket({
+      id: id
+    })
+  ])
+
   return {
     props: {
       companies,
-      meta
+      meta,
+      market,
     }
   }
 }
