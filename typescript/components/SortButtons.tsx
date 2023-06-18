@@ -4,7 +4,7 @@ import { SORT_TYPES } from "@/constant"
 export default function SortButtons({ currentSortType, handleSortType }: { currentSortType: string, handleSortType: ChangeEventHandler<HTMLInputElement> }) {
   return (
     <div className="flex justify-center">
-      <div className="flex justify-around w-2/5">
+      <div className="flex justify-around w-3/5">
         {SORT_TYPES.map(sortType => (
           <>
             <div className="flex gap-2">
