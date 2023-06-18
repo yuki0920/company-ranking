@@ -7,7 +7,7 @@ export default function SortButtons({ currentSortType, handleSortType }: { curre
       <div className="flex justify-around w-3/5">
         {SORT_TYPES.map(sortType => (
           <>
-            <div className="flex gap-2">
+            <div className="flex gap-2" >
               <input
                 type="radio"
                 name="sort-type"

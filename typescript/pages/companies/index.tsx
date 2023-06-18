@@ -7,6 +7,7 @@ import SearchBox from "@/components/SearchBox"
 import SortButtons from "@/components/SortButtons"
 import Pagination from "@/components/Pagination"
 import { ParsedUrlQueryInput } from "querystring"
+import SeoHead from "@/components/SeoHead"
 
 export default function Companies({ companies, meta }: { companies: EachCompany[], meta: Meta }) {
   const [query, setQuery] = useState("")
@@ -49,6 +50,10 @@ export default function Companies({ companies, meta }: { companies: EachCompany[
 
   return (
     <>
+      {/* SEO */}
+      <SeoHead/>
+      {/* SEO */}
+
       {/* search */}
       <SearchBox query={query} handleQuery={handleQuery} handleSearch={handleSearch} />
       {/* search */}
