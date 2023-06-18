@@ -6,6 +6,7 @@ import CompanyTable from "@/components/CompanyTable"
 import SearchBox from "@/components/SearchBox"
 import SortButtons from "@/components/SortButtons"
 import Pagination from "@/components/Pagination"
+import { ParsedUrlQueryInput } from "querystring"
 
 export default function Industries({ companies, meta }: { companies: EachCompany[], meta: Meta }) {
   const [query, setQuery] = useState("")
@@ -36,12 +37,13 @@ export default function Industries({ companies, meta }: { companies: EachCompany
 
   const handleSortType: ChangeEventHandler<HTMLInputElement> = (e) => {
     const changedSortType = e.target.value as FetchCompaniesSortTypeEnum
+    const queryInput: ParsedUrlQueryInput = { sortType: changedSortType }
+    if (query !== "") {
+      queryInput["q"] = query
+    }
     router.push({
       pathname: `/industries/${id}`,
-      query: {
-        sortType: changedSortType,
-        q: query,
-      }
+      query: queryInput
     })
   }
 
