@@ -1,10 +1,11 @@
 'use client'
 
 import { useState, ChangeEventHandler, MouseEventHandler } from "react"
-import {  EachCompany, Meta } from "@/client"
-import SearchBox from "@/components/SearchBox"
-import CompanyTable from "@/components/CompanyTable"
 import { useRouter, useSearchParams } from "next/navigation"
+import { FetchCompaniesSortTypeEnum, EachCompany, Meta } from "@/client"
+import SearchBox from "@/components/SearchBox"
+import SortButtons from "@/components/SortButtons"
+import CompanyTable from "@/components/CompanyTable"
 import Pagination from "@/components/Pagination"
 
 export default function TestCompanies({ companies, meta }: { companies: EachCompany[], meta: Meta }) {
@@ -12,6 +13,13 @@ export default function TestCompanies({ companies, meta }: { companies: EachComp
   const router = useRouter()
   const searchParams = useSearchParams()
   const { page, from, prev, next } = meta
+
+  let currentSortType: string
+  if (searchParams === null || searchParams.get("sortType") == null) {
+    currentSortType = "net_sales"
+  } else {
+    currentSortType = searchParams.get("sortType") as string
+  }
 
   const handleQuery: ChangeEventHandler<HTMLInputElement> = ({ target }) => {
     setQuery(target.value)
@@ -37,11 +45,25 @@ export default function TestCompanies({ companies, meta }: { companies: EachComp
     router.push(`/tests?${params.toString()}`)
   }
 
+  const handleSortType: ChangeEventHandler<HTMLInputElement> = (e) => {
+    const changedSortType = e.target.value as FetchCompaniesSortTypeEnum
+    const params = new URLSearchParams()
+    params.set("sortType", changedSortType)
+    if (query !== "") {
+      params.set("q", query)
+    }
+    router.push(`/tests?${params.toString()}`)
+  }
+
   return (
     <>
       {/* search */}
       <SearchBox query={query} handleQuery={handleQuery} handleSearch={handleSearch} />
       {/* search */}
+
+      {/* sort */}
+      <SortButtons currentSortType={currentSortType} handleSortType={handleSortType} />
+      {/* sort */}
 
       {/* companies */}
       <CompanyTable companies={companies} from={from} />
@@ -49,8 +71,8 @@ export default function TestCompanies({ companies, meta }: { companies: EachComp
 
       {/* pagination */}
       <Pagination
-        prevRef={{ pathname: '/companies', query: { page: page - 1 }}}
-        nextRef={{ pathname: '/companies', query: { page: page + 1 }}}
+        prevRef={{ pathname: '/tests', query: { page: page - 1 }}}
+        nextRef={{ pathname: '/tests', query: { page: page + 1 }}}
         page={page}
         prev={prev}
         next={next}
