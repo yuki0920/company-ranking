@@ -25,19 +25,19 @@ services:
     depends_on:
       - db
     command: /bin/sh -c "echo rails api is not used."
-  front:
-    build:
-      context: ./front
-      args:
-        WORKDIR: $WORKDIR
-        API_URL: $API_URL
-    command: yarn run dev
-    volumes:
-      - ./front:/$WORKDIR
-    ports:
-      - "$FRONT_HOST_PORT:$CONTAINER_PORT"
-    depends_on:
-      - ruby
+  # front:
+  #   build:
+  #     context: ./front
+  #     args:
+  #       WORKDIR: $WORKDIR
+  #       API_URL: $API_URL
+  #   command: yarn run dev
+  #   volumes:
+  #     - ./front:/$WORKDIR
+  #   ports:
+  #     - "$FRONT_HOST_PORT:$CONTAINER_PORT"
+  #   depends_on:
+  #     - ruby
   typescript:
     build:
       context: ./typescript
