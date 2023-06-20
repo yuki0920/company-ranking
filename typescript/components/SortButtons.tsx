@@ -1,3 +1,5 @@
+'use client'
+
 import { ChangeEventHandler } from "react"
 import { SORT_TYPES } from "@/constant"
 
