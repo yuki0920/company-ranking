@@ -41,7 +41,9 @@ func (s *Server) MountHandlers(frontURL string) {
 	s.Router.Use(middleware.Logger(s.Logger))
 	s.Router.Use(cors.Handler(cors.Options{
 		// AllowedOrigins:   []string{"https://foo.com"}, // Use this to allow specific origin hosts
-		AllowedOrigins: []string{frontURL, "https://*", "company-ranking.net", "company-ranking.netlify.app"},
+
+		// TODO: remove http://* and https://* in production
+		AllowedOrigins: []string{frontURL, "http://*", "https://*", "company-ranking.net", "company-ranking.netlify.app"},
 		// AllowOriginFunc:  func(r *http.Request, origin string) bool { return true },
 		AllowedMethods: []string{
 			http.MethodGet,
