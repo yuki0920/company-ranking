@@ -1,6 +1,6 @@
 import { DefaultApi, Configuration, FetchCompaniesSortTypeEnum } from "@/client"
 import { NEXT_PUBLIC_API_URL } from "@/constant"
-import TesftCompanies from "@/app/tests/test-companies"
+import TestCompanies from "@/app/tests/test-companies"
 
 export default async function Page(
   { searchParams: {sortType = "net_sales", page = 1, q = "" }}:
@@ -11,7 +11,7 @@ export default async function Page(
   return (
     <>
       {/* companies */}
-        <TesftCompanies companies={companies} meta={meta} />
+        <TestCompanies companies={companies} meta={meta} />
       {/* companies */}
     </>
   )
