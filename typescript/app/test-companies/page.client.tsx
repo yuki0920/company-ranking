@@ -5,7 +5,6 @@ import CompanyTable from "./CompanyTable"
 import { EachCompanyJSON, MetaJSON } from "@/types"
 import Pagination from "./Pagination"
 import { useSearchParams } from 'next/navigation'
-import { useRouter } from 'next/navigation'
 import { NEXT_PUBLIC_API_URL } from "@/constant"
 
 export function ClientCompanies() {
@@ -17,13 +16,10 @@ export function ClientCompanies() {
   const currentPage = searchParams !== null && searchParams.get('page') ? Number(searchParams.get('page')) : 1
   const [page, setPage] = useState(currentPage)
 
-  const router = useRouter()
   const handleNextPage = () => {
-    router.push(`/test-companies?page=${page + 1}`)
     setPage(page + 1)
   }
   const handlePrevPage = () => {
-    router.push(`/test-companies?page=${page - 1}`)
     setPage(page - 1)
   }
 
@@ -38,14 +34,13 @@ export function ClientCompanies() {
       const res = await response.json()
 
       const { companies, meta }: { companies: EachCompanyJSON[], meta: MetaJSON } = res
-      const { page: pageData, from, prev, next } = meta
+      const { from, prev, next } = meta
       setCompanies(companies)
-      setPage(pageData)
       setFrom(from)
       setPrev(prev)
       setNext(next)
     })()
-  }, [page])
+  }, [searchParams, page])
 
   return (
     <>
