@@ -6,6 +6,7 @@ import { EachCompanyJSON, MetaJSON } from "@/types"
 import Pagination from "./Pagination"
 import { useSearchParams } from 'next/navigation'
 import { useRouter } from 'next/navigation'
+import { NEXT_PUBLIC_API_URL } from "@/constant"
 
 export function ClientCompanies() {
   const [companies, setCompanies] = useState<EachCompanyJSON[]>([])
@@ -33,7 +34,7 @@ export function ClientCompanies() {
       params.append("page", page.toString())
       params.append("q", "")
 
-      const response = await fetch(`http://localhost:3003/api/v1/companies?${params.toString()}`)
+      const response = await fetch(`${NEXT_PUBLIC_API_URL}/api/v1/companies?${params.toString()}`)
       const res = await response.json()
 
       const { companies, meta }: { companies: EachCompanyJSON[], meta: MetaJSON } = res
