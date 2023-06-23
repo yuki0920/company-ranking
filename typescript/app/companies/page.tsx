@@ -29,8 +29,8 @@ export default async function Page(
 
       {/* pagination */}
       <Pagination
-        prevRef={{ pathname: '/test-server-component', query: { page: Number(page) - 1 }}}
-        nextRef={{ pathname: '/test-server-component', query: { page: Number(page) + 1 }}}
+        prevRef={{ pathname: '/companies', query: { page: Number(page) - 1, sortType, q }}}
+        nextRef={{ pathname: '/companies', query: { page: Number(page) + 1, sortType, q }}}
         page={page}
         prev={prev}
         next={next}
