@@ -3,7 +3,20 @@ import SearchBox from "@/components/SearchInput"
 import SortTypes from "@/components/SortTypes"
 import CompanyTable from "@/components/CompanyTable"
 import Pagination from "@/components/Pagination"
-import { useCompanies } from "@/hooks/FetchCompanies"
+import { useCompanies, useMarket as getMarket } from "@/hooks/FetchData"
+import { Metadata } from 'next'
+
+export async function generateMetadata(
+  { params }: { params: { id: number } }
+): Promise<Metadata> {
+  const { id } = params
+  const market = await getMarket({ id })
+
+  return {
+    title: `${market.name}の企業一覧`,
+    description: `${market.name}の企業一覧です。`,
+  }
+}
 
 export default async function Page(
   { params: { id }, searchParams: { page = 1, sortType = "net_sales", q = "" }}:

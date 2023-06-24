@@ -1,3 +1,9 @@
+import { Metadata } from 'next'
+
+export const metadata: Metadata = {
+  title: "お問い合わせ",
+}
+
 import { NEXT_PUBLIC_TWITTER_ID } from '@/constant'
 
 export default function Contact() {

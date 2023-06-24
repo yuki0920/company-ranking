@@ -1,4 +1,3 @@
-
 import { DefaultApi, Configuration } from "@/client"
 import { NEXT_PUBLIC_API_URL } from "@/constant"
 import Link from 'next/link'
