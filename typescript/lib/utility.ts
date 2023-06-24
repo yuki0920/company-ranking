@@ -42,5 +42,3 @@ type ProfitColor = 'red' | 'inherit'
 export const profitColor = (number: Number | null): ProfitColor => {
   return isNegative(number) ? 'red' : 'inherit'
 }
-
-// export const isMobile = window.innerWidth < 576
