@@ -5,6 +5,7 @@ import CompanyTable from "@/components/CompanyTable"
 import Pagination from "@/components/Pagination"
 import { useCompanies } from "@/hooks/FetchData"
 import { Metadata } from 'next'
+import { formatQueryParams } from "@/lib/utility"
 
 export const metadata: Metadata = {
   title: "企業一覧",
@@ -34,8 +35,8 @@ export default async function Page(
 
       {/* pagination */}
       <Pagination
-        prevRef={{ pathname: '/companies', query: { page: Number(page) - 1, sortType, q }}}
-        nextRef={{ pathname: '/companies', query: { page: Number(page) + 1, sortType, q }}}
+        prevRef={{ pathname: '/companies', query: formatQueryParams({ page: Number(page) - 1, sortType, q })}}
+        nextRef={{ pathname: '/companies', query: formatQueryParams({ page: Number(page) + 1, sortType, q })}}
         page={page}
         prev={prev}
         next={next}

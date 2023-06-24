@@ -3,6 +3,7 @@ import { Inter } from 'next/font/google'
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'
 import { Metadata } from 'next'
+import { NEXT_PUBLIC_TWITTER_ID } from '@/constant'
 
 // metadata
 const defaultTitle = "上場企業ランキング"
@@ -27,7 +28,7 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: defaultTitle,
     description: defaultDescription,
-    creator: '@_yuki0920_',
+    creator: `@${NEXT_PUBLIC_TWITTER_ID}`,
   },
   verification: {
     // google: 'search console verification code',

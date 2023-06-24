@@ -1,3 +1,5 @@
+import { ParsedUrlQueryInput } from 'querystring'
+
 export const numberWithDelimiter = (number: Number | null): string => {
   if (typeof number === 'number' && number !== 0) {
     return number.toLocaleString()
@@ -43,4 +45,13 @@ export const profitColor = (number: Number | null): ProfitColor => {
   return isNegative(number) ? 'red' : 'inherit'
 }
 
-// export const isMobile = window.innerWidth < 576
+export const formatQueryParams = (params: ParsedUrlQueryInput) => {
+  const newParams = params
+  for (const key in newParams) {
+    if (newParams[key] === "" || newParams[key] === null) {
+      delete newParams[key]
+    }
+  }
+
+  return newParams
+}

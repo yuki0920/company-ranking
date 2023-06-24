@@ -7,12 +7,12 @@ export function useCreateQueryString() {
     // https://nextjs.org/docs/app/api-reference/functions/use-search-params#updating-searchparams
     (name: string, value: string) => {
       // @ts-ignore
-      const params = new URLSearchParams(searchParams)
+      const params = new URLSearchParams()
       params.set(name, value)
 
       return params.toString()
     },
-    [searchParams]
+    []
   )
 
   return createQueryString
