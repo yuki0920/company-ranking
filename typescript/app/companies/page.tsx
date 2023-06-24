@@ -3,7 +3,12 @@ import SearchBox from "@/components/SearchInput"
 import SortTypes from "@/components/SortTypes"
 import CompanyTable from "@/components/CompanyTable"
 import Pagination from "@/components/Pagination"
-import { useCompanies } from "@/hooks/FetchCompanies"
+import { useCompanies } from "@/hooks/FetchData"
+import { Metadata } from 'next'
+
+export const metadata: Metadata = {
+  title: "企業一覧",
+}
 
 export default async function Page(
   { searchParams: { page = 1, sortType = "net_sales", q = "" }}:

@@ -1,3 +1,9 @@
+import { Metadata } from 'next'
+
+export const metadata: Metadata = {
+  title: "利用規約",
+}
+
 export default function TermsOfUse() {
   return (
     <div className="container">
