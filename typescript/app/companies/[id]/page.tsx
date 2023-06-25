@@ -2,9 +2,22 @@ import { DefaultApi, Configuration } from "@/client"
 import { NEXT_PUBLIC_API_URL } from "@/constant"
 import Link from 'next/link'
 import { numberWithDelimiter, percentNumber, divide_1_000, divide_1_000_000 } from "@/lib/utility"
+import { Metadata } from 'next'
+
+export async function generateMetadata(
+  { params }: { params: { id: number } }
+): Promise<Metadata> {
+  const { id } = params
+  const company = await getCompany(id)
+
+  return {
+    title: `${company.securityName}の企業情報`,
+    description: `${company.securityName}の企業情報です。`,
+  }
+}
 
 export default async function Page({ params }: {
-  params: {id: string}
+  params: {id: number}
 }) {
   const company = await getCompany(params.id)
   return (
@@ -174,10 +187,10 @@ export default async function Page({ params }: {
   )
 }
 
-const getCompany = async (id: string) => {
+const getCompany = async (id: number) => {
   const config = new Configuration({ basePath: NEXT_PUBLIC_API_URL })
   const DefaultAPI = new DefaultApi(config)
-  const res = await DefaultAPI.fetchCompany({code: parseInt(id, 10)})
+  const res = await DefaultAPI.fetchCompany({code: id})
   const { company } = res
   return company
 }
