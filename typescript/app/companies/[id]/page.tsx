@@ -41,10 +41,12 @@ export default async function Page({ params }: {
           </dd>
           <dt className="col-span-1 p-2 border-t border-neutral-content">本店所在地</dt>
           <dd className="col-span-1 p-2 border-l border-t border-neutral-content text-right">
-            {company.headOfficeLocation}</dd>
+            {company.headOfficeLocation}
+          </dd>
           <dt className="col-span-1 p-2 border-t border-neutral-content">代表者氏名</dt>
           <dd className="col-span-1 p-2 border-l border-t border-neutral-content text-right">
-            {company.representative}</dd>
+            {company.representative}
+          </dd>
         </dl>
         <div className="justify-end mt-1 mb-2 flex">
           （{company.periodEndedAtYear}年{company.periodEndedAtMonth}月時点）
@@ -58,7 +60,7 @@ export default async function Page({ params }: {
         <dl className="grid grid-cols-2 border border-neutral-content">
           <dt className="col-span-1 p-2 border-neutral-content">連結従業員数</dt>
           <dd className="col-span-1 p-2 border-l border-neutral-content text-right">
-            {numberWithDelimiter(divide_1_000(company.consolidatedNumberOfEmployees))} 人
+            {numberWithDelimiter(company.consolidatedNumberOfEmployees)} 人
           </dd>
           <dt className="col-span-1 p-2 border-t border-neutral-content">単体従業員数</dt>
           <dd className="col-span-1 p-2 border-l border-t border-neutral-content text-right">
@@ -66,7 +68,7 @@ export default async function Page({ params }: {
           </dd>
           <dt className="col-span-1 p-2 border-t border-neutral-content">平均年間給与</dt>
           <dd className="col-span-1 p-2 border-l border-t border-neutral-content text-right">
-            {numberWithDelimiter(company.averageAnnualSalary)} 千円
+            {numberWithDelimiter(divide_1_000(company.averageAnnualSalary))} 千円
           </dd>
           <dt className="col-span-1 p-2 border-t border-neutral-content">平均年齢</dt>
           <dd className="col-span-1 p-2 border-l border-t border-neutral-content text-right">
@@ -140,7 +142,7 @@ export default async function Page({ params }: {
           </dd>
           <dt className="col-span-1 p-2 border-t border-neutral-content">自己資本利益率(ROE)</dt>
           <dd className="col-span-1 p-2 border-l border-t border-neutral-content text-right">
-            {company.rateOfReturnOnEquity ? company.rateOfReturnOnEquity * 100 : "-" } %
+            {numberWithDelimiter(divide_1_000_000(company.rateOfReturnOnEquity))} %
           </dd>
           <dt className="col-span-1 p-2 border-t border-neutral-content">株価収益率(PER)</dt>
           <dd className="col-span-1 p-2 border-l border-t border-neutral-content text-right">
