@@ -116,7 +116,7 @@ class DocumentParser::CorporateInformation
       when 'jpcrp_cor:AverageLengthOfServiceYearsInformationAboutReportingCompanyInformationAboutEmployees'
         @document.average_length_of_service_years = element.text
       when 'jpcrp_cor:AverageAnnualSalaryInformationAboutReportingCompanyInformationAboutEmployees'
-        @document.average_annual_salary = calculate_scale(element)
+        @document.average_annual_salary = adjust_salary(calculate_scale(element))
       end
     end
   end

@@ -5,7 +5,7 @@ import Script from "next/script";
 import { useEffect } from "react";
 import { existsGaId, GA_MEASUREMENT_ID, pageview } from "@/lib/gtag"
 
-const GoogleAnalytics = () => {
+export default function GoogleAnalytics() {
   const pathname = usePathname();
   const searchParams = useSearchParams();
 
@@ -36,5 +36,3 @@ const GoogleAnalytics = () => {
     </>
   )
 }
-
-export default GoogleAnalytics;

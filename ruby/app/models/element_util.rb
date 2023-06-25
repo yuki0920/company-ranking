@@ -17,4 +17,12 @@ module ElementUtil
       sign * base_number
     end
   end
+
+  def adjust_salary(number)
+    return if number.nil?
+    return number / 1_000_000 if number > 5_000_000_000_000
+    return number / 1_000 if number > 5_000_000_000
+
+    number
+  end
 end
