@@ -9,7 +9,10 @@ export default function CompanyTable({ companies, from }: { companies: EachCompa
   if (isMobile) {
     return (
       <ul className="divide-y">
-        {companies.map((company, index) => {
+        {/* Filter logic is workaround until next.js cache clear */}
+        {companies.filter(company =>
+          company.averageAnnualSalary !== null && company.averageAnnualSalary < 50_000_000
+        ).map((company, index) => {
           return (
             <li key={index} className="border-b p-2">
               <div className="flex w-full justify-between mb-1">
@@ -19,6 +22,12 @@ export default function CompanyTable({ companies, from }: { companies: EachCompa
                 <small className="">{company.industryName}・{company.marketName}</small>
               </div>
               <dl className="grid grid-cols-2 gap-x-4 mb-0 text-sm">
+                <dt className="col-span-1">
+                  順位
+                </dt>
+                <dd className="col-span-1 text-right">
+                  {from + index}位
+                </dd>
                 <dt className="col-span-1">
                   売上
                 </dt>
@@ -50,7 +59,10 @@ export default function CompanyTable({ companies, from }: { companies: EachCompa
             </tr>
           </thead>
           <tbody>
-          {companies.map((company, index) => {
+            {/* Filter logic is workaround until next.js cache clear */}
+            {companies.filter(company =>
+              company.averageAnnualSalary !== null && company.averageAnnualSalary < 50_000_000
+            ).map((company, index) => {
               return (
                 <tr key={index} className="hover">
                   <td>{from + index}</td>
