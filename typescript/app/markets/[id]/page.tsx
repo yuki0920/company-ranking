@@ -26,9 +26,13 @@ export default async function Page(
   const fetchCompanies = useCompanies({ marketId: id, page, sortType, q })
   const { companies, meta } = await fetchCompanies
   const { from, prev, next } = meta
+  const market = await getMarket({ id })
 
   return (
     <>
+      <h1 className="text-xl">
+        {market.name} 市場の企業一覧
+      </h1>
       {/* search */}
       <SearchBox query={q} />
       {/* search */}
