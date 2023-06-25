@@ -1,7 +1,7 @@
 import { DefaultApi, Configuration } from "@/client"
 import { NEXT_PUBLIC_API_URL } from "@/constant"
 import Link from 'next/link'
-import { numberWithDelimiter, divide_1_000, divide_1_000_000 } from "@/lib/utility"
+import { numberWithDelimiter, percentNumber, divide_1_000, divide_1_000_000 } from "@/lib/utility"
 
 export default async function Page({ params }: {
   params: {id: string}
@@ -142,7 +142,7 @@ export default async function Page({ params }: {
           </dd>
           <dt className="col-span-1 p-2 border-t border-neutral-content">自己資本利益率(ROE)</dt>
           <dd className="col-span-1 p-2 border-l border-t border-neutral-content text-right">
-            {numberWithDelimiter(divide_1_000_000(company.rateOfReturnOnEquity))} %
+            {percentNumber(company.rateOfReturnOnEquity)} %
           </dd>
           <dt className="col-span-1 p-2 border-t border-neutral-content">株価収益率(PER)</dt>
           <dd className="col-span-1 p-2 border-l border-t border-neutral-content text-right">
