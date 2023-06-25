@@ -2,8 +2,10 @@ import '@/styles/globals.css'
 import { Inter } from 'next/font/google'
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'
+import GoogleAnalytics from '@/components/GoogleAnalytics'
 import { Metadata } from 'next'
 import { NEXT_PUBLIC_TWITTER_ID } from '@/constant'
+import { Suspense } from 'react'
 
 // metadata
 const defaultTitle = "上場企業ランキング"
@@ -48,6 +50,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
+        <Suspense>
+          <GoogleAnalytics />
+        </Suspense>
         <Header>
           <div className="flex justify-center">
             <div className="container">
