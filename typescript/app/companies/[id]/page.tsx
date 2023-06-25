@@ -11,8 +11,8 @@ export async function generateMetadata(
   const company = await getCompany(id)
 
   return {
-    title: `${company.securityName}の企業情報`,
-    description: `${company.securityName}の企業情報です。`,
+    title: `[${company.securityCode}]${company.securityName}`,
+    description: `[${company.securityCode}]${company.securityName}の企業情報です。`,
   }
 }
 
