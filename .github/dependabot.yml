@@ -1,12 +1,5 @@
 version: 2
 updates:
-  - package-ecosystem: "npm"
-    directory: "./front"
-    schedule:
-      interval: "monthly"
-    ignore:
-      - dependency-name: "sass-loader"
-      - dependency-name: "css-loader"
   - package-ecosystem: "bundler"
     directory: "./ruby"
     schedule:
