@@ -249,100 +249,122 @@ components:
         - net_cash_provided_by_used_in_financing_activities
         - cash_and_cash_equivalents
         - consolidated_number_of_employees
+        - total_number_of_issued_shares
+        - payout_ratio
       properties:
         security_id:
           type: integer
           format: int64
+          description: 証券ID
         # 従業員情報
         number_of_employees:
           type: integer
           format: int64
           nullable: true
+          description: 従業員数
         average_annual_salary:
           type: integer
           format: int64
           nullable: true
-          description: 1万で割った値
+          description: 平均年収
         average_age_years:
           type: number
           format: double
           nullable: true
+          description: 平均年齢
         average_length_of_service_years:
           type: number
           format: double
           nullable: true
+          description: 平均勤続年数
         # 基本情報
         security_code:
           type: integer
+          description: 銘柄コード
         security_name:
           type: string
+          description: 銘柄名
         market_name:
           type: string
+          description: 市場名
         market_id:
           type: integer
           format: int64
+          description: 市場コード
         industry_name:
           type: string
+          description: 業種名
         industry_id:
           type: integer
           format: int32
+          description: 業種コード
         company_name:
           type: string
+          description: 会社名
         company_name_en:
           type: string
+          description: 会社名(英語)
         head_office_location:
           type: string
+          description: 本店所在地
         submitted_at:
           type: string
+          description: 提出日
         representative:
           type: string
+          description: 代表者
         # 決算情報
         period_started_at:
           type: string
           example: 2020年4月1日
+          description: 事業年度の開始日
         period_ended_at:
           type: string
           example: 2021年3月31日
+          description: 事業年度の終了日
         period_ended_at_year:
           type: integer
           example: 2021
+          description: 事業年度の終了年
         period_ended_at_month:
           type: integer
           example: 3
+          description: 事業年度の終了月
         net_sales:
           type: integer
           format: int64
           nullable: true
-          description: 1億で割った値
+          description: 売上高(当年)
         last_year_net_sales:
           type: integer
           format: int64
           nullable: true
-          description: 1億で割った値
+          description: 売上高(前年)
         operating_income:
           type: integer
           format: int64
           nullable: true
-          description: 1億で割った値
+          description: 営業利益(当年)
         last_year_operating_income:
           type: integer
           format: int64
           nullable: true
-          description: 1億で割った値
+          description: 営業利益(前年)
         ordinary_income:
           type: integer
           format: int64
           nullable: true
-          description: 1億で割った値
+          description: 経常利益(当年)
         last_year_ordinary_income:
           type: integer
           format: int64
           nullable: true
-          description: 1億で割った値
+          description: 経常利益(前年)
         capital_stock:
           type: integer
           format: int64
           nullable: true
+          description: 資本金
         net_assets:
           type: integer
           format: int64
@@ -393,6 +415,16 @@ components:
           format: int64
           nullable: true
           description: 連結従業員数
+        total_number_of_issued_shares:
+          type: integer
+          format: int64
+          nullable: true
+          description: 発行済株式総数
+        payout_ratio:
+          type: number
+          format: double
+          nullable: true
+          description: 配当性向
     responseIndustries:
       type: object
       required:

@@ -131,35 +131,9 @@ export default async function Page({ params }: {
           <dd className="col-span-1 p-2 border-l border-t border-neutral-content text-right">
             {numberWithDelimiter(divide_1_000_000(company.ordinaryIncome))} 百万円
           </dd>
-        </dl>
-        <div className="justify-end mt-1 mb-2 flex">
-          （{company.periodEndedAtYear}年{company.periodEndedAtMonth}月時点）
-        </div>
-      </div>
-      <div>
-        <h2 className="text-l">
-        財務・指標
-        </h2>
-        <dl className="grid grid-cols-2 border border-neutral-content">
-          <dt className="col-span-1 p-2 border-neutral-content">資本金</dt>
-          <dd className="col-span-1 p-2 border-l border-neutral-content text-right">
-            {numberWithDelimiter(divide_1_000_000(company.capitalStock))} 百万円
-          </dd>
-          <dt className="col-span-1 p-2 border-t border-neutral-content">純資産</dt>
-          <dd className="col-span-1 p-2 border-l border-t border-neutral-content text-right">
-            {numberWithDelimiter(divide_1_000_000(company.netAssets))} 百万円
-          </dd>
           <dt className="col-span-1 p-2 border-t border-neutral-content">総資産</dt>
           <dd className="col-span-1 p-2 border-l border-t border-neutral-content text-right">
             {numberWithDelimiter(divide_1_000_000(company.totalAssets))} 百万円
-          </dd>
-          <dt className="col-span-1 p-2 border-t border-neutral-content">自己資本利益率(ROE)</dt>
-          <dd className="col-span-1 p-2 border-l border-t border-neutral-content text-right">
-            {percentNumber(company.rateOfReturnOnEquity)} %
-          </dd>
-          <dt className="col-span-1 p-2 border-t border-neutral-content">株価収益率(PER)</dt>
-          <dd className="col-span-1 p-2 border-l border-t border-neutral-content text-right">
-            {numberWithDelimiter(company.priceEarningsRatio)} 倍
           </dd>
           <dt className="col-span-1 p-2 border-t border-neutral-content">営業CF</dt>
           <dd className="col-span-1 p-2 border-l border-t border-neutral-content text-right">
@@ -176,6 +150,44 @@ export default async function Page({ params }: {
           <dt className="col-span-1 p-2 border-t border-neutral-content">現金及び現金同等物</dt>
           <dd className="col-span-1 p-2 border-l border-t border-neutral-content text-right">
             {numberWithDelimiter(divide_1_000_000(company.cashAndCashEquivalents))} 百万円
+          </dd>
+        </dl>
+        <div className="justify-end mt-1 mb-2 flex">
+          （{company.periodEndedAtYear}年{company.periodEndedAtMonth}月時点）
+        </div>
+      </div>
+      <div>
+        <h2 className="text-l">
+        財務・指標
+        </h2>
+        <dl className="grid grid-cols-2 border border-neutral-content">
+          <dt className="col-span-1 p-2 border-neutral-content">資本金</dt>
+          <dd className="col-span-1 p-2 border-l border-neutral-content text-right">
+            {numberWithDelimiter(divide_1_000_000(company.capitalStock))} 百万円
+          </dd>
+          <dt className="col-span-1 p-2 border-t border-neutral-content">発行済株式総数</dt>
+          <dd className="col-span-1 p-2 border-l border-t border-neutral-content text-right">
+            {numberWithDelimiter((company.totalNumberOfIssuedShares))} 株
+          </dd>
+          <dt className="col-span-1 p-2 border-t border-neutral-content">純資産</dt>
+          <dd className="col-span-1 p-2 border-l border-t border-neutral-content text-right">
+            {numberWithDelimiter(divide_1_000_000(company.netAssets))} 百万円
+          </dd>
+          <dt className="col-span-1 p-2 border-t border-neutral-content">自己資本比率</dt>
+          <dd className="col-span-1 p-2 border-l border-t border-neutral-content text-right">
+            {percentNumber(company.equityToAssetRatio)} %
+          </dd>
+          <dt className="col-span-1 p-2 border-t border-neutral-content">自己資本利益率(ROE)</dt>
+          <dd className="col-span-1 p-2 border-l border-t border-neutral-content text-right">
+            {percentNumber(company.rateOfReturnOnEquity)} %
+          </dd>
+          <dt className="col-span-1 p-2 border-t border-neutral-content">株価収益率(PER)</dt>
+          <dd className="col-span-1 p-2 border-l border-t border-neutral-content text-right">
+            {numberWithDelimiter(company.priceEarningsRatio)} 倍
+          </dd>
+          <dt className="col-span-1 p-2 border-t border-neutral-content">配当性向(PER)</dt>
+          <dd className="col-span-1 p-2 border-l border-t border-neutral-content text-right">
+            {percentNumber(company.payoutRatio)} %
           </dd>
         </dl>
         <div className="justify-end mt-1 mb-2 flex">

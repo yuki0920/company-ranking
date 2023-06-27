@@ -10,6 +10,8 @@ export const numberWithDelimiter = (number: Number | null): string => {
 
 export const percentNumber = (number: Number | null): string => {
   if (typeof number === 'number') {
+    if (number > 100) return '-'
+
     const num = (Math.round(number * 10 * 100)) / 10
     return numberWithDelimiter(num)
   } else {
