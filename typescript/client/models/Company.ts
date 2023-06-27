@@ -20,163 +20,163 @@ import { exists, mapValues } from '../runtime';
  */
 export interface Company {
     /**
-     * 
+     * 証券ID
      * @type {number}
      * @memberof Company
      */
     securityId: number;
     /**
-     * 
+     * 従業員数
      * @type {number}
      * @memberof Company
      */
     numberOfEmployees: number | null;
     /**
-     * 1万で割った値
+     * 平均年収
      * @type {number}
      * @memberof Company
      */
     averageAnnualSalary: number | null;
     /**
-     * 
+     * 平均年齢
      * @type {number}
      * @memberof Company
      */
     averageAgeYears: number | null;
     /**
-     * 
+     * 平均勤続年数
      * @type {number}
      * @memberof Company
      */
     averageLengthOfServiceYears: number | null;
     /**
-     * 
+     * 銘柄コード
      * @type {number}
      * @memberof Company
      */
     securityCode: number;
     /**
-     * 
+     * 銘柄名
      * @type {string}
      * @memberof Company
      */
     securityName: string;
     /**
-     * 
+     * 市場名
      * @type {string}
      * @memberof Company
      */
     marketName: string;
     /**
-     * 
+     * 市場コード
      * @type {number}
      * @memberof Company
      */
     marketId: number;
     /**
-     * 
+     * 業種名
      * @type {string}
      * @memberof Company
      */
     industryName: string;
     /**
-     * 
+     * 業種コード
      * @type {number}
      * @memberof Company
      */
     industryId: number;
     /**
-     * 
+     * 会社名
      * @type {string}
      * @memberof Company
      */
     companyName: string;
     /**
-     * 
+     * 会社名(英語)
      * @type {string}
      * @memberof Company
      */
     companyNameEn: string;
     /**
-     * 
+     * 本店所在地
      * @type {string}
      * @memberof Company
      */
     headOfficeLocation: string;
     /**
-     * 
+     * 提出日
      * @type {string}
      * @memberof Company
      */
     submittedAt: string;
     /**
-     * 
+     * 代表者
      * @type {string}
      * @memberof Company
      */
     representative: string;
     /**
-     * 
+     * 事業年度の開始日
      * @type {string}
      * @memberof Company
      */
     periodStartedAt: string;
     /**
-     * 
+     * 事業年度の終了日
      * @type {string}
      * @memberof Company
      */
     periodEndedAt: string;
     /**
-     * 
+     * 事業年度の終了年
      * @type {number}
      * @memberof Company
      */
     periodEndedAtYear: number;
     /**
-     * 
+     * 事業年度の終了月
      * @type {number}
      * @memberof Company
      */
     periodEndedAtMonth: number;
     /**
-     * 1億で割った値
+     * 売上高(当年)
      * @type {number}
      * @memberof Company
      */
     netSales: number | null;
     /**
-     * 1億で割った値
+     * 売上高(前年)
      * @type {number}
      * @memberof Company
      */
     lastYearNetSales: number | null;
     /**
-     * 1億で割った値
+     * 営業利益(当年)
      * @type {number}
      * @memberof Company
      */
     operatingIncome: number | null;
     /**
-     * 1億で割った値
+     * 営業利益(前年)
      * @type {number}
      * @memberof Company
      */
     lastYearOperatingIncome: number | null;
     /**
-     * 1億で割った値
+     * 経常利益(当年)
      * @type {number}
      * @memberof Company
      */
     ordinaryIncome: number | null;
     /**
-     * 1億で割った値
+     * 経常利益(前年)
      * @type {number}
      * @memberof Company
      */
     lastYearOrdinaryIncome: number | null;
     /**
-     * 
+     * 資本金
      * @type {number}
      * @memberof Company
      */
@@ -241,6 +241,18 @@ export interface Company {
      * @memberof Company
      */
     consolidatedNumberOfEmployees: number | null;
+    /**
+     * 発行済株式総数
+     * @type {number}
+     * @memberof Company
+     */
+    totalNumberOfIssuedShares: number | null;
+    /**
+     * 配当性向
+     * @type {number}
+     * @memberof Company
+     */
+    payoutRatio: number | null;
 }
 
 /**
@@ -285,6 +297,8 @@ export function instanceOfCompany(value: object): boolean {
     isInstance = isInstance && "netCashProvidedByUsedInFinancingActivities" in value;
     isInstance = isInstance && "cashAndCashEquivalents" in value;
     isInstance = isInstance && "consolidatedNumberOfEmployees" in value;
+    isInstance = isInstance && "totalNumberOfIssuedShares" in value;
+    isInstance = isInstance && "payoutRatio" in value;
 
     return isInstance;
 }
@@ -336,6 +350,8 @@ export function CompanyFromJSONTyped(json: any, ignoreDiscriminator: boolean): C
         'netCashProvidedByUsedInFinancingActivities': json['net_cash_provided_by_used_in_financing_activities'],
         'cashAndCashEquivalents': json['cash_and_cash_equivalents'],
         'consolidatedNumberOfEmployees': json['consolidated_number_of_employees'],
+        'totalNumberOfIssuedShares': json['total_number_of_issued_shares'],
+        'payoutRatio': json['payout_ratio'],
     };
 }
 
@@ -385,6 +401,8 @@ export function CompanyToJSON(value?: Company | null): any {
         'net_cash_provided_by_used_in_financing_activities': value.netCashProvidedByUsedInFinancingActivities,
         'cash_and_cash_equivalents': value.cashAndCashEquivalents,
         'consolidated_number_of_employees': value.consolidatedNumberOfEmployees,
+        'total_number_of_issued_shares': value.totalNumberOfIssuedShares,
+        'payout_ratio': value.payoutRatio,
     };
 }
 
