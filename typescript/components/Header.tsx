@@ -44,10 +44,25 @@ export default function Header({
         <ul className="menu p-4 w-80 h-full bg-base-200">
           {/* Sidebar content here */}
           <li>
+            <Link href={{ pathname: "/" }}>Top</Link>
+          </li>
+          <li>
             <Link href={{ pathname: "/companies" }}>すべての企業</Link>
           </li>
           <li>
-            <Link href={{ pathname: "/terms_of_service" }}>利用規約</Link>
+            <Link href={{ pathname: "/markets/1" }}>・プライム市場の企業</Link>
+          </li>
+          <li>
+            <Link href={{ pathname: "/markets/2" }}>・スタンダード市場の企業</Link>
+          </li>
+          <li>
+            <Link href={{ pathname: "/markets/3" }}>・グロース市場の企業</Link>
+          </li>
+          <li>
+            <Link href={{ pathname: "/terms_of_use" }}>利用規約</Link>
+          </li>
+          <li>
+            <Link href={{ pathname: "/contact" }}>お問い合わせ</Link>
           </li>
         </ul>
       </div>
