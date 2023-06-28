@@ -5,7 +5,16 @@ import { SORT_TYPES } from "@/constant"
 import { useCreateQueryString } from "@/hooks/CreateQueryString"
 import { usePathname } from 'next/navigation'
 
-export default function SearchInput({ currentSortType }: { currentSortType: string }) {
+export default function SearchInput(
+  { currentSortType, dict }:
+  {
+    currentSortType: string,
+    dict : {
+      net_sales: string,
+      average_annual_salary: string,
+    }
+  }
+) {
   const createQueryString = useCreateQueryString()
   const pathname = usePathname()
 
@@ -18,7 +27,7 @@ export default function SearchInput({ currentSortType }: { currentSortType: stri
               pathname + '?' + createQueryString('sortType', sortType.value)
             }>
               <button className={`btn btn-accent ${ currentSortType === sortType.value ? "" : "btn-outline"}`}>
-                {sortType.label}
+                {dict[sortType.value as keyof typeof dict]}
               </button>
             </Link>
           </div>

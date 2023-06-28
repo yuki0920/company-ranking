@@ -5,7 +5,24 @@ import { numberWithDelimiter, divide_1_000, divide_1_000_000 } from "@/lib/utili
 import { EachCompany } from "@/client"
 import { isMobile } from '@/lib/client.utility'
 
-export default function CompanyTable({ companies, from }: { companies: EachCompany[], from: number }) {
+export default function CompanyTable(
+  { companies, from, dict }:
+  {
+    companies: EachCompany[],
+    from: number
+    dict: {
+      rank: string,
+      rankUnit: string,
+      sales: string,
+      salesUnit: string,
+      salary: string,
+      salaryUnit: string,
+      company: string,
+      market: string,
+      industry: string,
+    }
+  }
+) {
   if (isMobile) {
     return (
       <ul className="divide-y">
@@ -23,20 +40,20 @@ export default function CompanyTable({ companies, from }: { companies: EachCompa
               </div>
               <dl className="grid grid-cols-2 gap-x-4 mb-0 text-sm">
                 <dt className="col-span-1">
-                  順位
+                  {dict.rank}
                 </dt>
                 <dd className="col-span-1 text-right">
-                  {from + index}位
+                  {from + index}{dict.rankUnit}
                 </dd>
                 <dt className="col-span-1">
-                  売上
+                {dict.sales}
                 </dt>
                 <dd className="col-span-1 text-right">
-                  {numberWithDelimiter(divide_1_000_000(company.netSales))} 百万円
+                  {numberWithDelimiter(divide_1_000_000(company.netSales))} {dict.salesUnit}
                 </dd>
-                <dt className="col-span-1">年間給与</dt>
+                <dt className="col-span-1">{dict.salary}</dt>
                 <dd className="col-span-1 text-right">
-                  {numberWithDelimiter(divide_1_000(company.averageAnnualSalary))} 千円
+                  {numberWithDelimiter(divide_1_000(company.averageAnnualSalary))} {dict.salaryUnit}
                 </dd>
               </dl>
             </li>
@@ -50,12 +67,12 @@ export default function CompanyTable({ companies, from }: { companies: EachCompa
         <table className="table table-sm">
           <thead>
             <tr className="text-left">
-              <th>順位</th>
-              <th>企業</th>
-              <th>業種</th>
-              <th>市場</th>
-              <th className="text-right">売上(百万円)</th>
-              <th className="text-right">平均給与(千円)</th>
+              <th>{dict.rank}</th>
+              <th>{dict.company}</th>
+              <th>{dict.industry}</th>
+              <th>{dict.market}</th>
+              <th className="text-right">{dict.sales}({dict.salesUnit})</th>
+              <th className="text-right">{dict.salary}({dict.salaryUnit})</th>
             </tr>
           </thead>
           <tbody>
