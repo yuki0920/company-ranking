@@ -5,7 +5,7 @@ import { SORT_TYPES } from "@/constant"
 import { useCreateQueryString } from "@/hooks/CreateQueryString"
 import { usePathname } from 'next/navigation'
 
-export default function SearchBox({ currentSortType }: { currentSortType: string }) {
+export default function SearchInput({ currentSortType }: { currentSortType: string }) {
   const createQueryString = useCreateQueryString()
   const pathname = usePathname()
 
