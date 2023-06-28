@@ -1,6 +1,7 @@
 import { DefaultApi, Configuration } from "@/client"
 import { NEXT_PUBLIC_API_URL } from "@/constant"
 import Link from 'next/link'
+import SearchInput from "@/components/SearchInput"
 
 export default async function TopPage() {
   const [{ industryCategories }, { markets }] = await Promise.all([
@@ -13,6 +14,7 @@ export default async function TopPage() {
       {industryCategories !== null ? (
         <div className="toppage flex flex-col min-h-screen">
           <div className="container mt-3">
+            <SearchInput query={""} isCompanies={true} />
             <Link href="/companies">
                 <p className="link-text">全ての企業から探す</p>
             </Link>

@@ -5,13 +5,17 @@ import Link from 'next/link'
 import { useCreateQueryString } from "@/hooks/CreateQueryString"
 import { usePathname } from 'next/navigation'
 
-export default function SearchBox({ query }: { query: string }) {
+export default function SearchInput({ query, isCompanies = false }: { query: string, isCompanies?: boolean }) {
   const createQueryString = useCreateQueryString()
   const [changedQuery, setQuery] = useState(query)
   const handleQuery: ChangeEventHandler<HTMLInputElement> = ({ target }) => {
     setQuery(target.value)
   }
-  const pathname = usePathname()
+  let pathname: string
+  pathname = usePathname()
+  if (isCompanies) {
+    pathname = '/companies'
+  }
 
   return (
     <div className="form-control py-3">

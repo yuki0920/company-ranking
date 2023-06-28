@@ -1,5 +1,5 @@
 import { FetchCompaniesSortTypeEnum } from "@/client"
-import SearchBox from "@/components/SearchInput"
+import SearchInput from "@/components/SearchInput"
 import SortTypes from "@/components/SortTypes"
 import CompanyTable from "@/components/CompanyTable"
 import Pagination from "@/components/Pagination"
@@ -22,7 +22,7 @@ export default async function Page(
   return (
     <>
       {/* search */}
-      <SearchBox query={q} />
+      <SearchInput query={q} />
       {/* search */}
 
       {/* sort */}
