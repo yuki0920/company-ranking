@@ -5,7 +5,16 @@ import Link from 'next/link'
 import { useCreateQueryString } from "@/hooks/CreateQueryString"
 import { usePathname } from 'next/navigation'
 
-export default function SearchInput({ query, isCompanies = false }: { query: string, isCompanies?: boolean }) {
+export default function SearchInput(
+  { query, isCompanies = false, dict }:
+  {
+    query: string,
+    isCompanies?: boolean
+    dict: {
+      placeholder: string
+    }
+  }
+) {
   const createQueryString = useCreateQueryString()
   const [changedQuery, setQuery] = useState(query)
   const handleQuery: ChangeEventHandler<HTMLInputElement> = ({ target }) => {
@@ -20,7 +29,7 @@ export default function SearchInput({ query, isCompanies = false }: { query: str
   return (
     <div className="form-control py-3">
       <div className="join flex justify-center">
-        <input type="text" placeholder="社名 または 証券コード" className="join-item input input-accent input-bordered w-3/5" value={changedQuery} onChange={handleQuery} />
+        <input type="text" placeholder={dict.placeholder} className="join-item input input-accent input-bordered w-3/5" value={changedQuery} onChange={handleQuery} />
         <Link
         href={
           pathname + '?' + createQueryString('q', changedQuery)

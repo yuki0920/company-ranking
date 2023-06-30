@@ -1,0 +1,146 @@
+{
+  "pages": {
+    "top": {
+      "all": "すべての企業から探す",
+      "market": "市場から探す",
+      "industry": "業種から探す"
+    },
+    "companies": {
+      "title": "の企業データ",
+
+      "companySummary": "企業概要",
+      "companyName": "企業名",
+      "securityCode": "証券コード",
+      "marketName": "上場市場",
+      "industryName": "業種",
+      "periodEndedAtMonth": "決算月",
+      "headOfficeLocation": "本店所在地",
+      "representative": "代表者氏名",
+
+      "employeeInfo": "従業員情報",
+      "consolidatedNumberOfEmployees": "連結従業員数",
+      "numberOfEmployees": "単体従業員数",
+      "averageAnnualSalary": "平均年間給与",
+      "averageAgeYears": "平均年齢",
+      "averageLengthOfServiceYears": "平均勤続年数",
+
+      "financialResults": "決算・業績推移",
+      "period": "基準事業年度",
+      "lastYearNetSales": "前年度売上",
+      "netSales": "当年度売上",
+      "lastYearOperatingIncome": "前年度営業利益",
+      "operatingIncome": "当年度営業利益",
+      "lastYearOrdinaryIncome": "前年度経常利益",
+      "ordinaryIncome": "当年度経常利益",
+      "totalAssets": "総資産",
+      "netCashProvidedByUsedInOperatingActivities": "営業CF",
+      "netCashProvidedByUsedInInvestingActivities": "投資CF",
+      "netCashProvidedByUsedInFinancingActivities": "財務CF",
+      "cashAndCashEquivalents": "現金及び現金同等物",
+
+      "financialIndicators": "財務・指標",
+      "capitalStock": "資本金",
+      "totalNumberOfIssuedShares": "発行済株式総数",
+      "netAssets": "純資産",
+      "equityToAssetRatio": "自己資本比率",
+      "rateOfReturnOnEquity": "自己資本利益率(ROE)",
+      "priceEarningsRatio": "株価収益率(PER)",
+      "payoutRatio": "配当性向(PER)",
+
+      "units": {
+        "year": "年",
+        "month": "月次点",
+        "pepple": "人",
+        "yen": "円",
+        "thousandYen": "千円",
+        "millionYen": "百万円",
+        "times": "倍"
+      }
+    }
+  },
+  "components": {
+    "Header": {
+      "firstTitle": "上場企業",
+      "lastTitle": "ランキング",
+      "links": {
+        "top": "トップ",
+        "all": "すべての企業",
+        "market1": "・プライム市場の企業",
+        "market2": "・スタンダード市場の企業",
+        "market3": "・グロース市場の企業",
+        "termsOfUse": "利用規約",
+        "contact": "お問い合わせ"
+      }
+    },
+    "Footer": {
+      "links": {
+        "termsOfUse": "利用規約",
+        "contact": "お問い合わせ"
+      }
+    },
+    "SearchInput": {
+      "placeholder": "社名 または 証券コード"
+    },
+    "SortTypes": {
+      "net_sales": "売上順",
+      "average_annual_salary": "給与順"
+    },
+    "CompanyTable": {
+      "rank": "順位",
+      "rankUnit": "位",
+      "sales": "売上",
+      "salesUnit": "百万円",
+      "salary": "年間給与",
+      "salaryUnit": "千円",
+      "company": "企業名",
+      "market": "市場",
+      "industry": "業種"
+    },
+    "Pagination": {
+      "prev": "前へ",
+      "next": "次へ"
+    }
+  },
+  "models": {
+    "markets": {
+      "1": "プライム",
+      "2": "スタンダード",
+      "3": "グロース"
+    },
+    "industries": {
+      "50": "水産・農林業",
+      "1050": "鉱業",
+      "2050": "建設業",
+      "3050": "食料品",
+      "3100": "繊維製品",
+      "3150": "パルプ・紙",
+      "3200": "化学",
+      "3250": "医薬品",
+      "3300": "石油・石炭製品",
+      "3350": "ゴム製品",
+      "3400": "ガラス・土石製品",
+      "3450": "鉄鋼",
+      "3500": "非鉄金属",
+      "3550": "金属製品",
+      "3600": "機械",
+      "3650": "電気機器",
+      "3700": "輸送用機器",
+      "3750": "精密機器",
+      "3800": "その他製品",
+      "4050": "電気・ガス業",
+      "5050": "陸運業",
+      "5100": "海運業",
+      "5150": "空運業",
+      "5200": "倉庫・運輸関連業",
+      "5250": "情報・通信業",
+      "6050": "卸売業",
+      "6100": "小売業",
+      "7050": "銀行業",
+      "7100": "証券、商品先物取引業",
+      "7150": "保険業",
+      "7200": "その他金融業",
+      "8050": "不動産業",
+      "9050": "サービス業"
+    }
+  }
+}

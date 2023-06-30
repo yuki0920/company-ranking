@@ -3,8 +3,22 @@ import ThemeChangeMenu from '@/components/ThemeChangeMenu'
 
 export default function Header({
   children,
+  dict,
 }: {
   children: React.ReactNode
+  dict: {
+    "firstTitle": string,
+    "lastTitle": string,
+    "links": {
+      "top": string,
+      "all": string,
+      "market1": string,
+      "market2": string,
+      "market3": string,
+      "termsOfUse": string,
+      "contact": string
+    }
+  }
 }) {
   return (
     <div className="drawer">
@@ -19,7 +33,7 @@ export default function Header({
           </div>
           <div className="flex-1 px-2 mx-2 text-xl font-mono font-bold">
             <Link href={{ pathname: "/" }}>
-              <span className="text-accent">上場企業</span>
+              <span className="text-accent">{dict.firstTitle}</span>
               <span>ランキング</span>
             </Link>
             </div>
