@@ -9,15 +9,17 @@ import { formatQueryParams } from "@/lib/utility"
 import { getDictionary } from '@/hooks/GetDictionary'
 
 export async function generateMetadata(
-  { params: { id } }:
-  { params: { id: number }
-}
-): Promise<Metadata> {
+  { params: { lang, id } }:
+  { params: { lang: string, id: number }
+}): Promise<Metadata> {
+  const dict = await getDictionary(lang)
+  const marketDict = dict.models.markets
   const market = await getMarket({ id })
+  const description = lang = "ja" ? `${market.name}の企業一覧です。` : `List of companies in ${market.name}.`
 
   return {
-    title: `${market.name}の企業一覧`,
-    description: `${market.name}の企業一覧です。`,
+    title: `${marketDict[market.id.toString() as keyof typeof marketDict]} ${dict.pages.markets.title}`,
+    description: description,
   }
 }
 
@@ -26,6 +28,7 @@ export default async function Page(
   { params: { lang: string, id: number }, searchParams: { page: number, sortType: FetchCompaniesSortTypeEnum, q: string } })
 {
   const dict = await getDictionary(lang)
+  const marketDict = dict.models.markets
   const fetchCompanies = useCompanies({ marketId: id, page, sortType, q })
   const { companies, meta } = await fetchCompanies
   const { from, prev, next } = meta
@@ -34,7 +37,7 @@ export default async function Page(
   return (
     <>
       <h1 className="text-xl">
-        {market.name} 市場の企業一覧
+        {marketDict[market.id.toString() as keyof typeof marketDict]} {dict.pages.markets.title}
       </h1>
       {/* search */}
       <SearchInput query={q} dict={dict.components.SearchInput} />
@@ -45,13 +48,13 @@ export default async function Page(
       {/* sort */}
 
       {/* companies */}
-      <CompanyTable companies={companies} from={from} dict={dict.components.CompanyTable} />
+      <CompanyTable companies={companies} from={from} lang={lang} dict={dict.components.CompanyTable} markets={dict.models.markets} industries={dict.models.industries} />
       {/* companies */}
 
       {/* pagination */}
       <Pagination
-        prevRef={{ pathname: `/markets/${id}`, query: formatQueryParams({ page: Number(page) - 1, sortType, q })}}
-        nextRef={{ pathname: `/markets/${id}`, query: formatQueryParams({ page: Number(page) + 1, sortType, q })}}
+        prevRef={{ pathname: `/${lang}/markets/${id}`, query: formatQueryParams({ page: Number(page) - 1, sortType, q })}}
+        nextRef={{ pathname: `/${lang}/markets/${id}`, query: formatQueryParams({ page: Number(page) + 1, sortType, q })}}
         prev={prev}
         next={next}
         dict={dict.components.Pagination}

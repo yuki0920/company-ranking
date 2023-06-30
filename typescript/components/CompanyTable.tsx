@@ -6,10 +6,11 @@ import { EachCompany } from "@/client"
 import { isMobile } from '@/lib/client.utility'
 
 export default function CompanyTable(
-  { companies, from, dict }:
+  { companies, from, lang, dict, markets, industries }:
   {
     companies: EachCompany[],
     from: number
+    lang: string
     dict: {
       rank: string,
       rankUnit: string,
@@ -20,7 +21,9 @@ export default function CompanyTable(
       company: string,
       market: string,
       industry: string,
-    }
+    },
+    markets: object,
+    industries: object,
   }
 ) {
   if (isMobile) {
@@ -33,10 +36,10 @@ export default function CompanyTable(
           return (
             <li key={index} className="border-b p-2">
               <div className="flex w-full justify-between mb-1">
-                <Link href={{ pathname: `/companies/${company.securityCode}` }}>
-                  <span className="link-text">{company.securityName}</span>
+                <Link href={{ pathname: `/${lang}/companies/${company.securityCode}` }}>
+                  <span className="link-text">{lang == "en" ? company.securityNameEn : company.securityName}</span>
                 </Link>
-                <small className="">{company.industryName}・{company.marketName}</small>
+                <small className="">{markets[company.marketId as keyof typeof markets]}・{industries[company.industryCode as keyof typeof industries]}</small>
               </div>
               <dl className="grid grid-cols-2 gap-x-4 mb-0 text-sm">
                 <dt className="col-span-1">
@@ -84,10 +87,10 @@ export default function CompanyTable(
                 <tr key={index} className="hover">
                   <td>{from + index}</td>
                   <td className="link-text">
-                    <Link href={{ pathname: `/companies/${company.securityCode}` }}>{company.securityName}</Link>
+                    <Link href={{ pathname: `/${lang}/companies/${company.securityCode}` }}>{lang == "en" ? company.securityNameEn : company.securityName}</Link>
                   </td>
-                  <td>{company.industryName}</td>
-                  <td>{company.marketName}</td>
+                  <td>{industries[company.industryCode as keyof typeof industries]}</td>
+                  <td>{markets[company.marketId as keyof typeof markets]}</td>
                   <td className="text-right">{numberWithDelimiter(divide_1_000_000(company.netSales))}</td>
                   <td className="text-right">{numberWithDelimiter(divide_1_000(company.averageAnnualSalary))}</td>
                 </tr>

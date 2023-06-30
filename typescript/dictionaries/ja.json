@@ -1,4 +1,9 @@
 {
+  "metadata": {
+    "title": "上場企業ランキング",
+    "description": "上場企業ランキングは、東京証券取引所に上場している企業の売上高や年間給与をランキング形式で表示するサイトです。",
+    "url": "https://www.company-ranking.net/ja"
+  },
   "pages": {
     "top": {
       "all": "すべての企業から探す",
@@ -6,10 +11,22 @@
       "industry": "業種から探す"
     },
     "companies": {
+      "metadata": {
+        "title": "企業一覧"
+      }
+    },
+    "markets": {
+      "title": "市場の企業一覧"
+    },
+    "industries": {
+      "title": "業界の企業一覧"
+    },
+    "company": {
       "title": "の企業データ",
 
       "companySummary": "企業概要",
-      "companyName": "企業名",
+      "companyName": "企業名(日)",
+      "companyNameEN": "企業名(英)",
       "securityCode": "証券コード",
       "marketName": "上場市場",
       "industryName": "業種",
@@ -48,13 +65,12 @@
       "payoutRatio": "配当性向(PER)",
 
       "units": {
-        "year": "年",
+        "periodYear":" 年",
         "month": "月次点",
-        "pepple": "人",
         "yen": "円",
         "thousandYen": "千円",
         "millionYen": "百万円",
-        "times": "倍"
+        "times": ""
       }
     }
   },

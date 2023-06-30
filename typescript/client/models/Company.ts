@@ -80,11 +80,17 @@ export interface Company {
      */
     industryName: string;
     /**
-     * 業種コード
+     * 業種ID
      * @type {number}
      * @memberof Company
      */
     industryId: number;
+    /**
+     * 業種コード
+     * @type {number}
+     * @memberof Company
+     */
+    industryCode: number;
     /**
      * 会社名
      * @type {string}
@@ -271,6 +277,7 @@ export function instanceOfCompany(value: object): boolean {
     isInstance = isInstance && "marketId" in value;
     isInstance = isInstance && "industryName" in value;
     isInstance = isInstance && "industryId" in value;
+    isInstance = isInstance && "industryCode" in value;
     isInstance = isInstance && "companyName" in value;
     isInstance = isInstance && "companyNameEn" in value;
     isInstance = isInstance && "headOfficeLocation" in value;
@@ -324,6 +331,7 @@ export function CompanyFromJSONTyped(json: any, ignoreDiscriminator: boolean): C
         'marketId': json['market_id'],
         'industryName': json['industry_name'],
         'industryId': json['industry_id'],
+        'industryCode': json['industry_code'],
         'companyName': json['company_name'],
         'companyNameEn': json['company_name_en'],
         'headOfficeLocation': json['head_office_location'],
@@ -375,6 +383,7 @@ export function CompanyToJSON(value?: Company | null): any {
         'market_id': value.marketId,
         'industry_name': value.industryName,
         'industry_id': value.industryId,
+        'industry_code': value.industryCode,
         'company_name': value.companyName,
         'company_name_en': value.companyNameEn,
         'head_office_location': value.headOfficeLocation,

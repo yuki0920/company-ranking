@@ -21,7 +21,7 @@ export default async function TopPage(
         <div className="toppage flex flex-col min-h-screen">
           <div className="container mt-3">
             <SearchInput query={""} dict={dict.components.SearchInput} isCompanies={true} />
-            <Link href="/companies">
+            <Link href={`/${lang}/companies`}>
                 <p className="link-text">{dict.pages.top.all}</p>
             </Link>
             <section>
@@ -32,7 +32,7 @@ export default async function TopPage(
               <ul className="row list-unstyled grid grid-cols-2 sm:grid-cols-6 gap-2">
                 {markets.map((market) => (
                   <li key={`market-${market.id}`} className="col-6 col-sm-2 link-text">
-                    <Link href={`/markets/${market.id}`}>
+                    <Link href={`${lang}/markets/${market.id}`}>
                       {dict.models.markets[market.id.toString() as keyof typeof dict.models.markets]}({market.count})
                     </Link>
                   </li>
@@ -46,11 +46,10 @@ export default async function TopPage(
               </h2>
               {industryCategories.map((industryCategory) => (
                 <div key={`industry-category-${industryCategory.id}`}>
-                  <h3>{industryCategory.name}</h3>
                   <ul className="row list-unstyled grid grid-cols-2 sm:grid-cols-6 gap-2">
                     {industryCategory.industries !== null && industryCategory.industries.map((industry) => (
                       <li key={`industry-${industry.id}`} className="col-6 col-sm-2 link-text">
-                        <Link href={`/industries/${industry.id}`}>
+                        <Link href={`${lang}/industries/${industry.id}`}>
                           {dict.models.industries[industry.code.toString() as keyof typeof dict.models.industries]}({industry.count})
                         </Link>
                       </li>

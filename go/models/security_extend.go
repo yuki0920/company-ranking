@@ -9,8 +9,11 @@ import (
 type SecurityData struct {
 	ID                  int64
 	Name                string
+	NameEn              string
 	Code                int
+	IndustryCode        int
 	IndustryName        string
+	MarketID            int
 	MarketName          string
 	NetSales            *int64
 	AverageAnnualSalary *int64
@@ -28,7 +31,7 @@ func SecurityListPagination(ctx context.Context, db DB, limit, offset int, sortT
 	datum := []*SecurityData{}
 	for rows.Next() {
 		var data SecurityData
-		err := rows.Scan(&data.ID, &data.Code, &data.Name, &data.IndustryName, &data.MarketName, &data.NetSales, &data.AverageAnnualSalary, &data.OrdinaryIncome)
+		err := rows.Scan(&data.ID, &data.Code, &data.Name, &data.IndustryCode, &data.MarketID, &data.IndustryName, &data.MarketName, &data.NameEn, &data.NetSales, &data.AverageAnnualSalary, &data.OrdinaryIncome)
 		if err != nil {
 			return nil, logerror(err)
 		}
@@ -39,7 +42,7 @@ func SecurityListPagination(ctx context.Context, db DB, limit, offset int, sortT
 }
 
 var baseSelectQuery = `
-SELECT securities.id, securities.code, securities.name, industries.name, markets.name, documents.net_sales, documents.average_annual_salary, documents.ordinary_income
+SELECT securities.id, securities.code, securities.name, securities.industry_code, securities.market_id, industries.name, markets.name, documents.company_name_en, documents.net_sales, documents.average_annual_salary, documents.ordinary_income
 FROM securities
 INNER JOIN documents ON documents.security_code = securities.code
 INNER JOIN industries ON industries.code = securities.industry_code

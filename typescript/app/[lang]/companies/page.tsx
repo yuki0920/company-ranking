@@ -8,8 +8,15 @@ import { Metadata } from 'next'
 import { formatQueryParams } from "@/lib/utility"
 import { getDictionary } from '@/hooks/GetDictionary'
 
-export const metadata: Metadata = {
-  title: "企業一覧",
+export async function generateMetadata(
+  { params: { lang } }:
+  { params: { lang: string } }
+): Promise<Metadata> {
+  const dict = await getDictionary(lang)
+
+  return {
+    title: dict.pages.companies.metadata.title,
+  }
 }
 
 export default async function Page(
@@ -32,13 +39,13 @@ export default async function Page(
       {/* sort */}
 
       {/* companies */}
-      <CompanyTable companies={companies} from={from} dict={dict.components.CompanyTable} />
+      <CompanyTable companies={companies} from={from} lang={lang} dict={dict.components.CompanyTable} markets={dict.models.markets} industries={dict.models.industries} />
       {/* companies */}
 
       {/* pagination */}
       <Pagination
-        prevRef={{ pathname: '/companies', query: formatQueryParams({ page: Number(page) - 1, sortType, q })}}
-        nextRef={{ pathname: '/companies', query: formatQueryParams({ page: Number(page) + 1, sortType, q })}}
+        prevRef={{ pathname: `/${lang}/companies`, query: formatQueryParams({ page: Number(page) - 1, sortType, q })}}
+        nextRef={{ pathname: `/${lang}/companies`, query: formatQueryParams({ page: Number(page) + 1, sortType, q })}}
         prev={prev}
         next={next}
         dict={dict.components.Pagination}
