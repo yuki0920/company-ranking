@@ -49,8 +49,8 @@ export default function Header({
               <li>
                 <Link href={{ pathname: `/${lang}/terms_of_use` }}>{dict.links.termsOfUse}</Link>
               </li>
-              <LocaleSwitcher />
             </ul>
+            <LocaleSwitcher />
             <ThemeChangeMenu />
           </div>
         </div>

@@ -1,7 +1,7 @@
 'use client'
 
 import Link from 'next/link'
-import { numberWithDelimiter, divide_1_000, divide_1_000_000 } from "@/lib/utility"
+import { numberWithDelimiter, divide_1_000, divide_1_000_000, limitNameLength } from "@/lib/utility"
 import { EachCompany } from "@/client"
 import { isMobile } from '@/lib/client.utility'
 
@@ -37,7 +37,8 @@ export default function CompanyTable(
             <li key={index} className="border-b p-2">
               <div className="flex w-full justify-between mb-1">
                 <Link href={{ pathname: `/${lang}/companies/${company.securityCode}` }}>
-                  <span className="link-text">{lang == "en" ? company.securityNameEn : company.securityName}</span>
+                  <span className="link-text">{limitNameLength(company.securityName, company.securityNameEn, lang, 25)}
+                  </span>
                 </Link>
                 <small className="">{markets[company.marketId as keyof typeof markets]}・{industries[company.industryCode as keyof typeof industries]}</small>
               </div>
