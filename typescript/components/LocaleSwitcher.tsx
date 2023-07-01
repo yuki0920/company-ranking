@@ -1,11 +1,12 @@
 'use client'
 
-import { usePathname } from 'next/navigation'
-import Link from 'next/link'
+import { usePathname, useRouter } from 'next/navigation'
 import { i18n } from '@/dictionaries/i18n-config'
 
 export default function LocaleSwitcher() {
+  // const [currentSelected, setCurrentSelected] = useState('ja')
   const pathName = usePathname()
+  const router = useRouter()
   const redirectedPathName = (locale: string) => {
     if (!pathName) return '/'
     const segments = pathName.split('/')
@@ -13,15 +14,38 @@ export default function LocaleSwitcher() {
     return segments.join('/')
   }
 
+  let currentSelected = 'ja'
+  if (pathName) {
+    const tmpLocale = pathName.split('/')[1]
+    i18n.locales.forEach(locale => {
+      if (tmpLocale === locale) {
+        currentSelected = locale
+      }
+    })
+  }
+
   return (
     <>
+    <select
+      className="select max-w-xs"
+      onChange={(event: any) => {
+        event.preventDefault()
+        const locale = event.target.value
+        router.push(redirectedPathName(locale))
+      }}
+      value={currentSelected}
+    >
       {i18n.locales.map((locale) => {
         return (
-          <li key={locale}>
-            <Link href={redirectedPathName(locale)}>{locale}</Link>
-          </li>
+          <option
+            key={locale}
+            value={locale}
+          >
+            {locale.toUpperCase()}
+          </option>
         )
       })}
+    </select>
     </>
   )
 }

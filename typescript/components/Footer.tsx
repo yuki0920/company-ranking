@@ -1,5 +1,7 @@
 import Link from 'next/link'
 import { NEXT_PUBLIC_TWITTER_ID } from '@/constant'
+import ThemeChangeMenu from '@/components/ThemeChangeMenu'
+import LocaleSwitcher from '@/components/LocaleSwitcher'
 
 export default function Footer(
   { lang, dict }:
@@ -30,6 +32,10 @@ export default function Footer(
             </li>
           </ul>
           {/* <small className="">Copyright &copy;上場企業ランキング</small> */}
+        </div>
+        <div className="text-center">
+          <LocaleSwitcher />
+          <ThemeChangeMenu />
         </div>
       </footer>
     </div>
