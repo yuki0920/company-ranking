@@ -66,3 +66,12 @@ export const formatQueryParams = (params: ParsedUrlQueryInput) => {
 
   return newParams
 }
+
+export const limitNameLength = (jaName :string, enName :string, lang :string, limit: number) => {
+  const str = lang === 'ja' ? jaName : enName
+  if (str.length > limit) {
+    return str.slice(0, limit) + '...'
+  } else {
+    return str
+  }
+}
