@@ -64,8 +64,8 @@
         "periodYear":"/",
         "month":"",
         "yen":"Yen",
-        "thousandYen":"K(¥)",
-        "millionYen":"M(¥)",
+        "thousandYen":"M",
+        "millionYen":"MM",
         "times":""
       }
     }
@@ -101,9 +101,9 @@
       "rank":"Rank",
       "rankUnit":"",
       "sales":"Sales",
-      "salesUnit":"M(¥)",
+      "salesUnit":"MM",
       "salary":"Annual Salary",
-      "salaryUnit":"K(¥)",
+      "salaryUnit":"M",
       "company":"Company Name",
       "market":"Market",
       "industry":"Industry"
