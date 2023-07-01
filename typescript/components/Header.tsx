@@ -1,5 +1,6 @@
 import Link from 'next/link'
 import ThemeChangeMenu from '@/components/ThemeChangeMenu'
+import LocaleSwitcher from '@/components/LocaleSwitcher'
 
 export default function Header({
   children,
@@ -48,6 +49,7 @@ export default function Header({
               <li>
                 <Link href={{ pathname: `/${lang}/terms_of_use` }}>{dict.links.termsOfUse}</Link>
               </li>
+              <LocaleSwitcher />
             </ul>
             <ThemeChangeMenu />
           </div>
