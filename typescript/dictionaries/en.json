@@ -29,7 +29,7 @@
       "securityCode":"Security Code",
       "marketName":"Market Name",
       "industryName":"Industry",
-      "periodEndedAtMonth":"Fiscal Year End",
+      "periodEndedAtMonth":"Fiscal Year End Month",
       "headOfficeLocation":"Headquarters Location(JA)",
       "representative":"Representative(JA)",
       "employeeInfo":"Employee Information",
