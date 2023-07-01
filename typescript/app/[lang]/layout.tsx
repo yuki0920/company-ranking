@@ -5,39 +5,44 @@ import { Metadata } from 'next'
 import { NEXT_PUBLIC_TWITTER_ID } from '@/constant'
 import { getDictionary } from '@/hooks/GetDictionary'
 
-// metadata
-const defaultTitle = "上場企業ランキング"
-const defaultDescription = "上場企業の業績、売上、利益、年収をランキング形式で掲載しています。"
-const defaultURL = new URL("https://www.company-ranking.net/")
+export async function generateMetadata(
+  { params: { lang } }:
+  { params: { lang: string } }
+): Promise<Metadata> {
+  const dict = await getDictionary(lang)
 
-export const metadata: Metadata = {
-  metadataBase: defaultURL,
-  title: {
-    default: defaultTitle,
-    template: `%s  ${defaultTitle}`,
-  },
-  description: defaultDescription,
-  openGraph: {
-    title: defaultTitle,
-    description: defaultDescription,
-    url: defaultURL,
-    locale: 'ja_JP',
-    type: 'website',
-  },
-  twitter: {
-    card: 'summary_large_image',
-    title: defaultTitle,
-    description: defaultDescription,
-    creator: `@${NEXT_PUBLIC_TWITTER_ID}`,
-  },
-  verification: {
-    // google: 'search console verification code',
-  },
-  alternates: {
-    canonical: defaultURL,
-  },
+  const title = dict.metadata.title
+  const description = dict.metadata.description
+  const url = new URL(dict.metadata.url)
+
+  return {
+    metadataBase: url,
+    title: {
+      default: title,
+      template: `%s  ${title}`,
+    },
+    description: description,
+    openGraph: {
+      title: title,
+      description: description,
+      url: url,
+      locale: 'ja_JP',
+      type: 'website',
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: title,
+      description: description,
+      creator: `@${NEXT_PUBLIC_TWITTER_ID}`,
+    },
+    verification: {
+      // google: 'search console verification code',
+    },
+    alternates: {
+      canonical: url,
+    },
+  }
 }
-// metadata
 
 export default async function RootLayout({
   children,
@@ -50,14 +55,14 @@ export default async function RootLayout({
 
   return (
     <>
-      <Header dict={dictionary.components.Header}>
+      <Header lang={lang} dict={dictionary.components.Header}>
         <div className="flex justify-center">
           <div className="container">
             {children}
           </div>
         </div>
       </Header>
-      <Footer dict={dictionary.components.Footer}/>
+      <Footer lang={lang} dict={dictionary.components.Footer}/>
     </>
   )
 }

@@ -173,35 +173,45 @@ components:
       required:
         - security_code
         - security_name
+        - security_name_en
         - net_sales
         - ordinary_income
         - average_annual_salary
         - industry_name
         - market_name
+        - industry_code
+        - market_id
       properties:
         security_code:
           type: integer
         security_name:
           type: string
+        security_name_en:
+          type: string
         net_sales:
           type: integer
           format: int64
           nullable: true
-          description: 1億で割った値
         ordinary_income:
           type: integer
           format: int64
           nullable: true
-          description: 1億で割った値
         average_annual_salary:
           type: integer
           format: int64
           nullable: true
-          description: 1万で割った値
         industry_name:
           type: string
+        industry_code:
+          type: integer
+          format: int32
+          description: 業種コード
         market_name:
           type: string
+        market_id:
+          type: integer
+          format: int32
+          description: 市場コード
     responseCompany:
       type: object
       required:
@@ -223,6 +233,7 @@ components:
         - market_id
         - industry_name
         - industry_id
+        - industry_code
         - company_name
         - company_name_en
         - head_office_location
@@ -295,6 +306,10 @@ components:
           type: string
           description: 業種名
         industry_id:
+          type: integer
+          format: int32
+          description: 業種ID
+        industry_code:
           type: integer
           format: int32
           description: 業種コード

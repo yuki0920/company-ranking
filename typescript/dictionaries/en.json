@@ -1,0 +1,158 @@
+{
+  "metadata": {
+    "title": "JAPAN Listed Companies",
+    "description": "[JAPAN Listed Companies] is a website that displays sales and annual salaries of companies listed on the Tokyo Stock Exchange in a ranking format.",
+    "url": "https://www.company-ranking.net/en"
+  },
+  "pages":{
+    "top":{
+      "all":"Search from all companies",
+      "market":"Search by market",
+      "industry":"Search by industry"
+    },
+    "companies": {
+      "metadata": {
+        "title": "All Companies"
+      }
+    },
+    "markets": {
+      "title": "Market Companies"
+    },
+    "industries": {
+      "title": "Companies"
+    },
+    "company":{
+      "title":"Company Data",
+      "companySummary":"Company Overview",
+      "companyName":"Company Name(JA)",
+      "companyNameEN":"Company Name(EN)",
+      "securityCode":"Security Code",
+      "marketName":"Market Name",
+      "industryName":"Industry",
+      "periodEndedAtMonth":"Fiscal Year End",
+      "headOfficeLocation":"Headquarters Location(JA)",
+      "representative":"Representative(JA)",
+      "employeeInfo":"Employee Information",
+      "consolidatedNumberOfEmployees":"Number of Consolidated Employees",
+      "numberOfEmployees":"Number of Employees",
+      "averageAnnualSalary":"Average Annual Salary",
+      "averageAgeYears":"Average Age",
+      "averageLengthOfServiceYears":"Average Years of Service",
+      "financialResults":"Financial Results",
+      "period":"Reference Fiscal Year",
+      "lastYearNetSales":"Previous Year’s Sales",
+      "netSales":"Current Year’s Sales",
+      "lastYearOperatingIncome":"Previous Year’s Operating Income",
+      "operatingIncome":"Current Year’s Operating Income",
+      "lastYearOrdinaryIncome":"Previous Year’s Ordinary Income",
+      "ordinaryIncome":"Current Year’s Ordinary Income",
+      "totalAssets":"Total Assets",
+      "netCashProvidedByUsedInOperatingActivities":"Operating Cash Flow",
+      "netCashProvidedByUsedInInvestingActivities":"Investing Cash Flow",
+      "netCashProvidedByUsedInFinancingActivities":"Financing Cash Flow",
+      "cashAndCashEquivalents":"Cash and Cash Equivalents",
+      "financialIndicators":"Financial Indicators",
+      "capitalStock":"Capital Stock",
+      "totalNumberOfIssuedShares":"Total Number of Issued Shares",
+      "netAssets":"Net Assets",
+      "equityToAssetRatio":"Equity Ratio",
+      "rateOfReturnOnEquity":"Return on Equity (ROE)",
+      "priceEarningsRatio":"Price Earnings Ratio (PER)",
+      "payoutRatio":"Payout Ratio",
+      "units":{
+        "year":" year",
+        "periodYear":"/",
+        "month":"",
+        "yen":"Yen",
+        "thousandYen":"K(¥)",
+        "millionYen":"M(¥)",
+        "times":""
+      }
+    }
+  },
+  "components":{
+    "Header":{
+      "firstTitle":"JAPAN Listed",
+      "lastTitle":"Companies",
+      "links":{
+        "top":"Top",
+        "all":"All Companies",
+        "market1":"Prime Market Companies",
+        "market2":"Standard Market Companies",
+        "market3":"Growth Market Companies",
+        "termsOfUse":"Terms of Use",
+        "contact":"Contact Us"
+      }
+    },
+    "Footer":{
+      "links":{
+        "termsOfUse":"Terms of Use",
+        "contact":"Contact Us"
+      }
+    },
+    "SearchInput":{
+      "placeholder":"Company Name or Security Code"
+    },
+    "SortTypes":{
+      "net_sales":"Sales Order",
+      "average_annual_salary":"Salary Order"
+    },
+    "CompanyTable":{
+      "rank":"Rank",
+      "rankUnit":"",
+      "sales":"Sales",
+      "salesUnit":"M(¥)",
+      "salary":"Annual Salary",
+      "salaryUnit":"K(¥)",
+      "company":"Company Name",
+      "market":"Market",
+      "industry":"Industry"
+    },
+    "Pagination":{
+      "prev":"Previous",
+      "next":"Next"
+    }
+  },
+  "models":{
+    "markets":{
+      "1":"Prime",
+      "2":"Standard",
+      "3":"Growth"
+    },
+    "industries":{
+      "50":"Fisheries & Forestry",
+      "1050":"Mining",
+      "2050":"Construction",
+      "3050":"Food",
+      "3100":"Textile",
+      "3150":"Pulp & Paper",
+      "3200":"Chemistry",
+      "3250":"Pharmaceutical",
+      "3300":"Oil & Coal",
+      "3350":"Rubber",
+      "3400":"Glass & Stone",
+      "3450":"Steel",
+      "3500":"Nonferrous Metals",
+      "3550":"Metal Products",
+      "3600":"Machinery",
+      "3650":"Electric Applications",
+      "3700":"Transport Equipment",
+      "3750":"Precision Instruments",
+      "3800":"Other Products",
+      "4050":"Electric & Gas",
+      "5050":"Land Transport",
+      "5100":"Marine Transport",
+      "5150":"Air Transport",
+      "5200":"Warehouse & Transport",
+      "5250":"Information & Communication",
+      "6050":"Wholesale Trade",
+      "6100":"Retail Trade",
+      "7050":"Banking",
+      "7100":"Securities & Commodity Futures",
+      "7150":"Insurance",
+      "7200":"Other Financials",
+      "8050":"Real Estate",
+      "9050":"Services"
+    }
+  }
+}

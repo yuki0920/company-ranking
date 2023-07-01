@@ -133,8 +133,11 @@ func (s *Server) FetchCompanies(w http.ResponseWriter, r *http.Request, params F
 	for _, security := range securities {
 		company := EachCompany{
 			SecurityName:        security.Name,
+			SecurityNameEn:      security.NameEn,
 			SecurityCode:        security.Code,
+			IndustryCode:        int32(security.IndustryCode),
 			IndustryName:        security.IndustryName,
+			MarketId:            int32(security.MarketID),
 			MarketName:          security.MarketName,
 			AverageAnnualSalary: security.AverageAnnualSalary,
 			NetSales:            security.NetSales,
@@ -230,6 +233,7 @@ func (s *Server) FetchCompany(w http.ResponseWriter, r *http.Request, code int) 
 		ConsolidatedNumberOfEmployees: &doc.ConsolidatedNumberOfEmployees.Int64,
 		EquityToAssetRatio:            &doc.EquityToAssetRatio.Float64,
 		HeadOfficeLocation:            doc.HeadOfficeLocation.String,
+		IndustryCode:                  int32(industry.Code),
 		IndustryId:                    int32(industry.ID),
 		IndustryName:                  industry.Name,
 		LastYearNetSales:              &doc.LastYearNetSales.Int64,

@@ -3,9 +3,11 @@ import ThemeChangeMenu from '@/components/ThemeChangeMenu'
 
 export default function Header({
   children,
+  lang,
   dict,
 }: {
   children: React.ReactNode
+  lang: string,
   dict: {
     "firstTitle": string,
     "lastTitle": string,
@@ -32,19 +34,19 @@ export default function Header({
             </label>
           </div>
           <div className="flex-1 px-2 mx-2 text-xl font-mono font-bold">
-            <Link href={{ pathname: "/" }}>
-              <span className="text-accent">{dict.firstTitle}</span>
-              <span>ランキング</span>
+            <Link href={{ pathname: `/${lang}` }}>
+              <span className="text-accent">{dict.firstTitle} </span>
+              <span>{dict.lastTitle}</span>
             </Link>
             </div>
           <div className="flex-none hidden lg:block">
             <ul className="menu menu-horizontal">
               {/* Navbar menu content here */}
               <li>
-                <Link href={{ pathname: "/companies" }}>すべての企業</Link>
+                <Link href={{ pathname: `/${lang}/companies` }}>{dict.links.all}</Link>
               </li>
               <li>
-                <Link href={{ pathname: "/terms_of_use" }}>利用規約</Link>
+                <Link href={{ pathname: `/${lang}/terms_of_use` }}>{dict.links.termsOfUse}</Link>
               </li>
             </ul>
             <ThemeChangeMenu />
@@ -58,25 +60,25 @@ export default function Header({
         <ul className="menu p-4 w-80 h-full bg-base-200">
           {/* Sidebar content here */}
           <li>
-            <Link href={{ pathname: "/" }}>Top</Link>
+            <Link href={{ pathname: `/${lang}` }}>Top</Link>
           </li>
           <li>
-            <Link href={{ pathname: "/companies" }}>すべての企業</Link>
+            <Link href={{ pathname: `/${lang}/companies` }}>- {dict.links.all}</Link>
           </li>
           <li>
-            <Link href={{ pathname: "/markets/1" }}>・プライム市場の企業</Link>
+            <Link href={{ pathname: `/${lang}/markets/1` }}>- {dict.links.market1}</Link>
           </li>
           <li>
-            <Link href={{ pathname: "/markets/2" }}>・スタンダード市場の企業</Link>
+            <Link href={{ pathname: `/${lang}/markets/2` }}>- {dict.links.market2}</Link>
           </li>
           <li>
-            <Link href={{ pathname: "/markets/3" }}>・グロース市場の企業</Link>
+            <Link href={{ pathname: `/${lang}/markets/3` }}>- {dict.links.market3}</Link>
           </li>
           <li>
-            <Link href={{ pathname: "/terms_of_use" }}>利用規約</Link>
+            <Link href={{ pathname: `/${lang}/terms_of_use` }}>{dict.links.termsOfUse}</Link>
           </li>
           <li>
-            <Link href={{ pathname: "/contact" }}>お問い合わせ</Link>
+            <Link href={{ pathname: `/${lang}/contact` }}>{dict.links.contact}</Link>
           </li>
         </ul>
       </div>

@@ -9,12 +9,13 @@ export async function generateMetadata(
   { params: { lang, id } }:
   { params: { lang: string, id: number }
 }): Promise<Metadata> {
-  const dict = await getDictionary(lang)
   const company = await getCompany(id)
+  const name = lang === "ja" ? company.companyName : company.companyNameEn
+  const description = lang === "ja" ? `${company.companyName}の企業情報です。` : `This is the company information of ${company.companyNameEn}.`
 
   return {
-    title: `[${company.securityCode}]${company.securityName}`,
-    description: `[${company.securityCode}]${company.securityName}の企業情報です。`,
+    title: `[${company.securityCode}]${name}`,
+    description: `[${company.securityCode}]${description}`,
   }
 }
 
@@ -23,13 +24,15 @@ export default async function Page(
   { params: { lang: string, id: number }
 }) {
   const dictionary = await getDictionary(lang)
-  const dict = dictionary.pages.companies
+  const dict = dictionary.pages.company
+  const marketDict = dictionary.models.markets
+  const industryDict = dictionary.models.industries
   const company = await getCompany(id)
   return (
   <>
     {/* bread crumb */}
     <h1 className="text-xl">
-      {company.companyName}{dict.title}
+      {lang == "ja" ? company.companyName : company.companyNameEn}{dict.title}
     </h1>
     <div className="grid lg:grid-cols-2 gap-4">
       <div>
@@ -39,7 +42,11 @@ export default async function Page(
         <dl className="grid grid-cols-2 border border-neutral-content">
           <dt className="col-span-1 p-2 border-neutral-content">{dict.companyName}</dt>
           <dd className="col-span-1 p-2 border-l border-neutral-content text-right">
-            {company.companyName}({company.companyNameEn})
+            {company.companyName}
+          </dd>
+          <dt className="col-span-1 p-2 border-t border-neutral-content">{dict.companyNameEN}</dt>
+          <dd className="col-span-1 p-2 border-l border-t border-neutral-content text-right">
+          {company.companyNameEn}
           </dd>
           <dt className="col-span-1 p-2 border-t border-neutral-content">{dict.securityCode}</dt>
           <dd className="col-span-1 p-2 border-l border-t border-neutral-content text-right">
@@ -47,11 +54,11 @@ export default async function Page(
           </dd>
           <dt className="col-span-1 p-2 border-t border-neutral-content">{dict.marketName}</dt>
           <dd className="col-span-1 p-2 border-l border-t border-neutral-content link-text text-right">
-            <Link href={{ pathname: `/markets/${company.marketId}` }}>{company.marketName}</Link>
+            <Link href={{ pathname: `/${lang}/markets/${company.marketId}` }}>{marketDict[company.marketId.toString() as keyof typeof marketDict]}</Link>
           </dd>
           <dt className="col-span-1 p-2 border-t border-neutral-content">{dict.industryName}</dt>
           <dd className="col-span-1 p-2 border-l border-t border-neutral-content link-text text-right">
-            <Link href={{ pathname: `/industries/${company.industryId}` }}>{company.industryName}</Link>
+            <Link href={{ pathname: `/${lang}/industries/${company.industryId}` }}>{industryDict[company.industryCode.toString() as keyof typeof industryDict]}</Link>
           </dd>
           <dt className="col-span-1 p-2 border-t border-neutral-content">{dict.periodEndedAtMonth}</dt>
           <dd className="col-span-1 p-2 border-l border-t border-neutral-content text-right">
@@ -67,7 +74,7 @@ export default async function Page(
           </dd>
         </dl>
         <div className="justify-end mt-1 mb-2 flex">
-          （{company.periodEndedAtYear}{dict.units.year}{company.periodEndedAtMonth}{dict.units.month}）
+          （{company.periodEndedAtYear}{dict.units.periodYear}{company.periodEndedAtMonth}{dict.units.month}）
         </div>
       </div>
 
@@ -78,34 +85,34 @@ export default async function Page(
         <dl className="grid grid-cols-2 border border-neutral-content">
           <dt className="col-span-1 p-2 border-neutral-content">{dict.consolidatedNumberOfEmployees}</dt>
           <dd className="col-span-1 p-2 border-l border-neutral-content text-right">
-            {numberWithDelimiter(company.consolidatedNumberOfEmployees)} 人
+            {numberWithDelimiter(company.consolidatedNumberOfEmployees)}
           </dd>
           <dt className="col-span-1 p-2 border-t border-neutral-content">{dict.numberOfEmployees}</dt>
           <dd className="col-span-1 p-2 border-l border-t border-neutral-content text-right">
-            {numberWithDelimiter(company.numberOfEmployees)} 人
+            {numberWithDelimiter(company.numberOfEmployees)}
           </dd>
           <dt className="col-span-1 p-2 border-t border-neutral-content">{dict.averageAnnualSalary}</dt>
           <dd className="col-span-1 p-2 border-l border-t border-neutral-content text-right">
-            {numberWithDelimiter(divide_1_000(company.averageAnnualSalary))} 千円
+            {numberWithDelimiter(divide_1_000(company.averageAnnualSalary))} {dict.units.thousandYen}
           </dd>
           <dt className="col-span-1 p-2 border-t border-neutral-content">{dict.averageAgeYears}</dt>
           <dd className="col-span-1 p-2 border-l border-t border-neutral-content text-right">
-            {company.averageAgeYears} {dict.units.year}
+            {company.averageAgeYears}
           </dd>
           <dt className="col-span-1 p-2 border-t border-neutral-content">{dict.averageLengthOfServiceYears}</dt>
           <dd className="col-span-1 p-2 border-l border-t border-neutral-content text-right">
-            {company.averageLengthOfServiceYears} {dict.units.year}
+            {company.averageLengthOfServiceYears}
           </dd>
         </dl>
         <div className="justify-end mt-1 mb-2 flex">
-          （{company.periodEndedAtYear}{dict.units.year}{company.periodEndedAtMonth}{dict.units.month}）
+          （{company.periodEndedAtYear}{dict.units.periodYear}{company.periodEndedAtMonth}{dict.units.month}）
         </div>
       </div>
     </div>
     <div className="grid lg:grid-cols-2 gap-4">
       <div>
         <h2 className="text-l">
-        決算・業績推移
+        {dict.financialResults}
         </h2>
         <dl className="grid grid-cols-2 border border-neutral-content">
           <dt className="col-span-1 p-2 border-neutral-content">{dict.period}</dt>
@@ -158,7 +165,7 @@ export default async function Page(
           </dd>
         </dl>
         <div className="justify-end mt-1 mb-2 flex">
-        （{company.periodEndedAtYear}{dict.units.year}{company.periodEndedAtMonth}{dict.units.month}）
+        （{company.periodEndedAtYear}{dict.units.periodYear}{company.periodEndedAtMonth}{dict.units.month}）
         </div>
       </div>
       <div>
@@ -172,7 +179,7 @@ export default async function Page(
           </dd>
           <dt className="col-span-1 p-2 border-t border-neutral-content">{dict.totalNumberOfIssuedShares}</dt>
           <dd className="col-span-1 p-2 border-l border-t border-neutral-content text-right">
-            {numberWithDelimiter((company.totalNumberOfIssuedShares))} 株
+            {numberWithDelimiter((company.totalNumberOfIssuedShares))}
           </dd>
           <dt className="col-span-1 p-2 border-t border-neutral-content">{dict.netAssets}</dt>
           <dd className="col-span-1 p-2 border-l border-t border-neutral-content text-right">
@@ -196,7 +203,7 @@ export default async function Page(
           </dd>
         </dl>
         <div className="justify-end mt-1 mb-2 flex">
-        （{company.periodEndedAtYear}{dict.units.year}{company.periodEndedAtMonth}{dict.units.month}）
+        （{company.periodEndedAtYear}{dict.units.periodYear}{company.periodEndedAtMonth}{dict.units.month}）
         </div>
       </div>
     </div>
