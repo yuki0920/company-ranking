@@ -65,7 +65,7 @@
       "payoutRatio": "配当性向(PER)",
 
       "units": {
-        "periodYear":" 年",
+        "periodYear": " 年",
         "month": "月次点",
         "yen": "円",
         "thousandYen": "千円",
