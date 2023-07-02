@@ -77,17 +77,17 @@ func (s *Server) StartServer(addr string) error {
 // perPage is the number of securities to return per page.
 const perPage = 50
 
-func (s *Server) FetchCompanies(w http.ResponseWriter, r *http.Request, params FetchCompaniesParams) {
+func (s *Server) ListCompanies(w http.ResponseWriter, r *http.Request, params ListCompaniesParams) {
 	ctx := context.Background()
 
 	// calculate metadata
-	page := 1
-	limit := perPage
-	var offset int
+	currentPage := 1
+	limitCount := perPage
+	var offsetCount int
 	if params.Page != nil {
-		page = *params.Page
+		currentPage = *params.Page
 	}
-	offset = (page - 1) * perPage
+	offsetCount = (currentPage - 1) * perPage
 
 	// parse params
 	var sortType string
@@ -112,17 +112,17 @@ func (s *Server) FetchCompanies(w http.ResponseWriter, r *http.Request, params F
 		}
 	}
 
-	// fetch securities count
-	count, err := models.SecurityListCount(ctx, s.DB, params.IndustryId, params.MarketId, code, query)
+	// fetch securities totalCount
+	totalCount, err := models.SecurityListCount(ctx, s.DB, params.IndustryId, params.MarketId, code, query)
 	if err != nil {
 		message := "failed to fetch securities count"
 		ErrorResponse(w, http.StatusInternalServerError, message)
 		return
 	}
-	meta := metaData(page, offset, limit, count)
+	meta := metaData(currentPage, offsetCount, limitCount, totalCount, sortType)
 
 	// fetch securities
-	securities, err := models.SecurityListPagination(ctx, s.DB, limit, offset, sortType, params.IndustryId, params.MarketId, code, query)
+	securities, err := models.SecurityListPagination(ctx, s.DB, limitCount, offsetCount, sortType, params.IndustryId, params.MarketId, code, query)
 	if err != nil {
 		message := "failed to fetch securities"
 		ErrorResponse(w, http.StatusInternalServerError, message)
@@ -155,36 +155,37 @@ func (s *Server) FetchCompanies(w http.ResponseWriter, r *http.Request, params F
 	_ = json.NewEncoder(w).Encode(res)
 }
 
-func metaData(page, offset, limit, count int) Meta {
-	var pages int
-	var prev, next *int
+func metaData(currentPage, offsetCount, limitCount, totalCount int, sortType string) Meta {
+	var lastPage int
+	var prevPage, nextPage *int
 
-	if count != 0 {
-		pages = count/perPage + 1
+	if totalCount != 0 {
+		lastPage = totalCount/perPage + 1
 	} else {
-		pages = 0
+		lastPage = 0
 	}
-	if page != 1 {
-		pre := (page - 1)
-		prev = &pre
+	if currentPage != 1 {
+		prev := (currentPage - 1)
+		prevPage = &prev
 	}
-	if page < pages {
-		nex := (page + 1)
-		next = &nex
+	if currentPage < lastPage {
+		next := (currentPage + 1)
+		nextPage = &next
 	}
 
 	return Meta{
-		Count: count,
-		From:  offset + 1,
-		Items: perPage,
-		Next:  next,
-		Page:  page,
-		Pages: pages,
-		Prev:  prev,
+		TotalCount:  totalCount,
+		OffsetCount: offsetCount + 1,
+		LimitCount:  perPage,
+		NextPage:    nextPage,
+		CurrentPage: currentPage,
+		LastPage:    lastPage,
+		PrevPage:    prevPage,
+		SortType:    sortType,
 	}
 }
 
-func (s *Server) FetchCompany(w http.ResponseWriter, r *http.Request, code int) {
+func (s *Server) GetCompany(w http.ResponseWriter, r *http.Request, code int) {
 	ctx := context.Background()
 
 	sec, err := models.SecurityByCode(ctx, s.DB, code)
@@ -272,10 +273,10 @@ func (s *Server) FetchCompany(w http.ResponseWriter, r *http.Request, code int) 
 	_ = json.NewEncoder(w).Encode(res)
 }
 
-func (s *Server) FetchCompanyIds(w http.ResponseWriter, r *http.Request) {
+func (s *Server) ListCompanyIds(w http.ResponseWriter, r *http.Request) {
 }
 
-func (s *Server) FetchIndustries(w http.ResponseWriter, r *http.Request) {
+func (s *Server) ListIndustries(w http.ResponseWriter, r *http.Request) {
 	ctx := context.Background()
 	industries, err := models.IndustryALL(ctx, s.DB)
 	if err != nil {
@@ -324,7 +325,7 @@ func (s *Server) FetchIndustries(w http.ResponseWriter, r *http.Request) {
 	_ = json.NewEncoder(w).Encode(res)
 }
 
-func (s *Server) FetchIndustry(w http.ResponseWriter, r *http.Request, id int) {
+func (s *Server) GetIndustry(w http.ResponseWriter, r *http.Request, id int) {
 	ctx := context.Background()
 	industry, err := models.IndustryByID(ctx, s.DB, int64(id))
 	if err != nil {
@@ -345,7 +346,7 @@ func (s *Server) FetchIndustry(w http.ResponseWriter, r *http.Request, id int) {
 	_ = json.NewEncoder(w).Encode(res)
 }
 
-func (s *Server) FetchIndustryIds(w http.ResponseWriter, r *http.Request) {
+func (s *Server) ListIndustryIds(w http.ResponseWriter, r *http.Request) {
 	ctx := context.Background()
 	ids, err := models.IndustryIDs(ctx, s.DB)
 	if err != nil {
@@ -362,7 +363,7 @@ func (s *Server) FetchIndustryIds(w http.ResponseWriter, r *http.Request) {
 	_ = json.NewEncoder(w).Encode(res)
 }
 
-func (s *Server) FetchMarketIds(w http.ResponseWriter, r *http.Request) {
+func (s *Server) ListMarketIds(w http.ResponseWriter, r *http.Request) {
 	ctx := context.Background()
 	ids, err := models.MarketIDs(ctx, s.DB)
 	if err != nil {
@@ -379,7 +380,7 @@ func (s *Server) FetchMarketIds(w http.ResponseWriter, r *http.Request) {
 	_ = json.NewEncoder(w).Encode(res)
 }
 
-func (s *Server) FetchMarkets(w http.ResponseWriter, r *http.Request) {
+func (s *Server) ListMarkets(w http.ResponseWriter, r *http.Request) {
 	ctx := context.Background()
 	markets, err := models.MarketALL(ctx, s.DB)
 	if err != nil {
@@ -411,7 +412,7 @@ func (s *Server) FetchMarkets(w http.ResponseWriter, r *http.Request) {
 	_ = json.NewEncoder(w).Encode(res)
 }
 
-func (s *Server) FetchMarket(w http.ResponseWriter, r *http.Request, id int) {
+func (s *Server) GetMarket(w http.ResponseWriter, r *http.Request, id int) {
 	ctx := context.Background()
 	market, err := models.MarketByID(ctx, s.DB, int64(id))
 	if err != nil {

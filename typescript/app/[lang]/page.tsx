@@ -24,7 +24,7 @@ export default async function TopPage({ params: { lang } }: { params: { lang: st
                 {dict.pages.top.market}
               </h2>
               <ul className='row list-unstyled grid grid-cols-2 sm:grid-cols-6 gap-2'>
-                {markets.map((market) => (
+                {markets.map(market => (
                   <li key={`market-${market.id}`} className='col-6 col-sm-2 link-text'>
                     <Link href={`${lang}/markets/${market.id}`}>
                       {
@@ -79,11 +79,11 @@ export default async function TopPage({ params: { lang } }: { params: { lang: st
 const getIndustries = async () => {
   const config = new Configuration({ basePath: NEXT_PUBLIC_API_URL })
   const DefaultAPI = new DefaultApi(config)
-  return await DefaultAPI.fetchIndustries()
+  return await DefaultAPI.listIndustries()
 }
 
 const getMarkets = async () => {
   const config = new Configuration({ basePath: NEXT_PUBLIC_API_URL })
   const DefaultAPI = new DefaultApi(config)
-  return DefaultAPI.fetchMarkets()
+  return DefaultAPI.listMarkets()
 }
