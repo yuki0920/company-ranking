@@ -15,9 +15,9 @@
 
 import * as runtime from '../runtime';
 import type {
-  ListCompanyIds200Response,
   ResponseCompanies,
   ResponseCompany,
+  ResponseCompanyIDs,
   ResponseIndustries,
   ResponseIndustry,
   ResponseIndustryIDs,
@@ -26,12 +26,12 @@ import type {
   ResponseMarkets,
 } from '../models';
 import {
-    ListCompanyIds200ResponseFromJSON,
-    ListCompanyIds200ResponseToJSON,
     ResponseCompaniesFromJSON,
     ResponseCompaniesToJSON,
     ResponseCompanyFromJSON,
     ResponseCompanyToJSON,
+    ResponseCompanyIDsFromJSON,
+    ResponseCompanyIDsToJSON,
     ResponseIndustriesFromJSON,
     ResponseIndustriesToJSON,
     ResponseIndustryFromJSON,
@@ -214,7 +214,7 @@ export class DefaultApi extends runtime.BaseAPI {
     /**
      * Get CompanyIds
      */
-    async listCompanyIdsRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<ListCompanyIds200Response>> {
+    async listCompanyIdsRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<ResponseCompanyIDs>> {
         const queryParameters: any = {};
 
         const headerParameters: runtime.HTTPHeaders = {};
@@ -226,13 +226,13 @@ export class DefaultApi extends runtime.BaseAPI {
             query: queryParameters,
         }, initOverrides);
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => ListCompanyIds200ResponseFromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => ResponseCompanyIDsFromJSON(jsonValue));
     }
 
     /**
      * Get CompanyIds
      */
-    async listCompanyIds(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<ListCompanyIds200Response> {
+    async listCompanyIds(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<ResponseCompanyIDs> {
         const response = await this.listCompanyIdsRaw(initOverrides);
         return await response.value();
     }

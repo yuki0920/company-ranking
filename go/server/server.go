@@ -274,6 +274,20 @@ func (s *Server) GetCompany(w http.ResponseWriter, r *http.Request, code int) {
 }
 
 func (s *Server) ListCompanyIds(w http.ResponseWriter, r *http.Request) {
+	ctx := context.Background()
+	ids, err := models.SecurityIds(ctx, s.DB)
+	if err != nil {
+		message := "failed to fetch security ids"
+		ErrorResponse(w, http.StatusInternalServerError, message)
+		return
+	}
+
+	res := ResponseCompanyIDs{
+		CompanyIds: ids,
+	}
+
+	w.WriteHeader(http.StatusOK)
+	_ = json.NewEncoder(w).Encode(res)
 }
 
 func (s *Server) ListIndustries(w http.ResponseWriter, r *http.Request) {

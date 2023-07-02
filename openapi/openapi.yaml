@@ -124,14 +124,7 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                required:
-                  - company_ids
-                properties:
-                  company_ids:
-                    type: array
-                    items:
-                      type: integer
+                $ref: "#/components/schemas/responseCompanyIDs"
   /api/v1/industry_ids:
     get:
       operationId: ListIndustryIds
@@ -570,6 +563,16 @@ components:
           format: int64
         name:
           type: string
+    responseCompanyIDs:
+      type: object
+      required:
+        - company_ids
+      properties:
+        company_ids:
+          type: array
+          items:
+            type: integer
+            format: int64
     meta:
       type: object
       required:
