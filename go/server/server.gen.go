@@ -18,11 +18,11 @@ import (
 	"github.com/go-chi/chi/v5"
 )
 
-// Defines values for FetchCompaniesParamsSortType.
+// Defines values for ListCompaniesParamsSortType.
 const (
-	AverageAnnualSalary FetchCompaniesParamsSortType = "average_annual_salary"
-	NetSales            FetchCompaniesParamsSortType = "net_sales"
-	OrdinaryIncome      FetchCompaniesParamsSortType = "ordinary_income"
+	AverageAnnualSalary ListCompaniesParamsSortType = "average_annual_salary"
+	NetSales            ListCompaniesParamsSortType = "net_sales"
+	OrdinaryIncome      ListCompaniesParamsSortType = "ordinary_income"
 )
 
 // Company defines model for Company.
@@ -207,26 +207,29 @@ type Market struct {
 
 // Meta defines model for meta.
 type Meta struct {
-	// Count 総アイテム数
-	Count int `json:"count"`
+	// CurrentPage 現在のページ番号
+	CurrentPage int `json:"current_page"`
 
-	// From アイテムの取得開始位置
-	From int `json:"from"`
+	// LastPage 最後ののページ番号
+	LastPage int `json:"last_page"`
 
-	// Items 1ページあたりのアイテム数
-	Items int `json:"items"`
+	// LimitCount 1ページあたりのアイテム数
+	LimitCount int `json:"limit_count"`
 
-	// Next 次のページ番号
-	Next *int `json:"next"`
+	// NextPage 次のページ番号
+	NextPage *int `json:"next_page"`
 
-	// Page 現在のページ番号
-	Page int `json:"page"`
+	// OffsetCount アイテムの取得開始位置
+	OffsetCount int `json:"offset_count"`
 
-	// Pages 最後ののページ番号
-	Pages int `json:"pages"`
+	// PrevPage 前のページ番号
+	PrevPage *int `json:"prev_page"`
 
-	// Prev 前のページ番号
-	Prev *int `json:"prev"`
+	// SortType ソートタイプ
+	SortType string `json:"sort_type"`
+
+	// TotalCount 総アイテム数
+	TotalCount int `json:"total_count"`
 }
 
 // ResponseCompanies defines model for responseCompanies.
@@ -270,10 +273,10 @@ type ResponseMarkets struct {
 	Markets []EachMarket `json:"markets"`
 }
 
-// FetchCompaniesParams defines parameters for FetchCompanies.
-type FetchCompaniesParams struct {
-	Page     *int                         `form:"page,omitempty" json:"page,omitempty"`
-	SortType FetchCompaniesParamsSortType `form:"sort_type" json:"sort_type"`
+// ListCompaniesParams defines parameters for ListCompanies.
+type ListCompaniesParams struct {
+	Page     *int                        `form:"page,omitempty" json:"page,omitempty"`
+	SortType ListCompaniesParamsSortType `form:"sort_type" json:"sort_type"`
 
 	// Q query for company_name or security_id
 	Q          *string `form:"q,omitempty" json:"q,omitempty"`
@@ -281,38 +284,38 @@ type FetchCompaniesParams struct {
 	MarketId   *int    `form:"market_id,omitempty" json:"market_id,omitempty"`
 }
 
-// FetchCompaniesParamsSortType defines parameters for FetchCompanies.
-type FetchCompaniesParamsSortType string
+// ListCompaniesParamsSortType defines parameters for ListCompanies.
+type ListCompaniesParamsSortType string
 
 // ServerInterface represents all server handlers.
 type ServerInterface interface {
 	// Get and Search Companies
 	// (GET /api/v1/companies)
-	FetchCompanies(w http.ResponseWriter, r *http.Request, params FetchCompaniesParams)
+	ListCompanies(w http.ResponseWriter, r *http.Request, params ListCompaniesParams)
 	// Get Company
 	// (GET /api/v1/companies/{code})
-	FetchCompany(w http.ResponseWriter, r *http.Request, code int)
+	GetCompany(w http.ResponseWriter, r *http.Request, code int)
 	// Get CompanyIds
 	// (GET /api/v1/company_ids)
-	FetchCompanyIds(w http.ResponseWriter, r *http.Request)
+	ListCompanyIds(w http.ResponseWriter, r *http.Request)
 	// Get Industries
 	// (GET /api/v1/industries)
-	FetchIndustries(w http.ResponseWriter, r *http.Request)
+	ListIndustries(w http.ResponseWriter, r *http.Request)
 	// Get Industry
 	// (GET /api/v1/industries/{id})
-	FetchIndustry(w http.ResponseWriter, r *http.Request, id int)
+	GetIndustry(w http.ResponseWriter, r *http.Request, id int)
 	// Get IndustryIds
 	// (GET /api/v1/industry_ids)
-	FetchIndustryIds(w http.ResponseWriter, r *http.Request)
+	ListIndustryIds(w http.ResponseWriter, r *http.Request)
 	// Get MarketIds
 	// (GET /api/v1/market_ids)
-	FetchMarketIds(w http.ResponseWriter, r *http.Request)
+	ListMarketIds(w http.ResponseWriter, r *http.Request)
 	// Get Markets
 	// (GET /api/v1/markets)
-	FetchMarkets(w http.ResponseWriter, r *http.Request)
+	ListMarkets(w http.ResponseWriter, r *http.Request)
 	// Get Market
 	// (GET /api/v1/markets/{id})
-	FetchMarket(w http.ResponseWriter, r *http.Request, id int)
+	GetMarket(w http.ResponseWriter, r *http.Request, id int)
 }
 
 // ServerInterfaceWrapper converts contexts to parameters.
@@ -324,14 +327,14 @@ type ServerInterfaceWrapper struct {
 
 type MiddlewareFunc func(http.Handler) http.Handler
 
-// FetchCompanies operation middleware
-func (siw *ServerInterfaceWrapper) FetchCompanies(w http.ResponseWriter, r *http.Request) {
+// ListCompanies operation middleware
+func (siw *ServerInterfaceWrapper) ListCompanies(w http.ResponseWriter, r *http.Request) {
 	ctx := r.Context()
 
 	var err error
 
 	// Parameter object where we will unmarshal all parameters from the context
-	var params FetchCompaniesParams
+	var params ListCompaniesParams
 
 	// ------------- Optional query parameter "page" -------------
 
@@ -381,7 +384,7 @@ func (siw *ServerInterfaceWrapper) FetchCompanies(w http.ResponseWriter, r *http
 	}
 
 	var handler http.Handler = http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		siw.Handler.FetchCompanies(w, r, params)
+		siw.Handler.ListCompanies(w, r, params)
 	})
 
 	for i := len(siw.HandlerMiddlewares) - 1; i >= 0; i-- {
@@ -391,8 +394,8 @@ func (siw *ServerInterfaceWrapper) FetchCompanies(w http.ResponseWriter, r *http
 	handler.ServeHTTP(w, r.WithContext(ctx))
 }
 
-// FetchCompany operation middleware
-func (siw *ServerInterfaceWrapper) FetchCompany(w http.ResponseWriter, r *http.Request) {
+// GetCompany operation middleware
+func (siw *ServerInterfaceWrapper) GetCompany(w http.ResponseWriter, r *http.Request) {
 	ctx := r.Context()
 
 	var err error
@@ -407,7 +410,7 @@ func (siw *ServerInterfaceWrapper) FetchCompany(w http.ResponseWriter, r *http.R
 	}
 
 	var handler http.Handler = http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		siw.Handler.FetchCompany(w, r, code)
+		siw.Handler.GetCompany(w, r, code)
 	})
 
 	for i := len(siw.HandlerMiddlewares) - 1; i >= 0; i-- {
@@ -417,12 +420,12 @@ func (siw *ServerInterfaceWrapper) FetchCompany(w http.ResponseWriter, r *http.R
 	handler.ServeHTTP(w, r.WithContext(ctx))
 }
 
-// FetchCompanyIds operation middleware
-func (siw *ServerInterfaceWrapper) FetchCompanyIds(w http.ResponseWriter, r *http.Request) {
+// ListCompanyIds operation middleware
+func (siw *ServerInterfaceWrapper) ListCompanyIds(w http.ResponseWriter, r *http.Request) {
 	ctx := r.Context()
 
 	var handler http.Handler = http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		siw.Handler.FetchCompanyIds(w, r)
+		siw.Handler.ListCompanyIds(w, r)
 	})
 
 	for i := len(siw.HandlerMiddlewares) - 1; i >= 0; i-- {
@@ -432,12 +435,12 @@ func (siw *ServerInterfaceWrapper) FetchCompanyIds(w http.ResponseWriter, r *htt
 	handler.ServeHTTP(w, r.WithContext(ctx))
 }
 
-// FetchIndustries operation middleware
-func (siw *ServerInterfaceWrapper) FetchIndustries(w http.ResponseWriter, r *http.Request) {
+// ListIndustries operation middleware
+func (siw *ServerInterfaceWrapper) ListIndustries(w http.ResponseWriter, r *http.Request) {
 	ctx := r.Context()
 
 	var handler http.Handler = http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		siw.Handler.FetchIndustries(w, r)
+		siw.Handler.ListIndustries(w, r)
 	})
 
 	for i := len(siw.HandlerMiddlewares) - 1; i >= 0; i-- {
@@ -447,79 +450,8 @@ func (siw *ServerInterfaceWrapper) FetchIndustries(w http.ResponseWriter, r *htt
 	handler.ServeHTTP(w, r.WithContext(ctx))
 }
 
-// FetchIndustry operation middleware
-func (siw *ServerInterfaceWrapper) FetchIndustry(w http.ResponseWriter, r *http.Request) {
-	ctx := r.Context()
-
-	var err error
-
-	// ------------- Path parameter "id" -------------
-	var id int
-
-	err = runtime.BindStyledParameterWithLocation("simple", false, "id", runtime.ParamLocationPath, chi.URLParam(r, "id"), &id)
-	if err != nil {
-		siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "id", Err: err})
-		return
-	}
-
-	var handler http.Handler = http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		siw.Handler.FetchIndustry(w, r, id)
-	})
-
-	for i := len(siw.HandlerMiddlewares) - 1; i >= 0; i-- {
-		handler = siw.HandlerMiddlewares[i](handler)
-	}
-
-	handler.ServeHTTP(w, r.WithContext(ctx))
-}
-
-// FetchIndustryIds operation middleware
-func (siw *ServerInterfaceWrapper) FetchIndustryIds(w http.ResponseWriter, r *http.Request) {
-	ctx := r.Context()
-
-	var handler http.Handler = http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		siw.Handler.FetchIndustryIds(w, r)
-	})
-
-	for i := len(siw.HandlerMiddlewares) - 1; i >= 0; i-- {
-		handler = siw.HandlerMiddlewares[i](handler)
-	}
-
-	handler.ServeHTTP(w, r.WithContext(ctx))
-}
-
-// FetchMarketIds operation middleware
-func (siw *ServerInterfaceWrapper) FetchMarketIds(w http.ResponseWriter, r *http.Request) {
-	ctx := r.Context()
-
-	var handler http.Handler = http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		siw.Handler.FetchMarketIds(w, r)
-	})
-
-	for i := len(siw.HandlerMiddlewares) - 1; i >= 0; i-- {
-		handler = siw.HandlerMiddlewares[i](handler)
-	}
-
-	handler.ServeHTTP(w, r.WithContext(ctx))
-}
-
-// FetchMarkets operation middleware
-func (siw *ServerInterfaceWrapper) FetchMarkets(w http.ResponseWriter, r *http.Request) {
-	ctx := r.Context()
-
-	var handler http.Handler = http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		siw.Handler.FetchMarkets(w, r)
-	})
-
-	for i := len(siw.HandlerMiddlewares) - 1; i >= 0; i-- {
-		handler = siw.HandlerMiddlewares[i](handler)
-	}
-
-	handler.ServeHTTP(w, r.WithContext(ctx))
-}
-
-// FetchMarket operation middleware
-func (siw *ServerInterfaceWrapper) FetchMarket(w http.ResponseWriter, r *http.Request) {
+// GetIndustry operation middleware
+func (siw *ServerInterfaceWrapper) GetIndustry(w http.ResponseWriter, r *http.Request) {
 	ctx := r.Context()
 
 	var err error
@@ -534,7 +466,78 @@ func (siw *ServerInterfaceWrapper) FetchMarket(w http.ResponseWriter, r *http.Re
 	}
 
 	var handler http.Handler = http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		siw.Handler.FetchMarket(w, r, id)
+		siw.Handler.GetIndustry(w, r, id)
+	})
+
+	for i := len(siw.HandlerMiddlewares) - 1; i >= 0; i-- {
+		handler = siw.HandlerMiddlewares[i](handler)
+	}
+
+	handler.ServeHTTP(w, r.WithContext(ctx))
+}
+
+// ListIndustryIds operation middleware
+func (siw *ServerInterfaceWrapper) ListIndustryIds(w http.ResponseWriter, r *http.Request) {
+	ctx := r.Context()
+
+	var handler http.Handler = http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		siw.Handler.ListIndustryIds(w, r)
+	})
+
+	for i := len(siw.HandlerMiddlewares) - 1; i >= 0; i-- {
+		handler = siw.HandlerMiddlewares[i](handler)
+	}
+
+	handler.ServeHTTP(w, r.WithContext(ctx))
+}
+
+// ListMarketIds operation middleware
+func (siw *ServerInterfaceWrapper) ListMarketIds(w http.ResponseWriter, r *http.Request) {
+	ctx := r.Context()
+
+	var handler http.Handler = http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		siw.Handler.ListMarketIds(w, r)
+	})
+
+	for i := len(siw.HandlerMiddlewares) - 1; i >= 0; i-- {
+		handler = siw.HandlerMiddlewares[i](handler)
+	}
+
+	handler.ServeHTTP(w, r.WithContext(ctx))
+}
+
+// ListMarkets operation middleware
+func (siw *ServerInterfaceWrapper) ListMarkets(w http.ResponseWriter, r *http.Request) {
+	ctx := r.Context()
+
+	var handler http.Handler = http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		siw.Handler.ListMarkets(w, r)
+	})
+
+	for i := len(siw.HandlerMiddlewares) - 1; i >= 0; i-- {
+		handler = siw.HandlerMiddlewares[i](handler)
+	}
+
+	handler.ServeHTTP(w, r.WithContext(ctx))
+}
+
+// GetMarket operation middleware
+func (siw *ServerInterfaceWrapper) GetMarket(w http.ResponseWriter, r *http.Request) {
+	ctx := r.Context()
+
+	var err error
+
+	// ------------- Path parameter "id" -------------
+	var id int
+
+	err = runtime.BindStyledParameterWithLocation("simple", false, "id", runtime.ParamLocationPath, chi.URLParam(r, "id"), &id)
+	if err != nil {
+		siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "id", Err: err})
+		return
+	}
+
+	var handler http.Handler = http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		siw.Handler.GetMarket(w, r, id)
 	})
 
 	for i := len(siw.HandlerMiddlewares) - 1; i >= 0; i-- {
@@ -658,31 +661,31 @@ func HandlerWithOptions(si ServerInterface, options ChiServerOptions) http.Handl
 	}
 
 	r.Group(func(r chi.Router) {
-		r.Get(options.BaseURL+"/api/v1/companies", wrapper.FetchCompanies)
+		r.Get(options.BaseURL+"/api/v1/companies", wrapper.ListCompanies)
 	})
 	r.Group(func(r chi.Router) {
-		r.Get(options.BaseURL+"/api/v1/companies/{code}", wrapper.FetchCompany)
+		r.Get(options.BaseURL+"/api/v1/companies/{code}", wrapper.GetCompany)
 	})
 	r.Group(func(r chi.Router) {
-		r.Get(options.BaseURL+"/api/v1/company_ids", wrapper.FetchCompanyIds)
+		r.Get(options.BaseURL+"/api/v1/company_ids", wrapper.ListCompanyIds)
 	})
 	r.Group(func(r chi.Router) {
-		r.Get(options.BaseURL+"/api/v1/industries", wrapper.FetchIndustries)
+		r.Get(options.BaseURL+"/api/v1/industries", wrapper.ListIndustries)
 	})
 	r.Group(func(r chi.Router) {
-		r.Get(options.BaseURL+"/api/v1/industries/{id}", wrapper.FetchIndustry)
+		r.Get(options.BaseURL+"/api/v1/industries/{id}", wrapper.GetIndustry)
 	})
 	r.Group(func(r chi.Router) {
-		r.Get(options.BaseURL+"/api/v1/industry_ids", wrapper.FetchIndustryIds)
+		r.Get(options.BaseURL+"/api/v1/industry_ids", wrapper.ListIndustryIds)
 	})
 	r.Group(func(r chi.Router) {
-		r.Get(options.BaseURL+"/api/v1/market_ids", wrapper.FetchMarketIds)
+		r.Get(options.BaseURL+"/api/v1/market_ids", wrapper.ListMarketIds)
 	})
 	r.Group(func(r chi.Router) {
-		r.Get(options.BaseURL+"/api/v1/markets", wrapper.FetchMarkets)
+		r.Get(options.BaseURL+"/api/v1/markets", wrapper.ListMarkets)
 	})
 	r.Group(func(r chi.Router) {
-		r.Get(options.BaseURL+"/api/v1/markets/{id}", wrapper.FetchMarket)
+		r.Get(options.BaseURL+"/api/v1/markets/{id}", wrapper.GetMarket)
 	})
 
 	return r
@@ -691,43 +694,43 @@ func HandlerWithOptions(si ServerInterface, options ChiServerOptions) http.Handl
 // Base64 encoded, gzipped, json marshaled Swagger object
 var swaggerSpec = []string{
 
-	"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",
-	"AAA=",
+	"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",
 }
 
 // GetSwagger returns the content of the embedded swagger specification file

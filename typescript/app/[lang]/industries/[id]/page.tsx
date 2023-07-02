@@ -1,4 +1,4 @@
-import { FetchCompaniesSortTypeEnum } from "@/client"
+import { ListCompaniesSortTypeEnum } from "@/client"
 import SearchInput from "@/components/SearchInput"
 import SortTypes from "@/components/SortTypes"
 import CompanyTable from "@/components/CompanyTable"
@@ -14,7 +14,7 @@ export async function generateMetadata({
   params: { lang: string; id: number }
 }): Promise<Metadata> {
   const dict = await getDictionary(lang)
-  const industryDict = dict.models.markets
+  const industryDict = dict.models.industries
   const industry = await getIndustry({ id })
   const description =
     lang === "ja" ? `${industry.name}の企業一覧です。` : `List of ${industry.name} companies.`
@@ -34,7 +34,7 @@ export default async function Page({
   params: { lang: string; id: number }
   searchParams: {
     page: number
-    sortType: FetchCompaniesSortTypeEnum
+    sortType: ListCompaniesSortTypeEnum
     q: string
   }
 }) {
@@ -42,7 +42,7 @@ export default async function Page({
   const industryDict = dict.models.industries
   const fetchCompanies = useCompanies({ industryId: id, page, sortType, q })
   const { companies, meta } = await fetchCompanies
-  const { from, prev, next } = meta
+  const { offsetCount, prevPage, nextPage } = meta
   const industry = await getIndustry({ id })
 
   return (
@@ -62,7 +62,7 @@ export default async function Page({
       {/* companies */}
       <CompanyTable
         companies={companies}
-        from={from}
+        from={offsetCount}
         lang={lang}
         dict={dict.components.CompanyTable}
         markets={dict.models.markets}
@@ -80,8 +80,8 @@ export default async function Page({
           pathname: `/${lang}/industries/${id}`,
           query: formatQueryParams({ page: Number(page) + 1, sortType, q }),
         }}
-        prev={prev}
-        next={next}
+        prev={prevPage}
+        next={nextPage}
         dict={dict.components.Pagination}
       />
       {/* pagination */}

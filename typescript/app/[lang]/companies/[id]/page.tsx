@@ -287,7 +287,7 @@ export default async function Page({
 const getCompany = async (id: number) => {
   const config = new Configuration({ basePath: NEXT_PUBLIC_API_URL })
   const DefaultAPI = new DefaultApi(config)
-  const res = await DefaultAPI.fetchCompany({ code: id })
+  const res = await DefaultAPI.getCompany({ code: id })
   const { company } = res
   return company
 }

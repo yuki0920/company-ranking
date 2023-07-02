@@ -6,8 +6,8 @@ models/EachCompany.ts
 models/EachIndustryCategory.ts
 models/EachIndustryCategoryIndustry.ts
 models/EachMarket.ts
-models/FetchCompanyIds200Response.ts
 models/Industry.ts
+models/ListCompanyIds200Response.ts
 models/Market.ts
 models/Meta.ts
 models/ResponseCompanies.ts

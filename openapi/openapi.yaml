@@ -5,7 +5,7 @@ info:
 paths:
   /api/v1/companies:
     get:
-      operationId: fetchCompanies
+      operationId: ListCompanies
       summary: Get and Search Companies
       parameters:
         - in: query
@@ -43,7 +43,7 @@ paths:
                 $ref: "#/components/schemas/responseCompanies"
   /api/v1/companies/{code}:
     get:
-      operationId: fetchCompany
+      operationId: GetCompany
       summary: Get Company
       parameters:
         - in: path
@@ -60,7 +60,7 @@ paths:
                 $ref: "#/components/schemas/responseCompany"
   /api/v1/industries:
     get:
-      operationId: fetchIndustries
+      operationId: ListIndustries
       summary: Get Industries
       responses:
         "200":
@@ -71,7 +71,7 @@ paths:
                 $ref: "#/components/schemas/responseIndustries"
   /api/v1/industries/{id}:
     get:
-      operationId: fetchIndustry
+      operationId: GetIndustry
       summary: Get Industry
       parameters:
         - in: path
@@ -88,7 +88,7 @@ paths:
                 $ref: "#/components/schemas/responseIndustry"
   /api/v1/markets:
     get:
-      operationId: fetchMarkets
+      operationId: ListMarkets
       summary: Get Markets
       responses:
         "200":
@@ -99,7 +99,7 @@ paths:
                 $ref: "#/components/schemas/responseMarkets"
   /api/v1/markets/{id}:
     get:
-      operationId: fetchMarket
+      operationId: GetMarket
       summary: Get Market
       parameters:
         - in: path
@@ -116,7 +116,7 @@ paths:
                 $ref: "#/components/schemas/responseMarket"
   /api/v1/company_ids:
     get:
-      operationId: fetchCompanyIds
+      operationId: ListCompanyIds
       summary: Get CompanyIds
       responses:
         "200":
@@ -134,7 +134,7 @@ paths:
                       type: integer
   /api/v1/industry_ids:
     get:
-      operationId: fetchIndustryIds
+      operationId: ListIndustryIds
       summary: Get IndustryIds
       responses:
         "200":
@@ -145,7 +145,7 @@ paths:
                 $ref: "#/components/schemas/responseIndustryIDs"
   /api/v1/market_ids:
     get:
-      operationId: fetchMarketIds
+      operationId: ListMarketIds
       summary: Get MarketIds
       responses:
         "200":
@@ -573,34 +573,38 @@ components:
     meta:
       type: object
       required:
-        - from
-        - count
-        - items
-        - page
-        - pages
-        - prev
-        - next
+        - offset_count
+        - total_count
+        - limit_count
+        - current_page
+        - last_page
+        - prev_page
+        - next_page
+        - sort_type
       properties:
-        from:
+        offset_count:
           type: integer
           description: アイテムの取得開始位置
-        count:
+        total_count:
           type: integer
           description: 総アイテム数
-        items:
+        limit_count:
           type: integer
           description: 1ページあたりのアイテム数
-        page:
+        current_page:
           type: integer
           description: 現在のページ番号
-        pages:
+        last_page:
           type: integer
           description: 最後ののページ番号
-        prev:
+        prev_page:
           type: integer
           nullable: true
           description: 前のページ番号
-        next:
+        next_page:
           type: integer
           nullable: true
           description: 次のページ番号
+        sort_type:
+          type: string
+          description: ソートタイプ

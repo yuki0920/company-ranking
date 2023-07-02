@@ -1,4 +1,4 @@
-import { FetchCompaniesSortTypeEnum } from "@/client"
+import { ListCompaniesSortTypeEnum } from "@/client"
 import SearchInput from "@/components/SearchInput"
 import SortTypes from "@/components/SortTypes"
 import CompanyTable from "@/components/CompanyTable"
@@ -27,14 +27,14 @@ export default async function Page({
   params: { lang: string }
   searchParams: {
     page: number
-    sortType: FetchCompaniesSortTypeEnum
+    sortType: ListCompaniesSortTypeEnum
     q: string
   }
 }) {
   const dict = await getDictionary(lang)
   const fetchCompanies = useCompanies({ page, sortType, q })
   const { companies, meta } = await fetchCompanies
-  const { from, prev, next } = meta
+  const { offsetCount, prevPage, nextPage } = meta
 
   return (
     <>
@@ -49,7 +49,7 @@ export default async function Page({
       {/* companies */}
       <CompanyTable
         companies={companies}
-        from={from}
+        from={offsetCount}
         lang={lang}
         dict={dict.components.CompanyTable}
         markets={dict.models.markets}
@@ -67,8 +67,8 @@ export default async function Page({
           pathname: `/${lang}/companies`,
           query: formatQueryParams({ page: Number(page) + 1, sortType, q }),
         }}
-        prev={prev}
-        next={next}
+        prev={prevPage}
+        next={nextPage}
         dict={dict.components.Pagination}
       />
       {/* pagination */}

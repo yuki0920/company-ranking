@@ -16,42 +16,42 @@ import { exists, mapValues } from '../runtime';
 /**
  * 
  * @export
- * @interface ResponseMarketIDs
+ * @interface ListCompanyIds200Response
  */
-export interface ResponseMarketIDs {
+export interface ListCompanyIds200Response {
     /**
      * 
      * @type {Array<number>}
-     * @memberof ResponseMarketIDs
+     * @memberof ListCompanyIds200Response
      */
-    marketIds: Array<number>;
+    companyIds: Array<number>;
 }
 
 /**
- * Check if a given object implements the ResponseMarketIDs interface.
+ * Check if a given object implements the ListCompanyIds200Response interface.
  */
-export function instanceOfResponseMarketIDs(value: object): boolean {
+export function instanceOfListCompanyIds200Response(value: object): boolean {
     let isInstance = true;
-    isInstance = isInstance && "marketIds" in value;
+    isInstance = isInstance && "companyIds" in value;
 
     return isInstance;
 }
 
-export function ResponseMarketIDsFromJSON(json: any): ResponseMarketIDs {
-    return ResponseMarketIDsFromJSONTyped(json, false);
+export function ListCompanyIds200ResponseFromJSON(json: any): ListCompanyIds200Response {
+    return ListCompanyIds200ResponseFromJSONTyped(json, false);
 }
 
-export function ResponseMarketIDsFromJSONTyped(json: any, ignoreDiscriminator: boolean): ResponseMarketIDs {
+export function ListCompanyIds200ResponseFromJSONTyped(json: any, ignoreDiscriminator: boolean): ListCompanyIds200Response {
     if ((json === undefined) || (json === null)) {
         return json;
     }
     return {
         
-        'marketIds': json['market_ids'],
+        'companyIds': json['company_ids'],
     };
 }
 
-export function ResponseMarketIDsToJSON(value?: ResponseMarketIDs | null): any {
+export function ListCompanyIds200ResponseToJSON(value?: ListCompanyIds200Response | null): any {
     if (value === undefined) {
         return undefined;
     }
@@ -60,7 +60,7 @@ export function ResponseMarketIDsToJSON(value?: ResponseMarketIDs | null): any {
     }
     return {
         
-        'market_ids': value.marketIds,
+        'company_ids': value.companyIds,
     };
 }
 
