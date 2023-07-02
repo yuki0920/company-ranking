@@ -12,7 +12,7 @@ export function useCreateQueryString() {
 
       return params.toString()
     },
-    []
+    [],
   )
 
   return createQueryString

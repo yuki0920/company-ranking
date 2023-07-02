@@ -1,23 +1,23 @@
-'use client'
+"use client"
 
-import { usePathname, useRouter } from 'next/navigation'
-import { i18n } from '@/dictionaries/i18n-config'
+import { usePathname, useRouter } from "next/navigation"
+import { i18n } from "@/dictionaries/i18n-config"
 
 export default function LocaleSwitcher() {
   // const [currentSelected, setCurrentSelected] = useState('ja')
   const pathName = usePathname()
   const router = useRouter()
   const redirectedPathName = (locale: string) => {
-    if (!pathName) return '/'
-    const segments = pathName.split('/')
+    if (!pathName) return "/"
+    const segments = pathName.split("/")
     segments[1] = locale
-    return segments.join('/')
+    return segments.join("/")
   }
 
-  let currentSelected = 'ja'
+  let currentSelected = "ja"
   if (pathName) {
-    const tmpLocale = pathName.split('/')[1]
-    i18n.locales.forEach(locale => {
+    const tmpLocale = pathName.split("/")[1]
+    i18n.locales.forEach((locale) => {
       if (tmpLocale === locale) {
         currentSelected = locale
       }
@@ -26,26 +26,23 @@ export default function LocaleSwitcher() {
 
   return (
     <>
-    <select
-      className="select max-w-xs"
-      onChange={(event: any) => {
-        event.preventDefault()
-        const locale = event.target.value
-        router.push(redirectedPathName(locale))
-      }}
-      value={currentSelected}
-    >
-      {i18n.locales.map((locale) => {
-        return (
-          <option
-            key={locale}
-            value={locale}
-          >
-            {locale.toUpperCase()}
-          </option>
-        )
-      })}
-    </select>
+      <select
+        className='select max-w-xs'
+        onChange={(event: any) => {
+          event.preventDefault()
+          const locale = event.target.value
+          router.push(redirectedPathName(locale))
+        }}
+        value={currentSelected}
+      >
+        {i18n.locales.map((locale) => {
+          return (
+            <option key={locale} value={locale}>
+              {locale.toUpperCase()}
+            </option>
+          )
+        })}
+      </select>
     </>
   )
 }
