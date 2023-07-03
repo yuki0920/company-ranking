@@ -306,7 +306,7 @@ func SecurityCountByMarket(ctx context.Context, db DB) (map[int]int, error) {
 
 func SecurityCodes(ctx context.Context, db DB) ([]int64, error) {
 	var codes []int64
-	const sqlstr = `SELECT code FROM securities`
+	const sqlstr = `SELECT code FROM securities INNER JOIN documents ON documents.security_code = securities.code ORDER BY securities.code`
 	logf(sqlstr)
 	rows, err := db.QueryContext(ctx, sqlstr)
 	if err != nil {
