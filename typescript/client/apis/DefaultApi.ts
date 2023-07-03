@@ -17,21 +17,19 @@ import * as runtime from '../runtime';
 import type {
   ResponseCompanies,
   ResponseCompany,
-  ResponseCompanyIDs,
   ResponseIndustries,
   ResponseIndustry,
   ResponseIndustryIDs,
   ResponseMarket,
   ResponseMarketIDs,
   ResponseMarkets,
+  ResponseSecurityCodes,
 } from '../models';
 import {
     ResponseCompaniesFromJSON,
     ResponseCompaniesToJSON,
     ResponseCompanyFromJSON,
     ResponseCompanyToJSON,
-    ResponseCompanyIDsFromJSON,
-    ResponseCompanyIDsToJSON,
     ResponseIndustriesFromJSON,
     ResponseIndustriesToJSON,
     ResponseIndustryFromJSON,
@@ -44,6 +42,8 @@ import {
     ResponseMarketIDsToJSON,
     ResponseMarketsFromJSON,
     ResponseMarketsToJSON,
+    ResponseSecurityCodesFromJSON,
+    ResponseSecurityCodesToJSON,
 } from '../models';
 
 export interface GetCompanyRequest {
@@ -212,32 +212,6 @@ export class DefaultApi extends runtime.BaseAPI {
     }
 
     /**
-     * Get CompanyIds
-     */
-    async listCompanyIdsRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<ResponseCompanyIDs>> {
-        const queryParameters: any = {};
-
-        const headerParameters: runtime.HTTPHeaders = {};
-
-        const response = await this.request({
-            path: `/api/v1/company_ids`,
-            method: 'GET',
-            headers: headerParameters,
-            query: queryParameters,
-        }, initOverrides);
-
-        return new runtime.JSONApiResponse(response, (jsonValue) => ResponseCompanyIDsFromJSON(jsonValue));
-    }
-
-    /**
-     * Get CompanyIds
-     */
-    async listCompanyIds(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<ResponseCompanyIDs> {
-        const response = await this.listCompanyIdsRaw(initOverrides);
-        return await response.value();
-    }
-
-    /**
      * Get Industries
      */
     async listIndustriesRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<ResponseIndustries>> {
@@ -338,6 +312,32 @@ export class DefaultApi extends runtime.BaseAPI {
      */
     async listMarkets(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<ResponseMarkets> {
         const response = await this.listMarketsRaw(initOverrides);
+        return await response.value();
+    }
+
+    /**
+     * Get CompanyIds
+     */
+    async listSecurityCodesRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<ResponseSecurityCodes>> {
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        const response = await this.request({
+            path: `/api/v1/security_codes`,
+            method: 'GET',
+            headers: headerParameters,
+            query: queryParameters,
+        }, initOverrides);
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => ResponseSecurityCodesFromJSON(jsonValue));
+    }
+
+    /**
+     * Get CompanyIds
+     */
+    async listSecurityCodes(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<ResponseSecurityCodes> {
+        const response = await this.listSecurityCodesRaw(initOverrides);
         return await response.value();
     }
 

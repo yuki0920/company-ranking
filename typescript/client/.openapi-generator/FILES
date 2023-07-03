@@ -11,12 +11,12 @@ models/Market.ts
 models/Meta.ts
 models/ResponseCompanies.ts
 models/ResponseCompany.ts
-models/ResponseCompanyIDs.ts
 models/ResponseIndustries.ts
 models/ResponseIndustry.ts
 models/ResponseIndustryIDs.ts
 models/ResponseMarket.ts
 models/ResponseMarketIDs.ts
 models/ResponseMarkets.ts
+models/ResponseSecurityCodes.ts
 models/index.ts
 runtime.ts
