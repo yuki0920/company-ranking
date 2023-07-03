@@ -16,32 +16,32 @@ import { exists, mapValues } from '../runtime';
 /**
  * 
  * @export
- * @interface ResponseCompanyIDs
+ * @interface ResponseSecurityCodes
  */
-export interface ResponseCompanyIDs {
+export interface ResponseSecurityCodes {
     /**
      * 
      * @type {Array<number>}
-     * @memberof ResponseCompanyIDs
+     * @memberof ResponseSecurityCodes
      */
     securityCodes: Array<number>;
 }
 
 /**
- * Check if a given object implements the ResponseCompanyIDs interface.
+ * Check if a given object implements the ResponseSecurityCodes interface.
  */
-export function instanceOfResponseCompanyIDs(value: object): boolean {
+export function instanceOfResponseSecurityCodes(value: object): boolean {
     let isInstance = true;
     isInstance = isInstance && "securityCodes" in value;
 
     return isInstance;
 }
 
-export function ResponseCompanyIDsFromJSON(json: any): ResponseCompanyIDs {
-    return ResponseCompanyIDsFromJSONTyped(json, false);
+export function ResponseSecurityCodesFromJSON(json: any): ResponseSecurityCodes {
+    return ResponseSecurityCodesFromJSONTyped(json, false);
 }
 
-export function ResponseCompanyIDsFromJSONTyped(json: any, ignoreDiscriminator: boolean): ResponseCompanyIDs {
+export function ResponseSecurityCodesFromJSONTyped(json: any, ignoreDiscriminator: boolean): ResponseSecurityCodes {
     if ((json === undefined) || (json === null)) {
         return json;
     }
@@ -51,7 +51,7 @@ export function ResponseCompanyIDsFromJSONTyped(json: any, ignoreDiscriminator: 
     };
 }
 
-export function ResponseCompanyIDsToJSON(value?: ResponseCompanyIDs | null): any {
+export function ResponseSecurityCodesToJSON(value?: ResponseSecurityCodes | null): any {
     if (value === undefined) {
         return undefined;
     }

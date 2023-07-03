@@ -273,17 +273,17 @@ func (s *Server) GetCompany(w http.ResponseWriter, r *http.Request, code int) {
 	_ = json.NewEncoder(w).Encode(res)
 }
 
-func (s *Server) ListCompanyIds(w http.ResponseWriter, r *http.Request) {
+func (s *Server) ListSecurityCodes(w http.ResponseWriter, r *http.Request) {
 	ctx := context.Background()
-	ids, err := models.SecurityIds(ctx, s.DB)
+	codes, err := models.SecurityCodes(ctx, s.DB)
 	if err != nil {
-		message := "failed to fetch security ids"
+		message := "failed to fetch security codes"
 		ErrorResponse(w, http.StatusInternalServerError, message)
 		return
 	}
 
-	res := ResponseCompanyIDs{
-		CompanyIds: ids,
+	res := ResponseSecurityCodes{
+		SecurityCodes: codes,
 	}
 
 	w.WriteHeader(http.StatusOK)

@@ -289,12 +289,12 @@ export default async function Page({
 export async function generateStaticParams() {
   const config = new Configuration({ basePath: NEXT_PUBLIC_API_URL })
   const DefaultAPI = new DefaultApi(config)
-  const res = await DefaultAPI.listCompanyIds()
-  const { companyIds } = res
+  const res = await DefaultAPI.listSecurityCodes()
+  const { securityCodes } = res
   const params =  i18n.locales.flatMap(locale => {
-    return companyIds.map(companyId => {
+    return securityCodes.map(code => {
       return {
-        id: companyId.toString(),
+        id: code.toString(),
         lang: locale,
       }
     })

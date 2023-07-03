@@ -114,9 +114,9 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/responseMarket"
-  /api/v1/company_ids:
+  /api/v1/security_codes:
     get:
-      operationId: ListCompanyIds
+      operationId: ListSecurityCodes
       summary: Get CompanyIds
       responses:
         "200":
@@ -124,7 +124,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/responseCompanyIDs"
+                $ref: "#/components/schemas/responseSecurityCodes"
   /api/v1/industry_ids:
     get:
       operationId: ListIndustryIds
@@ -563,12 +563,12 @@ components:
           format: int64
         name:
           type: string
-    responseCompanyIDs:
+    responseSecurityCodes:
       type: object
       required:
-        - company_ids
+        - security_codes
       properties:
-        company_ids:
+        security_codes:
           type: array
           items:
             type: integer

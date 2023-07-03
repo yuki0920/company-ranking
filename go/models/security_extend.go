@@ -304,13 +304,13 @@ func SecurityCountByMarket(ctx context.Context, db DB) (map[int]int, error) {
 	return counts, nil
 }
 
-func SecurityIds(ctx context.Context, db DB) ([]int64, error) {
-	var ids []int64
-	const sqlstr = `SELECT id FROM securities`
+func SecurityCodes(ctx context.Context, db DB) ([]int64, error) {
+	var codes []int64
+	const sqlstr = `SELECT code FROM securities`
 	logf(sqlstr)
 	rows, err := db.QueryContext(ctx, sqlstr)
 	if err != nil {
-		return ids, logerror(err)
+		return codes, logerror(err)
 	}
 	defer rows.Close()
 
@@ -318,12 +318,12 @@ func SecurityIds(ctx context.Context, db DB) ([]int64, error) {
 		var id int64
 		err := rows.Scan(&id)
 		if err != nil {
-			return ids, logerror(err)
+			return codes, logerror(err)
 		}
-		ids = append(ids, id)
+		codes = append(codes, id)
 	}
 	if err := rows.Err(); err != nil {
-		return ids, logerror(err)
+		return codes, logerror(err)
 	}
-	return ids, nil
+	return codes, nil
 }
