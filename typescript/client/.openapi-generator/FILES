@@ -7,11 +7,11 @@ models/EachIndustryCategory.ts
 models/EachIndustryCategoryIndustry.ts
 models/EachMarket.ts
 models/Industry.ts
-models/ListCompanyIds200Response.ts
 models/Market.ts
 models/Meta.ts
 models/ResponseCompanies.ts
 models/ResponseCompany.ts
+models/ResponseCompanyIDs.ts
 models/ResponseIndustries.ts
 models/ResponseIndustry.ts
 models/ResponseIndustryIDs.ts

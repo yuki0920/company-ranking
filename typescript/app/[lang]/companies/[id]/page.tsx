@@ -4,6 +4,7 @@ import Link from "next/link"
 import { numberWithDelimiter, percentNumber, divide_1_000, divide_1_000_000 } from "@/lib/utility"
 import { Metadata } from "next"
 import { getDictionary } from "@/hooks/GetDictionary"
+import { i18n } from "@/dictionaries/i18n-config"
 
 export async function generateMetadata({
   params: { lang, id },
@@ -282,6 +283,24 @@ export default async function Page({
       </div>
     </>
   )
+}
+
+
+export async function generateStaticParams() {
+  const config = new Configuration({ basePath: NEXT_PUBLIC_API_URL })
+  const DefaultAPI = new DefaultApi(config)
+  const res = await DefaultAPI.listCompanyIds()
+  const { companyIds } = res
+  const params =  i18n.locales.flatMap(locale => {
+    return companyIds.map(companyId => {
+      return {
+        id: companyId.toString(),
+        lang: locale,
+      }
+    })
+  })
+
+  return params
 }
 
 const getCompany = async (id: number) => {
