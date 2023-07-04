@@ -11,9 +11,7 @@
       "industry": "Search by industry"
     },
     "companies": {
-      "metadata": {
-        "title": "All Companies"
-      }
+      "title": "All Companies"
     },
     "markets": {
       "title": "Market Companies"
@@ -154,5 +152,8 @@
       "8050": "Real Estate",
       "9050": "Services"
     }
+  },
+  "units": {
+    "result": "results"
   }
 }
