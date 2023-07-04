@@ -3,7 +3,7 @@ import SearchInput from "@/components/SearchInput"
 import SortTypes from "@/components/SortTypes"
 import CompanyTable from "@/components/CompanyTable"
 import Pagination from "@/components/Pagination"
-import { useCompanies } from "@/hooks/FetchData"
+import { listCompanies } from "@/hooks/GetData"
 import { Metadata } from "next"
 import { formatQueryParams } from "@/lib/utility"
 import { getDictionary } from "@/hooks/GetDictionary"
@@ -32,8 +32,7 @@ export default async function Page({
   }
 }) {
   const dict = await getDictionary(lang)
-  const fetchCompanies = useCompanies({ page, sortType, q })
-  const { companies, meta } = await fetchCompanies
+  const { companies, meta } = await listCompanies({ page, sortType, q })
   const { offsetCount, prevPage, nextPage } = meta
 
   return (

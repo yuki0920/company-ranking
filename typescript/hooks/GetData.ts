@@ -9,7 +9,7 @@ import { NEXT_PUBLIC_API_URL } from "@/constant"
 const config = new Configuration({ basePath: NEXT_PUBLIC_API_URL })
 const api = new DefaultApi(config)
 
-export const useCompanies = async ({
+export const listCompanies = async ({
   page,
   sortType,
   q,
@@ -30,12 +30,27 @@ export const useCompanies = async ({
   return { companies, meta }
 }
 
-export const useMarket = async ({ id }: { id: number }) => {
+export const getCompany = async ({ code }: { code: number }) => {
+  const { company } = await api.getCompany({ code })
+  return company
+}
+
+export const getMarket = async ({ id }: { id: number }) => {
   const { market } = await api.getMarket({ id })
   return market
 }
 
-export const useIndustry = async ({ id }: { id: number }) => {
+export const getMarkets = async () => {
+  const { markets } = await api.listMarkets()
+  return markets
+}
+
+export const getIndustry = async ({ id }: { id: number }) => {
   const { industry } = await api.getIndustry({ id })
   return industry
+}
+
+export const getIndustries = async () => {
+  const { industryCategories } = await api.listIndustries()
+  return industryCategories
 }
