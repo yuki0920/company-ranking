@@ -7,6 +7,7 @@ import { listCompanies } from "@/hooks/GetData"
 import { Metadata } from "next"
 import { formatQueryParams } from "@/lib/utility"
 import { getDictionary } from "@/hooks/GetDictionary"
+import NumberOfResults from "@/components/NumberOfResults"
 
 export async function generateMetadata({
   params: { lang },
@@ -16,7 +17,7 @@ export async function generateMetadata({
   const dict = await getDictionary(lang)
 
   return {
-    title: dict.pages.companies.metadata.title,
+    title: dict.pages.companies.title,
   }
 }
 
@@ -33,10 +34,21 @@ export default async function Page({
 }) {
   const dict = await getDictionary(lang)
   const { companies, meta } = await listCompanies({ page, sortType, q })
-  const { offsetCount, prevPage, nextPage } = meta
+  const { offsetCount, totalCount, limitCount, currentPage, lastPage, prevPage, nextPage,  } = meta
 
   return (
     <>
+      <h1 className='text-xl'>
+        {dict.pages.companies.title}
+        <NumberOfResults
+          currentPage={currentPage}
+          lastPage={lastPage}
+          offsetCount={offsetCount}
+          limitCount={limitCount}
+          totalCount={totalCount}
+          unit={dict.units.result}
+        />
+      </h1>
       {/* search */}
       <SearchInput query={q} dict={dict.components.SearchInput} />
       {/* search */}
