@@ -13,12 +13,12 @@
  */
 
 import { exists, mapValues } from '../runtime';
-import type { EachIndustryCategory } from './EachIndustryCategory';
+import type { EachIndustry } from './EachIndustry';
 import {
-    EachIndustryCategoryFromJSON,
-    EachIndustryCategoryFromJSONTyped,
-    EachIndustryCategoryToJSON,
-} from './EachIndustryCategory';
+    EachIndustryFromJSON,
+    EachIndustryFromJSONTyped,
+    EachIndustryToJSON,
+} from './EachIndustry';
 
 /**
  * 
@@ -28,10 +28,10 @@ import {
 export interface ResponseIndustries {
     /**
      * 
-     * @type {Array<EachIndustryCategory>}
+     * @type {Array<EachIndustry>}
      * @memberof ResponseIndustries
      */
-    industryCategories: Array<EachIndustryCategory>;
+    industries: Array<EachIndustry>;
 }
 
 /**
@@ -39,7 +39,7 @@ export interface ResponseIndustries {
  */
 export function instanceOfResponseIndustries(value: object): boolean {
     let isInstance = true;
-    isInstance = isInstance && "industryCategories" in value;
+    isInstance = isInstance && "industries" in value;
 
     return isInstance;
 }
@@ -54,7 +54,7 @@ export function ResponseIndustriesFromJSONTyped(json: any, ignoreDiscriminator: 
     }
     return {
         
-        'industryCategories': ((json['industry_categories'] as Array<any>).map(EachIndustryCategoryFromJSON)),
+        'industries': ((json['industries'] as Array<any>).map(EachIndustryFromJSON)),
     };
 }
 
@@ -67,7 +67,7 @@ export function ResponseIndustriesToJSON(value?: ResponseIndustries | null): any
     }
     return {
         
-        'industry_categories': ((value.industryCategories as Array<any>).map(EachIndustryCategoryToJSON)),
+        'industries': ((value.industries as Array<any>).map(EachIndustryToJSON)),
     };
 }
 

@@ -2,8 +2,7 @@
 /* eslint-disable */
 export * from './Company';
 export * from './EachCompany';
-export * from './EachIndustryCategory';
-export * from './EachIndustryCategoryIndustry';
+export * from './EachIndustry';
 export * from './EachMarket';
 export * from './Industry';
 export * from './Market';

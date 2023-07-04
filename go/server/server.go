@@ -304,36 +304,19 @@ func (s *Server) ListIndustries(w http.ResponseWriter, r *http.Request) {
 		ErrorResponse(w, http.StatusInternalServerError, message)
 		return
 	}
-	categories, err := models.IndustryCategoryALL(ctx, s.DB)
-	if err != nil {
-		message := "failed to fetch category counts"
-		ErrorResponse(w, http.StatusInternalServerError, message)
-		return
-	}
 
-	var eachCategories []EachIndustryCategory
-	for _, category := range categories {
-		var eachCategory EachIndustryCategory
-		eachCategory.Id = category.ID
-		eachCategory.Name = category.Name
-		var inds []EachIndustryCategoryIndustry
-		for _, industry := range industries {
-			if industry.IndustryCategoryID.Int64 == category.ID {
-				ind := EachIndustryCategoryIndustry{
-					Id:    industry.ID,
-					Name:  industry.Name,
-					Code:  int32(industry.Code),
-					Count: int32(counts[industry.Code]),
-				}
-				inds = append(inds, ind)
-			}
-		}
-		eachCategory.Industries = &inds
-		eachCategories = append(eachCategories, eachCategory)
+	var eachIndustries []EachIndustry
+	for _, industry := range industries {
+		var eachIndustry EachIndustry
+		eachIndustry.Id = industry.ID
+		eachIndustry.Name = industry.Name
+		eachIndustry.Code = int32(industry.Code)
+		eachIndustry.Count = int32(counts[industry.Code])
+		eachIndustries = append(eachIndustries, eachIndustry)
 	}
 
 	res := ResponseIndustries{
-		IndustryCategories: eachCategories,
+		Industries: eachIndustries,
 	}
 	w.WriteHeader(http.StatusOK)
 	_ = json.NewEncoder(w).Encode(res)

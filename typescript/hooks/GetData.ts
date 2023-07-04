@@ -51,6 +51,6 @@ export const getIndustry = async ({ id }: { id: number }) => {
 }
 
 export const getIndustries = async () => {
-  const { industryCategories } = await api.listIndustries()
-  return industryCategories
+  const { industries } = await api.listIndustries()
+  return industries
 }
