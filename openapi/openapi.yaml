@@ -436,30 +436,13 @@ components:
     responseIndustries:
       type: object
       required:
-        - industry_categories
-      properties:
-        industry_categories:
-          type: array
-          items:
-            $ref: "#/components/schemas/eachIndustryCategory"
-    eachIndustryCategory:
-      type: object
-      required:
-        - id
-        - name
         - industries
       properties:
-        id:
-          type: integer
-          format: int64
-        name:
-          type: string
         industries:
           type: array
-          nullable: true
           items:
-            $ref: "#/components/schemas/eachIndustryCategoryIndustry"
-    eachIndustryCategoryIndustry:
+            $ref: "#/components/schemas/eachIndustry"
+    eachIndustry:
       type: object
       required:
         - id

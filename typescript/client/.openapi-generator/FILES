@@ -3,8 +3,7 @@ apis/index.ts
 index.ts
 models/Company.ts
 models/EachCompany.ts
-models/EachIndustryCategory.ts
-models/EachIndustryCategoryIndustry.ts
+models/EachIndustry.ts
 models/EachMarket.ts
 models/Industry.ts
 models/Market.ts

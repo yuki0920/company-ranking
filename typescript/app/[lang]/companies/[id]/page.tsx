@@ -5,13 +5,14 @@ import { numberWithDelimiter, percentNumber, divide_1_000, divide_1_000_000 } fr
 import { Metadata } from "next"
 import { getDictionary } from "@/hooks/GetDictionary"
 import { i18n } from "@/dictionaries/i18n-config"
+import { getCompany } from "@/hooks/GetData"
 
 export async function generateMetadata({
   params: { lang, id },
 }: {
   params: { lang: string; id: number }
 }): Promise<Metadata> {
-  const company = await getCompany(id)
+  const company = await getCompany({ code: id })
   const name = lang === "ja" ? company.companyName : company.companyNameEn
   const description =
     lang === "ja"
@@ -33,7 +34,7 @@ export default async function Page({
   const dict = dictionary.pages.company
   const marketDict = dictionary.models.markets
   const industryDict = dictionary.models.industries
-  const company = await getCompany(id)
+  const company = await getCompany({ code: id })
   return (
     <>
       {/* bread crumb */}
@@ -301,12 +302,4 @@ export async function generateStaticParams() {
   })
 
   return params
-}
-
-const getCompany = async (id: number) => {
-  const config = new Configuration({ basePath: NEXT_PUBLIC_API_URL })
-  const DefaultAPI = new DefaultApi(config)
-  const res = await DefaultAPI.getCompany({ code: id })
-  const { company } = res
-  return company
 }

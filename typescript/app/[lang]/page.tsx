@@ -1,17 +1,16 @@
-import { DefaultApi, Configuration } from "@/client"
-import { NEXT_PUBLIC_API_URL } from "@/constant"
 import Link from "next/link"
 import SearchInput from "@/components/SearchInput"
 import { getDictionary } from "@/hooks/GetDictionary"
+import { getMarkets, getIndustries } from "@/hooks/GetData"
 
 export default async function TopPage({ params: { lang } }: { params: { lang: string } }) {
   const dict = await getDictionary(lang)
-
-  const [{ industryCategories }, { markets }] = await Promise.all([getIndustries(), getMarkets()])
+  const [industries, markets] = await Promise.all([getIndustries(), getMarkets()])
+  console.log({industries})
 
   return (
     <>
-      {industryCategories !== null ? (
+      {industries !== null && industries !== undefined ? (
         <div className='toppage flex flex-col min-h-screen'>
           <div className='container mt-3'>
             <SearchInput query={""} dict={dict.components.SearchInput} isCompanies={true} />
@@ -43,25 +42,20 @@ export default async function TopPage({ params: { lang } }: { params: { lang: st
                 {/* icon */}
                 {dict.pages.top.industry}
               </h2>
-              {industryCategories.map((industryCategory) => (
-                <div key={`industry-category-${industryCategory.id}`}>
-                  <ul className='row list-unstyled grid grid-cols-2 sm:grid-cols-6 gap-2'>
-                    {industryCategory.industries !== null &&
-                      industryCategory.industries.map((industry) => (
-                        <li key={`industry-${industry.id}`} className='col-6 col-sm-2 link-text'>
-                          <Link href={`${lang}/industries/${industry.id}`}>
-                            {
-                              dict.models.industries[
-                                industry.code.toString() as keyof typeof dict.models.industries
-                              ]
-                            }
-                            ({industry.count})
-                          </Link>
-                        </li>
-                      ))}
-                  </ul>
-                </div>
-              ))}
+              <ul className='row list-unstyled grid grid-cols-2 sm:grid-cols-6 gap-2'>
+                {industries.map(industry => (
+                  <li key={`industry-${industry.id}`} className='col-6 col-sm-2 link-text'>
+                    <Link href={`${lang}/industries/${industry.id}`}>
+                      {
+                        dict.models.industries[
+                          industry.code.toString() as keyof typeof dict.models.industries
+                        ]
+                      }
+                      ({industry.count})
+                    </Link>
+                  </li>
+                ))}
+              </ul>
             </section>
           </div>
         </div>
@@ -74,16 +68,4 @@ export default async function TopPage({ params: { lang } }: { params: { lang: st
       )}
     </>
   )
-}
-
-const getIndustries = async () => {
-  const config = new Configuration({ basePath: NEXT_PUBLIC_API_URL })
-  const DefaultAPI = new DefaultApi(config)
-  return await DefaultAPI.listIndustries()
-}
-
-const getMarkets = async () => {
-  const config = new Configuration({ basePath: NEXT_PUBLIC_API_URL })
-  const DefaultAPI = new DefaultApi(config)
-  return DefaultAPI.listMarkets()
 }

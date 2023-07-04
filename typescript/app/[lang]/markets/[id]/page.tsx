@@ -3,7 +3,7 @@ import SearchInput from "@/components/SearchInput"
 import SortTypes from "@/components/SortTypes"
 import CompanyTable from "@/components/CompanyTable"
 import Pagination from "@/components/Pagination"
-import { useCompanies, useMarket as getMarket } from "@/hooks/FetchData"
+import { listCompanies, getMarket as getMarket } from "@/hooks/GetData"
 import { Metadata } from "next"
 import { formatQueryParams } from "@/lib/utility"
 import { getDictionary } from "@/hooks/GetDictionary"
@@ -41,8 +41,7 @@ export default async function Page({
 }) {
   const dict = await getDictionary(lang)
   const marketDict = dict.models.markets
-  const fetchCompanies = useCompanies({ marketId: id, page, sortType, q })
-  const { companies, meta } = await fetchCompanies
+  const { companies, meta } = await listCompanies({ marketId: id, page, sortType, q })
   const { offsetCount, prevPage, nextPage } = meta
   const market = await getMarket({ id })
 
