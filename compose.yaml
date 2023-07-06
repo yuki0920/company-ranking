@@ -31,7 +31,7 @@ services:
     environment:
       FRONT_URL: $FRONT_URL
       ENV: development
-      DATABASE_URL: $DOCKER_DATABASE_URL
+      DATABASE_URL: $DATABASE_URL
       PORT: $API_HOST_PORT
     command: "bin/air"
     volumes:

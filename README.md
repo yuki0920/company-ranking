@@ -1,112 +1,98 @@
 # company-ranking
 
-## 起動
+## Getting Started
 
-### Getting Started
+### Setup
 
-1. Setup DB & Front server using Docker
-```
+```sh
 cp .env_sample .env
 cp .envrc_sample .envrc
 docker-compose build
 docker-compose run --rm ruby bundle
 docker-compose run --rm ruby bundle exec rails db setup
-docker-compose run --rm front yarn
 docker-compose up
 ```
 
-2. Setup API server using local Go
 
-```
-cd ./go
-go mod download
-go run cmd/server/main.go
-```
-or using air
-```
-cd ./go
-make install/tools
-./bin/air
-```
+### URL
 
-### API
+Ports should be specified in `.env`.
 
-- コンテナのポートは`3000`
-- ホストのコンテナは`3003`など`3000`以外を使用している
+- API(Rails): http://localhost:3003/markets
+- Front(Next.js): http://localhost:8888
+- Swagger: http://localhost:8000
 
-http://localhost:3003/api/v1/markets
+## Update API
 
-### Front
+### Update OpenAPI Schema
 
-- ホストのコンテナは`8008`を使用している
+"./openapi/openapi.yaml"
 
-http://localhost:8008
-### Swagger
+### Generate Code for server
 
-- ホストのコンテナは`8000`を使用している
-
-http://localhost:8000
-
-### OpenAPI Generator
-
-実行後にLintをかける
-
-```
-docker run --rm -v "${PWD}:/local" openapitools/openapi-generator-cli generate \
-  -i local/ruby/openapi/openapi.yaml \
-  -g typescript-angular \
-  -o local/front/types/typescript-angular
-dc run --rm front yarn lint --fix
+```sh
+# for server
+make go/generate/server
 ```
 
-## Dependabotによるライブラリアップデートの注意点
 
-### loader系は固定
+### Generate Code for client
 
-```bash
-"css-loader": "^5.2.0"
-"sass-loader": "10"
+Install `openapi-generator-cli`
+
+https://github.com/OpenAPITools/openapi-generator-cli#globally
+
+```sh
+make typescript/generate/client
 ```
 
-ref: [設定 プリプロセッサ - NuxtJS](https://ja.nuxtjs.org/docs/2.x/features/configuration)
+## Data Processing flow(by Rails)
 
-### 1つのPRにまとめる
+### 1. Get the security list by scraping.
 
-ビルドに時間がかかるので1つのPRにまとめた上でマージすることで、ビルド時間を短縮する
-
-## 企業情報登録フロー
-
-rake taskで実行している
-
-### 1. 証券コードから企業登録
-
-```
+```sh
 bundle exec rake save_securities:every_2weeks
 ```
 
-確認方法: https://www.jpx.co.jp/listing/stocks/new/index.html に掲載されている企業が登録されていればOK
+How to check: If the companies listed on [the sheet](https://www.jpx.co.jp/listing/stocks/new/index.html) are registered, it is OK.
 
-### 2. EDINET APIから概要を取得
+### 2. Get the metadata of security by EDINET API
 
-```
+The API is called `書類一覧API`
+Endpoint: https://disclosure.edinet-fsa.go.jp/api/v1/documents.json
+
+The API details are [here](https://disclosure2dl.edinet-fsa.go.jp/guide/static/disclosure/WZEK0110.html)
+
+```sh
 bundle exec rake save_document_summary:year
 ```
 
-確認方法: 最新の決算発表をした企業の**概要**が反映されていればOK
+How to check: If the **metadata** such as `security_code` and `company_name` of the company's most recent announcement is reflected, it is OK.
 
-### 3. EDINET APIから有報をダウンロードし解析
+### 3. Get the detail of security by EDINET API
 
-```
+The API is called `書類取得API`
+Endpoint: https://disclosure.edinet-fsa.go.jp/api/v1/documents
+
+
+```sh
 bundle exec rake save_document_detail:batch
 ```
 
-確認方法: 最新の決算発表をした企業の**詳細**が反映されていればOK
+How to check: If the **details** such as `net_sales` and `average_annual_salary` of the company's most recent announcement are reflected, it is OK.
 
-## Dependency Management
+## Dependency Update
 
-### Front
+```sh
+# common
+docker compose build
+
+# ruby
+docker compose run --rm ruby bundle
+
+# go
+docker compose run --rm go go mod download
+
+# typescript using local node_modules
+cd typescript && npm ci
 ```
-docker compose run --rm typescript npm install
-```
-
-If run locally, `Failed to load SWC binary for linux/x64` error happens.
