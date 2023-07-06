@@ -25,35 +25,39 @@ services:
     depends_on:
       - db
     command: /bin/sh -c "echo rails api is not used."
-  # front:
-  #   build:
-  #     context: ./front
-  #     args:
-  #       WORKDIR: $WORKDIR
-  #       API_URL: $API_URL
-  #   command: yarn run dev
-  #   volumes:
-  #     - ./front:/$WORKDIR
-  #   ports:
-  #     - "$FRONT_HOST_PORT:$CONTAINER_PORT"
-  #   depends_on:
-  #     - ruby
-  # typescript:
-  #   build:
-  #     context: ./typescript
-  #     args:
-  #       WORKDIR: $WORKDIR
-  #   environment:
-  #     WATCHPACK_POLLING: true
-  #     PORT: $NEXT_PORT
-  #     NEXT_PUBLIC_API_URL: $NEXT_PUBLIC_API_URL
-  #     NEXT_PUBLIC_TWITTER_ID: $NEXT_PUBLIC_TWITTER_ID
-  #   command: npm run dev
-  #   volumes:
-  #     - ./typescript:/$WORKDIR
-  #   ports:
-  #     - "$NEXT_PORT:$NEXT_PORT"
-  #     - "$API_HOST_PORT:$API_HOST_PORT"
+  go:
+    build:
+      context: ./go
+    environment:
+      FRONT_URL: $FRONT_URL
+      ENV: development
+      DATABASE_URL: $DOCKER_DATABASE_URL
+      PORT: $API_HOST_PORT
+    command: "bin/air"
+    volumes:
+      - ./go:/go/src
+      - go_src_bin:/go/src/bin
+    depends_on:
+      - db
+    ports:
+      - "$API_HOST_PORT:$API_HOST_PORT"
+  typescript:
+    build:
+      context: ./typescript
+      args:
+        WORKDIR: $WORKDIR
+    environment:
+      WATCHPACK_POLLING: true
+      PORT: $FRONT_HOST_PORT
+      NEXT_PUBLIC_API_URL: $NEXT_PUBLIC_DOCKER_API_URL
+      NEXT_PUBLIC_TWITTER_ID: $NEXT_PUBLIC_TWITTER_ID
+    command: npm run dev
+    volumes:
+      - ./typescript:/$WORKDIR
+    ports:
+      - "$FRONT_HOST_PORT:$FRONT_HOST_PORT"
+    depends_on:
+      - db
   swagger:
     image: swaggerapi/swagger-ui
     volumes:
@@ -63,3 +67,5 @@ services:
       - 8000:8080
     environment:
       API_URL: doc/openapi.yaml
+volumes:
+  go_src_bin:
