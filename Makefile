@@ -1,37 +1,31 @@
-export
+.PHONY: go/install/tools
+go/install/tools:
+	@docker compose run --rm go make install/tools
 
-# Setup Environment Variables
-POSTGRES_HOST := 0.0.0.0
-POSTGRES_PORT := 5432
-POSTGRES_NAME := myapp_development
-POSTGRES_USER := postgres
-POSTGRES_PASSWORD := password
-DATABASE_URL := "postgres://${POSTGRES_USER}:${POSTGRES_PASSWORD}@${POSTGRES_HOST}:${POSTGRES_PORT}/${POSTGRES_NAME}?sslmode=disable"
+.PHONY: go/generate/models
+go/generate/models:
+	@docker compose run --rm go make generate/models
 
-.PHONY: generate/models
-generate/models:
-	@xo schema ${DATABASE_URL} -o go/models -e "*.created_at" -e "*.updated_at"
-	rm -f go/models/arinternalmetadatum.xo.go go/models/schemamigration.xo.go
+.PHONY: go/generate/server
+go/generate/server:
+	@cp openapi/openapi.yaml go/openapi.yaml
+	@docker compose run --rm go make generate/server
+	@rm -f go/openapi.yaml
 
-.PHONY: generate/server
-generate/server:
-	@oapi-codegen -config go/server/config.yaml -o go/server/server.gen.go openapi/openapi.yaml
+.PHONY: go/lint
+go/lint:
+	@docker compose run --rm go make lint
 
-.PHONY: lint
-lint:
-	@echo "Linting..."
-	@cd go && golangci-lint run ./...
+.PHONY: go/lint/fix
+go/lint/fix:
+	@docker compose run --rm go make lint/fix
+
+.PHONY: typescript/generate/client
+typescript/generate/client:
+	@cp openapi/openapi.yaml typescript/openapi.yaml
+	@cd typescript && npm run generate-client
 	@cd ..
-
-.PHONY: lint/fix
-lint/fix:
-	@echo "Linting..."
-	@cd go && golangci-lint run ./... --fix
-	@cd ..
-
-.PHONY: generate/client
-generate/client:
-	@openapi-generator-cli generate -i openapi/openapi.yaml -g typescript-fetch -o typescript/client
+	@rm -f typescript/openapi.yaml
 
 .PHONY: typescript/lint
 typescript/lint:
