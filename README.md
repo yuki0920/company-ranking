@@ -1,5 +1,9 @@
 # company-ranking
 
+[JAPAN Listed Companies] is a website that displays sales and annual salaries of companies listed on the Tokyo Stock Exchange in a ranking format.
+
+https://www.company-ranking.net/en
+
 ## Getting Started
 
 ### Setup
@@ -10,6 +14,7 @@ cp .envrc_sample .envrc
 docker-compose build
 docker-compose run --rm ruby bundle
 docker-compose run --rm ruby bundle exec rails db setup
+cd typescript && npm install && cd ../
 docker-compose up
 ```
 
@@ -20,13 +25,21 @@ Ports should be specified in `.env`.
 
 - API(Rails): http://localhost:3003/markets
 - Front(Next.js): http://localhost:8888
-- Swagger: http://localhost:8000
+- Swagger UI: http://localhost:8000
+
+
+### Run tests & lint
+
+These commands are defined in Makefile.
+
+https://github.com/yuki0920/company-ranking/blob/main/Makefile
 
 ## Update API
 
 ### Update OpenAPI Schema
 
-"./openapi/openapi.yaml"
+The schema file is here.
+https://github.com/yuki0920/company-ranking/blob/main/openapi/openapi.yaml
 
 ### Generate Code for server
 

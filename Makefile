@@ -34,3 +34,15 @@ typescript/lint:
 .PHONY: typescript/lint/fix
 typescript/lint/fix:
 	@docker compose run --rm typescript npm run lint --fix
+
+.PHONY: ruby/test
+ruby/test:
+	@docker compose run --rm ruby bundle exec rspec
+
+.PHONY: ruby/lint
+ruby/lint:
+	@docker compose run --rm ruby bundle exec rubocop
+
+.PHONY: ruby/lint/fix
+ruby/lint/fix:
+	@docker compose run --rm ruby bundle exec rubocop --fix
