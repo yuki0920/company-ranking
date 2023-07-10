@@ -1,4 +1,5 @@
 import { Metadata } from "next"
+import Breadcrumbs from "@/components/BreadCrumbs"
 
 export const metadata: Metadata = {
   title: "お問い合わせ",
@@ -9,6 +10,18 @@ import { NEXT_PUBLIC_TWITTER_ID } from "@/constant"
 export default function Contact() {
   return (
     <div className='my-3'>
+      <Breadcrumbs
+        items={[
+          {
+            label: "トップ",
+            path: "/"
+          },
+          {
+            label: "お問い合わせ",
+            path: "/contact"
+          },
+        ]}
+      />
       <h1 className='text-xl my-2'>お問い合わせ(Japanese Only)</h1>
       <p>本サービスに関するご意見・ご要望は下記のメッセージより受け付けております。</p>
       <div className='my-2'>

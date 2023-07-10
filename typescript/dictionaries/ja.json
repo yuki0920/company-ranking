@@ -6,6 +6,7 @@
   },
   "pages": {
     "top": {
+      "title": "トップ",
       "all": "すべての企業から探す",
       "market": "市場から探す",
       "industry": "業種から探す"
@@ -20,8 +21,6 @@
       "title": "業界の企業一覧"
     },
     "company": {
-      "title": "の企業データ",
-
       "companySummary": "企業概要",
       "companyName": "企業名(日)",
       "companyNameEN": "企業名(英)",

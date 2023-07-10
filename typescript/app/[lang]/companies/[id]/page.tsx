@@ -6,6 +6,7 @@ import { Metadata } from "next"
 import { getDictionary } from "@/hooks/GetDictionary"
 import { i18n } from "@/dictionaries/i18n-config"
 import { getCompany } from "@/hooks/GetData"
+import Breadcrumbs from "@/components/BreadCrumbs"
 
 export async function generateMetadata({
   params: { lang, id },
@@ -35,12 +36,34 @@ export default async function Page({
   const marketDict = dictionary.models.markets
   const industryDict = dictionary.models.industries
   const company = await getCompany({ code: id })
+  const companyName = lang == "ja" ? company.companyName : company.companyNameEn
+  const marketName = marketDict[company.marketId.toString() as keyof typeof marketDict]
+  const industryName = industryDict[company.industryCode.toString() as keyof typeof industryDict]
+
   return (
     <>
-      {/* bread crumb */}
+      <Breadcrumbs
+        items={[
+          {
+            label: dictionary.pages.top.title,
+            path: `/${lang}`
+          },
+          {
+            label: marketName,
+            path: `/${lang}/markets/${company.marketId}`
+          },
+          {
+            label: industryName,
+            path: `/${lang}/industries/${company.industryId}`
+          },
+          {
+            label: companyName,
+            path: `/${lang}/companies/${id}`
+          },
+        ]}
+      />
       <h1 className='text-xl'>
-        {lang == "ja" ? company.companyName : company.companyNameEn}
-        {dict.title}
+        {companyName}
       </h1>
       <div className='grid lg:grid-cols-2 gap-4'>
         <div>
@@ -61,13 +84,13 @@ export default async function Page({
             <dt className='col-span-1 p-2 border-t border-neutral-content'>{dict.marketName}</dt>
             <dd className='col-span-1 p-2 border-l border-t border-neutral-content link-text text-right'>
               <Link href={{ pathname: `/${lang}/markets/${company.marketId}` }}>
-                {marketDict[company.marketId.toString() as keyof typeof marketDict]}
+                {marketName}
               </Link>
             </dd>
             <dt className='col-span-1 p-2 border-t border-neutral-content'>{dict.industryName}</dt>
             <dd className='col-span-1 p-2 border-l border-t border-neutral-content link-text text-right'>
               <Link href={{ pathname: `/${lang}/industries/${company.industryId}` }}>
-                {industryDict[company.industryCode.toString() as keyof typeof industryDict]}
+                {industryName}
               </Link>
             </dd>
             <dt className='col-span-1 p-2 border-t border-neutral-content'>

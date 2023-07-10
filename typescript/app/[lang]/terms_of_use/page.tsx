@@ -1,4 +1,5 @@
 import { Metadata } from "next"
+import Breadcrumbs from "@/components/BreadCrumbs"
 
 export const metadata: Metadata = {
   title: "利用規約",
@@ -10,6 +11,18 @@ export default function TermsOfUse() {
       <div className='mt-3'>
         <div>
           <div>
+            <Breadcrumbs
+              items={[
+                {
+                  label: "トップ",
+                  path: "/"
+                },
+                {
+                  label: "利用規約",
+                  path: "/terms_of_use"
+                },
+              ]}
+            />
             <h1 className='text-xl'>利用規約(Japanese Only)</h1>
             <p>
               この利用規約（以下，「本規約」といいます。）はこのウェブサイト上で提供するサービス（以下，「本サービス」といいます。）の利用条件を定めるものです。ユーザーの皆さまには，本規約に従って，本サービスをご利用いただきます。

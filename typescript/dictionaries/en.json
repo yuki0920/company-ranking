@@ -6,6 +6,7 @@
   },
   "pages": {
     "top": {
+      "title": "Top",
       "all": "Search from all companies",
       "market": "Search by market",
       "industry": "Search by industry"
@@ -20,7 +21,6 @@
       "title": "Companies"
     },
     "company": {
-      "title": "",
       "companySummary": "Company Overview",
       "companyName": "Company Name(JA)",
       "companyNameEN": "Company Name(EN)",

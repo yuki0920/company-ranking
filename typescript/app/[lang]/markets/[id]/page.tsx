@@ -8,6 +8,7 @@ import { Metadata } from "next"
 import { formatQueryParams } from "@/lib/utility"
 import { getDictionary } from "@/hooks/GetDictionary"
 import NumberOfResults from "@/components/NumberOfResults"
+import Breadcrumbs from "@/components/BreadCrumbs"
 
 export async function generateMetadata({
   params: { lang, id },
@@ -45,11 +46,24 @@ export default async function Page({
   const { companies, meta } = await listCompanies({ marketId: id, page, sortType, q })
   const { offsetCount, totalCount, limitCount, currentPage, lastPage, prevPage, nextPage,  } = meta
   const market = await getMarket({ id })
+  const title = marketDict[market.id.toString() as keyof typeof marketDict]
 
   return (
     <>
+      <Breadcrumbs
+        items={[
+          {
+            label: dict.pages.top.title,
+            path: `/${lang}`
+          },
+          {
+            label: title,
+            path: `/${lang}/markets/${id}`
+          },
+        ]}
+      />
       <h1 className='text-xl'>
-        {marketDict[market.id.toString() as keyof typeof marketDict]} {dict.pages.markets.title}
+        {title} {dict.pages.markets.title}
         <NumberOfResults
           currentPage={currentPage}
           lastPage={lastPage}
