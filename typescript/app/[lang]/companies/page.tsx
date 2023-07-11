@@ -8,6 +8,7 @@ import { Metadata } from "next"
 import { formatQueryParams } from "@/lib/utility"
 import { getDictionary } from "@/hooks/GetDictionary"
 import NumberOfResults from "@/components/NumberOfResults"
+import Breadcrumbs from "@/components/BreadCrumbs"
 
 export async function generateMetadata({
   params: { lang },
@@ -38,6 +39,18 @@ export default async function Page({
 
   return (
     <>
+      <Breadcrumbs
+        items={[
+          {
+            label: dict.pages.top.title,
+            path: `/${lang}`
+          },
+          {
+            label: dict.pages.companies.title,
+            path: `/${lang}/companies`
+          },
+        ]}
+      />
       <h1 className='text-xl'>
         {dict.pages.companies.title}
         <NumberOfResults
