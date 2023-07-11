@@ -16,16 +16,7 @@ jobs:
         uses: ruby/setup-ruby@v1
         with:
           ruby-version: 2.7.4
-      - name: Cache gems
-        uses: actions/cache@v3
-        with:
-          path: vendor/bundle
-          key: ${{ runner.os }}-gem-${{ hashFiles('**/Gemfile.lock') }}
-          restore-keys: |
-            ${{ runner.os }}-gem-
-      - name: Install dependencies
-        run: |
-          gem install bundler
-          bundle install --path vendor/bundle
+          bundler-cache: true
+          working-directory: ./ruby
       - name: Run rubocop
         run: bundle exec rubocop
