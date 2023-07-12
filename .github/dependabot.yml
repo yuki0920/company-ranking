@@ -8,24 +8,24 @@ updates:
       - dependency-name: "rails"
     groups:
       ruby-dependencies:
-      patterns:
-        - "*"
+        patterns:
+          - "*"
   - package-ecosystem: "npm"
     directory: "./typescript"
     schedule:
       interval: "monthly"
     groups:
       typescript-dependencies:
-      patterns:
-        - "*"
+        patterns:
+          - "*"
   - package-ecosystem: "gomod"
     directory: "./go"
     schedule:
       interval: "monthly"
     groups:
       go-dependencies:
-      patterns:
-        - "*"
+        patterns:
+          - "*"
   - package-ecosystem: "github-actions"
     directory: "./.github/workflows"
     schedule:
