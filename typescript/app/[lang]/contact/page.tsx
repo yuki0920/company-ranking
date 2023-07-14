@@ -14,11 +14,11 @@ export default function Contact() {
         items={[
           {
             label: "トップ",
-            path: "/"
+            path: "/",
           },
           {
             label: "お問い合わせ",
-            path: "/contact"
+            path: "/contact",
           },
         ]}
       />

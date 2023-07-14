@@ -22,7 +22,7 @@ export default async function TopPage({ params: { lang } }: { params: { lang: st
                 {dict.pages.top.market}
               </h2>
               <ul className='row list-unstyled grid grid-cols-2 sm:grid-cols-6 gap-2'>
-                {markets.map(market => (
+                {markets.map((market) => (
                   <li key={`market-${market.id}`} className='col-6 col-sm-2 link-text'>
                     <Link href={`${lang}/markets/${market.id}`}>
                       {
@@ -42,7 +42,7 @@ export default async function TopPage({ params: { lang } }: { params: { lang: st
                 {dict.pages.top.industry}
               </h2>
               <ul className='row list-unstyled grid grid-cols-2 sm:grid-cols-6 gap-2'>
-                {industries.map(industry => (
+                {industries.map((industry) => (
                   <li key={`industry-${industry.id}`} className='col-6 col-sm-2 link-text'>
                     <Link href={`${lang}/industries/${industry.id}`}>
                       {

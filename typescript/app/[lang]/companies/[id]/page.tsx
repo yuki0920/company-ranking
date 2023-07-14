@@ -46,25 +46,23 @@ export default async function Page({
         items={[
           {
             label: dictionary.pages.top.title,
-            path: `/${lang}`
+            path: `/${lang}`,
           },
           {
             label: marketName,
-            path: `/${lang}/markets/${company.marketId}`
+            path: `/${lang}/markets/${company.marketId}`,
           },
           {
             label: industryName,
-            path: `/${lang}/industries/${company.industryId}`
+            path: `/${lang}/industries/${company.industryId}`,
           },
           {
             label: companyName,
-            path: `/${lang}/companies/${id}`
+            path: `/${lang}/companies/${id}`,
           },
         ]}
       />
-      <h1 className='text-xl'>
-        {companyName}
-      </h1>
+      <h1 className='text-xl'>{companyName}</h1>
       <div className='grid lg:grid-cols-2 gap-4'>
         <div>
           <h2 className='text-l'>{dict.companySummary}</h2>
@@ -83,9 +81,7 @@ export default async function Page({
             </dd>
             <dt className='col-span-1 p-2 border-t border-neutral-content'>{dict.marketName}</dt>
             <dd className='col-span-1 p-2 border-l border-t border-neutral-content link-text text-right'>
-              <Link href={{ pathname: `/${lang}/markets/${company.marketId}` }}>
-                {marketName}
-              </Link>
+              <Link href={{ pathname: `/${lang}/markets/${company.marketId}` }}>{marketName}</Link>
             </dd>
             <dt className='col-span-1 p-2 border-t border-neutral-content'>{dict.industryName}</dt>
             <dd className='col-span-1 p-2 border-l border-t border-neutral-content link-text text-right'>
@@ -309,14 +305,13 @@ export default async function Page({
   )
 }
 
-
 export async function generateStaticParams() {
   const config = new Configuration({ basePath: NEXT_PUBLIC_API_URL })
   const DefaultAPI = new DefaultApi(config)
   const res = await DefaultAPI.listSecurityCodes()
   const { securityCodes } = res
-  const params =  i18n.locales.flatMap(locale => {
-    return securityCodes.map(code => {
+  const params = i18n.locales.flatMap((locale) => {
+    return securityCodes.map((code) => {
       return {
         id: code.toString(),
         lang: locale,

@@ -30,7 +30,9 @@ export const listCompanies = async ({
   if (marketId !== null) params["marketId"] = marketId
   if (industryId !== null) params["industryId"] = industryId
 
-  const { companies, meta } = await api.listCompanies(params, { next: { revalidate: defaultRevalidate } })
+  const { companies, meta } = await api.listCompanies(params, {
+    next: { revalidate: defaultRevalidate },
+  })
   return { companies, meta }
 }
 

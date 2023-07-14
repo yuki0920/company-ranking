@@ -44,7 +44,7 @@ export default async function Page({
   const dict = await getDictionary(lang)
   const marketDict = dict.models.markets
   const { companies, meta } = await listCompanies({ marketId: id, page, sortType, q })
-  const { offsetCount, totalCount, limitCount, currentPage, lastPage, prevPage, nextPage,  } = meta
+  const { offsetCount, totalCount, limitCount, currentPage, lastPage, prevPage, nextPage } = meta
   const market = await getMarket({ id })
   const title = marketDict[market.id.toString() as keyof typeof marketDict]
 
@@ -54,11 +54,11 @@ export default async function Page({
         items={[
           {
             label: dict.pages.top.title,
-            path: `/${lang}`
+            path: `/${lang}`,
           },
           {
             label: title,
-            path: `/${lang}/markets/${id}`
+            path: `/${lang}/markets/${id}`,
           },
         ]}
       />

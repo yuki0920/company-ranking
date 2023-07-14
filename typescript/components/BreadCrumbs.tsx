@@ -9,21 +9,15 @@ export type BreadcrumbsProps = {
   items: CrumbItem[]
 }
 
-export default function Breadcrumbs(
-  { items }: BreadcrumbsProps
-) {
+export default function Breadcrumbs({ items }: BreadcrumbsProps) {
   return (
-    <div className="flex gap-2 items-start pb-2">
+    <div className='flex gap-2 items-start pb-2'>
       {items.map((crumb, i) => {
         const isLastItem = i === items.length - 1
         if (!isLastItem) {
           return (
             <>
-              <Link
-                href={crumb.path}
-                key={i}
-                className="link-text"
-              >
+              <Link href={crumb.path} key={i} className='link-text'>
                 {crumb.label}
               </Link>
               {/* separator */}
