@@ -35,6 +35,10 @@ typescript/lint:
 typescript/lint/fix:
 	@docker compose run --rm typescript npm run lint --fix
 
+.PHONY: typescript/format
+typescript/format:
+	@docker compose run --rm typescript npm run format
+
 .PHONY: ruby/test
 ruby/test:
 	@docker compose run --rm ruby bundle exec rspec
