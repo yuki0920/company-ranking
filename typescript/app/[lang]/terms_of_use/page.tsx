@@ -13,11 +13,11 @@ export default function TermsOfUse() {
           items={[
             {
               label: "トップ",
-              path: "/"
+              path: "/",
             },
             {
               label: "利用規約",
-              path: "/terms_of_use"
+              path: "/terms_of_use",
             },
           ]}
         />

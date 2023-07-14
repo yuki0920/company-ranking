@@ -35,7 +35,7 @@ export default async function Page({
 }) {
   const dict = await getDictionary(lang)
   const { companies, meta } = await listCompanies({ page, sortType, q })
-  const { offsetCount, totalCount, limitCount, currentPage, lastPage, prevPage, nextPage,  } = meta
+  const { offsetCount, totalCount, limitCount, currentPage, lastPage, prevPage, nextPage } = meta
 
   return (
     <>
@@ -43,11 +43,11 @@ export default async function Page({
         items={[
           {
             label: dict.pages.top.title,
-            path: `/${lang}`
+            path: `/${lang}`,
           },
           {
             label: dict.pages.companies.title,
-            path: `/${lang}/companies`
+            path: `/${lang}/companies`,
           },
         ]}
       />
