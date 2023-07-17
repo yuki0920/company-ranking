@@ -15,6 +15,10 @@ import (
 )
 
 func main() {
+	log.Fatal(initServer())
+}
+
+func initServer() error {
 	// setup logger
 	env := os.Getenv("ENV")
 	logger := logger.NewLogger(env)
@@ -58,5 +62,5 @@ func main() {
 	apiPort := os.Getenv("PORT")
 	addr := fmt.Sprintf("%s:%s", apiHost, apiPort)
 
-	log.Fatal(s.StartServer(addr))
+	return s.StartServer(addr)
 }

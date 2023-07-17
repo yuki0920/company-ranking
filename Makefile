@@ -12,6 +12,10 @@ go/generate/server:
 	@docker compose run --rm go make generate/server
 	@rm -f go/openapi.yaml
 
+.PHONY: go/test
+go/test:
+	@docker compose run --rm go make test
+
 .PHONY: go/lint
 go/lint:
 	@docker compose run --rm go make lint
