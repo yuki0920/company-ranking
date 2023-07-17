@@ -2,7 +2,6 @@ export
 
 # Setup Variables for Go
 GOPATH := $(shell go env GOPATH)
-GOBIN := /bin
 
 # Setup PATH
 PATH := $(GOBIN):$(PATH)
@@ -16,9 +15,18 @@ generate/models:
 	@xo schema ${DATABASE_URL} -o models -e "*.created_at" -e "*.updated_at"
 	rm -f models/arinternalmetadatum.xo.go models/schemamigration.xo.go
 
+.PHONY: generate/schema
+generate/schema:
+	@xo schema ${DATABASE_URL} -t createdb -o db/sql -S schema.sql
+
 .PHONY: generate/server
 generate/server:
 	@oapi-codegen -config server/config.yaml -o server/server.gen.go openapi.yaml
+
+.PHONY: test
+test:
+	@./scripts/setup_db.sh
+	@go test -v ./...
 
 .PHONY: lint
 lint:

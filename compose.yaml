@@ -31,12 +31,17 @@ services:
     environment:
       FRONT_URL: $FRONT_URL
       ENV: development
-      DATABASE_URL: $DATABASE_URL
       PORT: $API_HOST_PORT
+      GOBIN: /go/src/bin
+      POSTGRES_USER: $POSTGRES_USER
+      POSTGRES_PASSWORD: $POSTGRES_PASSWORD
+      DATABASE_HOST_URL: $DATABASE_HOST_URL
+      POSTGRES_TEST_NAME: $POSTGRES_TEST_NAME
+      POSTGRES_TEST_USER: $POSTGRES_TEST_USER
+      DATABASE_TEST_URL: $DATABASE_TEST_URL
     command: "bin/air"
     volumes:
       - ./go:/go/src
-      - go_src_bin:/go/src/bin
     depends_on:
       - db
     ports:
