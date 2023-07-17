@@ -13,7 +13,8 @@ cp .env_sample .env
 cp .envrc_sample .envrc
 docker-compose build
 docker-compose run --rm ruby bundle
-docker-compose run --rm ruby bundle exec rails db setup
+docker-compose run --rm ruby bundle exec rails db:setup
+docker-compose run --rm go make install/tools
 cd typescript && npm install && cd ../
 docker-compose up
 ```

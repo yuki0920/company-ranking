@@ -36,10 +36,11 @@ services:
       POSTGRES_USER: $POSTGRES_USER
       POSTGRES_PASSWORD: $POSTGRES_PASSWORD
       DATABASE_HOST_URL: $DATABASE_HOST_URL
+      DATABASE_URL: $DATABASE_URL
       POSTGRES_TEST_NAME: $POSTGRES_TEST_NAME
       POSTGRES_TEST_USER: $POSTGRES_TEST_USER
       DATABASE_TEST_URL: $DATABASE_TEST_URL
-    command: "bin/air"
+    command: air
     volumes:
       - ./go:/go/src
     depends_on:
