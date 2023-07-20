@@ -1,9 +1,9 @@
-name: Go build and test
+name: Go test
 
 on: [push]
 
 jobs:
-  build-and-test:
+  test:
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -27,10 +27,15 @@ jobs:
         with:
           go-version-file: go/go.mod
           cache: true
+      - name: Cache Tools
+        id: cache-tools
+        uses: actions/cache@v3
+        with:
+          path: ~/go/bin # /home/runner/go/bin
+          key: ${{ runner.os }}-go-${{ hashFiles('**/go.sum') }}
       - name: Install tools
+        if: steps.cache-tools.outputs.cache-hit != 'true'
         run: make install/tools
-      - name: Build
-        run: go build -v ./...
       - name: Test
         run: make test
         env:
