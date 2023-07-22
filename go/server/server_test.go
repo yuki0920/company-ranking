@@ -2,10 +2,12 @@ package server
 
 import (
 	"database/sql"
+	"encoding/json"
 	"net/http/httptest"
 	"os"
 	"testing"
 
+	"github.com/google/go-cmp/cmp"
 	"github.com/yuki0920/company-ranking/go/logger"
 )
 
@@ -31,5 +33,21 @@ func TestGetMarket(t *testing.T) {
 
 	if w.Code != 200 {
 		t.Errorf("expected 200 but got %d", w.Code)
+	}
+
+	want := ResponseMarket{
+		Market: Market{
+			Id:   1,
+			Name: "プライム",
+		},
+	}
+
+	var got ResponseMarket
+	if err := json.Unmarshal(w.Body.Bytes(), &got); err != nil {
+		t.Fatal(err)
+	}
+
+	if diff := cmp.Diff(want, got); diff != "" {
+		t.Errorf("differs: (-want +got)\n%s", diff)
 	}
 }
