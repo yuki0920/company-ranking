@@ -50,6 +50,7 @@ func TestListMarketIds(t *testing.T) {
 }
 
 func TestListMarkets(t *testing.T) {
+	// TODO: Add company data to test database
 	r := httptest.NewRequest("GET", "/api/v1/markets", nil)
 	w := httptest.NewRecorder()
 	s.ListMarkets(w, r)
