@@ -26,6 +26,29 @@ func init() {
 	s = NewServer(db, logger)
 }
 
+func TestListMarketIds(t *testing.T) {
+	r := httptest.NewRequest("GET", "/api/v1/market_ids", nil)
+	w := httptest.NewRecorder()
+	s.ListMarketIds(w, r)
+
+	if w.Code != 200 {
+		t.Errorf("expected 200 but got %d", w.Code)
+	}
+
+	want := ResponseMarketIDs{
+		MarketIds: []int64{1, 2, 3},
+	}
+
+	var got ResponseMarketIDs
+	if err := json.Unmarshal(w.Body.Bytes(), &got); err != nil {
+		t.Fatal(err)
+	}
+
+	if diff := cmp.Diff(want, got); diff != "" {
+		t.Errorf("differs: (-want +got)\n%s", diff)
+	}
+}
+
 func TestGetMarket(t *testing.T) {
 	r := httptest.NewRequest("GET", "/api/v1/market", nil)
 	w := httptest.NewRecorder()
