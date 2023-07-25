@@ -5,6 +5,7 @@ package models
 import (
 	"context"
 	"database/sql"
+	"time"
 )
 
 // Industry represents a row from 'public.industries'.
@@ -12,6 +13,8 @@ type Industry struct {
 	ID                 int64         `json:"id"`                   // id
 	Name               string        `json:"name"`                 // name
 	Code               int           `json:"code"`                 // code
+	CreatedAt          time.Time     `json:"created_at"`           // created_at
+	UpdatedAt          time.Time     `json:"updated_at"`           // updated_at
 	IndustryCategoryID sql.NullInt64 `json:"industry_category_id"` // industry_category_id
 	// xo fields
 	_exists, _deleted bool
@@ -38,13 +41,13 @@ func (i *Industry) Insert(ctx context.Context, db DB) error {
 	}
 	// insert (primary key generated and returned by database)
 	const sqlstr = `INSERT INTO public.industries (` +
-		`name, code, industry_category_id` +
+		`name, code, created_at, updated_at, industry_category_id` +
 		`) VALUES (` +
-		`$1, $2, $3` +
+		`$1, $2, $3, $4, $5` +
 		`) RETURNING id`
 	// run
-	logf(sqlstr, i.Name, i.Code, i.IndustryCategoryID)
-	if err := db.QueryRowContext(ctx, sqlstr, i.Name, i.Code, i.IndustryCategoryID).Scan(&i.ID); err != nil {
+	logf(sqlstr, i.Name, i.Code, i.CreatedAt, i.UpdatedAt, i.IndustryCategoryID)
+	if err := db.QueryRowContext(ctx, sqlstr, i.Name, i.Code, i.CreatedAt, i.UpdatedAt, i.IndustryCategoryID).Scan(&i.ID); err != nil {
 		return logerror(err)
 	}
 	// set exists
@@ -62,11 +65,11 @@ func (i *Industry) Update(ctx context.Context, db DB) error {
 	}
 	// update with composite primary key
 	const sqlstr = `UPDATE public.industries SET ` +
-		`name = $1, code = $2, industry_category_id = $3 ` +
-		`WHERE id = $4`
+		`name = $1, code = $2, created_at = $3, updated_at = $4, industry_category_id = $5 ` +
+		`WHERE id = $6`
 	// run
-	logf(sqlstr, i.Name, i.Code, i.IndustryCategoryID, i.ID)
-	if _, err := db.ExecContext(ctx, sqlstr, i.Name, i.Code, i.IndustryCategoryID, i.ID); err != nil {
+	logf(sqlstr, i.Name, i.Code, i.CreatedAt, i.UpdatedAt, i.IndustryCategoryID, i.ID)
+	if _, err := db.ExecContext(ctx, sqlstr, i.Name, i.Code, i.CreatedAt, i.UpdatedAt, i.IndustryCategoryID, i.ID); err != nil {
 		return logerror(err)
 	}
 	return nil
@@ -88,16 +91,16 @@ func (i *Industry) Upsert(ctx context.Context, db DB) error {
 	}
 	// upsert
 	const sqlstr = `INSERT INTO public.industries (` +
-		`id, name, code, industry_category_id` +
+		`id, name, code, created_at, updated_at, industry_category_id` +
 		`) VALUES (` +
-		`$1, $2, $3, $4` +
+		`$1, $2, $3, $4, $5, $6` +
 		`)` +
 		` ON CONFLICT (id) DO ` +
 		`UPDATE SET ` +
-		`name = EXCLUDED.name, code = EXCLUDED.code, industry_category_id = EXCLUDED.industry_category_id `
+		`name = EXCLUDED.name, code = EXCLUDED.code, created_at = EXCLUDED.created_at, updated_at = EXCLUDED.updated_at, industry_category_id = EXCLUDED.industry_category_id `
 	// run
-	logf(sqlstr, i.ID, i.Name, i.Code, i.IndustryCategoryID)
-	if _, err := db.ExecContext(ctx, sqlstr, i.ID, i.Name, i.Code, i.IndustryCategoryID); err != nil {
+	logf(sqlstr, i.ID, i.Name, i.Code, i.CreatedAt, i.UpdatedAt, i.IndustryCategoryID)
+	if _, err := db.ExecContext(ctx, sqlstr, i.ID, i.Name, i.Code, i.CreatedAt, i.UpdatedAt, i.IndustryCategoryID); err != nil {
 		return logerror(err)
 	}
 	// set exists
@@ -132,7 +135,7 @@ func (i *Industry) Delete(ctx context.Context, db DB) error {
 func IndustryByCode(ctx context.Context, db DB, code int) (*Industry, error) {
 	// query
 	const sqlstr = `SELECT ` +
-		`id, name, code, industry_category_id ` +
+		`id, name, code, created_at, updated_at, industry_category_id ` +
 		`FROM public.industries ` +
 		`WHERE code = $1`
 	// run
@@ -140,7 +143,7 @@ func IndustryByCode(ctx context.Context, db DB, code int) (*Industry, error) {
 	i := Industry{
 		_exists: true,
 	}
-	if err := db.QueryRowContext(ctx, sqlstr, code).Scan(&i.ID, &i.Name, &i.Code, &i.IndustryCategoryID); err != nil {
+	if err := db.QueryRowContext(ctx, sqlstr, code).Scan(&i.ID, &i.Name, &i.Code, &i.CreatedAt, &i.UpdatedAt, &i.IndustryCategoryID); err != nil {
 		return nil, logerror(err)
 	}
 	return &i, nil
@@ -152,7 +155,7 @@ func IndustryByCode(ctx context.Context, db DB, code int) (*Industry, error) {
 func IndustriesByIndustryCategoryID(ctx context.Context, db DB, industryCategoryID sql.NullInt64) ([]*Industry, error) {
 	// query
 	const sqlstr = `SELECT ` +
-		`id, name, code, industry_category_id ` +
+		`id, name, code, created_at, updated_at, industry_category_id ` +
 		`FROM public.industries ` +
 		`WHERE industry_category_id = $1`
 	// run
@@ -169,7 +172,7 @@ func IndustriesByIndustryCategoryID(ctx context.Context, db DB, industryCategory
 			_exists: true,
 		}
 		// scan
-		if err := rows.Scan(&i.ID, &i.Name, &i.Code, &i.IndustryCategoryID); err != nil {
+		if err := rows.Scan(&i.ID, &i.Name, &i.Code, &i.CreatedAt, &i.UpdatedAt, &i.IndustryCategoryID); err != nil {
 			return nil, logerror(err)
 		}
 		res = append(res, &i)
@@ -186,7 +189,7 @@ func IndustriesByIndustryCategoryID(ctx context.Context, db DB, industryCategory
 func IndustryByName(ctx context.Context, db DB, name string) (*Industry, error) {
 	// query
 	const sqlstr = `SELECT ` +
-		`id, name, code, industry_category_id ` +
+		`id, name, code, created_at, updated_at, industry_category_id ` +
 		`FROM public.industries ` +
 		`WHERE name = $1`
 	// run
@@ -194,7 +197,7 @@ func IndustryByName(ctx context.Context, db DB, name string) (*Industry, error) 
 	i := Industry{
 		_exists: true,
 	}
-	if err := db.QueryRowContext(ctx, sqlstr, name).Scan(&i.ID, &i.Name, &i.Code, &i.IndustryCategoryID); err != nil {
+	if err := db.QueryRowContext(ctx, sqlstr, name).Scan(&i.ID, &i.Name, &i.Code, &i.CreatedAt, &i.UpdatedAt, &i.IndustryCategoryID); err != nil {
 		return nil, logerror(err)
 	}
 	return &i, nil
@@ -206,7 +209,7 @@ func IndustryByName(ctx context.Context, db DB, name string) (*Industry, error) 
 func IndustryByID(ctx context.Context, db DB, id int64) (*Industry, error) {
 	// query
 	const sqlstr = `SELECT ` +
-		`id, name, code, industry_category_id ` +
+		`id, name, code, created_at, updated_at, industry_category_id ` +
 		`FROM public.industries ` +
 		`WHERE id = $1`
 	// run
@@ -214,7 +217,7 @@ func IndustryByID(ctx context.Context, db DB, id int64) (*Industry, error) {
 	i := Industry{
 		_exists: true,
 	}
-	if err := db.QueryRowContext(ctx, sqlstr, id).Scan(&i.ID, &i.Name, &i.Code, &i.IndustryCategoryID); err != nil {
+	if err := db.QueryRowContext(ctx, sqlstr, id).Scan(&i.ID, &i.Name, &i.Code, &i.CreatedAt, &i.UpdatedAt, &i.IndustryCategoryID); err != nil {
 		return nil, logerror(err)
 	}
 	return &i, nil

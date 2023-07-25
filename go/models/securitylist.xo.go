@@ -12,6 +12,8 @@ type SecurityList struct {
 	ID           int64     `json:"id"`            // id
 	FileTitle    string    `json:"file_title"`    // file_title
 	DownloadedAt time.Time `json:"downloaded_at"` // downloaded_at
+	CreatedAt    time.Time `json:"created_at"`    // created_at
+	UpdatedAt    time.Time `json:"updated_at"`    // updated_at
 	// xo fields
 	_exists, _deleted bool
 }
@@ -37,13 +39,13 @@ func (sl *SecurityList) Insert(ctx context.Context, db DB) error {
 	}
 	// insert (primary key generated and returned by database)
 	const sqlstr = `INSERT INTO public.security_lists (` +
-		`file_title, downloaded_at` +
+		`file_title, downloaded_at, created_at, updated_at` +
 		`) VALUES (` +
-		`$1, $2` +
+		`$1, $2, $3, $4` +
 		`) RETURNING id`
 	// run
-	logf(sqlstr, sl.FileTitle, sl.DownloadedAt)
-	if err := db.QueryRowContext(ctx, sqlstr, sl.FileTitle, sl.DownloadedAt).Scan(&sl.ID); err != nil {
+	logf(sqlstr, sl.FileTitle, sl.DownloadedAt, sl.CreatedAt, sl.UpdatedAt)
+	if err := db.QueryRowContext(ctx, sqlstr, sl.FileTitle, sl.DownloadedAt, sl.CreatedAt, sl.UpdatedAt).Scan(&sl.ID); err != nil {
 		return logerror(err)
 	}
 	// set exists
@@ -61,11 +63,11 @@ func (sl *SecurityList) Update(ctx context.Context, db DB) error {
 	}
 	// update with composite primary key
 	const sqlstr = `UPDATE public.security_lists SET ` +
-		`file_title = $1, downloaded_at = $2 ` +
-		`WHERE id = $3`
+		`file_title = $1, downloaded_at = $2, created_at = $3, updated_at = $4 ` +
+		`WHERE id = $5`
 	// run
-	logf(sqlstr, sl.FileTitle, sl.DownloadedAt, sl.ID)
-	if _, err := db.ExecContext(ctx, sqlstr, sl.FileTitle, sl.DownloadedAt, sl.ID); err != nil {
+	logf(sqlstr, sl.FileTitle, sl.DownloadedAt, sl.CreatedAt, sl.UpdatedAt, sl.ID)
+	if _, err := db.ExecContext(ctx, sqlstr, sl.FileTitle, sl.DownloadedAt, sl.CreatedAt, sl.UpdatedAt, sl.ID); err != nil {
 		return logerror(err)
 	}
 	return nil
@@ -87,16 +89,16 @@ func (sl *SecurityList) Upsert(ctx context.Context, db DB) error {
 	}
 	// upsert
 	const sqlstr = `INSERT INTO public.security_lists (` +
-		`id, file_title, downloaded_at` +
+		`id, file_title, downloaded_at, created_at, updated_at` +
 		`) VALUES (` +
-		`$1, $2, $3` +
+		`$1, $2, $3, $4, $5` +
 		`)` +
 		` ON CONFLICT (id) DO ` +
 		`UPDATE SET ` +
-		`file_title = EXCLUDED.file_title, downloaded_at = EXCLUDED.downloaded_at `
+		`file_title = EXCLUDED.file_title, downloaded_at = EXCLUDED.downloaded_at, created_at = EXCLUDED.created_at, updated_at = EXCLUDED.updated_at `
 	// run
-	logf(sqlstr, sl.ID, sl.FileTitle, sl.DownloadedAt)
-	if _, err := db.ExecContext(ctx, sqlstr, sl.ID, sl.FileTitle, sl.DownloadedAt); err != nil {
+	logf(sqlstr, sl.ID, sl.FileTitle, sl.DownloadedAt, sl.CreatedAt, sl.UpdatedAt)
+	if _, err := db.ExecContext(ctx, sqlstr, sl.ID, sl.FileTitle, sl.DownloadedAt, sl.CreatedAt, sl.UpdatedAt); err != nil {
 		return logerror(err)
 	}
 	// set exists
@@ -131,7 +133,7 @@ func (sl *SecurityList) Delete(ctx context.Context, db DB) error {
 func SecurityListByFileTitle(ctx context.Context, db DB, fileTitle string) (*SecurityList, error) {
 	// query
 	const sqlstr = `SELECT ` +
-		`id, file_title, downloaded_at ` +
+		`id, file_title, downloaded_at, created_at, updated_at ` +
 		`FROM public.security_lists ` +
 		`WHERE file_title = $1`
 	// run
@@ -139,7 +141,7 @@ func SecurityListByFileTitle(ctx context.Context, db DB, fileTitle string) (*Sec
 	sl := SecurityList{
 		_exists: true,
 	}
-	if err := db.QueryRowContext(ctx, sqlstr, fileTitle).Scan(&sl.ID, &sl.FileTitle, &sl.DownloadedAt); err != nil {
+	if err := db.QueryRowContext(ctx, sqlstr, fileTitle).Scan(&sl.ID, &sl.FileTitle, &sl.DownloadedAt, &sl.CreatedAt, &sl.UpdatedAt); err != nil {
 		return nil, logerror(err)
 	}
 	return &sl, nil
@@ -151,7 +153,7 @@ func SecurityListByFileTitle(ctx context.Context, db DB, fileTitle string) (*Sec
 func SecurityListByID(ctx context.Context, db DB, id int64) (*SecurityList, error) {
 	// query
 	const sqlstr = `SELECT ` +
-		`id, file_title, downloaded_at ` +
+		`id, file_title, downloaded_at, created_at, updated_at ` +
 		`FROM public.security_lists ` +
 		`WHERE id = $1`
 	// run
@@ -159,7 +161,7 @@ func SecurityListByID(ctx context.Context, db DB, id int64) (*SecurityList, erro
 	sl := SecurityList{
 		_exists: true,
 	}
-	if err := db.QueryRowContext(ctx, sqlstr, id).Scan(&sl.ID, &sl.FileTitle, &sl.DownloadedAt); err != nil {
+	if err := db.QueryRowContext(ctx, sqlstr, id).Scan(&sl.ID, &sl.FileTitle, &sl.DownloadedAt, &sl.CreatedAt, &sl.UpdatedAt); err != nil {
 		return nil, logerror(err)
 	}
 	return &sl, nil

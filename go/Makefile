@@ -12,7 +12,9 @@ install/tools:
 
 .PHONY: generate/models
 generate/models:
-	@xo schema ${DATABASE_URL} -o models -e "*.created_at" -e "*.updated_at"
+	@xo schema ${DATABASE_URL} -o models
+	@find models -type f -name "*.go" | xargs sed -i 's/Timestamp6WithoutTimeZone/time.Time/g'
+	@find models -type f -name "*.go" | xargs gofmt -s -w
 	rm -f models/arinternalmetadatum.xo.go models/schemamigration.xo.go
 
 .PHONY: generate/schema

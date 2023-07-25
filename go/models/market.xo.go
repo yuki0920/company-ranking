@@ -4,12 +4,15 @@ package models
 
 import (
 	"context"
+	"time"
 )
 
 // Market represents a row from 'public.markets'.
 type Market struct {
-	ID   int64  `json:"id"`   // id
-	Name string `json:"name"` // name
+	ID        int64     `json:"id"`         // id
+	Name      string    `json:"name"`       // name
+	CreatedAt time.Time `json:"created_at"` // created_at
+	UpdatedAt time.Time `json:"updated_at"` // updated_at
 	// xo fields
 	_exists, _deleted bool
 }
@@ -35,13 +38,13 @@ func (m *Market) Insert(ctx context.Context, db DB) error {
 	}
 	// insert (primary key generated and returned by database)
 	const sqlstr = `INSERT INTO public.markets (` +
-		`name` +
+		`name, created_at, updated_at` +
 		`) VALUES (` +
-		`$1` +
+		`$1, $2, $3` +
 		`) RETURNING id`
 	// run
-	logf(sqlstr, m.Name)
-	if err := db.QueryRowContext(ctx, sqlstr, m.Name).Scan(&m.ID); err != nil {
+	logf(sqlstr, m.Name, m.CreatedAt, m.UpdatedAt)
+	if err := db.QueryRowContext(ctx, sqlstr, m.Name, m.CreatedAt, m.UpdatedAt).Scan(&m.ID); err != nil {
 		return logerror(err)
 	}
 	// set exists
@@ -59,11 +62,11 @@ func (m *Market) Update(ctx context.Context, db DB) error {
 	}
 	// update with composite primary key
 	const sqlstr = `UPDATE public.markets SET ` +
-		`name = $1 ` +
-		`WHERE id = $2`
+		`name = $1, created_at = $2, updated_at = $3 ` +
+		`WHERE id = $4`
 	// run
-	logf(sqlstr, m.Name, m.ID)
-	if _, err := db.ExecContext(ctx, sqlstr, m.Name, m.ID); err != nil {
+	logf(sqlstr, m.Name, m.CreatedAt, m.UpdatedAt, m.ID)
+	if _, err := db.ExecContext(ctx, sqlstr, m.Name, m.CreatedAt, m.UpdatedAt, m.ID); err != nil {
 		return logerror(err)
 	}
 	return nil
@@ -85,16 +88,16 @@ func (m *Market) Upsert(ctx context.Context, db DB) error {
 	}
 	// upsert
 	const sqlstr = `INSERT INTO public.markets (` +
-		`id, name` +
+		`id, name, created_at, updated_at` +
 		`) VALUES (` +
-		`$1, $2` +
+		`$1, $2, $3, $4` +
 		`)` +
 		` ON CONFLICT (id) DO ` +
 		`UPDATE SET ` +
-		`name = EXCLUDED.name `
+		`name = EXCLUDED.name, created_at = EXCLUDED.created_at, updated_at = EXCLUDED.updated_at `
 	// run
-	logf(sqlstr, m.ID, m.Name)
-	if _, err := db.ExecContext(ctx, sqlstr, m.ID, m.Name); err != nil {
+	logf(sqlstr, m.ID, m.Name, m.CreatedAt, m.UpdatedAt)
+	if _, err := db.ExecContext(ctx, sqlstr, m.ID, m.Name, m.CreatedAt, m.UpdatedAt); err != nil {
 		return logerror(err)
 	}
 	// set exists
@@ -129,7 +132,7 @@ func (m *Market) Delete(ctx context.Context, db DB) error {
 func MarketByName(ctx context.Context, db DB, name string) (*Market, error) {
 	// query
 	const sqlstr = `SELECT ` +
-		`id, name ` +
+		`id, name, created_at, updated_at ` +
 		`FROM public.markets ` +
 		`WHERE name = $1`
 	// run
@@ -137,7 +140,7 @@ func MarketByName(ctx context.Context, db DB, name string) (*Market, error) {
 	m := Market{
 		_exists: true,
 	}
-	if err := db.QueryRowContext(ctx, sqlstr, name).Scan(&m.ID, &m.Name); err != nil {
+	if err := db.QueryRowContext(ctx, sqlstr, name).Scan(&m.ID, &m.Name, &m.CreatedAt, &m.UpdatedAt); err != nil {
 		return nil, logerror(err)
 	}
 	return &m, nil
@@ -149,7 +152,7 @@ func MarketByName(ctx context.Context, db DB, name string) (*Market, error) {
 func MarketByID(ctx context.Context, db DB, id int64) (*Market, error) {
 	// query
 	const sqlstr = `SELECT ` +
-		`id, name ` +
+		`id, name, created_at, updated_at ` +
 		`FROM public.markets ` +
 		`WHERE id = $1`
 	// run
@@ -157,7 +160,7 @@ func MarketByID(ctx context.Context, db DB, id int64) (*Market, error) {
 	m := Market{
 		_exists: true,
 	}
-	if err := db.QueryRowContext(ctx, sqlstr, id).Scan(&m.ID, &m.Name); err != nil {
+	if err := db.QueryRowContext(ctx, sqlstr, id).Scan(&m.ID, &m.Name, &m.CreatedAt, &m.UpdatedAt); err != nil {
 		return nil, logerror(err)
 	}
 	return &m, nil
