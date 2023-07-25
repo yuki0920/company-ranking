@@ -4,12 +4,15 @@ package models
 
 import (
 	"context"
+	"time"
 )
 
 // IndustryCategory represents a row from 'public.industry_categories'.
 type IndustryCategory struct {
-	ID   int64  `json:"id"`   // id
-	Name string `json:"name"` // name
+	ID        int64     `json:"id"`         // id
+	Name      string    `json:"name"`       // name
+	CreatedAt time.Time `json:"created_at"` // created_at
+	UpdatedAt time.Time `json:"updated_at"` // updated_at
 	// xo fields
 	_exists, _deleted bool
 }
@@ -35,13 +38,13 @@ func (ic *IndustryCategory) Insert(ctx context.Context, db DB) error {
 	}
 	// insert (primary key generated and returned by database)
 	const sqlstr = `INSERT INTO public.industry_categories (` +
-		`name` +
+		`name, created_at, updated_at` +
 		`) VALUES (` +
-		`$1` +
+		`$1, $2, $3` +
 		`) RETURNING id`
 	// run
-	logf(sqlstr, ic.Name)
-	if err := db.QueryRowContext(ctx, sqlstr, ic.Name).Scan(&ic.ID); err != nil {
+	logf(sqlstr, ic.Name, ic.CreatedAt, ic.UpdatedAt)
+	if err := db.QueryRowContext(ctx, sqlstr, ic.Name, ic.CreatedAt, ic.UpdatedAt).Scan(&ic.ID); err != nil {
 		return logerror(err)
 	}
 	// set exists
@@ -59,11 +62,11 @@ func (ic *IndustryCategory) Update(ctx context.Context, db DB) error {
 	}
 	// update with composite primary key
 	const sqlstr = `UPDATE public.industry_categories SET ` +
-		`name = $1 ` +
-		`WHERE id = $2`
+		`name = $1, created_at = $2, updated_at = $3 ` +
+		`WHERE id = $4`
 	// run
-	logf(sqlstr, ic.Name, ic.ID)
-	if _, err := db.ExecContext(ctx, sqlstr, ic.Name, ic.ID); err != nil {
+	logf(sqlstr, ic.Name, ic.CreatedAt, ic.UpdatedAt, ic.ID)
+	if _, err := db.ExecContext(ctx, sqlstr, ic.Name, ic.CreatedAt, ic.UpdatedAt, ic.ID); err != nil {
 		return logerror(err)
 	}
 	return nil
@@ -85,16 +88,16 @@ func (ic *IndustryCategory) Upsert(ctx context.Context, db DB) error {
 	}
 	// upsert
 	const sqlstr = `INSERT INTO public.industry_categories (` +
-		`id, name` +
+		`id, name, created_at, updated_at` +
 		`) VALUES (` +
-		`$1, $2` +
+		`$1, $2, $3, $4` +
 		`)` +
 		` ON CONFLICT (id) DO ` +
 		`UPDATE SET ` +
-		`name = EXCLUDED.name `
+		`name = EXCLUDED.name, created_at = EXCLUDED.created_at, updated_at = EXCLUDED.updated_at `
 	// run
-	logf(sqlstr, ic.ID, ic.Name)
-	if _, err := db.ExecContext(ctx, sqlstr, ic.ID, ic.Name); err != nil {
+	logf(sqlstr, ic.ID, ic.Name, ic.CreatedAt, ic.UpdatedAt)
+	if _, err := db.ExecContext(ctx, sqlstr, ic.ID, ic.Name, ic.CreatedAt, ic.UpdatedAt); err != nil {
 		return logerror(err)
 	}
 	// set exists
@@ -129,7 +132,7 @@ func (ic *IndustryCategory) Delete(ctx context.Context, db DB) error {
 func IndustryCategoryByName(ctx context.Context, db DB, name string) (*IndustryCategory, error) {
 	// query
 	const sqlstr = `SELECT ` +
-		`id, name ` +
+		`id, name, created_at, updated_at ` +
 		`FROM public.industry_categories ` +
 		`WHERE name = $1`
 	// run
@@ -137,7 +140,7 @@ func IndustryCategoryByName(ctx context.Context, db DB, name string) (*IndustryC
 	ic := IndustryCategory{
 		_exists: true,
 	}
-	if err := db.QueryRowContext(ctx, sqlstr, name).Scan(&ic.ID, &ic.Name); err != nil {
+	if err := db.QueryRowContext(ctx, sqlstr, name).Scan(&ic.ID, &ic.Name, &ic.CreatedAt, &ic.UpdatedAt); err != nil {
 		return nil, logerror(err)
 	}
 	return &ic, nil
@@ -149,7 +152,7 @@ func IndustryCategoryByName(ctx context.Context, db DB, name string) (*IndustryC
 func IndustryCategoryByID(ctx context.Context, db DB, id int64) (*IndustryCategory, error) {
 	// query
 	const sqlstr = `SELECT ` +
-		`id, name ` +
+		`id, name, created_at, updated_at ` +
 		`FROM public.industry_categories ` +
 		`WHERE id = $1`
 	// run
@@ -157,7 +160,7 @@ func IndustryCategoryByID(ctx context.Context, db DB, id int64) (*IndustryCatego
 	ic := IndustryCategory{
 		_exists: true,
 	}
-	if err := db.QueryRowContext(ctx, sqlstr, id).Scan(&ic.ID, &ic.Name); err != nil {
+	if err := db.QueryRowContext(ctx, sqlstr, id).Scan(&ic.ID, &ic.Name, &ic.CreatedAt, &ic.UpdatedAt); err != nil {
 		return nil, logerror(err)
 	}
 	return &ic, nil

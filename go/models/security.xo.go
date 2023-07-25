@@ -4,15 +4,18 @@ package models
 
 import (
 	"context"
+	"time"
 )
 
 // Security represents a row from 'public.securities'.
 type Security struct {
-	ID           int64  `json:"id"`            // id
-	Code         int    `json:"code"`          // code
-	Name         string `json:"name"`          // name
-	MarketID     int64  `json:"market_id"`     // market_id
-	IndustryCode int    `json:"industry_code"` // industry_code
+	ID           int64     `json:"id"`            // id
+	Code         int       `json:"code"`          // code
+	Name         string    `json:"name"`          // name
+	MarketID     int64     `json:"market_id"`     // market_id
+	IndustryCode int       `json:"industry_code"` // industry_code
+	CreatedAt    time.Time `json:"created_at"`    // created_at
+	UpdatedAt    time.Time `json:"updated_at"`    // updated_at
 	// xo fields
 	_exists, _deleted bool
 }
@@ -38,13 +41,13 @@ func (s *Security) Insert(ctx context.Context, db DB) error {
 	}
 	// insert (primary key generated and returned by database)
 	const sqlstr = `INSERT INTO public.securities (` +
-		`code, name, market_id, industry_code` +
+		`code, name, market_id, industry_code, created_at, updated_at` +
 		`) VALUES (` +
-		`$1, $2, $3, $4` +
+		`$1, $2, $3, $4, $5, $6` +
 		`) RETURNING id`
 	// run
-	logf(sqlstr, s.Code, s.Name, s.MarketID, s.IndustryCode)
-	if err := db.QueryRowContext(ctx, sqlstr, s.Code, s.Name, s.MarketID, s.IndustryCode).Scan(&s.ID); err != nil {
+	logf(sqlstr, s.Code, s.Name, s.MarketID, s.IndustryCode, s.CreatedAt, s.UpdatedAt)
+	if err := db.QueryRowContext(ctx, sqlstr, s.Code, s.Name, s.MarketID, s.IndustryCode, s.CreatedAt, s.UpdatedAt).Scan(&s.ID); err != nil {
 		return logerror(err)
 	}
 	// set exists
@@ -62,11 +65,11 @@ func (s *Security) Update(ctx context.Context, db DB) error {
 	}
 	// update with composite primary key
 	const sqlstr = `UPDATE public.securities SET ` +
-		`code = $1, name = $2, market_id = $3, industry_code = $4 ` +
-		`WHERE id = $5`
+		`code = $1, name = $2, market_id = $3, industry_code = $4, created_at = $5, updated_at = $6 ` +
+		`WHERE id = $7`
 	// run
-	logf(sqlstr, s.Code, s.Name, s.MarketID, s.IndustryCode, s.ID)
-	if _, err := db.ExecContext(ctx, sqlstr, s.Code, s.Name, s.MarketID, s.IndustryCode, s.ID); err != nil {
+	logf(sqlstr, s.Code, s.Name, s.MarketID, s.IndustryCode, s.CreatedAt, s.UpdatedAt, s.ID)
+	if _, err := db.ExecContext(ctx, sqlstr, s.Code, s.Name, s.MarketID, s.IndustryCode, s.CreatedAt, s.UpdatedAt, s.ID); err != nil {
 		return logerror(err)
 	}
 	return nil
@@ -88,16 +91,16 @@ func (s *Security) Upsert(ctx context.Context, db DB) error {
 	}
 	// upsert
 	const sqlstr = `INSERT INTO public.securities (` +
-		`id, code, name, market_id, industry_code` +
+		`id, code, name, market_id, industry_code, created_at, updated_at` +
 		`) VALUES (` +
-		`$1, $2, $3, $4, $5` +
+		`$1, $2, $3, $4, $5, $6, $7` +
 		`)` +
 		` ON CONFLICT (id) DO ` +
 		`UPDATE SET ` +
-		`code = EXCLUDED.code, name = EXCLUDED.name, market_id = EXCLUDED.market_id, industry_code = EXCLUDED.industry_code `
+		`code = EXCLUDED.code, name = EXCLUDED.name, market_id = EXCLUDED.market_id, industry_code = EXCLUDED.industry_code, created_at = EXCLUDED.created_at, updated_at = EXCLUDED.updated_at `
 	// run
-	logf(sqlstr, s.ID, s.Code, s.Name, s.MarketID, s.IndustryCode)
-	if _, err := db.ExecContext(ctx, sqlstr, s.ID, s.Code, s.Name, s.MarketID, s.IndustryCode); err != nil {
+	logf(sqlstr, s.ID, s.Code, s.Name, s.MarketID, s.IndustryCode, s.CreatedAt, s.UpdatedAt)
+	if _, err := db.ExecContext(ctx, sqlstr, s.ID, s.Code, s.Name, s.MarketID, s.IndustryCode, s.CreatedAt, s.UpdatedAt); err != nil {
 		return logerror(err)
 	}
 	// set exists
@@ -132,7 +135,7 @@ func (s *Security) Delete(ctx context.Context, db DB) error {
 func SecurityByCode(ctx context.Context, db DB, code int) (*Security, error) {
 	// query
 	const sqlstr = `SELECT ` +
-		`id, code, name, market_id, industry_code ` +
+		`id, code, name, market_id, industry_code, created_at, updated_at ` +
 		`FROM public.securities ` +
 		`WHERE code = $1`
 	// run
@@ -140,7 +143,7 @@ func SecurityByCode(ctx context.Context, db DB, code int) (*Security, error) {
 	s := Security{
 		_exists: true,
 	}
-	if err := db.QueryRowContext(ctx, sqlstr, code).Scan(&s.ID, &s.Code, &s.Name, &s.MarketID, &s.IndustryCode); err != nil {
+	if err := db.QueryRowContext(ctx, sqlstr, code).Scan(&s.ID, &s.Code, &s.Name, &s.MarketID, &s.IndustryCode, &s.CreatedAt, &s.UpdatedAt); err != nil {
 		return nil, logerror(err)
 	}
 	return &s, nil
@@ -152,7 +155,7 @@ func SecurityByCode(ctx context.Context, db DB, code int) (*Security, error) {
 func SecuritiesByIndustryCode(ctx context.Context, db DB, industryCode int) ([]*Security, error) {
 	// query
 	const sqlstr = `SELECT ` +
-		`id, code, name, market_id, industry_code ` +
+		`id, code, name, market_id, industry_code, created_at, updated_at ` +
 		`FROM public.securities ` +
 		`WHERE industry_code = $1`
 	// run
@@ -169,7 +172,7 @@ func SecuritiesByIndustryCode(ctx context.Context, db DB, industryCode int) ([]*
 			_exists: true,
 		}
 		// scan
-		if err := rows.Scan(&s.ID, &s.Code, &s.Name, &s.MarketID, &s.IndustryCode); err != nil {
+		if err := rows.Scan(&s.ID, &s.Code, &s.Name, &s.MarketID, &s.IndustryCode, &s.CreatedAt, &s.UpdatedAt); err != nil {
 			return nil, logerror(err)
 		}
 		res = append(res, &s)
@@ -186,7 +189,7 @@ func SecuritiesByIndustryCode(ctx context.Context, db DB, industryCode int) ([]*
 func SecuritiesByMarketID(ctx context.Context, db DB, marketID int64) ([]*Security, error) {
 	// query
 	const sqlstr = `SELECT ` +
-		`id, code, name, market_id, industry_code ` +
+		`id, code, name, market_id, industry_code, created_at, updated_at ` +
 		`FROM public.securities ` +
 		`WHERE market_id = $1`
 	// run
@@ -203,7 +206,7 @@ func SecuritiesByMarketID(ctx context.Context, db DB, marketID int64) ([]*Securi
 			_exists: true,
 		}
 		// scan
-		if err := rows.Scan(&s.ID, &s.Code, &s.Name, &s.MarketID, &s.IndustryCode); err != nil {
+		if err := rows.Scan(&s.ID, &s.Code, &s.Name, &s.MarketID, &s.IndustryCode, &s.CreatedAt, &s.UpdatedAt); err != nil {
 			return nil, logerror(err)
 		}
 		res = append(res, &s)
@@ -220,7 +223,7 @@ func SecuritiesByMarketID(ctx context.Context, db DB, marketID int64) ([]*Securi
 func SecurityByName(ctx context.Context, db DB, name string) (*Security, error) {
 	// query
 	const sqlstr = `SELECT ` +
-		`id, code, name, market_id, industry_code ` +
+		`id, code, name, market_id, industry_code, created_at, updated_at ` +
 		`FROM public.securities ` +
 		`WHERE name = $1`
 	// run
@@ -228,7 +231,7 @@ func SecurityByName(ctx context.Context, db DB, name string) (*Security, error) 
 	s := Security{
 		_exists: true,
 	}
-	if err := db.QueryRowContext(ctx, sqlstr, name).Scan(&s.ID, &s.Code, &s.Name, &s.MarketID, &s.IndustryCode); err != nil {
+	if err := db.QueryRowContext(ctx, sqlstr, name).Scan(&s.ID, &s.Code, &s.Name, &s.MarketID, &s.IndustryCode, &s.CreatedAt, &s.UpdatedAt); err != nil {
 		return nil, logerror(err)
 	}
 	return &s, nil
@@ -240,7 +243,7 @@ func SecurityByName(ctx context.Context, db DB, name string) (*Security, error) 
 func SecurityByID(ctx context.Context, db DB, id int64) (*Security, error) {
 	// query
 	const sqlstr = `SELECT ` +
-		`id, code, name, market_id, industry_code ` +
+		`id, code, name, market_id, industry_code, created_at, updated_at ` +
 		`FROM public.securities ` +
 		`WHERE id = $1`
 	// run
@@ -248,7 +251,7 @@ func SecurityByID(ctx context.Context, db DB, id int64) (*Security, error) {
 	s := Security{
 		_exists: true,
 	}
-	if err := db.QueryRowContext(ctx, sqlstr, id).Scan(&s.ID, &s.Code, &s.Name, &s.MarketID, &s.IndustryCode); err != nil {
+	if err := db.QueryRowContext(ctx, sqlstr, id).Scan(&s.ID, &s.Code, &s.Name, &s.MarketID, &s.IndustryCode, &s.CreatedAt, &s.UpdatedAt); err != nil {
 		return nil, logerror(err)
 	}
 	return &s, nil
