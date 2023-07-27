@@ -39,6 +39,8 @@ func setupSeed() {
 
 	// security1
 	security1 := models.SecurityFixture(func(security *models.Security) {
+		security.Name = "会社1"
+		security.Code = 1001
 		security.MarketID = 1
 		security.IndustryCode = 50
 	})
@@ -49,6 +51,7 @@ func setupSeed() {
 
 	document1 := models.DocumentFixture(func(document *models.Document) {
 		document.SecurityCode = security1.Code
+		document.CompanyNameEn = sql.NullString{String: "company1", Valid: true}
 	})
 	err = document1.Insert(context, db)
 	if err != nil {
@@ -57,6 +60,8 @@ func setupSeed() {
 
 	// security2
 	security2 := models.SecurityFixture(func(security *models.Security) {
+		security.Name = "会社2"
+		security.Code = 2002
 		security.MarketID = 1
 		security.IndustryCode = 50
 	})
@@ -67,6 +72,7 @@ func setupSeed() {
 
 	document2 := models.DocumentFixture(func(document *models.Document) {
 		document.SecurityCode = security2.Code
+		document.CompanyNameEn = sql.NullString{String: "company2", Valid: true}
 	})
 	err = document2.Insert(context, db)
 	if err != nil {
@@ -75,6 +81,8 @@ func setupSeed() {
 
 	// security3
 	security3 := models.SecurityFixture(func(security *models.Security) {
+		security.Name = "会社3"
+		security.Code = 3003
 		security.MarketID = 2
 		security.IndustryCode = 1050
 	})
@@ -85,10 +93,105 @@ func setupSeed() {
 
 	document3 := models.DocumentFixture(func(document *models.Document) {
 		document.SecurityCode = security3.Code
+		document.CompanyNameEn = sql.NullString{String: "company3", Valid: true}
 	})
 	err = document3.Insert(context, db)
 	if err != nil {
 		panic(err)
+	}
+}
+
+func TestListCompanies(t *testing.T) {
+	r := httptest.NewRequest("GET", "/api/v1/companies", nil)
+	w := httptest.NewRecorder()
+	params := ListCompaniesParams{
+		SortType: "average_annual_salary",
+	}
+	s.ListCompanies(w, r, params)
+
+	if w.Code != 200 {
+		t.Errorf("expected 200 but got %d", w.Code)
+	}
+
+	want := ResponseCompanies{
+		Companies: []EachCompany{
+			{
+				IndustryCode:   50,
+				IndustryName:   "水産・農林業",
+				MarketId:       1,
+				MarketName:     "プライム",
+				SecurityCode:   1001,
+				SecurityName:   "会社1",
+				SecurityNameEn: "company1",
+			},
+			{
+				IndustryCode:   50,
+				IndustryName:   "水産・農林業",
+				MarketId:       1,
+				MarketName:     "プライム",
+				SecurityCode:   2002,
+				SecurityName:   "会社2",
+				SecurityNameEn: "company2",
+			},
+			{
+				IndustryCode:   1050,
+				IndustryName:   "鉱業",
+				MarketId:       2,
+				MarketName:     "スタンダード",
+				SecurityCode:   3003,
+				SecurityName:   "会社3",
+				SecurityNameEn: "company3",
+			},
+		},
+		Meta: Meta{
+			CurrentPage: 1,
+			LastPage:    1,
+			LimitCount:  50,
+			NextPage:    nil,
+			PrevPage:    nil,
+			OffsetCount: 1,
+			SortType:    "average_annual_salary",
+			TotalCount:  3,
+		},
+	}
+
+	var got ResponseCompanies
+	if err := json.Unmarshal(w.Body.Bytes(), &got); err != nil {
+		t.Fatal(err)
+	}
+
+	if diff := cmp.Diff(want, got); diff != "" {
+		t.Errorf("differs: (-want +got)\n%s", diff)
+	}
+}
+
+func TestGetCompany(t *testing.T) {
+	r := httptest.NewRequest("GET", "/api/v1/companies", nil)
+	w := httptest.NewRecorder()
+	s.GetCompany(w, r, 1001)
+
+	if w.Code != 200 {
+		t.Errorf("expected 200 but got %d", w.Code)
+	}
+}
+
+func TestListSecurityCodes(t *testing.T) {
+	r := httptest.NewRequest("GET", "/api/v1/company_ids", nil)
+	w := httptest.NewRecorder()
+	s.ListSecurityCodes(w, r)
+
+	if w.Code != 200 {
+		t.Errorf("expected 200 but got %d", w.Code)
+	}
+
+	var got ResponseSecurityCodes
+	if err := json.Unmarshal(w.Body.Bytes(), &got); err != nil {
+		t.Fatal(err)
+	}
+
+	securityLen := len(got.SecurityCodes)
+	if securityLen != 3 {
+		t.Errorf("expected 3 but got %d", securityLen)
 	}
 }
 
