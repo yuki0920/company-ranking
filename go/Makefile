@@ -28,7 +28,7 @@ generate/server:
 .PHONY: test
 test:
 	@./scripts/setup_db.sh
-	@go test -v ./...
+	@go test -v ./... -coverprofile=coverage.out
 
 .PHONY: lint
 lint:
