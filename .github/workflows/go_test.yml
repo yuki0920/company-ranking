@@ -45,3 +45,7 @@ jobs:
           POSTGRES_TEST_NAME: company_ranking_test
           POSTGRES_TEST_USER: postgres_test
           DATABASE_TEST_URL: "postgres://postgres_test:password@localhost:5432/company_ranking_test?sslmode=disable"
+      - name: Coverage report
+        uses: k1LoW/octocov-action@v0
+        with:
+          config: go/.octocov.yaml
