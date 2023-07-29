@@ -165,6 +165,65 @@ func TestListCompanies(t *testing.T) {
 	}
 }
 
+func TestListCompaniesOfMarketId(t *testing.T) {
+	r := httptest.NewRequest("GET", "/api/v1/companies", nil)
+	w := httptest.NewRecorder()
+
+	marketId := new(int)
+	*marketId = 1
+	params := ListCompaniesParams{
+		MarketId: marketId,
+		SortType: "average_annual_salary",
+	}
+	s.ListCompanies(w, r, params)
+
+	if w.Code != 200 {
+		t.Errorf("expected 200 but got %d", w.Code)
+	}
+
+	want := ResponseCompanies{
+		Companies: []EachCompany{
+			{
+				IndustryCode:   50,
+				IndustryName:   "水産・農林業",
+				MarketId:       1,
+				MarketName:     "プライム",
+				SecurityCode:   1001,
+				SecurityName:   "会社1",
+				SecurityNameEn: "company1",
+			},
+			{
+				IndustryCode:   50,
+				IndustryName:   "水産・農林業",
+				MarketId:       1,
+				MarketName:     "プライム",
+				SecurityCode:   2002,
+				SecurityName:   "会社2",
+				SecurityNameEn: "company2",
+			},
+		},
+		Meta: Meta{
+			CurrentPage: 1,
+			LastPage:    1,
+			LimitCount:  50,
+			NextPage:    nil,
+			PrevPage:    nil,
+			OffsetCount: 1,
+			SortType:    "average_annual_salary",
+			TotalCount:  2,
+		},
+	}
+
+	var got ResponseCompanies
+	if err := json.Unmarshal(w.Body.Bytes(), &got); err != nil {
+		t.Fatal(err)
+	}
+
+	if diff := cmp.Diff(want, got); diff != "" {
+		t.Errorf("differs: (-want +got)\n%s", diff)
+	}
+}
+
 func TestGetCompany(t *testing.T) {
 	r := httptest.NewRequest("GET", "/api/v1/companies", nil)
 	w := httptest.NewRecorder()
