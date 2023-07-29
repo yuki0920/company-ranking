@@ -48,4 +48,4 @@ jobs:
       - name: Coverage report
         uses: k1LoW/octocov-action@v0
         with:
-          config: go/.octocov.yaml
+          config: go/.octocov.yml
