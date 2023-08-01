@@ -65,10 +65,11 @@ make typescript/generate/client
 ### 1. Get the security list by scraping.
 
 ```sh
-bundle exec rake save_securities:every_2weeks
+bundle exec rake save_securities:all
 ```
 
-How to check: If the companies listed on [the sheet](https://www.jpx.co.jp/listing/stocks/new/index.html) are registered, it is OK.
+How to check: If the companies listed on [the sheet](https://www.jpx.co.jp/listing/stocks/new/index.html) are registered, it is successful.
+The data is created in DB(securities).
 
 ### 2. Get the metadata of security by EDINET API
 
@@ -81,19 +82,20 @@ The API details are [here](https://disclosure2dl.edinet-fsa.go.jp/guide/static/d
 bundle exec rake save_document_summary:year
 ```
 
-How to check: If the **metadata** such as `security_code` and `company_name` of the company's most recent announcement is reflected, it is OK.
+How to check: If the **metadata** such as `security_code` and `company_name` of the company's most recent announcement is reflected, it is successful.
+The data is **created** in DB(documents).
 
 ### 3. Get the detail of security by EDINET API
 
 The API is called `書類取得API`
 Endpoint: https://disclosure.edinet-fsa.go.jp/api/v1/documents
 
-
 ```sh
 bundle exec rake save_document_detail:batch
 ```
 
-How to check: If the **details** such as `net_sales` and `average_annual_salary` of the company's most recent announcement are reflected, it is OK.
+How to check: If the **details** such as `net_sales` and `average_annual_salary` of the company's most recent announcement are reflected, it is successful.
+The data is **updated** in DB(documents).
 
 ## Dependency Update
 
