@@ -19,6 +19,9 @@ cd typescript && npm install && cd ../
 docker-compose up
 ```
 
+## Architecture
+
+![System Architecture Image](./architecture.drawio.svg)
 
 ### URL
 
