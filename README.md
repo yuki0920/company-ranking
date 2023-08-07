@@ -1,8 +1,13 @@
 # company-ranking
 
-[JAPAN Listed Companies] is a website that displays sales and annual salaries of companies listed on the Tokyo Stock Exchange in a ranking format.
+JAPAN Listed Companies is a website that displays sales and annual salaries of companies listed on the Tokyo Stock Exchange in a ranking format. This website is available in English and Japanese
 
-https://www.company-ranking.net/en
+- English: https://www.company-ranking.net/en
+- Japanese: https://www.company-ranking.net/ja
+
+## Introduction Articles
+- English: https://dev.to/yuki0920/from-personal-project-to-open-source-releasing-japan-listed-companies-site-41d3
+- Japanese: https://zenn.dev/yuki0920/articles/ad5da7f23e2f6a
 
 ## Getting Started
 
@@ -99,6 +104,11 @@ bundle exec rake save_document_detail:batch
 
 How to check: If the **details** such as `net_sales` and `average_annual_salary` of the company's most recent announcement are reflected, it is successful.
 The data is **updated** in DB(documents).
+
+## Contributions
+We welcome your contributions.
+
+Please read [Contribution Flow](CONTRIBUTING.md).
 
 ## Dependency Update
 
