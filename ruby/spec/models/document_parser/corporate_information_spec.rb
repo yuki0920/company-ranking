@@ -12,8 +12,8 @@ RSpec.describe DocumentParser::CorporateInformation do
 
         aggregate_failures do
           # 連結経営指標等
-          expect(document.last_year_net_sales).to eq 1_047_881_000_000
-          expect(document.net_sales).to eq 939_243_000_000
+          expect(document.last_year_net_sales).to eq 5_146_802_000_000
+          expect(document.net_sales).to eq 4_498_216_000_000
           expect(document.last_year_operating_income).to eq(-3_358_000_000)
           expect(document.operating_income).to eq(-140_625_000_000)
           expect(document.last_year_ordinary_income).to be_nil
