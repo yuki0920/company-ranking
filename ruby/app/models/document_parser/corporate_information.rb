@@ -10,7 +10,7 @@ class DocumentParser::CorporateInformation
     @document = Document::CorporateInformation.new
     html = URI.open(@src_path).read
     @parsed_html = Nokogiri::HTML.parse(html)
-    # NOE: Prior1YearDuration は連結会社のみ、提出会社はPrior4YearDuration_NonConsolidatedMemberになる
+    # NOE: 親会社(連結会社)のフラグ Prior1YearDuration は連結会社のみ、提出会社はPrior4YearDuration_NonConsolidatedMemberになる
     @is_consolidated_company = @parsed_html.css('nonfraction').any? { |element| element.attr('contextref') == 'CurrentYearDuration' }
   end
 
@@ -27,11 +27,15 @@ class DocumentParser::CorporateInformation
     @parsed_html.css('nonfraction').each do |element|
       case element.attr('name')
       # 連結経営指標等
-      when /NetSales/, /:Revenue/ # 売上高
+      when /NetSales/, /:Revenue/, /OperatingRevenuesIFRSKeyFinancialData/, /RevenuesUSGAAPSummaryOfBusinessResults/, /OperatingRevenue1SummaryOfBusinessResults/, /OrdinaryIncomeSummaryOfBusinessResults/, /BusinessRevenueSummaryOfBusinessResults/ # 売上高
         if current_year_duration?(element)
-          @document.net_sales = calculate_scale(element)
+          if @document.net_sales.nil?
+            @document.net_sales = calculate_scale(element)
+          end
         elsif prior_1year_duration?(element)
-          @document.last_year_net_sales = calculate_scale(element)
+          if @document.last_year_net_sales.nil?
+            @document.last_year_net_sales = calculate_scale(element)
+          end
         end
       when /OperatingIncome/, /OperatingProfitLoss/, /OperatingRevenue1/ # 営業利益
         if current_year_duration?(element)

@@ -26,6 +26,15 @@ namespace :save_document_detail do
     execute(document)
   end
 
+  # NOTE: for updating net_sales
+  task net_sales: :environment do
+    Document.where(net_sales: nil).find_each do |document|
+      execute(document)
+    rescue StandardError => e
+      puts "[Error] document_id: #{document.document_id}, #{e.class}: #{e.message}"
+    end
+  end
+
   def execute(document)
     meta = "[Info] code: #{document.security_code}, id: #{document.id}, document_id: #{document.document_id} filer_name: #{document.filer_name}"
     puts "#{meta} ダウンロード開始"
