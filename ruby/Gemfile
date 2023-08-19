@@ -49,7 +49,8 @@ end
 
 gem 'faraday'
 gem 'mechanize'
-gem 'nokogiri'
+gem 'nokogiri', '~> 1.13.10', '< 1.14.0'
+
 gem 'pry-rails'
 gem 'rubyzip'
 gem 'slack-notifier'
