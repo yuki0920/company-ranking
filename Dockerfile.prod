@@ -11,7 +11,7 @@ COPY ./go ./
 
 RUN CGO_ENABLED=0 GOOS=linux go build -o /go/bin/server ./cmd/server
 
-FROM ruby:2.7.4-alpine
+FROM ruby:3.1.4-alpine
 
 ENV RUNTIME_PACKAGES="linux-headers libxml2-dev make gcc libc-dev nodejs tzdata postgresql-dev postgresql git less gcompat" \
     DEV_PACKAGES="build-base curl-dev" \
