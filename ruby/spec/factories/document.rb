@@ -21,7 +21,7 @@ FactoryBot.define do
     last_year_net_sales { 303_616_000_000 }
     net_sales { 339_109_000_000 }
     last_year_operating_income { nil }
-    operating_income {  nil }
+    operating_income { nil }
     last_year_ordinary_income { 15_938_000_000 }
     ordinary_income { 25_493_000_000 }
   end
