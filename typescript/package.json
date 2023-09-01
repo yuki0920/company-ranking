@@ -11,15 +11,15 @@
   },
   "dependencies": {
     "@formatjs/intl-localematcher": "^0.4.0",
-    "@types/node": "20.4.5",
-    "@types/react": "18.2.18",
+    "@types/node": "20.5.7",
+    "@types/react": "18.2.21",
     "@types/react-dom": "18.2.7",
-    "autoprefixer": "10.4.14",
-    "eslint": "8.46.0",
-    "eslint-config-next": "13.4.12",
+    "autoprefixer": "10.4.15",
+    "eslint": "8.48.0",
+    "eslint-config-next": "13.4.19",
     "negotiator": "^0.6.3",
-    "next": "13.4.12",
-    "postcss": "8.4.27",
+    "next": "13.4.19",
+    "postcss": "8.4.29",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "tailwindcss": "3.3.3",
@@ -28,10 +28,10 @@
   },
   "devDependencies": {
     "@tailwindcss/typography": "^0.5.9",
-    "@types/gtag.js": "^0.0.12",
+    "@types/gtag.js": "^0.0.13",
     "@types/negotiator": "^0.6.1",
-    "daisyui": "^3.5.0",
-    "eslint-config-prettier": "^8.9.0",
-    "prettier": "^3.0.0"
+    "daisyui": "^3.6.4",
+    "eslint-config-prettier": "^9.0.0",
+    "prettier": "^3.0.3"
   }
 }
