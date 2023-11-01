@@ -29,7 +29,7 @@
   "devDependencies": {
     "@tailwindcss/typography": "^0.5.9",
     "@types/gtag.js": "^0.0.12",
-    "@types/negotiator": "^0.6.1",
+    "@types/negotiator": "^0.6.2",
     "daisyui": "^3.5.0",
     "eslint-config-prettier": "^8.9.0",
     "prettier": "^3.0.0"
