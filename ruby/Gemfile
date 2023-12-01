@@ -49,7 +49,7 @@ end
 
 gem 'faraday'
 gem 'mechanize'
-gem 'nokogiri', '~> 1.13.10', '< 1.14.0'
+gem 'nokogiri', '~> 1.15.5'
 
 gem 'pry-rails'
 gem 'rubyzip'
