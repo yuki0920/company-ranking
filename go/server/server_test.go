@@ -20,7 +20,15 @@ var (
 	err error
 )
 
-func init() {
+func TestMain(m *testing.M) {
+	setupTestServer()
+	setupSeed()
+
+	code := m.Run()
+	os.Exit(code)
+}
+
+func setupTestServer() {
 	env := os.Getenv("ENV")
 	logger := logger.NewLogger(env)
 
@@ -29,8 +37,6 @@ func init() {
 	if err != nil {
 		panic(err)
 	}
-
-	setupSeed()
 
 	s = server.NewServer(db, logger)
 }
