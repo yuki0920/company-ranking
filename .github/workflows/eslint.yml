@@ -8,7 +8,7 @@ jobs:
       run:
         working-directory: ./typescript
     steps:
-          - uses: actions/checkout@v3
+          - uses: actions/checkout@v4
           - uses: actions/setup-node@v3
           - name: Install dependencies
             run: npm ci
