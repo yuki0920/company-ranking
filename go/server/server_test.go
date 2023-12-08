@@ -1,4 +1,4 @@
-package server
+package server_test
 
 import (
 	"context"
@@ -11,15 +11,24 @@ import (
 	"github.com/google/go-cmp/cmp"
 	"github.com/yuki0920/company-ranking/go/logger"
 	"github.com/yuki0920/company-ranking/go/models"
+	"github.com/yuki0920/company-ranking/go/server"
 )
 
 var (
-	s   *Server
+	s   *server.Server
 	db  *sql.DB
 	err error
 )
 
-func init() {
+func TestMain(m *testing.M) {
+	setupTestServer()
+	setupSeed()
+
+	code := m.Run()
+	os.Exit(code)
+}
+
+func setupTestServer() {
 	env := os.Getenv("ENV")
 	logger := logger.NewLogger(env)
 
@@ -29,9 +38,7 @@ func init() {
 		panic(err)
 	}
 
-	setupSeed()
-
-	s = NewServer(db, logger)
+	s = server.NewServer(db, logger)
 }
 
 func setupSeed() {
@@ -104,7 +111,7 @@ func setupSeed() {
 func TestListCompanies(t *testing.T) {
 	r := httptest.NewRequest("GET", "/api/v1/companies", nil)
 	w := httptest.NewRecorder()
-	params := ListCompaniesParams{
+	params := server.ListCompaniesParams{
 		SortType: "average_annual_salary",
 	}
 	s.ListCompanies(w, r, params)
@@ -113,8 +120,8 @@ func TestListCompanies(t *testing.T) {
 		t.Errorf("expected 200 but got %d", w.Code)
 	}
 
-	want := ResponseCompanies{
-		Companies: []EachCompany{
+	want := server.ResponseCompanies{
+		Companies: []server.EachCompany{
 			{
 				IndustryCode:   50,
 				IndustryName:   "水産・農林業",
@@ -143,7 +150,7 @@ func TestListCompanies(t *testing.T) {
 				SecurityNameEn: "company3",
 			},
 		},
-		Meta: Meta{
+		Meta: server.Meta{
 			CurrentPage: 1,
 			LastPage:    1,
 			LimitCount:  50,
@@ -155,7 +162,7 @@ func TestListCompanies(t *testing.T) {
 		},
 	}
 
-	var got ResponseCompanies
+	var got server.ResponseCompanies
 	if err := json.Unmarshal(w.Body.Bytes(), &got); err != nil {
 		t.Fatal(err)
 	}
@@ -171,7 +178,7 @@ func TestListCompaniesOfMarketId(t *testing.T) {
 
 	marketId := new(int)
 	*marketId = 1
-	params := ListCompaniesParams{
+	params := server.ListCompaniesParams{
 		MarketId: marketId,
 		SortType: "average_annual_salary",
 	}
@@ -181,8 +188,8 @@ func TestListCompaniesOfMarketId(t *testing.T) {
 		t.Errorf("expected 200 but got %d", w.Code)
 	}
 
-	want := ResponseCompanies{
-		Companies: []EachCompany{
+	want := server.ResponseCompanies{
+		Companies: []server.EachCompany{
 			{
 				IndustryCode:   50,
 				IndustryName:   "水産・農林業",
@@ -202,7 +209,7 @@ func TestListCompaniesOfMarketId(t *testing.T) {
 				SecurityNameEn: "company2",
 			},
 		},
-		Meta: Meta{
+		Meta: server.Meta{
 			CurrentPage: 1,
 			LastPage:    1,
 			LimitCount:  50,
@@ -214,7 +221,7 @@ func TestListCompaniesOfMarketId(t *testing.T) {
 		},
 	}
 
-	var got ResponseCompanies
+	var got server.ResponseCompanies
 	if err := json.Unmarshal(w.Body.Bytes(), &got); err != nil {
 		t.Fatal(err)
 	}
@@ -243,7 +250,7 @@ func TestListSecurityCodes(t *testing.T) {
 		t.Errorf("expected 200 but got %d", w.Code)
 	}
 
-	var got ResponseSecurityCodes
+	var got server.ResponseSecurityCodes
 	if err := json.Unmarshal(w.Body.Bytes(), &got); err != nil {
 		t.Fatal(err)
 	}
@@ -263,11 +270,11 @@ func TestListMarketIds(t *testing.T) {
 		t.Errorf("expected 200 but got %d", w.Code)
 	}
 
-	want := ResponseMarketIDs{
+	want := server.ResponseMarketIDs{
 		MarketIds: []int64{1, 2, 3},
 	}
 
-	var got ResponseMarketIDs
+	var got server.ResponseMarketIDs
 	if err := json.Unmarshal(w.Body.Bytes(), &got); err != nil {
 		t.Fatal(err)
 	}
@@ -286,8 +293,8 @@ func TestListMarkets(t *testing.T) {
 		t.Errorf("expected 200 but got %d", w.Code)
 	}
 
-	want := ResponseMarkets{
-		Markets: []EachMarket{
+	want := server.ResponseMarkets{
+		Markets: []server.EachMarket{
 			{
 				Count: 2,
 				Id:    1,
@@ -306,7 +313,7 @@ func TestListMarkets(t *testing.T) {
 		},
 	}
 
-	var got ResponseMarkets
+	var got server.ResponseMarkets
 	if err := json.Unmarshal(w.Body.Bytes(), &got); err != nil {
 		t.Fatal(err)
 	}
@@ -325,14 +332,14 @@ func TestGetMarket(t *testing.T) {
 		t.Errorf("expected 200 but got %d", w.Code)
 	}
 
-	want := ResponseMarket{
-		Market: Market{
+	want := server.ResponseMarket{
+		Market: server.Market{
 			Id:   1,
 			Name: "プライム",
 		},
 	}
 
-	var got ResponseMarket
+	var got server.ResponseMarket
 	if err := json.Unmarshal(w.Body.Bytes(), &got); err != nil {
 		t.Fatal(err)
 	}
@@ -351,7 +358,7 @@ func TestListIndustryIds(t *testing.T) {
 		t.Errorf("expected 200 but got %d", w.Code)
 	}
 
-	var got ResponseIndustryIDs
+	var got server.ResponseIndustryIDs
 	if err := json.Unmarshal(w.Body.Bytes(), &got); err != nil {
 		t.Fatal(err)
 	}
@@ -371,14 +378,14 @@ func TestListIndustries(t *testing.T) {
 		t.Errorf("expected 200 but got %d", w.Code)
 	}
 
-	want := EachIndustry{
+	want := server.EachIndustry{
 		Count: 2,
 		Id:    1,
 		Name:  "水産・農林業",
 		Code:  50,
 	}
 
-	var got ResponseIndustries
+	var got server.ResponseIndustries
 	if err := json.Unmarshal(w.Body.Bytes(), &got); err != nil {
 		t.Fatal(err)
 	}
@@ -405,15 +412,15 @@ func TestListIndustry(t *testing.T) {
 		t.Errorf("expected 200 but got %d", w.Code)
 	}
 
-	want := ResponseIndustry{
-		Industry: Industry{
+	want := server.ResponseIndustry{
+		Industry: server.Industry{
 			Id:   1,
 			Name: "水産・農林業",
 			Code: 50,
 		},
 	}
 
-	var got ResponseIndustry
+	var got server.ResponseIndustry
 	if err := json.Unmarshal(w.Body.Bytes(), &got); err != nil {
 		t.Fatal(err)
 	}
