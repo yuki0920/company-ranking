@@ -6,6 +6,7 @@ updates:
       interval: "monthly"
     ignore:
       - dependency-name: "rails"
+      - dependency-name: "nokogiri"
     groups:
       ruby-dependencies:
         patterns:
@@ -15,7 +16,7 @@ updates:
     schedule:
       interval: "monthly"
     groups:
-      typescript-dependencies:
+      javascript-dependencies:
         patterns:
           - "*"
   - package-ecosystem: "gomod"
