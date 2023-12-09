@@ -1,6 +1,6 @@
 module github.com/yuki0920/company-ranking/go/tools
 
-go 1.20
+go 1.21
 
 require (
 	github.com/cosmtrek/air v1.44.0
