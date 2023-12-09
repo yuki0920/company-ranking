@@ -9,7 +9,6 @@ import (
 
 	_ "github.com/lib/pq"
 
-	"github.com/yuki0920/company-ranking/go/logger"
 	"github.com/yuki0920/company-ranking/go/models"
 	"github.com/yuki0920/company-ranking/go/server"
 )
@@ -20,17 +19,12 @@ func main() {
 
 func initServer() error {
 	// setup logger
-	env := os.Getenv("ENV")
-	logger := logger.NewLogger(env)
-	defer func() {
-		_ = logger.Sync()
-	}()
-
 	handler := slog.NewJSONHandler(os.Stdout, &slog.HandlerOptions{})
-	slogLogger := slog.New(handler)
+	logger := slog.New(handler)
+	slog.SetDefault(logger)
 
 	dbLogger := func(s string, v ...any) {
-		slogLogger.Info(
+		logger.Info(
 			"Query Executed",
 			slog.String("Query", s),
 			slog.Any("Value", v),
@@ -39,7 +33,7 @@ func initServer() error {
 
 	dbErrLogger := func(s string, v ...any) {
 		msg := fmt.Sprintf(s, v)
-		slogLogger.Error(
+		logger.Error(
 			"Query Error",
 			slog.String("message", msg),
 		)
@@ -57,7 +51,7 @@ func initServer() error {
 	logger.Info("Connected to database")
 
 	// setup server
-	s := server.NewServer(db, logger)
+	s := server.NewServer(db)
 	frontURL := os.Getenv("FRONT_URL")
 	s.MountHandlers(frontURL)
 	// NOTE: API_HOST is for local development, don't change this.

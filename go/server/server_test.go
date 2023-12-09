@@ -9,7 +9,6 @@ import (
 	"testing"
 
 	"github.com/google/go-cmp/cmp"
-	"github.com/yuki0920/company-ranking/go/logger"
 	"github.com/yuki0920/company-ranking/go/models"
 	"github.com/yuki0920/company-ranking/go/server"
 )
@@ -29,16 +28,13 @@ func TestMain(m *testing.M) {
 }
 
 func setupTestServer() {
-	env := os.Getenv("ENV")
-	logger := logger.NewLogger(env)
-
 	databaseURL := os.Getenv("DATABASE_TEST_URL")
 	db, err = sql.Open("postgres", databaseURL)
 	if err != nil {
 		panic(err)
 	}
 
-	s = server.NewServer(db, logger)
+	s = server.NewServer(db)
 }
 
 func setupSeed() {
