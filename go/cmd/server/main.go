@@ -4,10 +4,10 @@ import (
 	"database/sql"
 	"fmt"
 	"log"
+	"log/slog"
 	"os"
 
 	_ "github.com/lib/pq"
-	"go.uber.org/zap"
 
 	"github.com/yuki0920/company-ranking/go/logger"
 	"github.com/yuki0920/company-ranking/go/models"
@@ -26,18 +26,22 @@ func initServer() error {
 		_ = logger.Sync()
 	}()
 
+	handler := slog.NewJSONHandler(os.Stdout, &slog.HandlerOptions{})
+	slogLogger := slog.New(handler)
+
 	dbLogger := func(s string, v ...any) {
-		logger.Info(
+		slogLogger.Info(
 			"Query Executed",
-			zap.String("Query", s),
-			zap.Any("Value", v),
+			slog.String("Query", s),
+			slog.Any("Value", v),
 		)
 	}
+
 	dbErrLogger := func(s string, v ...any) {
 		msg := fmt.Sprintf(s, v)
-		logger.Error(
+		slogLogger.Error(
 			"Query Error",
-			zap.String("message", msg),
+			slog.String("message", msg),
 		)
 	}
 	models.SetLogger(dbLogger)
