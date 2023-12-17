@@ -5,6 +5,7 @@ import (
 	"database/sql"
 	"encoding/json"
 	"fmt"
+	"log/slog"
 	"net/http"
 	"regexp"
 	"strconv"
@@ -15,30 +16,27 @@ import (
 
 	"github.com/yuki0920/company-ranking/go/middleware"
 	"github.com/yuki0920/company-ranking/go/models"
-	"go.uber.org/zap"
 )
 
 type Server struct {
 	Router *chi.Mux
 	DB     *sql.DB
-	Logger *zap.Logger
 }
 
 type Error struct {
 	Message string `json:"message"`
 }
 
-func NewServer(db *sql.DB, logger *zap.Logger) *Server {
+func NewServer(db *sql.DB) *Server {
 	router := chi.NewRouter()
 	return &Server{
 		Router: router,
 		DB:     db,
-		Logger: logger,
 	}
 }
 
 func (s *Server) MountHandlers(frontURL string) {
-	s.Router.Use(middleware.Logger(s.Logger))
+	s.Router.Use(middleware.LoggingMiddleware())
 	s.Router.Use(cors.Handler(cors.Options{
 		// AllowedOrigins:   []string{"https://foo.com"}, // Use this to allow specific origin hosts
 
@@ -69,7 +67,7 @@ func (s *Server) StartServer(addr string) error {
 		Addr:    addr,
 	}
 
-	s.Logger.Info("Server starting", zap.String("address", addr))
+	slog.Info("Server starting", slog.String("address", addr))
 
 	return hs.ListenAndServe()
 }

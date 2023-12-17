@@ -4,12 +4,11 @@ import (
 	"database/sql"
 	"fmt"
 	"log"
+	"log/slog"
 	"os"
 
 	_ "github.com/lib/pq"
-	"go.uber.org/zap"
 
-	"github.com/yuki0920/company-ranking/go/logger"
 	"github.com/yuki0920/company-ranking/go/models"
 	"github.com/yuki0920/company-ranking/go/server"
 )
@@ -20,24 +19,23 @@ func main() {
 
 func initServer() error {
 	// setup logger
-	env := os.Getenv("ENV")
-	logger := logger.NewLogger(env)
-	defer func() {
-		_ = logger.Sync()
-	}()
+	handler := slog.NewJSONHandler(os.Stdout, &slog.HandlerOptions{})
+	logger := slog.New(handler)
+	slog.SetDefault(logger)
 
 	dbLogger := func(s string, v ...any) {
 		logger.Info(
 			"Query Executed",
-			zap.String("Query", s),
-			zap.Any("Value", v),
+			slog.String("Query", s),
+			slog.Any("Value", v),
 		)
 	}
+
 	dbErrLogger := func(s string, v ...any) {
 		msg := fmt.Sprintf(s, v)
 		logger.Error(
 			"Query Error",
-			zap.String("message", msg),
+			slog.String("message", msg),
 		)
 	}
 	models.SetLogger(dbLogger)
@@ -53,7 +51,7 @@ func initServer() error {
 	logger.Info("Connected to database")
 
 	// setup server
-	s := server.NewServer(db, logger)
+	s := server.NewServer(db)
 	frontURL := os.Getenv("FRONT_URL")
 	s.MountHandlers(frontURL)
 	// NOTE: API_HOST is for local development, don't change this.
