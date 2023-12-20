@@ -1,0 +1,114 @@
+linters:
+  enable:
+    - asasalint
+    - asciicheck
+    - bidichk
+    - bodyclose
+    - containedctx
+    # - deadcode(deprecated)
+    - decorder
+    - dogsled
+    - dupl
+    - dupword
+    - durationcheck
+    - errname
+    - errorlint
+    - execinquery
+    # - exhaustivestruct(deprecated)
+    - exportloopref
+    - forbidigo
+    - forcetypeassert
+    - ginkgolinter
+    - gocheckcompilerdirectives
+    - gochecknoinits
+    - gochecksumtype
+    - gocognit
+    - goconst
+    - gocyclo
+    - godot
+    - goerr113
+    - gofmt
+    - gofumpt
+    - goheader
+    - goimports
+    # - golint(deprecated)
+    - gomoddirectives
+    - gomodguard
+    - goprintffuncname
+    - gosimple
+    - gosmopolitan
+    - govet
+    - grouper
+    # - ifshort(deprecated)
+    - importas
+    - inamedparam
+    - ineffassign
+    - interfacebloat
+    # - interfacer(deprecated)
+    - ireturn
+    - loggercheck
+    - maintidx
+    - makezero
+    # - maligned(deprecated)
+    - mirror
+    - misspell
+    - musttag
+    - nakedret
+    - nilerr
+    - nilnil
+    - noctx
+    - nolintlint
+    - nonamedreturns
+    # - nosnakecase(deprecated)
+    - nosprintfhostport
+    - perfsprint
+    - predeclared
+    - promlinter
+    - protogetter
+    - reassign
+    # - scopelint(deprecated)
+    - sloglint
+    - sqlclosecheck
+    - staticcheck
+    # - structcheck(deprecated)
+    - tagalign
+    - tagliatelle
+    - tenv
+    - testableexamples
+    - testifylint
+    - testpackage
+    - thelper
+    - tparallel
+    - typecheck
+    - unconvert
+    - unused
+    # - varcheck(deprecated)
+    - wastedassign
+    - whitespace
+    - zerologlint
+  disable:
+    - contextcheck
+    - depguard
+    - errchkjson
+    - exhaustive
+    - exhaustruct
+    - funlen
+    - gci
+    - gochecknoglobals
+    - gocritic
+    - godox
+    - gomnd
+    - gosec
+    - lll
+    - nestif
+    - nlreturn
+    - paralleltest
+    - prealloc
+    - revive
+    - rowserrcheck
+    - stylecheck
+    - unparam
+    - usestdlibvars
+    - varnamelen
+    - wrapcheck
+    - wsl
