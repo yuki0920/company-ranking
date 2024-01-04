@@ -4,6 +4,6 @@
 
 @layer components {
   .link-text {
-    @apply text-accent hover:text-accent-focus;
+    @apply text-accent;
   }
 }
