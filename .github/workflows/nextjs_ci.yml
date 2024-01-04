@@ -1,5 +1,9 @@
 name: Next.js CI
-on: [push]
+on:
+  push:
+    paths:
+      - 'typescript/**'
+      - '.github/**'
 jobs:
   next-build:
     name: Build next.js
@@ -18,3 +22,47 @@ jobs:
         run: npm ci
       - name: Run build
         run: npm run build
+  next-lint:
+    name: Run eslint for next.js
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./typescript
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 18
+      - name: Install dependencies
+        run: npm ci
+      - name: Run lint check
+        run: npm run lint
+      - name: Reviewdog
+        uses: reviewdog/action-eslint@v1
+  next-prettier:
+    name: Run prettier for next.js
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./typescript
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 18
+      - name: Install dependencies
+        run: npm ci
+      - name: Run format code
+        run: npm run format
+      - name: Check diff exists
+        run: |
+          git add -N .
+          git diff
+          line=`git diff | wc -l`
+          if [ $line -gt 0 ]; then
+            echo "You need to format"
+            git diff
+            exit -1
+          fi
