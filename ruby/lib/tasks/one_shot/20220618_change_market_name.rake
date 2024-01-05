@@ -17,7 +17,7 @@ namespace :change_market_name do
   end
 
   task market_name: :environment do
-    Market.all.each do |market|
+    Market.find_each do |market|
       new_name = MARKET_NAME_MAPPING[market.name]
       market.update!(name: new_name)
     end
