@@ -29,7 +29,7 @@ jobs:
           cache: true
       - name: Cache Tools
         id: cache-tools
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: ~/go/bin # /home/runner/go/bin
           key: ${{ runner.os }}-go-${{ hashFiles('**/go.sum') }}
@@ -46,6 +46,6 @@ jobs:
           POSTGRES_TEST_USER: postgres_test
           DATABASE_TEST_URL: "postgres://postgres_test:password@localhost:5432/company_ranking_test?sslmode=disable"
       - name: Coverage report
-        uses: k1LoW/octocov-action@v0
+        uses: k1LoW/octocov-action@v1
         with:
           config: go/.octocov.yml
