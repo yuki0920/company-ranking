@@ -4,8 +4,11 @@ FROM golang:1.21
 WORKDIR /go/src
 
 # Download Go modules
-COPY . .
+COPY go/go.* ./
 RUN go mod download
+
+# Copy the rest of the source code
+COPY go/ ./
 
 RUN CGO_ENABLED=0 GOOS=linux go build -o /go/bin/server ./cmd/server
 
