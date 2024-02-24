@@ -26,6 +26,7 @@ jobs:
       POSTGRES_HOST: postgres
       RAILS_DATABASE_USER: postgres
       RAILS_DATABASE_PASSWORD: password
+      FRONT_DOMAIN: dummy
       DATABASE_URL: postgres://postgres:postgres@localhost:5432/test
     steps:
       - uses: actions/checkout@v4
