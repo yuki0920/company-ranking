@@ -1,0 +1,16 @@
+FROM golang:1.21
+
+# Set destination for COPY
+WORKDIR /go/src
+
+# Download Go modules
+COPY ./go.* ./
+RUN go mod download
+
+COPY . .
+
+RUN CGO_ENABLED=0 GOOS=linux go build -o /go/bin/server ./cmd/server
+
+# TODO: Add a multi-stage build to reduce the size of the final image
+
+CMD ["/go/bin/server"]
