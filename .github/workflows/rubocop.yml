@@ -9,7 +9,6 @@ jobs:
         working-directory: ./ruby
     env:
       RAILS_ENV: test
-      FRONT_DOMAIN: dummy
     steps:
       - uses: actions/checkout@v4
       - name: Set up Ruby
