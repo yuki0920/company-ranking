@@ -9,8 +9,6 @@ namespace :save_securities do
   desc '月に2回東証から銘柄銘柄のリストをダウンロードしダウンロードしたファイルから証券を更新する'
 
   task every_2weeks: :environment do
-    return unless Time.zone.now.day.in?([1, 15])
-
     puts '証券一覧のダウンロード開始'
     SecurityList.download
     puts '証券一覧のダウンロード終了'
