@@ -26,7 +26,10 @@ namespace :save_document_summary do
 
   # NOTE: 毎日の定時実行
   task day: :environment do
-    (Time.zone.now.yesterday.to_date..Time.zone.now.to_date).each do |date|
+    today = Time.zone.now.to_date
+    start_date = today.day == 1 ? today.months_ago(1).beginning_of_month : today.yesterday
+
+    (start_date..Time.zone.now.to_date).each do |date|
       save_summary(date)
     end
   end
