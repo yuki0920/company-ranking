@@ -18,9 +18,9 @@ steps:
     - 'gcr.io/$PROJECT_ID/company-ranking-server:$COMMIT_SHA'
     - '--region'
     - 'asia-northeast1'
-    - '-set-env-vars'
+    - '--set-env-vars'
     - 'FRONT_URL=company-ranking.net'
-    - '-set-secrets'
+    - '--set-secrets'
     - 'DATABASE_URL=DATABASE_URL:latest'
 images:
 - 'gcr.io/$PROJECT_ID/company-ranking-server:$COMMIT_SHA'
