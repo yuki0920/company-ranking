@@ -12,8 +12,6 @@ namespace :save_document_summary do
 
   # NOTE: 証券リストの更新のタイミングでsecurityがなく保存できなかったdocumentを再取得する
   task month: :environment do
-    return unless Time.zone.now.day.in?([1, 15])
-
     (Time.zone.now.weeks_ago(5).to_date..Time.zone.now.to_date).each do |date|
       save_summary(date)
     end
@@ -21,8 +19,6 @@ namespace :save_document_summary do
 
   # NOTE: データ取得確認用
   task weeks: :environment do
-    return unless Time.zone.now.wday == 1
-
     (Time.zone.now.weeks_ago(2).to_date..Time.zone.now.to_date).each do |date|
       save_summary(date)
     end

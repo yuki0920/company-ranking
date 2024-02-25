@@ -16,6 +16,7 @@ RUN apk update && \
     apk upgrade && \
     apk add --no-cache ${RUNTIME_PACKAGES} && \
     apk add --virtual build-dependencies --no-cache ${DEV_PACKAGES} && \
+    bundle update --bundler && \
     bundle install -j4 && \
     apk del build-dependencies
 
