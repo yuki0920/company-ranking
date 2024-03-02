@@ -26,7 +26,30 @@ docker-compose up
 
 ## Architecture
 
-![System Architecture Image](./architecture.drawio.svg)
+Created by ChatGPT
+
+```mermaid
+flowchart TB
+    user[User] -->|Access| frontend[Next.js<br>Hosted on Vercel]
+    frontend -->|Sends request| backendServer[Go Backend Server<br>Hosted on Google Cloud Run Service]
+    backendServer -->|Fetches data| database[PostgreSQL<br>Hosted on Supabase]
+    trigger[Google Cloud Scheduler] -->|Periodically triggers| backendWorker[Ruby Backend Worker<br>Hosted on Google Cloud Run Jobs]
+    backendWorker -->|Fetches and processes data| database
+    backendWorker <-->|Gets and processes data| edinetAPI[EDINET API<br>External]
+    backendWorker <-->|Gets and processes list| tse[Tokyo Stock Exchange<br>External]
+
+    classDef google fill:#4285f4,color:#fff;
+    classDef other fill:#00c7b7,color:#fff;
+    classDef userClass fill:#fbbc05,color:#000;
+    classDef databaseClass fill:#34a853,color:#fff;
+    classDef external fill:#FFFFFF,color:#000;
+
+    class user userClass;
+    class frontend other;
+    class backendServer,backendWorker,trigger google;
+    class database databaseClass;
+    class edinetAPI,tse external;
+```
 
 ### URL
 
