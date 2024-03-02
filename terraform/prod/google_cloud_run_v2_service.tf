@@ -1,24 +1,24 @@
 resource "google_cloud_run_v2_service" "company_ranking_server" {
-  ingress          = "INGRESS_TRAFFIC_ALL"
-  location         = "asia-northeast1"
-  name             = "company-ranking-server"
-  project          = "company-ranking-prod"
+  ingress  = "INGRESS_TRAFFIC_ALL"
+  location = "asia-northeast1"
+  name     = "company-ranking-server"
+  project  = "company-ranking-prod"
   template {
     max_instance_request_concurrency = 80
     revision                         = null
     service_account                  = "1026927710795-compute@developer.gserviceaccount.com"
     timeout                          = "300s"
     containers {
-      args        = []
-      command     = []
-      image       = ""
-      name        = "company-ranking-server-1"
+      args    = []
+      command = []
+      image   = ""
+      name    = "company-ranking-server-1"
       env {
         name  = "FRONT_URL"
         value = "company-ranking.net"
       }
       env {
-        name  = "DATABASE_URL"
+        name = "DATABASE_URL"
         value_source {
           secret_key_ref {
             secret  = "DATABASE_URL"
@@ -54,8 +54,8 @@ resource "google_cloud_run_v2_service" "company_ranking_server" {
     }
   }
   traffic {
-    percent  = 100
-    type     = "TRAFFIC_TARGET_ALLOCATION_TYPE_LATEST"
+    percent = 100
+    type    = "TRAFFIC_TARGET_ALLOCATION_TYPE_LATEST"
   }
 
   lifecycle {

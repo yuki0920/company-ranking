@@ -25,16 +25,16 @@ resource "google_cloud_run_v2_job" "job" {
   name     = each.key
   project  = "company-ranking-prod"
   template {
-    task_count  = 1
+    task_count = 1
     template {
       execution_environment = "EXECUTION_ENVIRONMENT_GEN2"
       max_retries           = 1
       service_account       = "1026927710795-compute@developer.gserviceaccount.com"
       timeout               = "600s"
       containers {
-        args        = each.value.args
-        command     = []
-        image       = ""
+        args    = each.value.args
+        command = []
+        image   = ""
         env {
           name  = "RAILS_ENV"
           value = "production"
@@ -44,7 +44,7 @@ resource "google_cloud_run_v2_job" "job" {
           value = "enabled"
         }
         env {
-          name  = "DATABASE_URL"
+          name = "DATABASE_URL"
           value_source {
             secret_key_ref {
               secret  = "DATABASE_URL"
@@ -53,7 +53,7 @@ resource "google_cloud_run_v2_job" "job" {
           }
         }
         env {
-          name  = "SECRET_KEY_BASE"
+          name = "SECRET_KEY_BASE"
           value_source {
             secret_key_ref {
               secret  = "SECRET_KEY_BASE"
