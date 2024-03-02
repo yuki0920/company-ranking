@@ -1,0 +1,38 @@
+[
+  {
+    "createTime": "2024-02-24T23:17:24.327176308Z",
+    "filename": "ruby/cloudbuild.yaml",
+    "github": {
+      "name": "company-ranking",
+      "owner": "yuki0920",
+      "push": {
+        "branch": "^main$"
+      }
+    },
+    "id": "45c768f5-b53f-4ed9-bb7e-357bde1c473f",
+    "includeBuildLogs": "INCLUDE_BUILD_LOGS_WITH_STATUS",
+    "includedFiles": [
+      "ruby/**"
+    ],
+    "name": "company-ranking-job-deploy",
+    "resourceName": "projects/company-ranking-prod/locations/global/triggers/45c768f5-b53f-4ed9-bb7e-357bde1c473f"
+  },
+  {
+    "createTime": "2024-02-24T15:29:06.905992361Z",
+    "filename": "go/cloudbuild.yaml",
+    "github": {
+      "name": "company-ranking",
+      "owner": "yuki0920",
+      "push": {
+        "branch": "^main$"
+      }
+    },
+    "id": "cb2ff461-eed1-4e1e-95d0-f37e53ff1426",
+    "includeBuildLogs": "INCLUDE_BUILD_LOGS_WITH_STATUS",
+    "includedFiles": [
+      "go/**"
+    ],
+    "name": "company-ranking-server-deploy",
+    "resourceName": "projects/company-ranking-prod/locations/global/triggers/cb2ff461-eed1-4e1e-95d0-f37e53ff1426"
+  }
+]
