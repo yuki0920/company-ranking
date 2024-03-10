@@ -37,12 +37,3 @@ resource "google_storage_bucket" "company_ranking_prod_terraform" {
     enabled = true
   }
 }
-
-import {
-  id = "company-ranking-prod/company-ranking-prod_cloudbuild"
-  to = google_storage_bucket.company_ranking_prod_cloudbuild
-}
-import {
-  id = "company-ranking-prod/company-ranking-prod-terraform"
-  to = google_storage_bucket.company_ranking_prod_terraform
-}
