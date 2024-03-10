@@ -24,7 +24,6 @@ resource "google_cloudbuild_trigger" "company_ranking_job_deploy" {
   }
 }
 
-
 resource "google_cloudbuild_trigger" "company_ranking_server_deploy" {
   filename           = "go/cloudbuild.yaml"
   include_build_logs = "INCLUDE_BUILD_LOGS_WITH_STATUS"
