@@ -73,6 +73,16 @@ resource "google_project_service" "cloudtrace_googleapis_com" {
   service = "cloudtrace.googleapis.com"
 }
 
+resource "google_project_service" "workflows_googleapis_com" {
+  project = "company-ranking-prod"
+  service = "workflows.googleapis.com"
+}
+
+resource "google_project_service" "workflowexecutions_googleapis_com" {
+  project = "company-ranking-prod"
+  service = "workflowexecutions.googleapis.com"
+}
+
 import {
   id = "company-ranking-prod/artifactregistry.googleapis.com"
   to = google_project_service.artifactregistry_googleapis_com
