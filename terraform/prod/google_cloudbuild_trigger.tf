@@ -19,11 +19,10 @@ resource "google_cloudbuild_trigger" "company_ranking_job_deploy" {
     name  = "company-ranking"
     owner = "yuki0920"
     push {
-      branch       = "^main$"
+      branch = "^main$"
     }
   }
 }
-
 
 resource "google_cloudbuild_trigger" "company_ranking_server_deploy" {
   filename           = "go/cloudbuild.yaml"
@@ -37,7 +36,7 @@ resource "google_cloudbuild_trigger" "company_ranking_server_deploy" {
     name                            = "company-ranking"
     owner                           = "yuki0920"
     push {
-      branch       = "^main$"
+      branch = "^main$"
     }
   }
 }

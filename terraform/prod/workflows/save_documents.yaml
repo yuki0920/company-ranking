@@ -1,0 +1,16 @@
+main:
+  steps:
+    - init:
+        assign:
+          - project_id: ${sys.get_env("GOOGLE_CLOUD_PROJECT_ID")}
+          - job_location: asia-northeast1
+    - save_document_summary:
+        call: googleapis.run.v1.namespaces.jobs.run
+        args:
+          name: ${"namespaces/" + project_id + "/jobs/" + "save-document-summary-daily-job"}
+          location: ${job_location}
+    - save_document_detail:
+        call: googleapis.run.v1.namespaces.jobs.run
+        args:
+          name: ${"namespaces/" + project_id + "/jobs/" + "save-document-detail-job"}
+          location: ${job_location}

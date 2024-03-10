@@ -11,6 +11,15 @@ resource "google_artifact_registry_repository" "gcr_io" {
   location      = "us"
   project       = "company-ranking-prod"
   repository_id = "gcr.io"
+
+  cleanup_policies {
+    action = "KEEP"
+    id     = "deletion-policy"
+
+    most_recent_versions {
+      keep_count = 2
+    }
+  }
 }
 
 import {
