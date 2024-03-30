@@ -1,6 +1,6 @@
 module github.com/yuki0920/company-ranking/go
 
-go 1.21
+go 1.22
 
 require (
 	github.com/deepmap/oapi-codegen v1.16.2
