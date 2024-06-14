@@ -1,7 +1,6 @@
 package: server
 generate:
-  chi-server: true
+  std-http-server: true
   models: true
   embedded-spec: true
-compatibility:
-  apply-chi-middleware-first-to-last: true
+output: server/server.gen.go

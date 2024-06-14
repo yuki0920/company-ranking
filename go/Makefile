@@ -23,7 +23,7 @@ generate/schema:
 
 .PHONY: generate/server
 generate/server:
-	@oapi-codegen -config server/config.yaml -o server/server.gen.go openapi.yaml
+	@oapi-codegen -config server/config.yaml openapi.yaml
 
 .PHONY: test
 test:

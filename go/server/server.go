@@ -10,16 +10,14 @@ import (
 	"regexp"
 	"strconv"
 
-	"github.com/go-chi/chi/v5"
-	"github.com/go-chi/cors"
 	_ "github.com/lib/pq"
+	"github.com/rs/cors"
 
-	"github.com/yuki0920/company-ranking/go/middleware"
 	"github.com/yuki0920/company-ranking/go/models"
 )
 
 type Server struct {
-	Router *chi.Mux
+	Router *http.ServeMux
 	DB     *sql.DB
 }
 
@@ -28,21 +26,29 @@ type Error struct {
 }
 
 func NewServer(db *sql.DB) *Server {
-	router := chi.NewRouter()
+	mux := http.NewServeMux()
 	return &Server{
-		Router: router,
+		Router: mux,
 		DB:     db,
 	}
 }
 
-func (s *Server) MountHandlers(frontURL string) {
-	s.Router.Use(middleware.LoggingMiddleware())
-	s.Router.Use(cors.Handler(cors.Options{
-		// AllowedOrigins:   []string{"https://foo.com"}, // Use this to allow specific origin hosts
+func StartServer(addr string, handler http.Handler) error {
+	hs := &http.Server{
+		Handler: handler,
+		Addr:    addr,
+	}
 
-		// TODO: remove http://* and https://* in production
+	slog.Info("Server starting", slog.String("address", addr))
+
+	return hs.ListenAndServe()
+}
+
+func (s *Server) CreateHandler(frontURL string) http.Handler {
+	handler := HandlerFromMux(s, s.Router)
+
+	c := cors.New(cors.Options{
 		AllowedOrigins: []string{frontURL, "http://*", "https://*", "company-ranking.net", "company-ranking.netlify.app"},
-		// AllowOriginFunc:  func(r *http.Request, origin string) bool { return true },
 		AllowedMethods: []string{
 			http.MethodGet,
 			http.MethodHead,
@@ -56,20 +62,9 @@ func (s *Server) MountHandlers(frontURL string) {
 		AllowCredentials:   false, // Because cookie is not used
 		OptionsPassthrough: false, // Always return status 200 for OPTIONS requests
 		Debug:              true,
-	}))
+	})
 
-	HandlerFromMux(s, s.Router)
-}
-
-func (s *Server) StartServer(addr string) error {
-	hs := &http.Server{
-		Handler: s.Router,
-		Addr:    addr,
-	}
-
-	slog.Info("Server starting", slog.String("address", addr))
-
-	return hs.ListenAndServe()
+	return c.Handler(handler)
 }
 
 // perPage is the number of securities to return per page.

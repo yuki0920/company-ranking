@@ -53,12 +53,13 @@ func initServer() error {
 	// setup server
 	s := server.NewServer(db)
 	frontURL := os.Getenv("FRONT_URL")
-	s.MountHandlers(frontURL)
+	httpHandler := s.CreateHandler(frontURL)
+
 	// NOTE: API_HOST is for local development, don't change this.
 	apiHost := os.Getenv("API_HOST")
 	// NOTE: Heroku provides the port to bind to $PORT, don't change this.
 	apiPort := os.Getenv("PORT")
 	addr := fmt.Sprintf("%s:%s", apiHost, apiPort)
 
-	return s.StartServer(addr)
+	return server.StartServer(addr, httpHandler)
 }
