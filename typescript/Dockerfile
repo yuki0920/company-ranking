@@ -1,4 +1,4 @@
-FROM node:18.16-buster-slim
+FROM node:18.17-buster-slim
 
 ARG WORKDIR
 
