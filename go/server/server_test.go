@@ -43,7 +43,7 @@ func setupSeed() {
 	// security1
 	security1 := models.SecurityFixture(func(security *models.Security) {
 		security.Name = "会社1"
-		security.Code = 1001
+		security.Code = "1001"
 		security.MarketID = 1
 		security.IndustryCode = 50
 	})
@@ -64,7 +64,7 @@ func setupSeed() {
 	// security2
 	security2 := models.SecurityFixture(func(security *models.Security) {
 		security.Name = "会社2"
-		security.Code = 2002
+		security.Code = "2002"
 		security.MarketID = 1
 		security.IndustryCode = 50
 	})
@@ -85,7 +85,7 @@ func setupSeed() {
 	// security3
 	security3 := models.SecurityFixture(func(security *models.Security) {
 		security.Name = "会社3"
-		security.Code = 3003
+		security.Code = "3003"
 		security.MarketID = 2
 		security.IndustryCode = 1050
 	})
@@ -123,7 +123,7 @@ func TestListCompanies(t *testing.T) {
 				IndustryName:   "水産・農林業",
 				MarketId:       1,
 				MarketName:     "プライム",
-				SecurityCode:   1001,
+				SecurityCode:   "1001",
 				SecurityName:   "会社1",
 				SecurityNameEn: "company1",
 			},
@@ -132,7 +132,7 @@ func TestListCompanies(t *testing.T) {
 				IndustryName:   "水産・農林業",
 				MarketId:       1,
 				MarketName:     "プライム",
-				SecurityCode:   2002,
+				SecurityCode:   "2002",
 				SecurityName:   "会社2",
 				SecurityNameEn: "company2",
 			},
@@ -141,7 +141,7 @@ func TestListCompanies(t *testing.T) {
 				IndustryName:   "鉱業",
 				MarketId:       2,
 				MarketName:     "スタンダード",
-				SecurityCode:   3003,
+				SecurityCode:   "3003",
 				SecurityName:   "会社3",
 				SecurityNameEn: "company3",
 			},
@@ -191,7 +191,7 @@ func TestListCompaniesOfMarketId(t *testing.T) {
 				IndustryName:   "水産・農林業",
 				MarketId:       1,
 				MarketName:     "プライム",
-				SecurityCode:   1001,
+				SecurityCode:   "1001",
 				SecurityName:   "会社1",
 				SecurityNameEn: "company1",
 			},
@@ -200,7 +200,7 @@ func TestListCompaniesOfMarketId(t *testing.T) {
 				IndustryName:   "水産・農林業",
 				MarketId:       1,
 				MarketName:     "プライム",
-				SecurityCode:   2002,
+				SecurityCode:   "2002",
 				SecurityName:   "会社2",
 				SecurityNameEn: "company2",
 			},
@@ -230,7 +230,7 @@ func TestListCompaniesOfMarketId(t *testing.T) {
 func TestGetCompany(t *testing.T) {
 	r := httptest.NewRequest("GET", "/api/v1/companies", nil)
 	w := httptest.NewRecorder()
-	s.GetCompany(w, r, 1001)
+	s.GetCompany(w, r, "1001")
 
 	if w.Code != 200 {
 		t.Errorf("expected 200 but got %d", w.Code)

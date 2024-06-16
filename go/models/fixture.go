@@ -8,7 +8,7 @@ import (
 
 func SecurityFixture(setter func(security *Security)) *Security {
 	security := &Security{
-		Code:         int(uuid.New().ID() % 100000),
+		Code:         uuid.New().String(),
 		Name:         uuid.New().String(),
 		MarketID:     int64(uuid.New().ID() % 100000),
 		IndustryCode: int(uuid.New().ID() % 100000),
@@ -23,7 +23,7 @@ func SecurityFixture(setter func(security *Security)) *Security {
 
 func DocumentFixture(setter func(document *Document)) *Document {
 	document := &Document{
-		SecurityCode: int(uuid.New().ID() % 100000),
+		SecurityCode: uuid.New().String(),
 		DocumentID:   uuid.New().String(),
 		EdinetCode:   uuid.New().String(),
 		FilerName:    uuid.New().String(),

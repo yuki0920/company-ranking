@@ -10,7 +10,7 @@ type SecurityData struct {
 	ID                  int64
 	Name                string
 	NameEn              string
-	Code                int
+	Code                string
 	IndustryCode        int
 	IndustryName        string
 	MarketID            int
@@ -304,8 +304,8 @@ func SecurityCountByMarket(ctx context.Context, db DB) (map[int]int, error) {
 	return counts, nil
 }
 
-func SecurityCodes(ctx context.Context, db DB) ([]int64, error) {
-	var codes []int64
+func SecurityCodes(ctx context.Context, db DB) ([]string, error) {
+	var codes []string
 	const sqlstr = `SELECT code FROM securities INNER JOIN documents ON documents.security_code = securities.code ORDER BY securities.code`
 	logf(sqlstr)
 	rows, err := db.QueryContext(ctx, sqlstr)
@@ -315,7 +315,7 @@ func SecurityCodes(ctx context.Context, db DB) ([]int64, error) {
 	defer rows.Close()
 
 	for rows.Next() {
-		var id int64
+		var id string
 		err := rows.Scan(&id)
 		if err != nil {
 			return codes, logerror(err)

@@ -10,7 +10,7 @@ import (
 // Security represents a row from 'public.securities'.
 type Security struct {
 	ID           int64     `json:"id"`            // id
-	Code         int       `json:"code"`          // code
+	Code         string    `json:"code"`          // code
 	Name         string    `json:"name"`          // name
 	MarketID     int64     `json:"market_id"`     // market_id
 	IndustryCode int       `json:"industry_code"` // industry_code
@@ -132,7 +132,7 @@ func (s *Security) Delete(ctx context.Context, db DB) error {
 // SecurityByCode retrieves a row from 'public.securities' as a [Security].
 //
 // Generated from index 'index_securities_on_code'.
-func SecurityByCode(ctx context.Context, db DB, code int) (*Security, error) {
+func SecurityByCode(ctx context.Context, db DB, code string) (*Security, error) {
 	// query
 	const sqlstr = `SELECT ` +
 		`id, code, name, market_id, industry_code, created_at, updated_at ` +
