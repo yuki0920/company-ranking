@@ -12,7 +12,7 @@
  * Do not edit the class manually.
  */
 
-import { exists, mapValues } from '../runtime';
+import { mapValues } from '../runtime';
 /**
  * 
  * @export
@@ -21,10 +21,10 @@ import { exists, mapValues } from '../runtime';
 export interface EachCompany {
     /**
      * 
-     * @type {number}
+     * @type {string}
      * @memberof EachCompany
      */
-    securityCode: number;
+    securityCode: string;
     /**
      * 
      * @type {string}
@@ -84,20 +84,18 @@ export interface EachCompany {
 /**
  * Check if a given object implements the EachCompany interface.
  */
-export function instanceOfEachCompany(value: object): boolean {
-    let isInstance = true;
-    isInstance = isInstance && "securityCode" in value;
-    isInstance = isInstance && "securityName" in value;
-    isInstance = isInstance && "securityNameEn" in value;
-    isInstance = isInstance && "netSales" in value;
-    isInstance = isInstance && "ordinaryIncome" in value;
-    isInstance = isInstance && "averageAnnualSalary" in value;
-    isInstance = isInstance && "industryName" in value;
-    isInstance = isInstance && "industryCode" in value;
-    isInstance = isInstance && "marketName" in value;
-    isInstance = isInstance && "marketId" in value;
-
-    return isInstance;
+export function instanceOfEachCompany(value: object): value is EachCompany {
+    if (!('securityCode' in value) || value['securityCode'] === undefined) return false;
+    if (!('securityName' in value) || value['securityName'] === undefined) return false;
+    if (!('securityNameEn' in value) || value['securityNameEn'] === undefined) return false;
+    if (!('netSales' in value) || value['netSales'] === undefined) return false;
+    if (!('ordinaryIncome' in value) || value['ordinaryIncome'] === undefined) return false;
+    if (!('averageAnnualSalary' in value) || value['averageAnnualSalary'] === undefined) return false;
+    if (!('industryName' in value) || value['industryName'] === undefined) return false;
+    if (!('industryCode' in value) || value['industryCode'] === undefined) return false;
+    if (!('marketName' in value) || value['marketName'] === undefined) return false;
+    if (!('marketId' in value) || value['marketId'] === undefined) return false;
+    return true;
 }
 
 export function EachCompanyFromJSON(json: any): EachCompany {
@@ -105,7 +103,7 @@ export function EachCompanyFromJSON(json: any): EachCompany {
 }
 
 export function EachCompanyFromJSONTyped(json: any, ignoreDiscriminator: boolean): EachCompany {
-    if ((json === undefined) || (json === null)) {
+    if (json == null) {
         return json;
     }
     return {
@@ -124,24 +122,21 @@ export function EachCompanyFromJSONTyped(json: any, ignoreDiscriminator: boolean
 }
 
 export function EachCompanyToJSON(value?: EachCompany | null): any {
-    if (value === undefined) {
-        return undefined;
-    }
-    if (value === null) {
-        return null;
+    if (value == null) {
+        return value;
     }
     return {
         
-        'security_code': value.securityCode,
-        'security_name': value.securityName,
-        'security_name_en': value.securityNameEn,
-        'net_sales': value.netSales,
-        'ordinary_income': value.ordinaryIncome,
-        'average_annual_salary': value.averageAnnualSalary,
-        'industry_name': value.industryName,
-        'industry_code': value.industryCode,
-        'market_name': value.marketName,
-        'market_id': value.marketId,
+        'security_code': value['securityCode'],
+        'security_name': value['securityName'],
+        'security_name_en': value['securityNameEn'],
+        'net_sales': value['netSales'],
+        'ordinary_income': value['ordinaryIncome'],
+        'average_annual_salary': value['averageAnnualSalary'],
+        'industry_name': value['industryName'],
+        'industry_code': value['industryCode'],
+        'market_name': value['marketName'],
+        'market_id': value['marketId'],
     };
 }
 

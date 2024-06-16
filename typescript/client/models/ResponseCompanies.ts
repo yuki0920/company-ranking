@@ -12,19 +12,19 @@
  * Do not edit the class manually.
  */
 
-import { exists, mapValues } from '../runtime';
-import type { EachCompany } from './EachCompany';
-import {
-    EachCompanyFromJSON,
-    EachCompanyFromJSONTyped,
-    EachCompanyToJSON,
-} from './EachCompany';
+import { mapValues } from '../runtime';
 import type { Meta } from './Meta';
 import {
     MetaFromJSON,
     MetaFromJSONTyped,
     MetaToJSON,
 } from './Meta';
+import type { EachCompany } from './EachCompany';
+import {
+    EachCompanyFromJSON,
+    EachCompanyFromJSONTyped,
+    EachCompanyToJSON,
+} from './EachCompany';
 
 /**
  * 
@@ -49,12 +49,10 @@ export interface ResponseCompanies {
 /**
  * Check if a given object implements the ResponseCompanies interface.
  */
-export function instanceOfResponseCompanies(value: object): boolean {
-    let isInstance = true;
-    isInstance = isInstance && "meta" in value;
-    isInstance = isInstance && "companies" in value;
-
-    return isInstance;
+export function instanceOfResponseCompanies(value: object): value is ResponseCompanies {
+    if (!('meta' in value) || value['meta'] === undefined) return false;
+    if (!('companies' in value) || value['companies'] === undefined) return false;
+    return true;
 }
 
 export function ResponseCompaniesFromJSON(json: any): ResponseCompanies {
@@ -62,7 +60,7 @@ export function ResponseCompaniesFromJSON(json: any): ResponseCompanies {
 }
 
 export function ResponseCompaniesFromJSONTyped(json: any, ignoreDiscriminator: boolean): ResponseCompanies {
-    if ((json === undefined) || (json === null)) {
+    if (json == null) {
         return json;
     }
     return {
@@ -73,16 +71,13 @@ export function ResponseCompaniesFromJSONTyped(json: any, ignoreDiscriminator: b
 }
 
 export function ResponseCompaniesToJSON(value?: ResponseCompanies | null): any {
-    if (value === undefined) {
-        return undefined;
-    }
-    if (value === null) {
-        return null;
+    if (value == null) {
+        return value;
     }
     return {
         
-        'meta': MetaToJSON(value.meta),
-        'companies': ((value.companies as Array<any>).map(EachCompanyToJSON)),
+        'meta': MetaToJSON(value['meta']),
+        'companies': ((value['companies'] as Array<any>).map(EachCompanyToJSON)),
     };
 }
 

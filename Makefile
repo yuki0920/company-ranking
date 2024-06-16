@@ -26,6 +26,10 @@ go/lint/fix:
 
 .PHONY: typescript/generate/client
 typescript/generate/client:
+	@openapi-generator-cli generate -i openapi/openapi.yaml -g typescript-fetch -o typescript/client
+
+.PHONY: typescript/generate/client/old
+typescript/generate/client/old:
 	@cp openapi/openapi.yaml typescript/openapi.yaml
 	@cd typescript && npm run generate-client
 	@cd ..

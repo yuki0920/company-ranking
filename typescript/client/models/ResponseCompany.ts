@@ -12,7 +12,7 @@
  * Do not edit the class manually.
  */
 
-import { exists, mapValues } from '../runtime';
+import { mapValues } from '../runtime';
 import type { Company } from './Company';
 import {
     CompanyFromJSON,
@@ -37,11 +37,9 @@ export interface ResponseCompany {
 /**
  * Check if a given object implements the ResponseCompany interface.
  */
-export function instanceOfResponseCompany(value: object): boolean {
-    let isInstance = true;
-    isInstance = isInstance && "company" in value;
-
-    return isInstance;
+export function instanceOfResponseCompany(value: object): value is ResponseCompany {
+    if (!('company' in value) || value['company'] === undefined) return false;
+    return true;
 }
 
 export function ResponseCompanyFromJSON(json: any): ResponseCompany {
@@ -49,7 +47,7 @@ export function ResponseCompanyFromJSON(json: any): ResponseCompany {
 }
 
 export function ResponseCompanyFromJSONTyped(json: any, ignoreDiscriminator: boolean): ResponseCompany {
-    if ((json === undefined) || (json === null)) {
+    if (json == null) {
         return json;
     }
     return {
@@ -59,15 +57,12 @@ export function ResponseCompanyFromJSONTyped(json: any, ignoreDiscriminator: boo
 }
 
 export function ResponseCompanyToJSON(value?: ResponseCompany | null): any {
-    if (value === undefined) {
-        return undefined;
-    }
-    if (value === null) {
-        return null;
+    if (value == null) {
+        return value;
     }
     return {
         
-        'company': CompanyToJSON(value.company),
+        'company': CompanyToJSON(value['company']),
     };
 }
 

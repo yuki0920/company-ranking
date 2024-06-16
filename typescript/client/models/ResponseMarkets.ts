@@ -12,7 +12,7 @@
  * Do not edit the class manually.
  */
 
-import { exists, mapValues } from '../runtime';
+import { mapValues } from '../runtime';
 import type { EachMarket } from './EachMarket';
 import {
     EachMarketFromJSON,
@@ -37,11 +37,9 @@ export interface ResponseMarkets {
 /**
  * Check if a given object implements the ResponseMarkets interface.
  */
-export function instanceOfResponseMarkets(value: object): boolean {
-    let isInstance = true;
-    isInstance = isInstance && "markets" in value;
-
-    return isInstance;
+export function instanceOfResponseMarkets(value: object): value is ResponseMarkets {
+    if (!('markets' in value) || value['markets'] === undefined) return false;
+    return true;
 }
 
 export function ResponseMarketsFromJSON(json: any): ResponseMarkets {
@@ -49,7 +47,7 @@ export function ResponseMarketsFromJSON(json: any): ResponseMarkets {
 }
 
 export function ResponseMarketsFromJSONTyped(json: any, ignoreDiscriminator: boolean): ResponseMarkets {
-    if ((json === undefined) || (json === null)) {
+    if (json == null) {
         return json;
     }
     return {
@@ -59,15 +57,12 @@ export function ResponseMarketsFromJSONTyped(json: any, ignoreDiscriminator: boo
 }
 
 export function ResponseMarketsToJSON(value?: ResponseMarkets | null): any {
-    if (value === undefined) {
-        return undefined;
-    }
-    if (value === null) {
-        return null;
+    if (value == null) {
+        return value;
     }
     return {
         
-        'markets': ((value.markets as Array<any>).map(EachMarketToJSON)),
+        'markets': ((value['markets'] as Array<any>).map(EachMarketToJSON)),
     };
 }
 

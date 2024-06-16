@@ -24,7 +24,7 @@ import type {
   ResponseMarketIDs,
   ResponseMarkets,
   ResponseSecurityCodes,
-} from '../models';
+} from '../models/index';
 import {
     ResponseCompaniesFromJSON,
     ResponseCompaniesToJSON,
@@ -44,10 +44,10 @@ import {
     ResponseMarketsToJSON,
     ResponseSecurityCodesFromJSON,
     ResponseSecurityCodesToJSON,
-} from '../models';
+} from '../models/index';
 
 export interface GetCompanyRequest {
-    code: number;
+    code: string;
 }
 
 export interface GetIndustryRequest {
@@ -75,8 +75,11 @@ export class DefaultApi extends runtime.BaseAPI {
      * Get Company
      */
     async getCompanyRaw(requestParameters: GetCompanyRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<ResponseCompany>> {
-        if (requestParameters.code === null || requestParameters.code === undefined) {
-            throw new runtime.RequiredError('code','Required parameter requestParameters.code was null or undefined when calling getCompany.');
+        if (requestParameters['code'] == null) {
+            throw new runtime.RequiredError(
+                'code',
+                'Required parameter "code" was null or undefined when calling getCompany().'
+            );
         }
 
         const queryParameters: any = {};
@@ -84,7 +87,7 @@ export class DefaultApi extends runtime.BaseAPI {
         const headerParameters: runtime.HTTPHeaders = {};
 
         const response = await this.request({
-            path: `/api/v1/companies/{code}`.replace(`{${"code"}}`, encodeURIComponent(String(requestParameters.code))),
+            path: `/api/v1/companies/{code}`.replace(`{${"code"}}`, encodeURIComponent(String(requestParameters['code']))),
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
@@ -105,8 +108,11 @@ export class DefaultApi extends runtime.BaseAPI {
      * Get Industry
      */
     async getIndustryRaw(requestParameters: GetIndustryRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<ResponseIndustry>> {
-        if (requestParameters.id === null || requestParameters.id === undefined) {
-            throw new runtime.RequiredError('id','Required parameter requestParameters.id was null or undefined when calling getIndustry.');
+        if (requestParameters['id'] == null) {
+            throw new runtime.RequiredError(
+                'id',
+                'Required parameter "id" was null or undefined when calling getIndustry().'
+            );
         }
 
         const queryParameters: any = {};
@@ -114,7 +120,7 @@ export class DefaultApi extends runtime.BaseAPI {
         const headerParameters: runtime.HTTPHeaders = {};
 
         const response = await this.request({
-            path: `/api/v1/industries/{id}`.replace(`{${"id"}}`, encodeURIComponent(String(requestParameters.id))),
+            path: `/api/v1/industries/{id}`.replace(`{${"id"}}`, encodeURIComponent(String(requestParameters['id']))),
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
@@ -135,8 +141,11 @@ export class DefaultApi extends runtime.BaseAPI {
      * Get Market
      */
     async getMarketRaw(requestParameters: GetMarketRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<ResponseMarket>> {
-        if (requestParameters.id === null || requestParameters.id === undefined) {
-            throw new runtime.RequiredError('id','Required parameter requestParameters.id was null or undefined when calling getMarket.');
+        if (requestParameters['id'] == null) {
+            throw new runtime.RequiredError(
+                'id',
+                'Required parameter "id" was null or undefined when calling getMarket().'
+            );
         }
 
         const queryParameters: any = {};
@@ -144,7 +153,7 @@ export class DefaultApi extends runtime.BaseAPI {
         const headerParameters: runtime.HTTPHeaders = {};
 
         const response = await this.request({
-            path: `/api/v1/markets/{id}`.replace(`{${"id"}}`, encodeURIComponent(String(requestParameters.id))),
+            path: `/api/v1/markets/{id}`.replace(`{${"id"}}`, encodeURIComponent(String(requestParameters['id']))),
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
@@ -165,30 +174,33 @@ export class DefaultApi extends runtime.BaseAPI {
      * Get and Search Companies
      */
     async listCompaniesRaw(requestParameters: ListCompaniesRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<ResponseCompanies>> {
-        if (requestParameters.sortType === null || requestParameters.sortType === undefined) {
-            throw new runtime.RequiredError('sortType','Required parameter requestParameters.sortType was null or undefined when calling listCompanies.');
+        if (requestParameters['sortType'] == null) {
+            throw new runtime.RequiredError(
+                'sortType',
+                'Required parameter "sortType" was null or undefined when calling listCompanies().'
+            );
         }
 
         const queryParameters: any = {};
 
-        if (requestParameters.page !== undefined) {
-            queryParameters['page'] = requestParameters.page;
+        if (requestParameters['page'] != null) {
+            queryParameters['page'] = requestParameters['page'];
         }
 
-        if (requestParameters.sortType !== undefined) {
-            queryParameters['sort_type'] = requestParameters.sortType;
+        if (requestParameters['sortType'] != null) {
+            queryParameters['sort_type'] = requestParameters['sortType'];
         }
 
-        if (requestParameters.q !== undefined) {
-            queryParameters['q'] = requestParameters.q;
+        if (requestParameters['q'] != null) {
+            queryParameters['q'] = requestParameters['q'];
         }
 
-        if (requestParameters.industryId !== undefined) {
-            queryParameters['industry_id'] = requestParameters.industryId;
+        if (requestParameters['industryId'] != null) {
+            queryParameters['industry_id'] = requestParameters['industryId'];
         }
 
-        if (requestParameters.marketId !== undefined) {
-            queryParameters['market_id'] = requestParameters.marketId;
+        if (requestParameters['marketId'] != null) {
+            queryParameters['market_id'] = requestParameters['marketId'];
         }
 
         const headerParameters: runtime.HTTPHeaders = {};
