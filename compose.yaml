@@ -22,6 +22,7 @@ services:
       SLACK_WEBHOOK_URL: $SLACK_WEBHOOK_URL
     volumes:
       - ./ruby:/$WORKDIR
+      - bundle_cache:/$WORKDIR/vendor/bundle
     depends_on:
       - db
     command: /bin/sh -c "echo rails api is not used."
@@ -75,3 +76,4 @@ services:
       API_URL: doc/openapi.yaml
 volumes:
   go_src_bin:
+  bundle_cache:

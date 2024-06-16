@@ -4,11 +4,10 @@ ARG WORKDIR
 
 ENV RUNTIME_PACKAGES="linux-headers libxml2-dev make gcc libc-dev nodejs tzdata postgresql-dev postgresql git less gcompat" \
     DEV_PACKAGES="build-base curl-dev" \
-    HOME=/${WORKDIR} \
     LANG=C.UTF-8 \
     TZ=Asia/Tokyo
 
-WORKDIR ${HOME}
+WORKDIR ${WORKDIR}
 
 COPY Gemfile* ./
 
@@ -17,7 +16,7 @@ RUN apk update && \
     apk add --no-cache ${RUNTIME_PACKAGES} && \
     apk add --virtual build-dependencies --no-cache ${DEV_PACKAGES} && \
     bundle update --bundler && \
-    bundle install -j4 && \
+    bundle install -j4 --path vendor/bundle && \
     apk del build-dependencies
 
 COPY . .

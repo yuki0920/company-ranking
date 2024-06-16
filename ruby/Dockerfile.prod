@@ -2,7 +2,6 @@ FROM ruby:3.1.4-alpine
 
 ENV RUNTIME_PACKAGES="linux-headers libxml2-dev make gcc libc-dev nodejs tzdata postgresql-dev postgresql git less gcompat" \
     DEV_PACKAGES="build-base curl-dev" \
-    HOME=/myapp \
     LANG=C.UTF-8 \
     TZ=Asia/Tokyo
 
