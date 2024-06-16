@@ -17,12 +17,16 @@ class SecurityList < ApplicationRecord
       create!(file_title: title, downloaded_at: Time.zone.now)
     end
 
+    def delete
+      FileUtils.rm_f(dest_path)
+    end
+
     def same(title)
       SecurityList.find_by(file_title: title)
     end
 
     def dest_path
-      Rails.root.join('lib/security_lists/data.xls').to_s
+      Rails.root.join('lib/security_lists/data_j.xls').to_s
     end
   end
 end
