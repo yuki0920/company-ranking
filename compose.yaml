@@ -61,6 +61,7 @@ services:
     command: npm run dev
     volumes:
       - ./typescript:/$WORKDIR
+      - /$WORKDIR/node_modules
     ports:
       - "$FRONT_HOST_PORT:$FRONT_HOST_PORT"
     depends_on:
