@@ -8,15 +8,6 @@ HEADER = { '日付' => 0, 'コード' => 1, '銘柄名' => 2, '市場・商品�
 namespace :save_securities do
   desc '月に2回東証から銘柄銘柄のリストをダウンロードしダウンロードしたファイルから証券を更新する'
 
-  task every_2weeks: :environment do
-    puts '証券一覧のダウンロード開始'
-    SecurityList.download
-    puts '証券一覧のダウンロード終了'
-    puts '証券の保存開始'
-    save!
-    puts '証券の保存終了'
-  end
-
   task all: :environment do
     puts '証券一覧のダウンロード開始'
     SecurityList.download
@@ -40,7 +31,14 @@ namespace :save_securities do
       end
 
       market = Market.find_by!(name: market_data[:name])
-      code = row[HEADER['コード']]
+
+      raw_code = row[HEADER['コード']]
+      code = if raw_code.is_a?(Float)
+        raw_code.to_i.to_s # 2023年以前の証券コードは数値のみ
+      else
+        raw_code # 2024年移行の証券コードにアルファベットが含まれる
+      end
+
       name = row[HEADER['銘柄名']]
       industry_code = row[HEADER['33業種コード']].to_i
 
@@ -75,5 +73,7 @@ namespace :save_securities do
         sec.destroy!
       end
     end
+
+    SecurityList.delete
   end
 end

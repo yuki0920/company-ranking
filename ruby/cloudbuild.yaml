@@ -97,7 +97,7 @@ steps:
     - '--set-secrets'
     - 'SECRET_KEY_BASE=SECRET_KEY_BASE:latest'
     - '--args'
-    - 'bin/rake,save_securities:every_2weeks'
+    - 'bin/rake,save_securities:all'
   - id: 'Deploy destroy-old-documents'
     name: 'gcr.io/cloud-builders/gcloud'
     args:

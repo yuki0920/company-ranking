@@ -13,7 +13,7 @@ locals {
       args = []
     },
     save-securities-job = {
-      args = ["bin/rake", "save_securities:every_2weeks"]
+      args = ["bin/rake", "save_securities:all"]
     }
   }
 }
