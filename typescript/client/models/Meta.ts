@@ -12,7 +12,7 @@
  * Do not edit the class manually.
  */
 
-import { exists, mapValues } from '../runtime';
+import { mapValues } from '../runtime';
 /**
  * 
  * @export
@@ -72,18 +72,16 @@ export interface Meta {
 /**
  * Check if a given object implements the Meta interface.
  */
-export function instanceOfMeta(value: object): boolean {
-    let isInstance = true;
-    isInstance = isInstance && "offsetCount" in value;
-    isInstance = isInstance && "totalCount" in value;
-    isInstance = isInstance && "limitCount" in value;
-    isInstance = isInstance && "currentPage" in value;
-    isInstance = isInstance && "lastPage" in value;
-    isInstance = isInstance && "prevPage" in value;
-    isInstance = isInstance && "nextPage" in value;
-    isInstance = isInstance && "sortType" in value;
-
-    return isInstance;
+export function instanceOfMeta(value: object): value is Meta {
+    if (!('offsetCount' in value) || value['offsetCount'] === undefined) return false;
+    if (!('totalCount' in value) || value['totalCount'] === undefined) return false;
+    if (!('limitCount' in value) || value['limitCount'] === undefined) return false;
+    if (!('currentPage' in value) || value['currentPage'] === undefined) return false;
+    if (!('lastPage' in value) || value['lastPage'] === undefined) return false;
+    if (!('prevPage' in value) || value['prevPage'] === undefined) return false;
+    if (!('nextPage' in value) || value['nextPage'] === undefined) return false;
+    if (!('sortType' in value) || value['sortType'] === undefined) return false;
+    return true;
 }
 
 export function MetaFromJSON(json: any): Meta {
@@ -91,7 +89,7 @@ export function MetaFromJSON(json: any): Meta {
 }
 
 export function MetaFromJSONTyped(json: any, ignoreDiscriminator: boolean): Meta {
-    if ((json === undefined) || (json === null)) {
+    if (json == null) {
         return json;
     }
     return {
@@ -108,22 +106,19 @@ export function MetaFromJSONTyped(json: any, ignoreDiscriminator: boolean): Meta
 }
 
 export function MetaToJSON(value?: Meta | null): any {
-    if (value === undefined) {
-        return undefined;
-    }
-    if (value === null) {
-        return null;
+    if (value == null) {
+        return value;
     }
     return {
         
-        'offset_count': value.offsetCount,
-        'total_count': value.totalCount,
-        'limit_count': value.limitCount,
-        'current_page': value.currentPage,
-        'last_page': value.lastPage,
-        'prev_page': value.prevPage,
-        'next_page': value.nextPage,
-        'sort_type': value.sortType,
+        'offset_count': value['offsetCount'],
+        'total_count': value['totalCount'],
+        'limit_count': value['limitCount'],
+        'current_page': value['currentPage'],
+        'last_page': value['lastPage'],
+        'prev_page': value['prevPage'],
+        'next_page': value['nextPage'],
+        'sort_type': value['sortType'],
     };
 }
 

@@ -12,7 +12,7 @@
  * Do not edit the class manually.
  */
 
-import { exists, mapValues } from '../runtime';
+import { mapValues } from '../runtime';
 /**
  * 
  * @export
@@ -51,10 +51,10 @@ export interface Company {
     averageLengthOfServiceYears: number | null;
     /**
      * 銘柄コード
-     * @type {number}
+     * @type {string}
      * @memberof Company
      */
-    securityCode: number;
+    securityCode: string;
     /**
      * 銘柄名
      * @type {string}
@@ -264,50 +264,48 @@ export interface Company {
 /**
  * Check if a given object implements the Company interface.
  */
-export function instanceOfCompany(value: object): boolean {
-    let isInstance = true;
-    isInstance = isInstance && "securityId" in value;
-    isInstance = isInstance && "numberOfEmployees" in value;
-    isInstance = isInstance && "averageAnnualSalary" in value;
-    isInstance = isInstance && "averageAgeYears" in value;
-    isInstance = isInstance && "averageLengthOfServiceYears" in value;
-    isInstance = isInstance && "securityCode" in value;
-    isInstance = isInstance && "securityName" in value;
-    isInstance = isInstance && "marketName" in value;
-    isInstance = isInstance && "marketId" in value;
-    isInstance = isInstance && "industryName" in value;
-    isInstance = isInstance && "industryId" in value;
-    isInstance = isInstance && "industryCode" in value;
-    isInstance = isInstance && "companyName" in value;
-    isInstance = isInstance && "companyNameEn" in value;
-    isInstance = isInstance && "headOfficeLocation" in value;
-    isInstance = isInstance && "submittedAt" in value;
-    isInstance = isInstance && "representative" in value;
-    isInstance = isInstance && "periodStartedAt" in value;
-    isInstance = isInstance && "periodEndedAt" in value;
-    isInstance = isInstance && "periodEndedAtYear" in value;
-    isInstance = isInstance && "periodEndedAtMonth" in value;
-    isInstance = isInstance && "netSales" in value;
-    isInstance = isInstance && "lastYearNetSales" in value;
-    isInstance = isInstance && "operatingIncome" in value;
-    isInstance = isInstance && "lastYearOperatingIncome" in value;
-    isInstance = isInstance && "ordinaryIncome" in value;
-    isInstance = isInstance && "lastYearOrdinaryIncome" in value;
-    isInstance = isInstance && "capitalStock" in value;
-    isInstance = isInstance && "netAssets" in value;
-    isInstance = isInstance && "totalAssets" in value;
-    isInstance = isInstance && "equityToAssetRatio" in value;
-    isInstance = isInstance && "rateOfReturnOnEquity" in value;
-    isInstance = isInstance && "priceEarningsRatio" in value;
-    isInstance = isInstance && "netCashProvidedByUsedInOperatingActivities" in value;
-    isInstance = isInstance && "netCashProvidedByUsedInInvestingActivities" in value;
-    isInstance = isInstance && "netCashProvidedByUsedInFinancingActivities" in value;
-    isInstance = isInstance && "cashAndCashEquivalents" in value;
-    isInstance = isInstance && "consolidatedNumberOfEmployees" in value;
-    isInstance = isInstance && "totalNumberOfIssuedShares" in value;
-    isInstance = isInstance && "payoutRatio" in value;
-
-    return isInstance;
+export function instanceOfCompany(value: object): value is Company {
+    if (!('securityId' in value) || value['securityId'] === undefined) return false;
+    if (!('numberOfEmployees' in value) || value['numberOfEmployees'] === undefined) return false;
+    if (!('averageAnnualSalary' in value) || value['averageAnnualSalary'] === undefined) return false;
+    if (!('averageAgeYears' in value) || value['averageAgeYears'] === undefined) return false;
+    if (!('averageLengthOfServiceYears' in value) || value['averageLengthOfServiceYears'] === undefined) return false;
+    if (!('securityCode' in value) || value['securityCode'] === undefined) return false;
+    if (!('securityName' in value) || value['securityName'] === undefined) return false;
+    if (!('marketName' in value) || value['marketName'] === undefined) return false;
+    if (!('marketId' in value) || value['marketId'] === undefined) return false;
+    if (!('industryName' in value) || value['industryName'] === undefined) return false;
+    if (!('industryId' in value) || value['industryId'] === undefined) return false;
+    if (!('industryCode' in value) || value['industryCode'] === undefined) return false;
+    if (!('companyName' in value) || value['companyName'] === undefined) return false;
+    if (!('companyNameEn' in value) || value['companyNameEn'] === undefined) return false;
+    if (!('headOfficeLocation' in value) || value['headOfficeLocation'] === undefined) return false;
+    if (!('submittedAt' in value) || value['submittedAt'] === undefined) return false;
+    if (!('representative' in value) || value['representative'] === undefined) return false;
+    if (!('periodStartedAt' in value) || value['periodStartedAt'] === undefined) return false;
+    if (!('periodEndedAt' in value) || value['periodEndedAt'] === undefined) return false;
+    if (!('periodEndedAtYear' in value) || value['periodEndedAtYear'] === undefined) return false;
+    if (!('periodEndedAtMonth' in value) || value['periodEndedAtMonth'] === undefined) return false;
+    if (!('netSales' in value) || value['netSales'] === undefined) return false;
+    if (!('lastYearNetSales' in value) || value['lastYearNetSales'] === undefined) return false;
+    if (!('operatingIncome' in value) || value['operatingIncome'] === undefined) return false;
+    if (!('lastYearOperatingIncome' in value) || value['lastYearOperatingIncome'] === undefined) return false;
+    if (!('ordinaryIncome' in value) || value['ordinaryIncome'] === undefined) return false;
+    if (!('lastYearOrdinaryIncome' in value) || value['lastYearOrdinaryIncome'] === undefined) return false;
+    if (!('capitalStock' in value) || value['capitalStock'] === undefined) return false;
+    if (!('netAssets' in value) || value['netAssets'] === undefined) return false;
+    if (!('totalAssets' in value) || value['totalAssets'] === undefined) return false;
+    if (!('equityToAssetRatio' in value) || value['equityToAssetRatio'] === undefined) return false;
+    if (!('rateOfReturnOnEquity' in value) || value['rateOfReturnOnEquity'] === undefined) return false;
+    if (!('priceEarningsRatio' in value) || value['priceEarningsRatio'] === undefined) return false;
+    if (!('netCashProvidedByUsedInOperatingActivities' in value) || value['netCashProvidedByUsedInOperatingActivities'] === undefined) return false;
+    if (!('netCashProvidedByUsedInInvestingActivities' in value) || value['netCashProvidedByUsedInInvestingActivities'] === undefined) return false;
+    if (!('netCashProvidedByUsedInFinancingActivities' in value) || value['netCashProvidedByUsedInFinancingActivities'] === undefined) return false;
+    if (!('cashAndCashEquivalents' in value) || value['cashAndCashEquivalents'] === undefined) return false;
+    if (!('consolidatedNumberOfEmployees' in value) || value['consolidatedNumberOfEmployees'] === undefined) return false;
+    if (!('totalNumberOfIssuedShares' in value) || value['totalNumberOfIssuedShares'] === undefined) return false;
+    if (!('payoutRatio' in value) || value['payoutRatio'] === undefined) return false;
+    return true;
 }
 
 export function CompanyFromJSON(json: any): Company {
@@ -315,7 +313,7 @@ export function CompanyFromJSON(json: any): Company {
 }
 
 export function CompanyFromJSONTyped(json: any, ignoreDiscriminator: boolean): Company {
-    if ((json === undefined) || (json === null)) {
+    if (json == null) {
         return json;
     }
     return {
@@ -364,54 +362,51 @@ export function CompanyFromJSONTyped(json: any, ignoreDiscriminator: boolean): C
 }
 
 export function CompanyToJSON(value?: Company | null): any {
-    if (value === undefined) {
-        return undefined;
-    }
-    if (value === null) {
-        return null;
+    if (value == null) {
+        return value;
     }
     return {
         
-        'security_id': value.securityId,
-        'number_of_employees': value.numberOfEmployees,
-        'average_annual_salary': value.averageAnnualSalary,
-        'average_age_years': value.averageAgeYears,
-        'average_length_of_service_years': value.averageLengthOfServiceYears,
-        'security_code': value.securityCode,
-        'security_name': value.securityName,
-        'market_name': value.marketName,
-        'market_id': value.marketId,
-        'industry_name': value.industryName,
-        'industry_id': value.industryId,
-        'industry_code': value.industryCode,
-        'company_name': value.companyName,
-        'company_name_en': value.companyNameEn,
-        'head_office_location': value.headOfficeLocation,
-        'submitted_at': value.submittedAt,
-        'representative': value.representative,
-        'period_started_at': value.periodStartedAt,
-        'period_ended_at': value.periodEndedAt,
-        'period_ended_at_year': value.periodEndedAtYear,
-        'period_ended_at_month': value.periodEndedAtMonth,
-        'net_sales': value.netSales,
-        'last_year_net_sales': value.lastYearNetSales,
-        'operating_income': value.operatingIncome,
-        'last_year_operating_income': value.lastYearOperatingIncome,
-        'ordinary_income': value.ordinaryIncome,
-        'last_year_ordinary_income': value.lastYearOrdinaryIncome,
-        'capital_stock': value.capitalStock,
-        'net_assets': value.netAssets,
-        'total_assets': value.totalAssets,
-        'equity_to_asset_ratio': value.equityToAssetRatio,
-        'rate_of_return_on_equity': value.rateOfReturnOnEquity,
-        'price_earnings_ratio': value.priceEarningsRatio,
-        'net_cash_provided_by_used_in_operating_activities': value.netCashProvidedByUsedInOperatingActivities,
-        'net_cash_provided_by_used_in_investing_activities': value.netCashProvidedByUsedInInvestingActivities,
-        'net_cash_provided_by_used_in_financing_activities': value.netCashProvidedByUsedInFinancingActivities,
-        'cash_and_cash_equivalents': value.cashAndCashEquivalents,
-        'consolidated_number_of_employees': value.consolidatedNumberOfEmployees,
-        'total_number_of_issued_shares': value.totalNumberOfIssuedShares,
-        'payout_ratio': value.payoutRatio,
+        'security_id': value['securityId'],
+        'number_of_employees': value['numberOfEmployees'],
+        'average_annual_salary': value['averageAnnualSalary'],
+        'average_age_years': value['averageAgeYears'],
+        'average_length_of_service_years': value['averageLengthOfServiceYears'],
+        'security_code': value['securityCode'],
+        'security_name': value['securityName'],
+        'market_name': value['marketName'],
+        'market_id': value['marketId'],
+        'industry_name': value['industryName'],
+        'industry_id': value['industryId'],
+        'industry_code': value['industryCode'],
+        'company_name': value['companyName'],
+        'company_name_en': value['companyNameEn'],
+        'head_office_location': value['headOfficeLocation'],
+        'submitted_at': value['submittedAt'],
+        'representative': value['representative'],
+        'period_started_at': value['periodStartedAt'],
+        'period_ended_at': value['periodEndedAt'],
+        'period_ended_at_year': value['periodEndedAtYear'],
+        'period_ended_at_month': value['periodEndedAtMonth'],
+        'net_sales': value['netSales'],
+        'last_year_net_sales': value['lastYearNetSales'],
+        'operating_income': value['operatingIncome'],
+        'last_year_operating_income': value['lastYearOperatingIncome'],
+        'ordinary_income': value['ordinaryIncome'],
+        'last_year_ordinary_income': value['lastYearOrdinaryIncome'],
+        'capital_stock': value['capitalStock'],
+        'net_assets': value['netAssets'],
+        'total_assets': value['totalAssets'],
+        'equity_to_asset_ratio': value['equityToAssetRatio'],
+        'rate_of_return_on_equity': value['rateOfReturnOnEquity'],
+        'price_earnings_ratio': value['priceEarningsRatio'],
+        'net_cash_provided_by_used_in_operating_activities': value['netCashProvidedByUsedInOperatingActivities'],
+        'net_cash_provided_by_used_in_investing_activities': value['netCashProvidedByUsedInInvestingActivities'],
+        'net_cash_provided_by_used_in_financing_activities': value['netCashProvidedByUsedInFinancingActivities'],
+        'cash_and_cash_equivalents': value['cashAndCashEquivalents'],
+        'consolidated_number_of_employees': value['consolidatedNumberOfEmployees'],
+        'total_number_of_issued_shares': value['totalNumberOfIssuedShares'],
+        'payout_ratio': value['payoutRatio'],
     };
 }
 

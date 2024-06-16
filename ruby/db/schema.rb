@@ -10,19 +10,18 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[6.1].define(version: 2023_06_27_125325) do
-
+ActiveRecord::Schema[7.0].define(version: 2024_06_16_082548) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
   create_table "documents", force: :cascade do |t|
-    t.integer "security_code", null: false
+    t.string "security_code", null: false
     t.string "document_id", null: false
     t.string "edinet_code", null: false
     t.string "filer_name", null: false
     t.date "period_started_at", null: false
     t.date "period_ended_at", null: false
-    t.datetime "details_searched_at"
+    t.datetime "details_searched_at", precision: nil
     t.string "company_name"
     t.string "company_name_en"
     t.string "head_office_location"
@@ -39,8 +38,8 @@ ActiveRecord::Schema[6.1].define(version: 2023_06_27_125325) do
     t.bigint "operating_income"
     t.bigint "last_year_ordinary_income"
     t.bigint "ordinary_income"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.bigint "capital_stock"
     t.bigint "net_assets"
     t.bigint "total_assets"
@@ -61,8 +60,8 @@ ActiveRecord::Schema[6.1].define(version: 2023_06_27_125325) do
   create_table "industries", force: :cascade do |t|
     t.string "name", null: false
     t.integer "code", null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.bigint "industry_category_id"
     t.index ["code"], name: "index_industries_on_code", unique: true
     t.index ["industry_category_id"], name: "index_industries_on_industry_category_id"
@@ -71,25 +70,25 @@ ActiveRecord::Schema[6.1].define(version: 2023_06_27_125325) do
 
   create_table "industry_categories", force: :cascade do |t|
     t.string "name", null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.index ["name"], name: "index_industry_categories_on_name", unique: true
   end
 
   create_table "markets", force: :cascade do |t|
     t.string "name", null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.index ["name"], name: "index_markets_on_name", unique: true
   end
 
   create_table "securities", force: :cascade do |t|
-    t.integer "code", null: false
+    t.string "code", null: false
     t.string "name", null: false
     t.bigint "market_id", null: false
     t.integer "industry_code", null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.index ["code"], name: "index_securities_on_code", unique: true
     t.index ["industry_code"], name: "index_securities_on_industry_code"
     t.index ["market_id"], name: "index_securities_on_market_id"
@@ -99,8 +98,8 @@ ActiveRecord::Schema[6.1].define(version: 2023_06_27_125325) do
   create_table "security_lists", force: :cascade do |t|
     t.string "file_title", null: false
     t.date "downloaded_at", null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.index ["file_title"], name: "index_security_lists_on_file_title", unique: true
   end
 

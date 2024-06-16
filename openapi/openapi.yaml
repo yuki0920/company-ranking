@@ -50,7 +50,7 @@ paths:
           name: code
           required: true
           schema:
-            type: integer
+            type: string
       responses:
         "200":
           description: get Company
@@ -176,7 +176,7 @@ components:
         - market_id
       properties:
         security_code:
-          type: integer
+          type: string
         security_name:
           type: string
         security_name_en:
@@ -283,7 +283,7 @@ components:
           description: 平均勤続年数
         # 基本情報
         security_code:
-          type: integer
+          type: string
           description: 銘柄コード
         security_name:
           type: string
@@ -554,8 +554,7 @@ components:
         security_codes:
           type: array
           items:
-            type: integer
-            format: int64
+            type: string
     meta:
       type: object
       required:

@@ -178,26 +178,28 @@ func metaData(currentPage, offsetCount, limitCount, totalCount int, sortType str
 	}
 }
 
-func (s *Server) GetCompany(w http.ResponseWriter, r *http.Request, code int) {
+const securityNotFound string = "security not found: "
+
+func (s *Server) GetCompany(w http.ResponseWriter, r *http.Request, code string) {
 	ctx := context.Background()
 
 	sec, err := models.SecurityByCode(ctx, s.DB, code)
 	if err != nil {
-		message := fmt.Sprintf("security not found: %d", code)
+		message := securityNotFound + code
 		ErrorResponse(w, http.StatusInternalServerError, message)
 		return
 	}
 
 	docs, err := models.DocumentsBySecurityCode(ctx, s.DB, code)
 	if err != nil {
-		message := fmt.Sprintf("failed to fetch documents: %d", code)
+		message := securityNotFound + code
 		ErrorResponse(w, http.StatusInternalServerError, message)
 	}
 	var doc *models.Document
 	if len(docs) != 0 {
 		doc = docs[len(docs)-1]
 	} else {
-		message := fmt.Sprintf("document not found: %d", code)
+		message := securityNotFound + code
 		ErrorResponse(w, http.StatusInternalServerError, message)
 		return
 	}

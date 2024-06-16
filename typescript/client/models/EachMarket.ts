@@ -12,7 +12,7 @@
  * Do not edit the class manually.
  */
 
-import { exists, mapValues } from '../runtime';
+import { mapValues } from '../runtime';
 /**
  * 
  * @export
@@ -42,13 +42,11 @@ export interface EachMarket {
 /**
  * Check if a given object implements the EachMarket interface.
  */
-export function instanceOfEachMarket(value: object): boolean {
-    let isInstance = true;
-    isInstance = isInstance && "id" in value;
-    isInstance = isInstance && "name" in value;
-    isInstance = isInstance && "count" in value;
-
-    return isInstance;
+export function instanceOfEachMarket(value: object): value is EachMarket {
+    if (!('id' in value) || value['id'] === undefined) return false;
+    if (!('name' in value) || value['name'] === undefined) return false;
+    if (!('count' in value) || value['count'] === undefined) return false;
+    return true;
 }
 
 export function EachMarketFromJSON(json: any): EachMarket {
@@ -56,7 +54,7 @@ export function EachMarketFromJSON(json: any): EachMarket {
 }
 
 export function EachMarketFromJSONTyped(json: any, ignoreDiscriminator: boolean): EachMarket {
-    if ((json === undefined) || (json === null)) {
+    if (json == null) {
         return json;
     }
     return {
@@ -68,17 +66,14 @@ export function EachMarketFromJSONTyped(json: any, ignoreDiscriminator: boolean)
 }
 
 export function EachMarketToJSON(value?: EachMarket | null): any {
-    if (value === undefined) {
-        return undefined;
-    }
-    if (value === null) {
-        return null;
+    if (value == null) {
+        return value;
     }
     return {
         
-        'id': value.id,
-        'name': value.name,
-        'count': value.count,
+        'id': value['id'],
+        'name': value['name'],
+        'count': value['count'],
     };
 }
 

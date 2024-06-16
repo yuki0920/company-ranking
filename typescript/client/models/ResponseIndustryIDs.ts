@@ -12,7 +12,7 @@
  * Do not edit the class manually.
  */
 
-import { exists, mapValues } from '../runtime';
+import { mapValues } from '../runtime';
 /**
  * 
  * @export
@@ -30,11 +30,9 @@ export interface ResponseIndustryIDs {
 /**
  * Check if a given object implements the ResponseIndustryIDs interface.
  */
-export function instanceOfResponseIndustryIDs(value: object): boolean {
-    let isInstance = true;
-    isInstance = isInstance && "industryIds" in value;
-
-    return isInstance;
+export function instanceOfResponseIndustryIDs(value: object): value is ResponseIndustryIDs {
+    if (!('industryIds' in value) || value['industryIds'] === undefined) return false;
+    return true;
 }
 
 export function ResponseIndustryIDsFromJSON(json: any): ResponseIndustryIDs {
@@ -42,7 +40,7 @@ export function ResponseIndustryIDsFromJSON(json: any): ResponseIndustryIDs {
 }
 
 export function ResponseIndustryIDsFromJSONTyped(json: any, ignoreDiscriminator: boolean): ResponseIndustryIDs {
-    if ((json === undefined) || (json === null)) {
+    if (json == null) {
         return json;
     }
     return {
@@ -52,15 +50,12 @@ export function ResponseIndustryIDsFromJSONTyped(json: any, ignoreDiscriminator:
 }
 
 export function ResponseIndustryIDsToJSON(value?: ResponseIndustryIDs | null): any {
-    if (value === undefined) {
-        return undefined;
-    }
-    if (value === null) {
-        return null;
+    if (value == null) {
+        return value;
     }
     return {
         
-        'industry_ids': value.industryIds,
+        'industry_ids': value['industryIds'],
     };
 }
 

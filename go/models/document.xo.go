@@ -11,7 +11,7 @@ import (
 // Document represents a row from 'public.documents'.
 type Document struct {
 	ID                                         int64           `json:"id"`                                                // id
-	SecurityCode                               int             `json:"security_code"`                                     // security_code
+	SecurityCode                               string          `json:"security_code"`                                     // security_code
 	DocumentID                                 string          `json:"document_id"`                                       // document_id
 	EdinetCode                                 string          `json:"edinet_code"`                                       // edinet_code
 	FilerName                                  string          `json:"filer_name"`                                        // filer_name
@@ -205,7 +205,7 @@ func DocumentByDocumentID(ctx context.Context, db DB, documentID string) (*Docum
 // DocumentsBySecurityCode retrieves a row from 'public.documents' as a [Document].
 //
 // Generated from index 'index_documents_on_security_code'.
-func DocumentsBySecurityCode(ctx context.Context, db DB, securityCode int) ([]*Document, error) {
+func DocumentsBySecurityCode(ctx context.Context, db DB, securityCode string) ([]*Document, error) {
 	// query
 	const sqlstr = `SELECT ` +
 		`id, security_code, document_id, edinet_code, filer_name, period_started_at, period_ended_at, details_searched_at, company_name, company_name_en, head_office_location, submitted_at, fiscal_year, representative, number_of_employees, average_age_years, average_length_of_service_years, average_annual_salary, last_year_net_sales, net_sales, last_year_operating_income, operating_income, last_year_ordinary_income, ordinary_income, created_at, updated_at, capital_stock, net_assets, total_assets, equity_to_asset_ratio, rate_of_return_on_equity, price_earnings_ratio, net_cash_provided_by_used_in_operating_activities, net_cash_provided_by_used_in_investing_activities, net_cash_provided_by_used_in_financing_activities, cash_and_cash_equivalents, consolidated_number_of_employees, total_number_of_issued_shares, payout_ratio ` +

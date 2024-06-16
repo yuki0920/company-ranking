@@ -12,7 +12,7 @@
  * Do not edit the class manually.
  */
 
-import { exists, mapValues } from '../runtime';
+import { mapValues } from '../runtime';
 /**
  * 
  * @export
@@ -36,12 +36,10 @@ export interface Market {
 /**
  * Check if a given object implements the Market interface.
  */
-export function instanceOfMarket(value: object): boolean {
-    let isInstance = true;
-    isInstance = isInstance && "id" in value;
-    isInstance = isInstance && "name" in value;
-
-    return isInstance;
+export function instanceOfMarket(value: object): value is Market {
+    if (!('id' in value) || value['id'] === undefined) return false;
+    if (!('name' in value) || value['name'] === undefined) return false;
+    return true;
 }
 
 export function MarketFromJSON(json: any): Market {
@@ -49,7 +47,7 @@ export function MarketFromJSON(json: any): Market {
 }
 
 export function MarketFromJSONTyped(json: any, ignoreDiscriminator: boolean): Market {
-    if ((json === undefined) || (json === null)) {
+    if (json == null) {
         return json;
     }
     return {
@@ -60,16 +58,13 @@ export function MarketFromJSONTyped(json: any, ignoreDiscriminator: boolean): Ma
 }
 
 export function MarketToJSON(value?: Market | null): any {
-    if (value === undefined) {
-        return undefined;
-    }
-    if (value === null) {
-        return null;
+    if (value == null) {
+        return value;
     }
     return {
         
-        'id': value.id,
-        'name': value.name,
+        'id': value['id'],
+        'name': value['name'],
     };
 }
 

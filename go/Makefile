@@ -14,6 +14,8 @@ install/tools:
 generate/models:
 	@xo schema ${DATABASE_URL} -o models
 	@find models -type f -name "*.go" | xargs sed -i 's/Timestamp6WithoutTimeZone/time.Time/g'
+	@find models -type f -name "*.go" | xargs sed -i '/import (/a \\t"time"'
+	@find models -type f -name "*.go" | xargs goimports -w
 	@find models -type f -name "*.go" | xargs gofmt -s -w
 	rm -f models/arinternalmetadatum.xo.go models/schemamigration.xo.go
 

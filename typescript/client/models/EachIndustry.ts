@@ -12,7 +12,7 @@
  * Do not edit the class manually.
  */
 
-import { exists, mapValues } from '../runtime';
+import { mapValues } from '../runtime';
 /**
  * 
  * @export
@@ -48,14 +48,12 @@ export interface EachIndustry {
 /**
  * Check if a given object implements the EachIndustry interface.
  */
-export function instanceOfEachIndustry(value: object): boolean {
-    let isInstance = true;
-    isInstance = isInstance && "id" in value;
-    isInstance = isInstance && "name" in value;
-    isInstance = isInstance && "code" in value;
-    isInstance = isInstance && "count" in value;
-
-    return isInstance;
+export function instanceOfEachIndustry(value: object): value is EachIndustry {
+    if (!('id' in value) || value['id'] === undefined) return false;
+    if (!('name' in value) || value['name'] === undefined) return false;
+    if (!('code' in value) || value['code'] === undefined) return false;
+    if (!('count' in value) || value['count'] === undefined) return false;
+    return true;
 }
 
 export function EachIndustryFromJSON(json: any): EachIndustry {
@@ -63,7 +61,7 @@ export function EachIndustryFromJSON(json: any): EachIndustry {
 }
 
 export function EachIndustryFromJSONTyped(json: any, ignoreDiscriminator: boolean): EachIndustry {
-    if ((json === undefined) || (json === null)) {
+    if (json == null) {
         return json;
     }
     return {
@@ -76,18 +74,15 @@ export function EachIndustryFromJSONTyped(json: any, ignoreDiscriminator: boolea
 }
 
 export function EachIndustryToJSON(value?: EachIndustry | null): any {
-    if (value === undefined) {
-        return undefined;
-    }
-    if (value === null) {
-        return null;
+    if (value == null) {
+        return value;
     }
     return {
         
-        'id': value.id,
-        'name': value.name,
-        'code': value.code,
-        'count': value.count,
+        'id': value['id'],
+        'name': value['name'],
+        'code': value['code'],
+        'count': value['count'],
     };
 }
 

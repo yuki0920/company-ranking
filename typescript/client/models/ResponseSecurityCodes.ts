@@ -12,7 +12,7 @@
  * Do not edit the class manually.
  */
 
-import { exists, mapValues } from '../runtime';
+import { mapValues } from '../runtime';
 /**
  * 
  * @export
@@ -21,20 +21,18 @@ import { exists, mapValues } from '../runtime';
 export interface ResponseSecurityCodes {
     /**
      * 
-     * @type {Array<number>}
+     * @type {Array<string>}
      * @memberof ResponseSecurityCodes
      */
-    securityCodes: Array<number>;
+    securityCodes: Array<string>;
 }
 
 /**
  * Check if a given object implements the ResponseSecurityCodes interface.
  */
-export function instanceOfResponseSecurityCodes(value: object): boolean {
-    let isInstance = true;
-    isInstance = isInstance && "securityCodes" in value;
-
-    return isInstance;
+export function instanceOfResponseSecurityCodes(value: object): value is ResponseSecurityCodes {
+    if (!('securityCodes' in value) || value['securityCodes'] === undefined) return false;
+    return true;
 }
 
 export function ResponseSecurityCodesFromJSON(json: any): ResponseSecurityCodes {
@@ -42,7 +40,7 @@ export function ResponseSecurityCodesFromJSON(json: any): ResponseSecurityCodes 
 }
 
 export function ResponseSecurityCodesFromJSONTyped(json: any, ignoreDiscriminator: boolean): ResponseSecurityCodes {
-    if ((json === undefined) || (json === null)) {
+    if (json == null) {
         return json;
     }
     return {
@@ -52,15 +50,12 @@ export function ResponseSecurityCodesFromJSONTyped(json: any, ignoreDiscriminato
 }
 
 export function ResponseSecurityCodesToJSON(value?: ResponseSecurityCodes | null): any {
-    if (value === undefined) {
-        return undefined;
-    }
-    if (value === null) {
-        return null;
+    if (value == null) {
+        return value;
     }
     return {
         
-        'security_codes': value.securityCodes,
+        'security_codes': value['securityCodes'],
     };
 }
 
