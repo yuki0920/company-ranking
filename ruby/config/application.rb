@@ -14,6 +14,9 @@ require "action_view/railtie"
 # require "action_cable/engine"
 require "rails/test_unit/railtie"
 
+# NOTE: https://github.com/googleapis/google-cloud-ruby/blob/main/google-cloud-logging/README.md
+require "google/cloud/logging/rails"
+
 # Require the gems listed in Gemfile, including any gems
 # you've limited to :test, :development, or :production.
 Bundler.require(*Rails.groups)
