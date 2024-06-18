@@ -43,3 +43,11 @@ updates:
       github-actions-dependencies:
         patterns:
           - "*"
+  - package-ecosystem: terraform
+    directory: "./terraform/prod"
+    schedule:
+      interval: monthly
+    groups:
+      terraform-dependencies:
+        patterns:
+          - "*"
