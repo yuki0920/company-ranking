@@ -3,7 +3,7 @@ module github.com/yuki0920/company-ranking/go
 go 1.22.1
 
 require (
-	github.com/getkin/kin-openapi v0.123.0
+	github.com/getkin/kin-openapi v0.125.0
 	github.com/go-chi/chi v4.1.2+incompatible
 	github.com/google/go-cmp v0.6.0
 	github.com/google/uuid v1.6.0
