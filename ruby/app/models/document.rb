@@ -55,12 +55,18 @@ class Document < ApplicationRecord
 
       Rails.logger.info("Response status: #{response.status}")
       Rails.logger.info("Response body: #{response.body}")
+      puts "Response status: #{response.status}"
+      puts "Response body: #{response.body}"
 
       raise "StatusCode: #{response.status}, #{date}の書類一覧取得に失敗しました, #{response.body}" if response.status != 200 && response.status != 403
 
       # NOTE: 2023年1月移行Edinet APIは403のエラーを高頻度で返すようになった
       # TODO: ゆるやかなリトライ処理を追加する
-      Rails.logger.error("#{date}の書類一覧取得は403でした, #{response.body}#") and return if response.status == 403
+      if response.status == 403
+        Rails.logger.error("#{date}の書類一覧取得は403でした, #{response.body}#")
+        puts "#{date}の書類一覧取得は403でした, #{response.body}"
+        return
+      end
 
       body = JSON.parse(response.body, symbolize_names: true)
 
