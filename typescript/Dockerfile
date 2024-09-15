@@ -1,8 +1,8 @@
-FROM node:18.17-buster-slim
+FROM node:18.20-buster-slim
 
 ARG WORKDIR
 WORKDIR /${WORKDIR}
 
 COPY package*.json ./
-RUN npm install
+RUN npm install --force
 COPY . .
