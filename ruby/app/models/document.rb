@@ -53,6 +53,9 @@ class Document < ApplicationRecord
       params = { date: date, type: 2 }
       response = Faraday.get(DOC_LIST_URL, params)
 
+      Rails.logger.info("Response status: #{response.status}")
+      Rails.logger.info("Response body: #{response.body}")
+
       raise "StatusCode: #{response.status}, #{date}の書類一覧取得に失敗しました, #{response.body}" if response.status != 200 && response.status != 403
 
       # NOTE: 2023年1月移行Edinet APIは403のエラーを高頻度で返すようになった
