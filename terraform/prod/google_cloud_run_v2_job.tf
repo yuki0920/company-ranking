@@ -61,6 +61,15 @@ resource "google_cloud_run_v2_job" "job" {
             }
           }
         }
+        env {
+          name = "EDINET_API_KEY"
+          value_source {
+            secret_key_ref {
+              secret  = "EDINET_API_KEY"
+              version = "latest"
+            }
+          }
+        }
         resources {
           limits = {
             cpu    = "1000m"

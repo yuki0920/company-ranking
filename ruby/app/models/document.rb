@@ -35,8 +35,9 @@ class Document < ApplicationRecord
   require 'open-uri'
   require 'zip'
 
-  DOC_LIST_URL = 'https://disclosure.edinet-fsa.go.jp/api/v1/documents.json'
-  DOC_URL = 'https://disclosure.edinet-fsa.go.jp/api/v1/documents'
+  EDINET_API_KEY = ENV['EDINET_API_KEY']
+  DOC_LIST_URL = 'https://api.edinet-fsa.go.jp/api/v2/documents.json'
+  DOC_URL = 'https://api.edinet-fsa.go.jp/api/v2/documents'
   PAGE_NUMBER = { header: '0000000', corporate_information: '0101010' }.freeze
 
   belongs_to :security, foreign_key: 'security_code', primary_key: 'code'
@@ -49,8 +50,8 @@ class Document < ApplicationRecord
 
   class << self
     def save_summary(date)
-      # NOTE: 1がメタデータのみ、2がメタデータ+書類一覧
-      params = { date: date, type: 2 }
+      # NOTE: type=1がメタデータのみ、2がメタデータ+書類一覧
+      params = { date: date, type: 2, "Subscription-Key": EDINET_API_KEY }
       response = Faraday.get(DOC_LIST_URL, params)
 
       Rails.logger.info("Response status: #{response.status}")
@@ -110,9 +111,14 @@ class Document < ApplicationRecord
   def download
     return if File.exist?(document_zip_path)
 
-    response = Faraday.get("#{DOC_URL}/#{document_id}", { type: 1 })
+    # NOTE: type=1はXBRLファイルと監査報告書を取得する
+    params = { type: 1, "Subscription-Key": EDINET_API_KEY }
+    response = Faraday.get("#{DOC_URL}/#{document_id}", params)
 
-    raise "#{document_id}の書類取得に失敗しました" unless response.status == 200
+    unless response.status == 200
+      puts "status: #{response.status}, body: #{response.body}"
+      raise "#{document_id}の書類取得に失敗しました"
+    end
 
     FileUtils.mkdir_p(document_dir_path)
 
