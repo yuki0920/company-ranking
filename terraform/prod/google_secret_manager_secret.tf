@@ -13,3 +13,11 @@ resource "google_secret_manager_secret" "secret_key_base" {
   }
   secret_id = "SECRET_KEY_BASE"
 }
+
+resource "google_secret_manager_secret" "edinet_api_key" {
+  project = "company-ranking-prod"
+  replication {
+    auto {}
+  }
+  secret_id = "EDINET_API_KEY"
+}

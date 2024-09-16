@@ -20,6 +20,7 @@ services:
     environment:
       POSTGRES_PASSWORD: $POSTGRES_PASSWORD
       SLACK_WEBHOOK_URL: $SLACK_WEBHOOK_URL
+      EDINET_API_KEY: $EDINET_API_KEY
     volumes:
       - ./ruby:/$WORKDIR
       - bundle_cache:/$WORKDIR/vendor/bundle

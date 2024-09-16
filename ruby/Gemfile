@@ -55,4 +55,4 @@ gem 'pry-rails'
 gem 'rubyzip'
 gem 'slack-notifier'
 gem 'spreadsheet'
-gem "stackdriver"
+# gem "stackdriver"
