@@ -35,7 +35,7 @@ class Document < ApplicationRecord
   require 'open-uri'
   require 'zip'
 
-  EDINET_API_KEY = ENV['EDINET_API_KEY']
+  EDINET_API_KEY = ENV.fetch('EDINET_API_KEY', nil)
   DOC_LIST_URL = 'https://api.edinet-fsa.go.jp/api/v2/documents.json'
   DOC_URL = 'https://api.edinet-fsa.go.jp/api/v2/documents'
   PAGE_NUMBER = { header: '0000000', corporate_information: '0101010' }.freeze
@@ -51,7 +51,7 @@ class Document < ApplicationRecord
   class << self
     def save_summary(date)
       # NOTE: type=1がメタデータのみ、2がメタデータ+書類一覧
-      params = { date: date, type: 2, "Subscription-Key": EDINET_API_KEY }
+      params = { date: date, type: 2, 'Subscription-Key': EDINET_API_KEY }
       response = Faraday.get(DOC_LIST_URL, params)
 
       Rails.logger.info("Response status: #{response.status}")
@@ -103,7 +103,7 @@ class Document < ApplicationRecord
     return if File.exist?(document_zip_path)
 
     # NOTE: type=1はXBRLファイルと監査報告書を取得する
-    params = { type: 1, "Subscription-Key": EDINET_API_KEY }
+    params = { type: 1, 'Subscription-Key': EDINET_API_KEY }
     response = Faraday.get("#{DOC_URL}/#{document_id}", params)
 
     unless response.status == 200
