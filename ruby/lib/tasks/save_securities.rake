@@ -9,12 +9,13 @@ namespace :save_securities do
   desc '月に2回東証から銘柄銘柄のリストをダウンロードしダウンロードしたファイルから証券を更新する'
 
   task all: :environment do
-    puts '証券一覧のダウンロード開始'
+    Rails.logger.info('証券一覧のダウンロード開始')
     SecurityList.download
-    puts '証券一覧のダウンロード終了'
-    puts '証券の保存開始'
+    Rails.logger.info('証券一覧のダウンロード終了')
+
+    Rails.logger.info('証券の保存開始')
     save!
-    puts '証券の保存終了'
+    Rails.logger.info('証券の保存終了')
   end
 
   def save!
@@ -26,7 +27,7 @@ namespace :save_securities do
       market = row[HEADER['市場・商品区分']]
       market_data = Market::INITIAL_DATA.find { |mark| market.match?(mark[:name]) }
       unless market_data
-        puts "#{row[HEADER['銘柄名']]} の市場 #{market} が見つからないためスキップ"
+        Rails.logger.info("#{row[HEADER['銘柄名']]} の市場 #{market} が見つからないためスキップ")
         next
       end
 
@@ -44,14 +45,14 @@ namespace :save_securities do
 
       security = Security.find_by(code: code)
       if security.present?
-        puts "#{code}: #{name} の更新開始"
+        Rails.logger.info("#{code}: #{name} の更新開始")
         security.update!(
           name: name,
           market: market,
           industry_code: industry_code
         )
       else
-        puts "#{code}: #{name} の新規作成開始"
+        Rails.logger.info("#{code}: #{name} の新規作成開始")
         Security.create!(
           code: code,
           name: name,
@@ -60,16 +61,16 @@ namespace :save_securities do
         )
       end
 
-      puts "#{code}: #{name} の保存終了"
+      Rails.logger.info("#{code}: #{name} の保存終了")
 
       same_securities = Security.where(name: name).order(created_at: :desc)
       next if same_securities.count <= 1
 
-      puts "#{code}: #{name} は同じ名前の証券が#{same_securities.count}件存在するため、古い証券を削除"
+      Rails.logger.info("#{code}: #{name} は同じ名前の証券が#{same_securities.count}件存在するため、古い証券を削除")
       same_securities.each_with_index do |sec, i|
         next if i.zero?
 
-        puts "#{code}: #{name} 削除"
+        Rails.logger.info("#{code}: #{name} 削除")
         sec.destroy!
       end
     end
