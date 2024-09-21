@@ -61,8 +61,6 @@ class Document < ApplicationRecord
 
       raise "StatusCode: #{response.status}, #{date}の書類一覧取得に失敗しました, #{response.body}" if response.status != 200 && response.status != 403
 
-      # NOTE: 2023年1月移行Edinet APIは403のエラーを高頻度で返すようになった
-      # TODO: ゆるやかなリトライ処理を追加する
       if response.status == 403
         Rails.logger.error("#{date}の書類一覧取得は403でした, #{response.body}#")
         puts "#{date}の書類一覧取得は403でした, #{response.body}"
@@ -109,6 +107,7 @@ class Document < ApplicationRecord
   end
 
   def download
+    Rails.logger.info("document_id: #{document_id} ダウンロード開始")
     return if File.exist?(document_zip_path)
 
     # NOTE: type=1はXBRLファイルと監査報告書を取得する
@@ -116,7 +115,7 @@ class Document < ApplicationRecord
     response = Faraday.get("#{DOC_URL}/#{document_id}", params)
 
     unless response.status == 200
-      puts "status: #{response.status}, body: #{response.body}"
+      Rails.logger.error("status: #{response.status}, body: #{response.body}")
       raise "#{document_id}の書類取得に失敗しました"
     end
 

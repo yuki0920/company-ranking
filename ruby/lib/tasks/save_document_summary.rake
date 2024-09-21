@@ -45,8 +45,8 @@ namespace :save_document_summary do
   end
 
   def save_summary(date)
-    puts "#{date}分の書類取得開始"
+    Rails.logger.info("#{date}分の書類取得開始")
     Document.save_summary(date)
-    puts "#{date}分の書類取得終了"
+    Rails.logger.info("#{date}分の書類取得終了")
   end
 end
