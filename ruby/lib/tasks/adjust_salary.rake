@@ -10,7 +10,7 @@ namespace :adjust_salary do
   task execute: :environment do
     Document.where('average_annual_salary > 5000000000').find_each do |document|
       new_salaly = adjust_salary(document.average_annual_salary)
-      puts "Adjusting security_code: #{document.security_code} name: #{document.filer_name} salary: #{document.average_annual_salary} -> #{new_salaly}"
+      Rails.logger.info("Adjusting security_code: #{document.security_code} name: #{document.filer_name} salary: #{document.average_annual_salary} -> #{new_salaly}")
       document.update!(average_annual_salary: new_salaly)
     end
   end
