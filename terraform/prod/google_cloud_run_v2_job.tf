@@ -28,9 +28,9 @@ resource "google_cloud_run_v2_job" "job" {
     task_count = 1
     template {
       execution_environment = "EXECUTION_ENVIRONMENT_GEN2"
-      max_retries           = 1
+      max_retries           = 0
       service_account       = "1026927710795-compute@developer.gserviceaccount.com"
-      timeout               = "600s"
+      timeout               = "1800s"
       containers {
         args    = each.value.args
         command = []
