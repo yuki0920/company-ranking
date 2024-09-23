@@ -57,13 +57,14 @@ jobs:
         run: npm ci
       - name: Run format code
         run: npm run format
-      - name: Check diff exists
+      - name: Check diff exists and commit if any
         run: |
-          git add -N .
-          git diff
-          line=`git diff | wc -l`
-          if [ $line -gt 0 ]; then
-            echo "You need to format"
-            git diff
-            exit -1
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git add .
+          if ! git diff --cached --quiet; then
+            git commit -m "Apply code formatting"
+            git push
+          else
+            echo "No changes to commit"
           fi
