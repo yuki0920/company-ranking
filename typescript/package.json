@@ -15,7 +15,6 @@
     "@types/react": "18.3.5",
     "@types/react-dom": "18.3.0",
     "autoprefixer": "10.4.20",
-    "eslint": "9.9.1",
     "eslint-config-next": "14.2.7",
     "negotiator": "^0.6.3",
     "next": "14.2.7",
@@ -31,6 +30,7 @@
     "@types/gtag.js": "^0.0.20",
     "@types/negotiator": "^0.6.3",
     "daisyui": "^4.12.10",
+    "eslint": "^8.57.1",
     "eslint-config-prettier": "^9.1.0",
     "prettier": "^3.3.3"
   }
