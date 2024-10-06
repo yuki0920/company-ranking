@@ -54,10 +54,12 @@ class Document < ApplicationRecord
       params = { date: date, type: 2, 'Subscription-Key': EDINET_API_KEY }
       response = Faraday.get(DOC_LIST_URL, params)
 
-      Rails.logger.info("Response status: #{response.status}")
-      Rails.logger.info("Response body: #{response.body}")
+      unless response.status == 200
+        Rails.logger.error("status: #{response.status}, body: #{response.body}")
+        Rails.logger.info("EDINET_API_KEY: #{EDINET_API_KEY}")
 
-      raise "#{date}の書類一覧取得に失敗しました" if response.status != 200
+        raise "#{date}の書類一覧取得に失敗しました"
+      end
 
       body = JSON.parse(response.body, symbolize_names: true)
 
@@ -108,6 +110,8 @@ class Document < ApplicationRecord
 
     unless response.status == 200
       Rails.logger.error("status: #{response.status}, body: #{response.body}")
+      Rails.logger.info("EDINET_API_KEY: #{EDINET_API_KEY}")
+
       raise "#{document_id}の書類取得に失敗しました"
     end
 
