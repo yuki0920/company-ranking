@@ -2,25 +2,21 @@ steps:
   # build the container image
   - id: 'Build container image'
     name: 'gcr.io/cloud-builders/docker'
-    args: ['build', '-t', 'gcr.io/$PROJECT_ID/company-ranking-server:$COMMIT_SHA', '-f', 'go/Dockerfile.prod', '.']
+    args:
+      - 'build'
+      - '-t'
+      - 'gcr.io/$PROJECT_ID/company-ranking-server:$COMMIT_SHA'
+      - '-t'
+      - 'gcr.io/$PROJECT_ID/company-ranking-server:latest'
+      - '-f'
+      - 'go/Dockerfile.prod'
+      - '.'
   # push the container image to Artifact Registry
-  - id: 'Push container image to Artifact Registry'
+  - id: 'Push container image  with COMMIT_SHA tag'
     name: 'gcr.io/cloud-builders/docker'
     args: ['push', 'gcr.io/$PROJECT_ID/company-ranking-server:$COMMIT_SHA']
-  # Deploy container image to Cloud Run
-  - id: 'Deploy container image to Cloud Run'
-    name: 'gcr.io/cloud-builders/gcloud'
-    args:
-    - 'run'
-    - 'deploy'
-    - 'company-ranking-server'
-    - '--image'
-    - 'gcr.io/$PROJECT_ID/company-ranking-server:$COMMIT_SHA'
-    - '--region'
-    - 'asia-northeast1'
-    - '--set-env-vars'
-    - 'FRONT_URL=company-ranking.net'
-    - '--set-secrets'
-    - 'DATABASE_URL=DATABASE_URL:latest'
+  - id: 'Push container image  with latest tag'
+    name: 'gcr.io/cloud-builders/docker'
+    args: ['push', 'gcr.io/$PROJECT_ID/company-ranking-server:latest']
 images:
 - 'gcr.io/$PROJECT_ID/company-ranking-server:$COMMIT_SHA'
