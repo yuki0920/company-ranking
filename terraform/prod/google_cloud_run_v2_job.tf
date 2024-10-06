@@ -34,7 +34,7 @@ resource "google_cloud_run_v2_job" "job" {
       containers {
         args    = each.value.args
         command = []
-        image   = ""
+        image   = "gcr.io/company-ranking-prod/company-ranking-job:latest"
         env {
           name  = "RAILS_ENV"
           value = "production"
@@ -83,7 +83,6 @@ resource "google_cloud_run_v2_job" "job" {
     ignore_changes = [
       client,
       client_version,
-      template.0.template.0.containers.0.image
     ]
   }
 }
