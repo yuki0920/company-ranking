@@ -1,6 +1,6 @@
 module github.com/yuki0920/company-ranking/go
 
-go 1.22.1
+go 1.23.4
 
 require (
 	github.com/getkin/kin-openapi v0.128.0
