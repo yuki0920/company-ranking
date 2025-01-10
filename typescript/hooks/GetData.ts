@@ -37,7 +37,7 @@ export const listCompanies = async ({
 }
 
 export const getCompany = async ({ code }: { code: number }) => {
-  const { company } = await api.getCompany({ code }, { next: { revalidate: defaultRevalidate } })
+  const { company } = await api.getCompany({ code: code.toString() }, { next: { revalidate: defaultRevalidate } })
   return company
 }
 
