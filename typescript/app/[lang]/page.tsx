@@ -4,11 +4,9 @@ import { getDictionary } from "@/hooks/GetDictionary"
 import { getMarkets, getIndustries } from "@/hooks/GetData"
 
 export default async function TopPage(props: { params: Promise<{ lang: string }> }) {
-  const params = await props.params;
+  const params = await props.params
 
-  const {
-    lang
-  } = params;
+  const { lang } = params
 
   const dict = await getDictionary(lang)
   const [industries, markets] = await Promise.all([getIndustries(), getMarkets()])

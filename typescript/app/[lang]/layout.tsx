@@ -5,16 +5,12 @@ import { Metadata } from "next"
 import { NEXT_PUBLIC_TWITTER_ID } from "@/constant"
 import { getDictionary } from "@/hooks/GetDictionary"
 
-export async function generateMetadata(
-  props: {
-    params: Promise<{ lang: string }>
-  }
-): Promise<Metadata> {
-  const params = await props.params;
+export async function generateMetadata(props: {
+  params: Promise<{ lang: string }>
+}): Promise<Metadata> {
+  const params = await props.params
 
-  const {
-    lang
-  } = params;
+  const { lang } = params
 
   const dict = await getDictionary(lang)
 
@@ -51,21 +47,15 @@ export async function generateMetadata(
   }
 }
 
-export default async function RootLayout(
-  props: {
-    children: React.ReactNode
-    params: Promise<{ lang: string }>
-  }
-) {
-  const params = await props.params;
+export default async function RootLayout(props: {
+  children: React.ReactNode
+  params: Promise<{ lang: string }>
+}) {
+  const params = await props.params
 
-  const {
-    lang
-  } = params;
+  const { lang } = params
 
-  const {
-    children
-  } = props;
+  const { children } = props
 
   const dictionary = await getDictionary(lang)
 

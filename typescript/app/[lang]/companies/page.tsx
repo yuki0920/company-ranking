@@ -10,16 +10,12 @@ import { getDictionary } from "@/hooks/GetDictionary"
 import NumberOfResults from "@/components/NumberOfResults"
 import Breadcrumbs from "@/components/BreadCrumbs"
 
-export async function generateMetadata(
-  props: {
-    params: Promise<{ lang: string }>
-  }
-): Promise<Metadata> {
-  const params = await props.params;
+export async function generateMetadata(props: {
+  params: Promise<{ lang: string }>
+}): Promise<Metadata> {
+  const params = await props.params
 
-  const {
-    lang
-  } = params;
+  const { lang } = params
 
   const dict = await getDictionary(lang)
 
@@ -28,29 +24,21 @@ export async function generateMetadata(
   }
 }
 
-export default async function Page(
-  props: {
-    params: Promise<{ lang: string }>
-    searchParams: Promise<{
-      page: number
-      sortType: ListCompaniesSortTypeEnum
-      q: string
-    }>
-  }
-) {
-  const searchParams = await props.searchParams;
+export default async function Page(props: {
+  params: Promise<{ lang: string }>
+  searchParams: Promise<{
+    page: number
+    sortType: ListCompaniesSortTypeEnum
+    q: string
+  }>
+}) {
+  const searchParams = await props.searchParams
 
-  const {
-    page = 1,
-    sortType = "net_sales",
-    q = ""
-  } = searchParams;
+  const { page = 1, sortType = "net_sales", q = "" } = searchParams
 
-  const params = await props.params;
+  const params = await props.params
 
-  const {
-    lang
-  } = params;
+  const { lang } = params
 
   const dict = await getDictionary(lang)
   const { companies, meta } = await listCompanies({ page, sortType, q })
