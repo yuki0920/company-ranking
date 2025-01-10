@@ -20,9 +20,8 @@ export async function generateMetadata(props: {
   const dict = await getDictionary(lang)
   const marketDict = dict.models.markets
   const market = await getMarket({ id })
-  const description = (lang = "ja"
-    ? `${market.name}の企業一覧です。`
-    : `List of companies in ${market.name}.`)
+  const description =
+    lang == "ja" ? `${market.name}の企業一覧です。` : `List of companies in ${market.name}.`
 
   return {
     title: `${marketDict[market.id.toString() as keyof typeof marketDict]} ${

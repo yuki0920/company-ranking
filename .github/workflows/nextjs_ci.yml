@@ -40,6 +40,8 @@ jobs:
         run: npm run lint
       - name: Reviewdog
         uses: reviewdog/action-eslint@v1
+        with:
+          workdir: typescript
   next-prettier:
     name: Run prettier for next.js
     runs-on: ubuntu-latest
