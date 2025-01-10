@@ -8,11 +8,18 @@ import { i18n } from "@/dictionaries/i18n-config"
 import { getCompany } from "@/hooks/GetData"
 import Breadcrumbs from "@/components/BreadCrumbs"
 
-export async function generateMetadata({
-  params: { lang, id },
-}: {
-  params: { lang: string; id: number }
-}): Promise<Metadata> {
+export async function generateMetadata(
+  props: {
+    params: Promise<{ lang: string; id: number }>
+  }
+): Promise<Metadata> {
+  const params = await props.params;
+
+  const {
+    lang,
+    id
+  } = params;
+
   const company = await getCompany({ code: id })
   const name = lang === "ja" ? company.companyName : company.companyNameEn
   const description =
@@ -26,11 +33,18 @@ export async function generateMetadata({
   }
 }
 
-export default async function Page({
-  params: { lang, id },
-}: {
-  params: { lang: string; id: number }
-}) {
+export default async function Page(
+  props: {
+    params: Promise<{ lang: string; id: number }>
+  }
+) {
+  const params = await props.params;
+
+  const {
+    lang,
+    id
+  } = params;
+
   const dictionary = await getDictionary(lang)
   const dict = dictionary.pages.company
   const marketDict = dictionary.models.markets

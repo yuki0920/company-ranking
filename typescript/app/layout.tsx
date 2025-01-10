@@ -4,13 +4,22 @@ import GoogleAnalytics from "@/components/GoogleAnalytics"
 import { Suspense } from "react"
 
 const inter = Inter({ subsets: ["latin"] })
-export default function RootLayout({
-  children,
-  params: { lang },
-}: {
-  children: React.ReactNode
-  params: { lang: string }
-}) {
+export default async function RootLayout(
+  props: {
+    children: React.ReactNode
+    params: Promise<{ lang: string }>
+  }
+) {
+  const params = await props.params;
+
+  const {
+    lang
+  } = params;
+
+  const {
+    children
+  } = props;
+
   return (
     <html lang='en'>
       <body className={inter.className}>
