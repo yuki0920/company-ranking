@@ -257,7 +257,7 @@ func SecurityCountByIndustry(ctx context.Context, db DB) (map[int]int, error) {
 	}
 	defer rows.Close()
 	// process
-	var counts map[int]int = make(map[int]int)
+	counts := make(map[int]int)
 	for rows.Next() {
 		var count, code int
 		err := rows.Scan(&count, &code)
@@ -289,7 +289,7 @@ func SecurityCountByMarket(ctx context.Context, db DB) (map[int]int, error) {
 	}
 	defer rows.Close()
 	// process
-	var counts map[int]int = make(map[int]int)
+	counts := make(map[int]int)
 	for rows.Next() {
 		var count, id int
 		err := rows.Scan(&count, &id)
@@ -305,7 +305,7 @@ func SecurityCountByMarket(ctx context.Context, db DB) (map[int]int, error) {
 }
 
 func SecurityCodes(ctx context.Context, db DB) ([]string, error) {
-	var codes []string
+	codes := []string{}
 	const sqlstr = `SELECT code FROM securities INNER JOIN documents ON documents.security_code = securities.code ORDER BY securities.code`
 	logf(sqlstr)
 	rows, err := db.QueryContext(ctx, sqlstr)
