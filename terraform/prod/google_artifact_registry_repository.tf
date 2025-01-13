@@ -13,11 +13,19 @@ resource "google_artifact_registry_repository" "gcr_io" {
   repository_id = "gcr.io"
 
   cleanup_policies {
-    action = "KEEP"
+    action = "DELETE"
     id     = "deletion-policy"
 
+    condition {
+      tag_state = "ANY"
+    }
+  }
+  cleanup_policies {
+    action = "KEEP"
+    id     = "store-policy"
+
     most_recent_versions {
-      keep_count = 2
+      keep_count = 5
     }
   }
 }
