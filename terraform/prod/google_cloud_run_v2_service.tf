@@ -8,8 +8,8 @@ resource "google_cloud_run_v2_service" "company_ranking_server" {
     service_account                  = "1026927710795-compute@developer.gserviceaccount.com"
     timeout                          = "300s"
     containers {
-      image   = "gcr.io/company-ranking-prod/company-ranking-server:latest"
-      name    = "company-ranking-server-1"
+      image = "gcr.io/company-ranking-prod/company-ranking-server:latest"
+      name  = "company-ranking-server-1"
       env {
         name  = "FRONT_URL"
         value = "company-ranking.net"
@@ -36,9 +36,9 @@ resource "google_cloud_run_v2_service" "company_ranking_server" {
         startup_cpu_boost = true
       }
       startup_probe {
-        failure_threshold     = 1
-        period_seconds        = 240
-        timeout_seconds       = 240
+        failure_threshold = 1
+        period_seconds    = 240
+        timeout_seconds   = 240
         tcp_socket {
           port = 8080
         }
@@ -68,8 +68,8 @@ resource "google_cloud_run_v2_service" "company_ranking_test_server" {
     service_account                  = "1026927710795-compute@developer.gserviceaccount.com"
     timeout                          = "300s"
     containers {
-      image   = "gcr.io/company-ranking-prod/company-ranking-server:latest"
-      name    = "company-ranking-server-1"
+      image = "gcr.io/company-ranking-prod/company-ranking-server:latest"
+      name  = "company-ranking-server-1"
       env {
         name  = "FRONT_URL"
         value = "company-ranking.net"
@@ -95,9 +95,9 @@ resource "google_cloud_run_v2_service" "company_ranking_test_server" {
         }
       }
       startup_probe {
-        failure_threshold     = 1
-        period_seconds        = 240
-        timeout_seconds       = 240
+        failure_threshold = 1
+        period_seconds    = 240
+        timeout_seconds   = 240
         tcp_socket {
           port = 8080
         }
