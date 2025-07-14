@@ -1,3 +1,4 @@
+version: "2"
 linters:
   enable:
     - asasalint
@@ -23,20 +24,13 @@ linters:
     - goconst
     - gocyclo
     - godot
-    - gofmt
-    - gofumpt
     - goheader
-    - goimports
     - gomoddirectives
     - gomodguard
     - goprintffuncname
-    - gosimple
-    - gosmopolitan
-    - govet
     - grouper
     - importas
     - inamedparam
-    - ineffassign
     - interfacebloat
     - ireturn
     - loggercheck
@@ -59,18 +53,14 @@ linters:
     - reassign
     - sloglint
     - sqlclosecheck
-    - staticcheck
     - tagalign
     - tagliatelle
-    - tenv
     - testableexamples
     - testifylint
     - testpackage
     - thelper
     - tparallel
-    - typecheck
     - unconvert
-    - unused
     - wastedassign
     - whitespace
     - zerologlint
@@ -81,7 +71,6 @@ linters:
     - exhaustive
     - exhaustruct
     - funlen
-    - gci
     - gochecknoglobals
     - gocritic
     - godox
@@ -93,9 +82,30 @@ linters:
     - prealloc
     - revive
     - rowserrcheck
-    - stylecheck
     - unparam
     - usestdlibvars
     - varnamelen
     - wrapcheck
     - wsl
+  exclusions:
+    generated: lax
+    presets:
+      - comments
+      - common-false-positives
+      - legacy
+      - std-error-handling
+    paths:
+      - third_party$
+      - builtin$
+      - examples$
+formatters:
+  enable:
+    - gofmt
+    - gofumpt
+    - goimports
+  exclusions:
+    generated: lax
+    paths:
+      - third_party$
+      - builtin$
+      - examples$
