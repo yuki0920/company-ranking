@@ -2,8 +2,4 @@
 @tailwind components;
 @tailwind utilities;
 
-@layer components {
-  .link-text {
-    @apply text-accent;
-  }
-}
+@layer components {}
