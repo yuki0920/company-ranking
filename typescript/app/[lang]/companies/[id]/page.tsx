@@ -315,7 +315,7 @@ export async function generateStaticParams() {
     const res = await DefaultAPI.listSecurityCodes()
     securityCodes = res?.securityCodes ?? []
   } catch (error) {
-    console.error('Error in generateStaticParams: Failed to fetch security codes', error)
+    console.error("Error in generateStaticParams: Failed to fetch security codes", error)
   }
   const params = i18n.locales.flatMap((locale) => {
     return securityCodes.map((code) => {
