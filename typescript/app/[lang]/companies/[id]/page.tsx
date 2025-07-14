@@ -310,8 +310,13 @@ export default async function Page(props: { params: Promise<{ lang: string; id: 
 export async function generateStaticParams() {
   const config = new Configuration({ basePath: NEXT_PUBLIC_API_URL })
   const DefaultAPI = new DefaultApi(config)
-  const res = await DefaultAPI.listSecurityCodes()
-  const { securityCodes } = res
+  let securityCodes: Array<string> = []
+  try {
+    const res = await DefaultAPI.listSecurityCodes()
+    securityCodes = res?.securityCodes ?? []
+  } catch (error) {
+    console.error("Error in generateStaticParams: Failed to fetch security codes", error)
+  }
   const params = i18n.locales.flatMap((locale) => {
     return securityCodes.map((code) => {
       return {
