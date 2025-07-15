@@ -1,2 +1,8 @@
 @import "tailwindcss";
 @plugin "daisyui";
+
+@layer components {
+  .link-text {
+    @apply text-accent;
+  }
+}
