@@ -27,7 +27,7 @@ export default function LocaleSwitcher() {
   return (
     <>
       <select
-        className='select max-w-xs'
+        className='select-sm'
         onChange={(event: any) => {
           event.preventDefault()
           const locale = event.target.value
