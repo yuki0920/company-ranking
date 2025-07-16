@@ -27,7 +27,7 @@ export default async function TopPage(props: { params: Promise<{ lang: string }>
               </h2>
               <ul className='row list-unstyled grid grid-cols-2 sm:grid-cols-6 gap-2'>
                 {markets.map((market) => (
-                  <li key={`market-${market.id}`} className='col-6 col-sm-2 link-text'>
+                  <li key={`market-${market.id}`} className='link-text'>
                     <Link href={`${lang}/markets/${market.id}`}>
                       {
                         dict.models.markets[
@@ -47,7 +47,7 @@ export default async function TopPage(props: { params: Promise<{ lang: string }>
               </h2>
               <ul className='row list-unstyled grid grid-cols-2 sm:grid-cols-6 gap-2'>
                 {industries.map((industry) => (
-                  <li key={`industry-${industry.id}`} className='col-6 col-sm-2 link-text'>
+                  <li key={`industry-${industry.id}`} className='link-text'>
                     <Link href={`${lang}/industries/${industry.id}`}>
                       {
                         dict.models.industries[
