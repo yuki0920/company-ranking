@@ -26,7 +26,7 @@ export default function ThemeChangeMenu() {
   return (
     <select
       data-choose-theme
-      className='select max-w-xs'
+      className='select-sm'
       onChange={(event: any) => changeSelect(event.target.value)}
       value={currentSelected}
     >
