@@ -127,3 +127,17 @@ docker compose run --rm go go mod download
 # typescript using local node_modules
 cd typescript && npm ci
 ```
+
+## FAQ
+
+### If layout is broken
+The following are likely related to the issue:
+
+- Tailwind CSS
+- daisyUI
+
+Run following commands
+```
+docker compose down
+docker compose build --no-cache
+```
