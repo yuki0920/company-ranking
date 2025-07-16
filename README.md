@@ -113,6 +113,8 @@ Please read [Contribution Flow](CONTRIBUTING.md).
 ## Dependency Update
 
 ```sh
+docker compose down
+
 # common
 docker compose build
 
