@@ -1,9 +1,2 @@
 @import "tailwindcss";
 @plugin "daisyui";
-
-@layer base {
-  ::selection {
-    background-color: oklch(var(--a));
-    color: oklch(var(--ac));
-  }
-}
