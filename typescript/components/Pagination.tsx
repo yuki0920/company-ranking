@@ -19,15 +19,13 @@ export default function Pagination({
 }) {
   return (
     <div className='py-3'>
-      <div className='flex items-center justify-center'>
-        <div className='join'>
-          <button className='join-item btn btn-outline btn-accent' disabled={prev === null}>
-            <Link href={prevRef}>{dict.prev}</Link>
-          </button>
-          <button className='join-item btn btn-outline btn-accent' disabled={next === null}>
-            <Link href={nextRef}>{dict.next}</Link>
-          </button>
-        </div>
+      <div className='join flex items-center justify-center'>
+        <Link href={prevRef} className='join-item btn btn-outline btn-accent' aria-disabled={prev === null}>
+          {dict.prev}
+        </Link>
+        <Link href={nextRef} className='join-item btn btn-outline btn-accent' aria-disabled={next === null}>
+          {dict.next}
+        </Link>
       </div>
     </div>
   )
