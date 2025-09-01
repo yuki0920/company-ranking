@@ -1,4 +1,4 @@
-FROM node:18.20-buster-slim
+FROM node:22-bookworm-slim
 
 ARG WORKDIR
 WORKDIR /${WORKDIR}

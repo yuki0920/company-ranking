@@ -36,3 +36,7 @@
 - Key vars: `NEXT_PUBLIC_API_URL`, `POSTGRES_*`, `EDINET_API_KEY`. Ports are set in `.env` and referenced by `compose.yaml`.
 - After changing `openapi/openapi.yaml`, regenerate server/client and re-run linters.
 
+## Agent Communication
+- 本リポジトリでの AI アシスタントとのやりとりは、原則として日本語で行います。
+- コミットメッセージは英語でOKです（既存のガイドラインに準拠）。
+- 通常の会話や作業のやりとりは日本語で行います。
