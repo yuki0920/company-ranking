@@ -24,7 +24,9 @@ export default function SearchInput({
   let pathname: string
   pathname = usePathname()
   if (isCompanies) {
-    pathname = "/companies"
+    // On top page, navigate to the locale-prefixed companies path
+    // e.g. pathname "/ja" -> "/ja/companies"
+    pathname = `${pathname}/companies`
   }
 
   return (
