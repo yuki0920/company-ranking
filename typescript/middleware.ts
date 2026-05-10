@@ -45,7 +45,7 @@ export function middleware(request: NextRequest) {
 
   // Redirect if there is no locale
   if (pathnameIsMissingLocale) {
-    const locale = getLocale(request)
+    const locale = getLocale(request) || i18n.defaultLocale
 
     // e.g. incoming request is /products
     // The new URL is now /en-US/products
