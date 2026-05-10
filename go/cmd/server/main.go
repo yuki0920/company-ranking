@@ -32,7 +32,7 @@ func initServer() error {
 	}
 
 	dbErrLogger := func(s string, v ...any) {
-		msg := fmt.Sprintf(s, v)
+		msg := fmt.Sprintf(s, v...)
 		logger.Error(
 			"Query Error",
 			slog.String("message", msg),

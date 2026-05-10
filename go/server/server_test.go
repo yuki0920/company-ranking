@@ -13,6 +13,16 @@ import (
 	"github.com/yuki0920/company-ranking/go/server"
 )
 
+const (
+	securityName1    = "会社1"
+	securityName2    = "会社2"
+	companyNameEn1   = "company1"
+	companyNameEn2   = "company2"
+	sortAnnualSalary = "average_annual_salary"
+	industryAgri     = "水産・農林業"
+	marketPrime      = "プライム"
+)
+
 var (
 	s   *server.Server
 	db  *sql.DB
@@ -42,7 +52,7 @@ func setupSeed() {
 
 	// security1
 	security1 := models.SecurityFixture(func(security *models.Security) {
-		security.Name = "会社1"
+		security.Name = securityName1
 		security.Code = "1001"
 		security.MarketID = 1
 		security.IndustryCode = 50
@@ -54,7 +64,7 @@ func setupSeed() {
 
 	document1 := models.DocumentFixture(func(document *models.Document) {
 		document.SecurityCode = security1.Code
-		document.CompanyNameEn = sql.NullString{String: "company1", Valid: true}
+		document.CompanyNameEn = sql.NullString{String: companyNameEn1, Valid: true}
 	})
 	err = document1.Insert(context, db)
 	if err != nil {
@@ -63,7 +73,7 @@ func setupSeed() {
 
 	// security2
 	security2 := models.SecurityFixture(func(security *models.Security) {
-		security.Name = "会社2"
+		security.Name = securityName2
 		security.Code = "2002"
 		security.MarketID = 1
 		security.IndustryCode = 50
@@ -75,7 +85,7 @@ func setupSeed() {
 
 	document2 := models.DocumentFixture(func(document *models.Document) {
 		document.SecurityCode = security2.Code
-		document.CompanyNameEn = sql.NullString{String: "company2", Valid: true}
+		document.CompanyNameEn = sql.NullString{String: companyNameEn2, Valid: true}
 	})
 	err = document2.Insert(context, db)
 	if err != nil {
@@ -105,10 +115,10 @@ func setupSeed() {
 }
 
 func TestListCompanies(t *testing.T) {
-	r := httptest.NewRequest("GET", "/api/v1/companies", nil)
+	r := httptest.NewRequestWithContext(context.Background(), "GET", "/api/v1/companies", nil)
 	w := httptest.NewRecorder()
 	params := server.ListCompaniesParams{
-		SortType: "average_annual_salary",
+		SortType: sortAnnualSalary,
 	}
 	s.ListCompanies(w, r, params)
 
@@ -120,21 +130,21 @@ func TestListCompanies(t *testing.T) {
 		Companies: []server.EachCompany{
 			{
 				IndustryCode:   50,
-				IndustryName:   "水産・農林業",
+				IndustryName:   industryAgri,
 				MarketId:       1,
-				MarketName:     "プライム",
+				MarketName:     marketPrime,
 				SecurityCode:   "1001",
-				SecurityName:   "会社1",
-				SecurityNameEn: "company1",
+				SecurityName:   securityName1,
+				SecurityNameEn: companyNameEn1,
 			},
 			{
 				IndustryCode:   50,
-				IndustryName:   "水産・農林業",
+				IndustryName:   industryAgri,
 				MarketId:       1,
-				MarketName:     "プライム",
+				MarketName:     marketPrime,
 				SecurityCode:   "2002",
-				SecurityName:   "会社2",
-				SecurityNameEn: "company2",
+				SecurityName:   securityName2,
+				SecurityNameEn: companyNameEn2,
 			},
 			{
 				IndustryCode:   1050,
@@ -153,7 +163,7 @@ func TestListCompanies(t *testing.T) {
 			NextPage:    nil,
 			PrevPage:    nil,
 			OffsetCount: 1,
-			SortType:    "average_annual_salary",
+			SortType:    sortAnnualSalary,
 			TotalCount:  3,
 		},
 	}
@@ -169,14 +179,14 @@ func TestListCompanies(t *testing.T) {
 }
 
 func TestListCompaniesOfMarketId(t *testing.T) {
-	r := httptest.NewRequest("GET", "/api/v1/companies", nil)
+	r := httptest.NewRequestWithContext(context.Background(), "GET", "/api/v1/companies", nil)
 	w := httptest.NewRecorder()
 
 	marketId := new(int)
 	*marketId = 1
 	params := server.ListCompaniesParams{
 		MarketId: marketId,
-		SortType: "average_annual_salary",
+		SortType: sortAnnualSalary,
 	}
 	s.ListCompanies(w, r, params)
 
@@ -188,21 +198,21 @@ func TestListCompaniesOfMarketId(t *testing.T) {
 		Companies: []server.EachCompany{
 			{
 				IndustryCode:   50,
-				IndustryName:   "水産・農林業",
+				IndustryName:   industryAgri,
 				MarketId:       1,
-				MarketName:     "プライム",
+				MarketName:     marketPrime,
 				SecurityCode:   "1001",
-				SecurityName:   "会社1",
-				SecurityNameEn: "company1",
+				SecurityName:   securityName1,
+				SecurityNameEn: companyNameEn1,
 			},
 			{
 				IndustryCode:   50,
-				IndustryName:   "水産・農林業",
+				IndustryName:   industryAgri,
 				MarketId:       1,
-				MarketName:     "プライム",
+				MarketName:     marketPrime,
 				SecurityCode:   "2002",
-				SecurityName:   "会社2",
-				SecurityNameEn: "company2",
+				SecurityName:   securityName2,
+				SecurityNameEn: companyNameEn2,
 			},
 		},
 		Meta: server.Meta{
@@ -212,7 +222,7 @@ func TestListCompaniesOfMarketId(t *testing.T) {
 			NextPage:    nil,
 			PrevPage:    nil,
 			OffsetCount: 1,
-			SortType:    "average_annual_salary",
+			SortType:    sortAnnualSalary,
 			TotalCount:  2,
 		},
 	}
@@ -228,7 +238,7 @@ func TestListCompaniesOfMarketId(t *testing.T) {
 }
 
 func TestGetCompany(t *testing.T) {
-	r := httptest.NewRequest("GET", "/api/v1/companies", nil)
+	r := httptest.NewRequestWithContext(context.Background(), "GET", "/api/v1/companies", nil)
 	w := httptest.NewRecorder()
 	s.GetCompany(w, r, "1001")
 
