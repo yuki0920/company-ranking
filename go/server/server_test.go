@@ -248,7 +248,7 @@ func TestGetCompany(t *testing.T) {
 }
 
 func TestListSecurityCodes(t *testing.T) {
-	r := httptest.NewRequest("GET", "/api/v1/company_ids", nil)
+	r := httptest.NewRequestWithContext(context.Background(), "GET", "/api/v1/company_ids", nil)
 	w := httptest.NewRecorder()
 	s.ListSecurityCodes(w, r)
 
@@ -268,7 +268,7 @@ func TestListSecurityCodes(t *testing.T) {
 }
 
 func TestListMarketIds(t *testing.T) {
-	r := httptest.NewRequest("GET", "/api/v1/market_ids", nil)
+	r := httptest.NewRequestWithContext(context.Background(), "GET", "/api/v1/market_ids", nil)
 	w := httptest.NewRecorder()
 	s.ListMarketIds(w, r)
 
@@ -291,7 +291,7 @@ func TestListMarketIds(t *testing.T) {
 }
 
 func TestListMarkets(t *testing.T) {
-	r := httptest.NewRequest("GET", "/api/v1/markets", nil)
+	r := httptest.NewRequestWithContext(context.Background(), "GET", "/api/v1/markets", nil)
 	w := httptest.NewRecorder()
 	s.ListMarkets(w, r)
 
@@ -330,7 +330,7 @@ func TestListMarkets(t *testing.T) {
 }
 
 func TestGetMarket(t *testing.T) {
-	r := httptest.NewRequest("GET", "/api/v1/market", nil)
+	r := httptest.NewRequestWithContext(context.Background(), "GET", "/api/v1/market", nil)
 	w := httptest.NewRecorder()
 	s.GetMarket(w, r, 1)
 
@@ -356,7 +356,7 @@ func TestGetMarket(t *testing.T) {
 }
 
 func TestListIndustryIds(t *testing.T) {
-	r := httptest.NewRequest("GET", "/api/v1/industryids", nil)
+	r := httptest.NewRequestWithContext(context.Background(), "GET", "/api/v1/industryids", nil)
 	w := httptest.NewRecorder()
 	s.ListIndustryIds(w, r)
 
@@ -376,7 +376,7 @@ func TestListIndustryIds(t *testing.T) {
 }
 
 func TestListIndustries(t *testing.T) {
-	r := httptest.NewRequest("GET", "/api/v1/industries", nil)
+	r := httptest.NewRequestWithContext(context.Background(), "GET", "/api/v1/industries", nil)
 	w := httptest.NewRecorder()
 	s.ListIndustries(w, r)
 
@@ -410,7 +410,7 @@ func TestListIndustries(t *testing.T) {
 }
 
 func TestListIndustry(t *testing.T) {
-	r := httptest.NewRequest("GET", "/api/v1/industries", nil)
+	r := httptest.NewRequestWithContext(context.Background(), "GET", "/api/v1/industries", nil)
 	w := httptest.NewRecorder()
 	s.GetIndustry(w, r, 1)
 
