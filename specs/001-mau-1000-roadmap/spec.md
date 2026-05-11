@@ -81,6 +81,10 @@
 - **モバイル性能不足**: モバイル Lighthouse スコアが 80 未満のページがあると Google の Core Web Vitals 評価で不利になる。Top 5 ページは定期計測する。
 - **GSC インデックスサンプリング上限**: 一般的に ~1000 URL のサンプリングしか反映されないため、優先発見させたい URL は内部リンクで強調する。
 - **VPN ユーザーの誤排除**: 地域単位での bot 除外を行うと VPN 経由の実ユーザーまで除外される。地域ベースではなく engagement ベースでフィルタする。
+- **クエリ文字列によるクロール阻害**: `?sortType=*` を robots.txt で Disallow にすると、並び順切替を query param で実装した場合に該当 URL がクロールされない。並び順は path segment(例: `/industries/{id}/salary`)で実装する必要がある。
+- **クッキー同意 / プライバシー規制**: 訪問数が増えると、特に EU・日本の改正電気通信事業法対応で GA4 のクッキー同意 UI が必要になる可能性。導入時はバナー表示が CLS / Core Web Vitals に悪影響しないよう設計する。
+- **削除・上場廃止された企業 URL**: EDINET データ更新で消えた企業ページを 200 OK + 空コンテンツ(soft-404)で返すと、Google にスパム的なテンプレと判定される。**HTTP 404** を返してインデックスから除去させる。
+- **コンテンツの薄さ判定**: テンプレで生成しただけのハブページは Google から「中身のないテンプレ」と判定され順位がつかない。データから抽出した固有の数値文を最低 3 文以上は含める。
 
 ## Requirements *(mandatory)*
 
@@ -95,6 +99,8 @@
 - **FR-005**: System MUST sitemap を Google Search Console に提出し、提出ステータスが「成功」になる
 - **FR-006**: System MUST 実 MAU を計測するための GA4 ビュー(engagement rate > 0 かつ avg session duration > 5s)を提供する
 - **FR-007**: System MUST GA4 で内部トラフィック・開発者トラフィックを除外する設定を有効化する
+- **FR-007a**: System MUST SEO 対象ページ(企業詳細・企業リスト・業界・市場・ランキングハブ・トップ)の初期 HTML レスポンス内に主要コンテンツ(タイトル・主要数値・ランキングテーブル)を含めて返す(SSR / SSG / ISR を使用し、JavaScript 実行を前提とするレンダリングは行わない)
+- **FR-007b**: System MUST EDINET データ更新により参照先が消えた企業 URL に対し、HTTP 404 ステータスを返す(空コンテンツの 200 OK = soft-404 は禁止)。sitemap からも該当 URL を除外する
 
 #### ページ品質と内部リンク (Phase 2)
 
@@ -102,14 +108,15 @@
 - **FR-009**: System MUST 企業リスト・業界詳細・市場詳細ページを ISR(1 時間間隔の再生成)でキャッシュ配信する
 - **FR-010**: System MUST 企業詳細・業界詳細・市場詳細の OGP 用画像を動的生成し、企業名・主要指標・業界タグなどを 1200×630 で含める
 - **FR-011**: System MUST 企業詳細ページの下部に「同業界の売上 TOP5」「同市場の売上 TOP5」の関連企業リンクセクションを表示する
-- **FR-012**: System MUST 業界・市場ページに並び順タブ(売上 / 平均年収 / 営業利益 / 自己資本比率)を提供し、それぞれを別 URL として sitemap に含める
+- **FR-012**: System MUST 業界・市場ページに並び順タブ(売上 / 平均年収 / 営業利益 / 自己資本比率)を提供し、それぞれを **path segment** ベースの別 URL として sitemap に含める(例: `/{lang}/industries/{id}/salary`)。クエリパラメータ実装は FR-002 の robots Disallow と衝突するため禁止
 - **FR-013**: System MUST 並び順タブ URL の `<title>` に並び順を含めて差別化する(例: 「{業界名} 平均年収ランキング」)
 - **FR-014**: System MUST 企業詳細ページに X / はてなブックマークへのシェアボタンを設置する
+- **FR-014a**: System MUST 企業詳細・業界詳細・市場詳細ページに「対象会計年度 (FY)」と「データ更新日」を視認できる位置(H1 直下またはサイドバー)に表示する
 
 #### コンテンツハブ (Phase 3)
 
 - **FR-015**: System MUST ランキングハブルート `/{lang}/rankings/{slug}` を提供し、初期 20-30 スラッグ(年収 / 売上 / 営業利益 / ROE および 業界横断クロス)をサポートする
-- **FR-016**: Each ranking hub page MUST 800 文字以上のユニークなコメンタリ(データ駆動で自動生成可)・H2 セクション・ランキングテーブル・パンくず・JSON-LD `ItemList`・詳細ページへの 5 件以上のリンクを含む
+- **FR-016**: Each ranking hub page MUST 800 文字以上のユニークなコメンタリ・H2 セクション・ランキングテーブル・パンくず・JSON-LD `ItemList`・詳細ページへの 5 件以上のリンクを含む。コメンタリには **当該スラッグ固有の数値を引用した文を 3 文以上**含めること(例: 「1 位は{社名}の{値}円」「平均は{値}円」「上位 5 社の合計シェアは {%}」)。テンプレ流用のみで数値固有文が 3 文未満の場合は publish 不可
 - **FR-017**: System MUST 2 社の財務指標を比較する `/{lang}/compare/{idA}/{idB}` ページを提供する。上位 200 ペアを事前生成し、それ以外は on-demand ISR で配信する
 - **FR-018**: System MUST トップページのファーストビューに「売上 TOP10 ミニテーブル」「今日の発見ファクトイド」「ランキングハブ 3 件のティーザー」を含める
 - **FR-019**: System MUST 全ランキングハブ URL を sitemap に含める
@@ -149,7 +156,7 @@
 - **SC-006**: Phase 1 完了(2 週時点)で sitemap 提出ステータスが「成功」、500 以上の URL が Indexed されている
 - **SC-007**: Phase 2 完了(4 週時点)で実 MAU が **200-300**、企業詳細ページの Google Rich Results Test で `Corporation` スキーマが検出される
 - **SC-008**: Phase 3 完了(8 週時点)で 30+ ハブページが Indexed、5+ ハブが GSC TOP30 内に impression を獲得、累計実 MAU が **400-600**
-- **SC-009**: 全主要ページの Lighthouse SEO スコアが **95 以上**、モバイル Performance スコアが **80 以上**
+- **SC-009**: 全主要ページの Lighthouse SEO スコアが **95 以上**、モバイル Performance スコアが **80 以上**。Core Web Vitals が以下を満たす:**LCP ≤ 2.5s**、**INP ≤ 200ms**、**CLS ≤ 0.1**(Google ランキング直接要因)
 - **SC-010**: Bot トラフィック(engagement rate 0% / avg session duration 0s)の割合が全セッションの **30% 未満**に維持される
 
 ## Assumptions

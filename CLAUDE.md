@@ -66,6 +66,10 @@ make go/generate/models  # xo schema → go/models/*.xo.go (do not edit *.xo.go 
 - **External services**: this codebase already integrates with EDINET, JPX scraping, Slack webhooks, GCP (Cloud Build / Terraform), and Supabase. Adding a *new* third-party service may require an internal "External Service Review" — flag it to the user first.
 
 <!-- SPECKIT START -->
-For additional context about technologies to be used, project structure,
-shell commands, and other important information, read the current plan
+Active Spec Kit feature: `001-mau-1000-roadmap` — MAU を約 100 → 1,000 に拡大する 3 ヶ月ロードマップ。
+- Plan: [specs/001-mau-1000-roadmap/plan.md](specs/001-mau-1000-roadmap/plan.md)
+- Spec: [specs/001-mau-1000-roadmap/spec.md](specs/001-mau-1000-roadmap/spec.md)
+- Phase 0 (research): [specs/001-mau-1000-roadmap/research.md](specs/001-mau-1000-roadmap/research.md)
+- Phase 1 (data model + contracts): [specs/001-mau-1000-roadmap/data-model.md](specs/001-mau-1000-roadmap/data-model.md), [specs/001-mau-1000-roadmap/contracts/](specs/001-mau-1000-roadmap/contracts/)
+- Quickstart: [specs/001-mau-1000-roadmap/quickstart.md](specs/001-mau-1000-roadmap/quickstart.md)
 <!-- SPECKIT END -->
