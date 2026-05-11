@@ -64,3 +64,8 @@ make go/generate/models  # xo schema → go/models/*.xo.go (do not edit *.xo.go 
 - **Ports / env**: `API_HOST_PORT`, `FRONT_HOST_PORT`, `POSTGRES_PORT`, `DATABASE_URL`, `NEXT_PUBLIC_API_URL`, `EDINET_API_KEY`, `SLACK_WEBHOOK_URL` all come from `.env` and are referenced by `compose.yaml`. Swagger UI is hardcoded to `:8000`.
 - **TypeScript has no unit tests** — verify changes with `npm run build` (or `docker compose run --rm typescript npm run build`) and `make typescript/lint`.
 - **External services**: this codebase already integrates with EDINET, JPX scraping, Slack webhooks, GCP (Cloud Build / Terraform), and Supabase. Adding a *new* third-party service may require an internal "External Service Review" — flag it to the user first.
+
+<!-- SPECKIT START -->
+For additional context about technologies to be used, project structure,
+shell commands, and other important information, read the current plan
+<!-- SPECKIT END -->
