@@ -35,11 +35,18 @@ docker compose run --rm typescript npm run build
 2. Admin → Data Settings → Data Filters
    - "Internal Traffic" を **Active**(Exclude)に切替
    - "Developer traffic" を **Active**(Exclude)に切替
-3. 探索 → 「実 MAU 計測 Comparison」を作成
-   - 条件: `engagement rate > 0` AND `average session duration > 5s`
+3. 探索 → 空白テンプレート → 名前「実 MAU 計測」で新規作成
+   - 期間: 過去 90 日間(SC-001 トレンド観測のため)
+   - ディメンション: `月の最初の日`(行)
+   - 指標: `アクティブ ユーザー数`(値)/ 補助で `総ユーザー数` `セッションあたりのエンゲージメント率` `平均セッション継続時間` を追加
+   - ビジュアライゼーション: 折れ線グラフ(月別)
+   - **セグメントは作成しない**:GA4 ユーザーセグメントは `engagement_rate` を直接条件にできないため、GA4 標準「アクティブ ユーザー数」指標(>10s engagement / コンバージョン / 2+ pageviews を満たすユーザー)で代用する
    - **国・地域では除外しない**(VPN 実ユーザーまで除外してしまうため)
+   - 作成後、右上「共有」から他オペレーターにも閲覧権限を付与
 4. Admin → Audiences → "Engaged Users 28d" を作成
-   - 条件: 上記コンディションを 28 日ウィンドウで集計
+   - 推奨テンプレート → 「Engaged users(エンゲージメントしたユーザー)」を選択
+   - メンバーシップ期間: 28 日間
+   - これにより GA4 標準の Active Users 定義(上記)を 28 日ウィンドウで継続集計できる
 
 ### GSC 設定
 
@@ -48,7 +55,8 @@ docker compose run --rm typescript npm run build
 
 ### 完了判定
 
-- GA4 ヘッダで「Comparison: 実 MAU 計測」が選べる
+- GA4「探索」一覧に「実 MAU 計測」レポートが表示され、月別アクティブ ユーザー数の折れ線が描画される
+- GA4「Audiences」一覧に「Engaged Users 28d」が表示される(集計反映には 24–48h かかる)
 - GSC で本ドメインプロパティが Verified
 
 ---
