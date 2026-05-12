@@ -97,7 +97,7 @@
 - **FR-003**: System MUST 各 URL の `<head>` に正しい言語の `og:locale`(日本語 → `ja_JP`、英語 → `en_US`)を出力する
 - **FR-004**: System MUST 各ページの `<head>` に canonical URL と、対応する別言語ページへの `hreflang` リンクを出力する(対象: 企業詳細・企業リスト・業界詳細・市場詳細)
 - **FR-005**: System MUST sitemap を Google Search Console に提出し、提出ステータスが「成功」になる
-- **FR-006**: System MUST 実 MAU を計測するための GA4 ビュー(engagement rate > 0 かつ avg session duration > 5s)を提供する
+- **FR-006**: System MUST 実 MAU を計測するための GA4 探索レポート「実 MAU 計測」を提供し、GA4 標準の「アクティブ ユーザー数(Active Users)」指標(エンゲージメント時間 > 10s / コンバージョン発生 / 2 ページビュー以上 のいずれかを満たすユーザー)で計測する。GA4 ユーザーセグメントは `engagement_rate` を直接条件にできない仕様のため、本指標で代用する
 - **FR-007**: System MUST GA4 で内部トラフィック・開発者トラフィックを除外する設定を有効化する
 - **FR-007a**: System MUST SEO 対象ページ(企業詳細・企業リスト・業界・市場・ランキングハブ・トップ)の初期 HTML レスポンス内に主要コンテンツ(タイトル・主要数値・ランキングテーブル)を含めて返す(SSR / SSG / ISR を使用し、JavaScript 実行を前提とするレンダリングは行わない)
 - **FR-007b**: System MUST EDINET データ更新により参照先が消えた企業 URL に対し、HTTP 404 ステータスを返す(空コンテンツの 200 OK = soft-404 は禁止)。sitemap からも該当 URL を除外する
@@ -141,14 +141,14 @@
 - **業界 (Industry)**: 33 業界。企業を分類し、ランキング・並び順タブ・ハブページの軸となる。両ロケールで名称を持つ。
 - **市場 (Market)**: 上場市場分類。企業の所属市場で、ランキング・関連企業セクションの軸の 1 つ。
 - **ランキングハブ (Ranking Hub)**: スラッグ・並び順指標・任意の業界/市場フィルタ・ロケール別 H1・導入文を持つ静的に定義された URL 単位。初期 20-30 件→拡張 80-100 件。
-- **GA4 イベント / ビュー**: 実 MAU 計測ビュー(`Engagement rate > 0` ∧ `Avg session duration > 5s`)、「Engaged Users 28d」オーディエンスが北極星指標として機能する。
+- **GA4 イベント / ビュー**: GA4 探索レポート「実 MAU 計測」(指標: アクティブ ユーザー数 / 期間: 過去 28 日間)と「Engaged Users 28d」オーディエンスが北極星指標として機能する。両者とも GA4 標準の Active Users 定義(>10s engagement / コンバージョン / 2+ pageviews のいずれかを満たすセッションを持つユーザー)に基づく。
 - **Search Console プロパティ**: ドメインプロパティ `https://www.company-ranking.net/`。sitemap 提出・インデックス状態・クエリパフォーマンスの観測点。
 
 ## Success Criteria *(mandatory)*
 
 ### Measurable Outcomes
 
-- **SC-001**: 実 MAU(GA4「Engaged Users 28d」、engagement rate > 0 かつ avg session duration > 5s フィルタ適用)が 12 週間以内に **1,000 を超える**
+- **SC-001**: 実 MAU(GA4「Engaged Users 28d」オーディエンス、または探索レポート「実 MAU 計測」で過去 28 日のアクティブ ユーザー数)が 12 週間以内に **1,000 を超える**
 - **SC-002**: 平均セッション継続時間が 12 週間以内に **40 秒以上**(現状 13 秒)になる
 - **SC-003**: 1 セッションあたりのページビュー数が 12 週間以内に **2.5 以上**になる
 - **SC-004**: 12 週間以内に Google Search Console 上で **4,000 以上の URL が Indexed** となり、50 件以上のクエリで TOP10 順位を獲得する
@@ -161,7 +161,7 @@
 
 ## Assumptions
 
-- 計測対象は GA4 の「実 MAU 計測ビュー」(engagement rate > 0 かつ avg session duration > 5s)で算出する値であり、GA4 デフォルトの 28 日アクティブユーザー数ではない。1000 という目標値は実ユーザー基準。
+- 計測対象は GA4 標準の「アクティブ ユーザー数(Active Users)」指標で算出する値(過去 28 日間)。GA4 はこの指標を内部で「>10s engagement / コンバージョン / 2+ pageviews のいずれかを満たすセッションを持つユーザー」と定義しており、Bot や即時離脱を除外した実ユーザー基準として機能する。1000 という目標値はこの実ユーザー基準。
 - 主要ターゲットは日本語ユーザー。英語ページは技術的な SEO 基盤(sitemap / hreflang / canonical)のみ整備し、コンテンツ拡張やハブ展開は対象外。MAU 1000 の内訳は日本語 ~950 / 英語 ~50 を想定。
 - 有料広告(Google Ads / Meta Ads など)は使用しない。集客は Organic Search + Referral + Direct + SNS のオーガニックチャネルに限定する。
 - 運用工数の目安は **1 人 × 約 15 時間 / 週**。不足時の削減優先順位は (i) 比較ページ → (ii) EN 改善 → (iii) OGP 動的画像。

@@ -29,11 +29,11 @@ description: "Task list for MAU 1000 達成ロードマップ (001-mau-1000-road
 > コードを書く前に **必ず**完了させる(plan.md / quickstart.md Phase 0)。PR は発生しない運用作業として扱う。
 
 - [ ] OPS-001 GA4: 内部 / Developer Traffic 除外フィルタを Active にする(Admin → Data Settings → Data Filters)
-- [ ] OPS-002 GA4: "実 MAU 計測 Comparison"(`engagement rate > 0` ∧ `avg session duration > 5s`)を作成
-- [ ] OPS-003 GA4: "Engaged Users 28d" オーディエンスを作成
+- [ ] OPS-002 GA4: 探索レポート「実 MAU 計測」を作成(指標: アクティブ ユーザー数 / 行: 月の最初の日 / ビジュアル: 折れ線)。GA4 ユーザーセグメントは `engagement_rate` を直接条件にできないため、GA4 標準「アクティブ ユーザー数」指標(>10s engagement / コンバージョン / 2+ pageviews を満たすユーザー)で代用
+- [ ] OPS-003 GA4: Admin → Audiences → 推奨テンプレート「Engaged users」から "Engaged Users 28d" オーディエンスを作成(メンバーシップ期間 28 日)
 - [ ] OPS-004 GSC: ドメインプロパティ `https://www.company-ranking.net/` を登録 + 所有権確認
 
-**Checkpoint**: GA4 で実 MAU Comparison が選べ、GSC ドメインプロパティが Verified。これがないと SC-001 / SC-006 の計測ができない。
+**Checkpoint**: GA4 探索レポート「実 MAU 計測」が表示され、Audiences に「Engaged Users 28d」が登録され、GSC ドメインプロパティが Verified。これがないと SC-001 / SC-006 の計測ができない。
 
 ---
 
